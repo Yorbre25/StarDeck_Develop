@@ -1,0 +1,10 @@
+.vscode
+.env
+
+/.vs
+Backend/.vs
+Backend/bin
+Backend/obj
+Backend/Backend.csproj
+
+Frontend/node_modules
