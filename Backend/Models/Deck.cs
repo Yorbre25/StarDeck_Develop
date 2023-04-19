@@ -5,9 +5,7 @@ namespace Backend.Models;
 
 public partial class Deck
 {
-    public string DeckId { get; set; } = null!;
+    public string Id { get; set; }
 
-    public string CardId { get; set; } = null!;
-
-    public virtual Card Card { get; set; } = null!;
+    public List<Card> Cards { get; set; } = new List<Card>();
 }
