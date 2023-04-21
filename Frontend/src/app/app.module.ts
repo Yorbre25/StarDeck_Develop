@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { LobbyComponent } from './components/lobby/lobby.component';
 import { GameComponent } from './components/game/game.component';
 import { LoginComponent } from './components/login/login.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LobbyComponent,
     GameComponent,
-    LoginComponent
+    LoginComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
