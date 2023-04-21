@@ -7,6 +7,8 @@ import { LobbyComponent } from './components/lobby/lobby.component';
 import { GameComponent } from './components/game/game.component';
 import { LoginComponent } from './components/login/login.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
+import { CardComponent } from './components/card/card.component';
+import { MultipleCardsComponent } from './components/multiple-cards/multiple-cards.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
     LobbyComponent,
     GameComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    CardComponent,
+    MultipleCardsComponent
   ],
   imports: [
     BrowserModule,
