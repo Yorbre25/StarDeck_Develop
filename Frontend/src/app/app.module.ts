@@ -25,6 +25,8 @@ import { InitialCardChooserComponent } from './components/pop-ups/initial-card-c
 import { CardChooserComponent } from './components/action/card-chooser/card-chooser.component';
 import { CardMenuComponent } from './components/views/card-menu/card-menu.component';
 import { SideMenuComponent } from './components/elements/side-menu/side-menu.component';
+import { CreateCardFormComponent } from './components/forms/create-card-form/create-card-form.component';
+import { CreateCardComponent } from './components/views/create-card/create-card.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { SideMenuComponent } from './components/elements/side-menu/side-menu.com
     InitialCardChooserComponent,
     CardChooserComponent,
     CardMenuComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    CreateCardFormComponent,
+    CreateCardComponent
   ],
   imports: [
     MatFormFieldModule,

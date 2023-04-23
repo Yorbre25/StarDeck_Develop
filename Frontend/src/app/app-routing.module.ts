@@ -4,12 +4,17 @@ import { CreateUserComponent } from './components/views/create-user/create-user.
 import { GameComponent } from './components/views/game/game.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
 import { LoginComponent } from './components/views/login/login.component';
+import { CardMenuComponent } from './components/views/card-menu/card-menu.component';
+import { CreateCardComponent } from './components/views/create-card/create-card.component';
+
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
-  { path: 'create', component: CreateUserComponent},
+  { path: 'sign_up', component: CreateUserComponent},
   { path: 'lobby', component: LobbyComponent},
-  { path: 'partida/:id', component: GameComponent}
+  { path: 'partida/:id', component: GameComponent},
+  { path: 'create_card', component: CreateCardComponent},
+  { path: 'cards', component: CardMenuComponent}
 ];
 
 @NgModule({
