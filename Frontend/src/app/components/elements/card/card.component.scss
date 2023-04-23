@@ -1,7 +1,32 @@
+
+  
 .card{
-    flex: 1 0 16%;
-    background-color:aquamarine;
-    border: solid 2px white;
+    display: flex;
+  flex-direction: column;
+  width: 170px;
+  height: 250px;
+    background-color:#571632;
+    border: solid 2px #a50960;
     text-align: center;
+    color: #ff93cf;
+}
+
+.mat-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #f0f0f0;
+  }
+
+.mat-card-image{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    
+}
+
+.mat-card-content{
+    height: 100%;
+    font-size: 0.8rem;
+    
     
 }

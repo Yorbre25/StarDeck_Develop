@@ -1,1 +1,17 @@
-<p>login-form works!</p>
+<div class="form-signin">
+    <form>
+        <h1 class="h3 mb-3 font-weight-normal">Inicie sesión</h1>
+
+        <mat-form-field>
+            <input type="text" id="email" name="email" matInput placeholder="Ingrese su correo" formControlName="email" required>
+            <mat-error>Por favor ingrese un correo válido.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Ingrese su contraseña" type="password" formControlName="password" required>
+            <mat-error>Por favor ingrese una contraseña.</mat-error>
+        </mat-form-field><br />
+        <button type="submit" mat-raised-button color="warn">Login</button>
+        
+    </form>
+
+</div>

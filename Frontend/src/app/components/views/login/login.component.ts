@@ -12,12 +12,6 @@ export class LoginComponent {
 
   }
 
-  goToLobby(){
-
-    this.router.navigate(['/lobby']);
-
-  }
-
   goToCreateUser(){
 
     this.router.navigate(['/create']);
