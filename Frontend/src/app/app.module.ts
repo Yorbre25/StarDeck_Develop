@@ -14,6 +14,7 @@ import { LoginFormComponent } from './components/forms/login-form/login-form.com
 import { MatCardModule } from '@angular/material/card';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormField, MatFormFieldModule } from '@angular/material/form-field';
+import { SignUpFormComponent } from './components/forms/sign-up-form/sign-up-form.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormField, MatFormFieldModule } from
     CreateUserComponent,
     CardComponent,
     MultipleCardsComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    SignUpFormComponent
   ],
   imports: [
     MatFormFieldModule,
