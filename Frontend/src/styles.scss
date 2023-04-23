@@ -2,19 +2,61 @@
 body {
     //background-color: #0f2b2c;
     color: #f0f0f0;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Rajdhani-Light';
     background-image: url('assets/images/background.png');
     background-size: cover;
-  }
+}
 
-  @font-face {
+
+.title-text {
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    font-size: 2rem;
+}
+
+.form-text {
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    color: #000000;
+    font-size: 1.1rem;
+}
+
+.button-text {
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    font-size: 1.2rem;
+    background-color: #00fe75;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;}
+
+.underlined-button {
+    padding-top: 10px;
+    background-color: transparent;
+    border: none;
+    color: #00c0fe;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
+
+@font-face {
     font-family: 'JostItalic';
-    src: url('https://github.com/Yorbre25/StarDeck_Develop/blob/interfazCartaYJugador/Frontend/src/assets/fonts/Jost-Italic-VariableFont_wght.ttf');
-  }
+    src: url('assets/fonts/Jost-Italic-VariableFont_wght.ttf');
+}
 
-  @font-face {
+@font-face {
     font-family: 'Jost';
-    src: url('https://github.com/Yorbre25/StarDeck_Develop/blob/interfazCartaYJugador/Frontend/src/assets/fonts/Jost-VariableFont_wght.ttf');
-  }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+    src: url('assets/fonts/Jost-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: 'Rajdhani-Light';
+    src: url('assets/fonts/Rajdhani-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Rajdhani-SemiBold';
+    src: url('assets/fonts/Rajdhani-SemiBold.ttf');
+}

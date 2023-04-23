@@ -1,16 +1,22 @@
 .image-container {
- 
+
     padding-top: 200px;
     padding-bottom: 50px;
-    display:flex;
-    justify-content: center; 
-  
+    display: flex;
+    justify-content: center;
+
 }
 
 .form-container {
     padding: 50px;
-    font-size: 1.5rem; 
-    display:grid;
+    width: fit-content;
+    font-size: 2rem;
+    display: grid;
     justify-content: center;
     background-color: #2a556e80;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
 }
