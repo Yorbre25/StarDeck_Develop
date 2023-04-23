@@ -3,14 +3,13 @@
     <mat-sidenav #sidenav mode="side" opened class="sidenav-cont" [fixedInViewport]="options.value.fixed"
         [fixedTopGap]="options.value.top" [fixedBottomGap]="options.value.bottom">
         <mat-nav-list>
-            <p><button class="button-navbar" mat-button (click)="sidenav.toggle()">✖️</button></p>
+
+            <img src="assets/images/logo.png" alt="logo">
             <a mat-list-item routerLink="/cards">Cartas</a>
             <a mat-list-item routerLink="/create_card">Crear Carta</a>
+            <a mat-list-item routerLink="/lobby">Lobby</a>
             <a mat-list-item routerLink="/">Salir</a>
           </mat-nav-list>
           
     </mat-sidenav>
-
-
-    <p><button class="button-text" mat-button (click)="sidenav.toggle()">⏩</button></p>
 </mat-sidenav-container>

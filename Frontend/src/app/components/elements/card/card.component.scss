@@ -1,32 +1,34 @@
-
-  
-.card{
+.card {
     display: flex;
-  flex-direction: column;
-  width: 170px;
-  height: 270px;
-    background-color:#571632;
+    flex-direction: column;
+    width: 170px;
+    height: 270px;
+    background-color: #571632;
     border: solid 2px #a50960;
     text-align: center;
     color: #ff93cf;
+    border-radius: 10px;
+
 }
 
 .mat-card-title {
     font-size: 1rem;
     font-weight: bold;
     color: #f0f0f0;
-  }
+}
 
-.mat-card-image{
+.mat-card-image {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 10px;
-    
+    border-radius: 10px;
+    border-radius: 10%;
+
 }
 
-.mat-card-content{
+.mat-card-content {
 
     font-size: 0.7rem;
-    
-    
+
+
 }
