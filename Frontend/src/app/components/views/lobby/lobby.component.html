@@ -1,4 +1,16 @@
-<div class="box">
-    <app-multiple-cards></app-multiple-cards>
-    <button mat-raised-button (click)="findGame()">Buscar Partida</button>
-</div> 
+<mat-sidenav-container class="container">
+    
+    <mat-sidenav #sidenav mode="side" opened class="sidenav-cont" [fixedInViewport]="options.value.fixed"
+        [fixedTopGap]="options.value.top" [fixedBottomGap]="options.value.bottom">
+        <mat-nav-list>
+            <p><button class="button-navbar" mat-button (click)="sidenav.toggle()">✖️</button></p>
+            <a mat-list-item routerLink="/">Cartas</a>
+            <a mat-list-item routerLink="/">Crear Carta</a>
+            <a mat-list-item routerLink="/">Salir</a>
+          </mat-nav-list>
+          
+    </mat-sidenav>
+
+
+    <p><button class="button-text" mat-button (click)="sidenav.toggle()">⏩</button></p>
+</mat-sidenav-container>
