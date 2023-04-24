@@ -1,0 +1,15 @@
+dotnet:
+Packages:
+	Microsoft.EntityFrameworkCore.Design 
+	Microsoft.EntityFrameworkCore.SqlServer
+	Microsoft.EntityFrameworkCore.Design
+	Microsoft.EntityFrameworkCore.Tools
+
+To add migration run the following command:
+	dotnet ef migrations add InitialDBCreation
+
+To update database use the following command:
+	dotnet ef database update
+
+To drop database use the following command:
+	dotnet ef database drop
