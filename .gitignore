@@ -6,5 +6,7 @@ Backend/.vs
 Backend/bin
 Backend/obj
 Backend/Backend.csproj
+Backend/Migrations/*
+!Backend/Migrations/StarDeckDbContextModelSnapshot.cs
 
 Frontend/node_modules
