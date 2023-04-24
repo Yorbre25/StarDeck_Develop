@@ -38,9 +38,6 @@ namespace Backend.Migrations
                     b.Property<int>("Cost")
                         .HasColumnType("int");
 
-                    b.Property<string>("DeckId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
@@ -58,13 +55,16 @@ namespace Backend.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<string>("PlayerId")
+                        .HasColumnType("nvarchar(14)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CardRaceId");
 
                     b.HasIndex("CardTypeId");
 
-                    b.HasIndex("DeckId");
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("Cards");
                 });
@@ -83,6 +83,9 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TypeName")
+                        .IsUnique();
 
                     b.ToTable("CardTypes");
                 });
@@ -105,21 +108,6 @@ namespace Backend.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("Backend.Models.Deck", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PlayerId")
-                        .HasColumnType("nvarchar(14)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("Decks");
-                });
-
             modelBuilder.Entity("Backend.Models.Player", b =>
                 {
                     b.Property<string>("Id")
@@ -136,38 +124,23 @@ namespace Backend.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Level")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("Ranking")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("XPPoint")
-                        .HasColumnType("int");
-
-                    b.Property<int>("money")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ranking")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -185,11 +158,14 @@ namespace Backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("RaceName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RaceName")
+                        .IsUnique()
+                        .HasFilter("[RaceName] IS NOT NULL");
 
                     b.ToTable("Races");
                 });
@@ -208,20 +184,13 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.Deck", null)
+                    b.HasOne("Backend.Models.Player", null)
                         .WithMany("Cards")
-                        .HasForeignKey("DeckId");
+                        .HasForeignKey("PlayerId");
 
                     b.Navigation("CardRace");
 
                     b.Navigation("CardType");
-                });
-
-            modelBuilder.Entity("Backend.Models.Deck", b =>
-                {
-                    b.HasOne("Backend.Models.Player", null)
-                        .WithMany("Decks")
-                        .HasForeignKey("PlayerId");
                 });
 
             modelBuilder.Entity("Backend.Models.Player", b =>
@@ -235,14 +204,9 @@ namespace Backend.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("Backend.Models.Deck", b =>
-                {
-                    b.Navigation("Cards");
-                });
-
             modelBuilder.Entity("Backend.Models.Player", b =>
                 {
-                    b.Navigation("Decks");
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

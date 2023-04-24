@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Models;
 
-// [PrimaryKey(nameof(Id), nameof(RaceName))]
-public partial class Race
+// ORM Class of Race. Represents a Race in the database.
+[Index(nameof(RaceName), IsUnique = true)]
+public class Race
 {
     public int Id { get; set; }
 
     [MaxLength(50)]
-    // RaceName needs to be unique for each Id.
-    public string RaceName { get; set; }
+    public string? RaceName { get; set; }
 
 }

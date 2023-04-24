@@ -6,24 +6,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Models;
 
-public partial class Player
+// ORM Class of Player. Represents a Player in the database.
+public class Player
 {   
 
     [Required]
     [MaxLength(14)]
-    public string Id { get; set; } 
+    public string? Id { get; set; } 
 
     [Required]
     [MaxLength(50)]
-    public string FirstName { get; set; } 
+    public string? FirstName { get; set; } 
 
-    [Required]
-    [MaxLength(100)]
-    public string Email { get; set; }
+    // [Required]
+    // [MaxLength(100)]
+    // public string Email { get; set; }
 
     [Required]
     [MaxLength(50)]
-    public string Username { get; set; }
+    public string? Username { get; set; }
 
     [Required]
     [DefaultValue(1)]
@@ -31,31 +32,32 @@ public partial class Player
 
     [Required]
     [MaxLength(200)]
-    public string Password { get; set; }
+    public string? Password { get; set; }
 
-    [Required]
-    [DefaultValue(0)]
-    public string Level { get; set; } 
+    // [Required]
+    // [DefaultValue(0)]
+    // public string Level { get; set; } 
 
     [Required]
     [DefaultValue("https://i.imgur.com/1Z1Z1Z1.png")]
-    public string Avatar { get; set; } 
+    public string? Avatar { get; set; } 
+
+    // [Required]
+    // [DefaultValue(0)]
+    // public int XPPoint { get; set; }
+
+    // [Required]
+    // [DefaultValue(20)]
+    // public int money { get; set; }
 
     [Required]
     [DefaultValue(0)]
-    public int XPPoint { get; set; }
+    public int Ranking { get; set; }
 
     [Required]
-    [DefaultValue(20)]
-    public int money { get; set; }
+    public Country? Country { get; set; }
 
     [Required]
-    [DefaultValue(0)]
-    public int ranking { get; set; }
-
-    [Required]
-    public Country Country { get; set; }
-
-    public List<Deck> Decks { get; set; }
+    public List<Card>? Cards { get; set; }
 
 }
