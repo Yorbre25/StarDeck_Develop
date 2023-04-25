@@ -31,6 +31,7 @@ import { SideMenuComponent } from './components/elements/side-menu/side-menu.com
 import { CreateCardFormComponent } from './components/forms/create-card-form/create-card-form.component';
 import { CreateCardComponent } from './components/views/create-card/create-card.component';
 import { HeaderComponent } from './components/elements/header/header.component';
+import { BackButtonComponent } from './components/elements/back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { HeaderComponent } from './components/elements/header/header.component';
     SideMenuComponent,
     CreateCardFormComponent,
     CreateCardComponent,
-    HeaderComponent
+    HeaderComponent,
+    BackButtonComponent
   ],
   imports: [
     MatFormFieldModule,
