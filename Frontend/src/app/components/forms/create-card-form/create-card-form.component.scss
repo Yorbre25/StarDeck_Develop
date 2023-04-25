@@ -1,14 +1,42 @@
 .form-group {
-    padding-top: 10vh;
+    
     padding: 10px;
     font-size: 1.4rem;
     display: grid;
-    justify-content: center;
+    justify-content: right;
     text-align: left;
 }
+
+.form-input{
+    padding-top: 1px;
+    word-wrap: break-word;
+    
+}
+
+
+
 
 .button-text {
     text-align: right;
     justify-content: right;
     justify-self: right;
+}
+
+.form-flex {
+  
+    margin-left: -10px;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: left;
+}
+
+.form-container{
+    margin-top: 10vh;
+    padding: 10px;
+    font-size: 1.4rem;
+    display: grid;
+    justify-content: right;
+    text-align: right;
 }

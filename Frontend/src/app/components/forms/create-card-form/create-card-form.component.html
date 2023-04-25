@@ -1,53 +1,62 @@
 <app-side-menu></app-side-menu>
-<form class="form-group">
+<form class="form-container">
     <div class="form-group">
         <mat-label for="name">Nombre del personaje: </mat-label>
-        <input [formControl]="characterName" type="text" id="name" name="name" class="form-input" style="width: 300px;" placeholder="Nyan Cat" required>
+        <input [formControl]="characterName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
+            placeholder="Nyan Cat" required>
         <br>
         <mat-error *ngIf="characterName.invalid  && fault">{{getErrMessage(characterName)}}</mat-error>
-    </div>
-    <div class="form-group">
-        <mat-label for="description"> Descripción del personaje: </mat-label>
-        <input [formControl]="description" type="description" id="description" name="description" class="form-input" style="width: 300px;" placeholder="Nyan Cat, or Pop-Tart Cat, 
-        refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song." required>
-        <br>
-        <mat-error *ngIf="description.invalid && fault">{{getErrMessage(description)}}</mat-error>
-    </div>
+
     <br>
-    
-    <br>
-    <div class="form-group">
-        <mat-label for="race">Raza: </mat-label>
-        <input [formControl]="race"type="text" id="race" name="race" class="form-input" style="width: 300px;" placeholder="Cat" required>
-        <br>
-        <mat-error *ngIf="race.invalid  && fault">{{getErrMessage(race)}}</mat-error>
-    </div>
-    <br>
-    <div class="form-group">
-        <mat-label for="energy">Energía: </mat-label>
-        <input [formControl]="energy" type="number" id="energy" name="energy" class="form-input" placeholder="100" style="width: 300px;" required>
-        <br>
-        <mat-error *ngIf="energy.invalid  && fault">{{getErrMessage(energy)}}</mat-error>
-    </div>
-    <br>
-    <div class="form-group">
-        <mat-label for="price">Costo: </mat-label>
-        <input [formControl]="price" type="number" id="price" name="price" class="form-input" style="width: 300px;" placeholder="10000 dolares" required>
-        <br>
-        <mat-error *ngIf="price.invalid && fault">{{getErrMessage(price)}}</mat-error>   
+  
+       
+    <div class="form-flex">
+        <div class="form-group">
+            <mat-label for="race">Raza: </mat-label>
+            <input [formControl]="race" type="text" id="race" name="race" class="form-input" style="width: 150px;"
+                placeholder="Cat" required>
+            <br>
+            <mat-error *ngIf="race.invalid  && fault">{{getErrMessage(race)}}</mat-error>
+        </div>
+        <div class="form-group">
+            <mat-label for="type">Tipo: </mat-label>
+            <select [formControl]="type" id="type" name="type" class="form-input" placeholder="SSR"
+                style="width: 150px;" required>
+                <option *ngFor="let type of types">
+                    {{type}}
+                </option>
+            </select>
+            <br>
+            <mat-error *ngIf="type.invalid  && fault">{{getErrMessage(type)}}</mat-error>
+        </div>
     </div>
     <br>
-    <div class="form-group">
-        <mat-label for="type">Tipo: </mat-label>
-        <select [formControl]="type" id="type" name="type" class="form-input" placeholder="SSR" style="width: 300px;" required>
-            <option *ngFor="let type of types">
-                {{type}}
-            </option>
-        </select>
-        <br>
-        <mat-error *ngIf="type.invalid  && fault">{{getErrMessage(type)}}</mat-error>
+    <div class="form-flex">
+        <div class="form-group">
+            <mat-label for="energy">Energía: </mat-label>
+            <input [formControl]="energy" type="number" id="energy" name="energy" class="form-input" placeholder="100"
+                style="width: 150px;" required>
+            <br>
+            <mat-error *ngIf="energy.invalid  && fault">{{getErrMessage(energy)}}</mat-error>
+        </div>
+        <div class="form-group">
+            <mat-label for="price">Costo: </mat-label>
+            <input [formControl]="price" type="number" id="price" name="price" class="form-input" style="width: 150px;"
+                placeholder="10000 dolares" required>
+            <br>
+            <mat-error *ngIf="price.invalid && fault">{{getErrMessage(price)}}</mat-error>
+        </div>
+        
     </div>
+    <mat-label for="description"> Descripción del personaje: </mat-label>
+    <textarea [formControl]="description" type="description" id="description" name="description" class="form-input"
+        style="width: 300px;" style="height:100px;"
+        placeholder="Nyan Cat, or Pop-Tart Cat, 
+    refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song."
+        required></textarea>
     <br>
+    <mat-error *ngIf="description.invalid && fault">{{getErrMessage(description)}}</mat-error>
+</div>
+
     <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
 </form>
-
