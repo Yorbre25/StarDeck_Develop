@@ -1,12 +1,12 @@
 
   <div class="card">
-    <mat-card>
-      <mat-card-title class="mat-card-title">{{name}}</mat-card-title>
+    <mat-card class="card">
+      <mat-card-title class="form-input">{{name}}</mat-card-title>
       <img class="mat-card-image" mat-card-image [src]="image" alt="card-image">
       <mat-card-content class="mat-card-content">
-        <p>
+        <mat-label >
             {{description}}
-        </p>
+        </mat-label>
         <p>
           <strong>Type:</strong> {{type}} 
           <strong>Race:</strong> {{race}}
