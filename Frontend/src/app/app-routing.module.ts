@@ -11,7 +11,7 @@ import { CreateCardComponent } from './components/views/create-card/create-card.
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'sign_up', component: CreateUserComponent},
-  { path: 'lobby', component: LobbyComponent},
+  { path: 'home', component: LobbyComponent},
   { path: 'partida/:id', component: GameComponent},
   { path: 'create_card', component: CreateCardComponent},
   { path: 'cards', component: CardMenuComponent}

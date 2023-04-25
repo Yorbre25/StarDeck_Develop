@@ -30,6 +30,7 @@
 
 .navbar-image {
   padding: 5px;
+  padding-right: 50px;
   filter: saturate(5);
 }
 
@@ -83,19 +84,29 @@
 
 .example-toolbar {
   
-  background-color: #44baff80;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   border: none;
+  margin-top: 10px;
+  user-select: none;
+  background-color: #2a556e80;
   border-radius: 25px;
   padding: 10px 20px;
   margin-top: 10px;
+  margin-left: 10px;
 
 }
 
 .form-text {
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 
+}
+
+.form-text:hover{
+  color: #00c0fe;
 }
 
 .sub-text {

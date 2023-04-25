@@ -26,7 +26,7 @@ export class LoginFormComponent {
 
   goToLobby(){
 
-    this.router.navigate(['/lobby']);
+    this.router.navigate(['/home']);
 
   }
 

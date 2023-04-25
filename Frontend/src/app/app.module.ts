@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
@@ -29,6 +30,7 @@ import { CardMenuComponent } from './components/views/card-menu/card-menu.compon
 import { SideMenuComponent } from './components/elements/side-menu/side-menu.component';
 import { CreateCardFormComponent } from './components/forms/create-card-form/create-card-form.component';
 import { CreateCardComponent } from './components/views/create-card/create-card.component';
+import { HeaderComponent } from './components/elements/header/header.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { CreateCardComponent } from './components/views/create-card/create-card.
     CardMenuComponent,
     SideMenuComponent,
     CreateCardFormComponent,
-    CreateCardComponent
+    CreateCardComponent,
+    HeaderComponent
   ],
   imports: [
     MatFormFieldModule,
