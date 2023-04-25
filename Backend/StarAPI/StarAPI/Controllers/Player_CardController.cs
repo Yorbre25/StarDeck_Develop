@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Context;
 using StarAPI.Models;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,13 +18,75 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
-        // GET: api/<Player_CardController>
+
         [HttpGet]
-        public IEnumerable<Player_Card> Get()
+        public IEnumerable<Player_Card> Get() 
         {
             return context.Player_Card.ToList();
         }
 
+        // GET: api/<Player_CardController>
+        [HttpGet("{player_id}")]
+        public ActionResult Get(string player_id)
+        {
+            try 
+            {
+                var all_cards = context.Card.ToList();
+                all_cards = all_cards.FindAll(c => c.card_type_id == 1);
+                Random random = new Random();
+                HashSet<int> uniques = new HashSet<int>();
+                while(uniques.Count < 15) 
+                {
+                    uniques.Add(random.Next(0,all_cards.Count));
+                }
+                List<int> uniquesIndexes = uniques.ToList();
+                foreach(var u in uniquesIndexes)
+                {
+                    var card = new Player_Card();
+                    card.card_id = all_cards[u].id;
+                    card.player_id = player_id;
+                    Post(card);
+
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
+        
+        [HttpGet("{player_id}/{n}/{n_type}")]
+        public IEnumerable<Card> Get(string player_id, int n, int n_type) 
+        {
+            try 
+            {
+                var cards = context.Card.ToList();
+                cards = cards.FindAll(c => c.card_type_id != n_type);
+                Random random = new Random();
+                HashSet<int> uniques = new HashSet<int>();
+                while (uniques.Count < n)
+                {
+                    uniques.Add(random.Next(0, cards.Count));
+                }
+                List<int> uniquesIndexes = uniques.ToList();
+                List<Card> sel_cards = new List<Card>();
+                foreach (var u in uniquesIndexes)
+                {
+                    sel_cards.Add(cards[u]);
+
+                }
+
+                return sel_cards;
+            }
+            catch 
+            {
+                return null;
+            }
+           
+        }
         // GET api/<Player_CardController>/5
         [HttpGet("{player_id}/{card_id}")]
         public Player_Card Get(string player_id, string card_id)

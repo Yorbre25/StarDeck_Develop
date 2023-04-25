@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Context;
 using StarAPI.Models;
+using StarAPI.Utils;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,6 +13,7 @@ namespace StarAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly StarDeckContext context;
+        private Encrypt encrypt = new Encrypt();
 
         public CardController(StarDeckContext context)
         {
@@ -37,7 +39,12 @@ namespace StarAPI.Controllers
         {
             try
             {
-
+                string id = encrypt.gen_id("C");
+                while (context.Player.FirstOrDefault(p => p.id == id) != null)
+                {
+                    id = encrypt.gen_id("C");
+                }
+                card.id = id;
                 context.Card.Add(card);
                 context.SaveChanges();
                 return Ok();

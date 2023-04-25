@@ -53,6 +53,12 @@ namespace StarAPI.Controllers
         {
             try 
             {
+                var id = encrypt.gen_id("U");
+                while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
+                {
+                    id = encrypt.gen_id("U");
+                }
+                player.id = id;
                 player.p_hash = encrypt.Sha256(player.p_hash);
                 context.Player.Add(player);
                 context.SaveChanges();
