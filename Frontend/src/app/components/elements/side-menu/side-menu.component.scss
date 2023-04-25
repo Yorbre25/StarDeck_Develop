@@ -1,41 +1,104 @@
-.box{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.sidenav-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background-color: #2a556e80;
 }
 
-.container {
-    position: absolute;
-    top: 60px;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-  }
-  
-  .sidenav-cont {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    background-color: #2a556e80;
-  }
-  
-  .button-navbar {
-    font-family: 'Rajdhani-SemiBold';
-    text-align: center;
-    font-size: 1rem;
-    background-color: transparent;
-    border: none;
-    border-radius: 25px;
-    justify-content: right;
-    cursor: pointer;}
+.button-navbar {
+  font-family: 'Rajdhani-SemiBold';
+  text-align: center;
+  font-size: 1rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 25px;
+  justify-content: right;
+  cursor: pointer;
+}
 
-    .button-text {
-        background-color: transparent;
-        font-size: 3rem;
-    }
+.button-text {
+  background-color: transparent;
+  font-size: 3rem;
+}
 
-    .navbar-image {
-        padding: 5px;
-    }
+.button-text:hover {
+  color: white;
+}
+
+
+
+.navbar-image {
+  padding: 5px;
+  filter: saturate(5);
+}
+
+.example-container {
+  height: 40vw;
+  background-color: transparent;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.example-sidenav {
+  user-select: none;
+  background-color: #2a556e80;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+  color: white;
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 30px;
+}
+
+.submenu.expanded {
+  transform: scaleY(1);
+}
+
+.example-toolbar {
+  
+  background-color: #44baff80;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 10px;
+
+}
+
+.form-text {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+}
+
+.sub-text {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}

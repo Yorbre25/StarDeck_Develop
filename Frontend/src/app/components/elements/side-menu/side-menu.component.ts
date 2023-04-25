@@ -4,7 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 import {FormBuilder} from '@angular/forms';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-side-menu',
@@ -23,6 +24,25 @@ export class SideMenuComponent {
     console.log(uuid);
     this.router.navigate(['/partida', uuid]);
 
+  }
+
+  @ViewChild('sidenav')
+  sidenav: MatSidenavModule = new MatSidenavModule;
+  isExpanded = true;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
+
+  mouseenter() {
+    if (!this.isExpanded) {
+      this.isShowing = true;
+    }
+  }
+
+  mouseleave() {
+    if (!this.isExpanded) {
+      this.isShowing = false;
+    }
   }
 
   //openDialog(): void {
