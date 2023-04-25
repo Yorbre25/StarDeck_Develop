@@ -1,20 +1,14 @@
-using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using StarAPI.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckDb")));
 builder.Services.AddControllers();
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
-builder.Services.AddDbContext<StarDeckDbContext>(options =>{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("constring"));
-    });
 
 var app = builder.Build();
 
