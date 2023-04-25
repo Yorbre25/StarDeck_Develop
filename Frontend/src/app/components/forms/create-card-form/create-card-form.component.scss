@@ -1,5 +1,5 @@
 .form-group {
-    
+
     padding: 10px;
     font-size: 1.4rem;
     display: grid;
@@ -7,13 +7,21 @@
     text-align: left;
 }
 
-.form-input{
+.form-input {
     padding-top: 1px;
     word-wrap: break-word;
-    
+
 }
 
+.form-text {
+    color: white;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1.2rem;
 
+
+}
 
 
 .button-text {
@@ -23,7 +31,7 @@
 }
 
 .form-flex {
-  
+
     margin-left: -10px;
     font-size: 1.4rem;
     display: flex;
@@ -32,7 +40,7 @@
     text-align: left;
 }
 
-.form-container{
+.form-container {
     margin-top: 10vh;
     padding: 10px;
     font-size: 1.4rem;
