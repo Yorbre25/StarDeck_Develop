@@ -45,7 +45,6 @@ Create Table Card (
     name VARCHAR(30) NOT NULL,
     energy INT NOT NULL,
     cost INT NOT NULL,
-    c_image VARCHAR(2500),
     card_type_id INT NOT NULL,
     card_race_id INT NOT NULL,
     activated_card BIT NOT NULL DEFAULT 1,
@@ -131,3 +130,4 @@ ALTER TABLE Player_Card
 ADD CONSTRAINT fk_Player_Card
 FOREIGN KEY (player_id)
 REFERENCES Player(id)
+

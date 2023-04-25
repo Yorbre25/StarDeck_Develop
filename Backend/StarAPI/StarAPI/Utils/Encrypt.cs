@@ -12,7 +12,7 @@ namespace StarAPI.Utils
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(input);
                 var hash = sha256Hash.ComputeHash(bytes);
-                return Encoding.UTF8.GetString(hash).Replace("-", "");
+                return Convert.ToBase64String(hash);
             }
         }
     }

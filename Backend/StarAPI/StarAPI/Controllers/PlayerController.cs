@@ -32,7 +32,7 @@ namespace StarAPI.Controllers
             
             Player player = context.Player.FirstOrDefault(p => p.id == id);
            
-            if (encrypt.Sha256(password).ToString() == player.p_hash) 
+            if (encrypt.Sha256(password) == player.p_hash) 
             {
                 return Ok();
             }
