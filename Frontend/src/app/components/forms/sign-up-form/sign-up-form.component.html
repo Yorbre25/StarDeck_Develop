@@ -1,0 +1,54 @@
+<form class="form-group">
+    <div class="form-group">
+        <mat-label for="mail"> Correo: </mat-label>
+        <input [formControl]="mail" type="email" id="email" name="email" class="form-input" style="width: 300px;" placeholder="example@something.com" required>
+        <br>
+        <mat-error *ngIf="mail.invalid && fault">{{getErrMessage(mail)}}</mat-error>
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="name">Nombre: </mat-label>
+        <input [formControl]="playerName" type="text" id="name" name="name" class="form-input" style="width: 300px;" placeholder="John" required>
+        <br>
+        <mat-error *ngIf="playerName.invalid  && fault">{{getErrMessage(playerName)}}</mat-error>
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="lastname">Apellido: </mat-label>
+        <input [formControl]="playerLastName"type="text" id="lastname" name="lastname" class="form-input" style="width: 300px;" placeholder="Doe" required>
+        <br>
+        <mat-error *ngIf="playerLastName.invalid  && fault">{{getErrMessage(playerLastName)}}</mat-error>
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="nationality">Nacionalidad: </mat-label>
+        <select [formControl]="playerNationality" id="nationality" name="nationality" class="form-input" style="width: 300px;" required>
+            <option *ngFor="let nation of nationalities">
+                {{nation}}
+            </option>
+        </select>
+        <br>
+        <mat-error *ngIf="playerNationality.invalid  && fault">{{getErrMessage(playerNationality)}}</mat-error>
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="username">Alias: </mat-label>
+        <input [formControl]="playerAlias" type="text" id="username" name="username" class="form-input" style="width: 300px;" placeholder="_JD2001_" required>
+        <br>
+        <mat-error *ngIf="playerAlias.invalid && fault">{{getErrMessage(playerAlias)}}</mat-error>   
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="password">Contraseña: </mat-label>
+        <input [formControl]="playerPassword" type="password" id="password" name="password" class="form-input" style="width: 300px;" required>
+        <br>
+        <mat-error *ngIf="fault">{{getErrMessage(playerPassword)}}</mat-error>
+    </div>
+    <br>
+    <div class="form-group">
+        <mat-label for="password">Confirmar Contraseña: </mat-label>
+        <input [formControl]="confirmPassword" type="password" id="rewritePassword" name="rewritePassword" class="form-input" style="width: 300px;" required>
+    </div>
+    <br>
+    <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
+</form>

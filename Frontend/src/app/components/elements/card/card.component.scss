@@ -1,0 +1,61 @@
+.card {
+   
+    width: 110px;
+    height: 190px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border: solid 1px #0f0c16;
+    text-align:justify;
+    color: #ff93cf;
+    border-radius: 10px;
+    align-items: center;
+    word-wrap: break-word;
+
+}
+
+.form-input {
+    background-color:  #ff93cf80;
+    width: 100%;
+}
+.mat-card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    width: 170;
+    color: #f0f0f0;
+    
+    
+  
+    
+}
+
+.mat-card-image {
+    height: 60px;
+    width: 60px;
+
+
+    border-radius: 5px;
+    border-radius: 10%;
+    
+    
+
+}
+
+.mat-card-content {
+    padding-top: 2px;
+    font-size: 0.5rem;
+    color: black;
+    background-color:  #ff93cf50;
+    height: 80px;
+    width: 90px;
+    line-height: 0.8;
+    border-radius: 10px;
+    padding: 10px;
+
+}
+
+.mat-card-description {
+    height: 50px;
+    width: 50px;
+    line-height: 0.4;
+   
+
+}

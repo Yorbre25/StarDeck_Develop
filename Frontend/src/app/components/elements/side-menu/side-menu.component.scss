@@ -1,0 +1,153 @@
+.sidenav-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  background-color: #2a556e80;
+}
+
+.button-navbar {
+  font-family: 'Rajdhani-SemiBold';
+  text-align: center;
+  font-size: 1rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 25px;
+  justify-content: right;
+  cursor: pointer;
+}
+
+.button-text {
+  background-color: transparent;
+  font-size: 3rem;
+}
+
+.button-text:hover {
+  color: white;
+}
+
+
+
+.navbar-image {
+  padding: 5px;
+  padding-right: 50px;
+  filter: saturate(5);
+}
+
+.example-container {
+  height: 40vw;
+  background-color: transparent;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.example-sidenav {
+  user-select: none;
+  background-color: #2a556e80;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+  color: white;
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 30px;
+}
+
+.submenu.expanded {
+  transform: scaleY(1);
+}
+
+
+.form-text {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+}
+
+.form-text:hover{
+  color: #00c0fe;
+  cursor: pointer;
+}
+
+.sub-text {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.info-text {
+  color: white;
+  font-family: 'Rajdhani-SemiBold';
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: #2a556e80;
+  border: none;
+  margin-top: 30px;
+  width:fit-content;
+  position: absolute;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  top: 30px;
+  left: 30px;
+  align-items: center;
+  padding:10px;
+  border-radius: 10px;
+  line-height: 0.8;
+
+  
+}
+
+.username {
+  color: #00fe75;
+}
+
+.example-toolbar {
+  
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  border: none;
+  margin-top: 10px;
+  user-select: none;
+  background-color: #2a556e80;
+  border-radius: 25px;
+  padding-top: 10px 20px;
+  padding-right: -10px;
+  margin-top: 10px;
+
+
+}
+
+.player-image{
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border-radius: 50%;
+  margin-bottom: 2px;
+ 
+}
+

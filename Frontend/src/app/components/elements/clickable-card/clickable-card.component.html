@@ -1,0 +1,25 @@
+
+<div (click)="onClick()" class="card">
+  <mat-card class="card">
+   
+    
+      <mat-card-title class="form-input">{{element.name}}</mat-card-title>
+      <img class="mat-card-image" mat-card-image [src]="element.image" alt="card-image">
+      <mat-card-content class="mat-card-content">
+        <mat-label >
+            {{element.description}} 
+        </mat-label>
+        <br><br>
+        <p>
+          <strong>Race:</strong> {{element.card_race}}
+        </p>
+          {{element.energy}} ⚡ {{element.cost}} 💰 <strong>{{element.card_type}} </strong> 
+        
+      </mat-card-content>
+   
+      
+   
+  </mat-card>
+</div>
+
+
