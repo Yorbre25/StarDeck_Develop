@@ -25,9 +25,9 @@ namespace StarAPI.Controllers
 
         // GET api/<Card_TypeController>/5
         [HttpGet("{id}")]
-        public Card_Type Get(int id)
+        public Card_Type Get(string id)
         {
-            return context.Card_Type.FirstOrDefault(c => c.type_id == id);
+            return context.Card_Type.FirstOrDefault(c => c.type == id);
         }
 
         // POST api/<Card_TypeController>
@@ -48,9 +48,9 @@ namespace StarAPI.Controllers
 
         // PUT api/<Card_TypeController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Card_Type card_type)
+        public ActionResult Put(string id, [FromBody] Card_Type card_type)
         {
-            if (card_type.type_id == id)
+            if (card_type.type == id)
             {
                 context.Entry(card_type).State = EntityState.Modified;
                 context.SaveChanges();
@@ -61,9 +61,9 @@ namespace StarAPI.Controllers
 
         // DELETE api/<Card_TypeController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            var card_type = context.Card_Type.FirstOrDefault(c => c.type_id == id);
+            var card_type = context.Card_Type.FirstOrDefault(c => c.type == id);
             if (card_type != null)
             {
                 context.Card_Type.Remove(card_type);
