@@ -1,5 +1,8 @@
 .multiple-cards{
-    display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  margin-bottom: 20px;
   }
 
   .app-card{
