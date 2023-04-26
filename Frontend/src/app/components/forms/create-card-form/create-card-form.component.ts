@@ -46,4 +46,18 @@ export class CreateCardFormComponent {
     this.router.navigate(['/lobby']);
 
   }
+
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Do something with the image data
+      };
+    }
+  }
+
+
 }

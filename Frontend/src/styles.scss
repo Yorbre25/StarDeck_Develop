@@ -21,6 +21,17 @@ body {
     font-size: 1.1rem;
 }
 
+.form-flex {
+
+    margin-left: -10px;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: left;
+}
+
+
 .form-input {
     font-family: 'Rajdhani-SemiBold';
     text-align: center;

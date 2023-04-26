@@ -1,30 +1,5 @@
 <div class = "multiple-cards">
-    <app-card class = "app-card"
-    name="Nyan Cat"
-    image="https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG"
-    energy="100"
-    price="500"
-    type="Cat"
-    race="Nyan"
-    description="Nyanyanyanyanyanyanya!"
-    ></app-card>
-    <app-card class = "app-card"
-    name="Mametchi"
-    image="https://tamagotchi.com/wp-content/uploads/mametchi.jpg"
-    energy="30"
-    price="500"
-    type="Tamagotchi"
-    race="Tchi"
-    description="Mametchi loves inventing things and though sometimes he fails he will succeed, 
-    he just keeps trying. He loves to study and play sports."
-    ></app-card>
-    <app-card class = "app-card"
-    name="Ginjirotchi"
-    image="https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg"
-    energy="10"
-    price="600"
-    type="Tamagotchi"
-    race="rotchi"
-    description="Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies."
-    ></app-card>
+ 
+        <app-card *ngFor="let card of cards" [element]="card"></app-card>
+     
 </div>

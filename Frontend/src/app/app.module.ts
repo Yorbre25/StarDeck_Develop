@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -32,6 +35,8 @@ import { CreateCardFormComponent } from './components/forms/create-card-form/cre
 import { CreateCardComponent } from './components/views/create-card/create-card.component';
 import { HeaderComponent } from './components/elements/header/header.component';
 import { BackButtonComponent } from './components/elements/back-button/back-button.component';
+import { ClickableCardComponent } from './components/elements/clickable-card/clickable-card.component';
+import { MultipleClickableCardsComponent } from './components/elements/multiple-clickable-cards/multiple-clickable-cards.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,10 @@ import { BackButtonComponent } from './components/elements/back-button/back-butt
     CreateCardFormComponent,
     CreateCardComponent,
     HeaderComponent,
-    BackButtonComponent
+    BackButtonComponent,
+ 
+    ClickableCardComponent,
+       MultipleClickableCardsComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -67,7 +75,9 @@ import { BackButtonComponent } from './components/elements/back-button/back-butt
     ReactiveFormsModule,
     MatListModule,
     HttpClientModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule,
+   
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }

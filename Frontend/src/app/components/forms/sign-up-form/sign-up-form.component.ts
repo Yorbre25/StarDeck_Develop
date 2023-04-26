@@ -3,7 +3,7 @@ import { AccountInt } from '../../interfaces/account.interface';
 import { Router } from '@angular/router'; 
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
-
+import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -49,7 +49,8 @@ export class SignUpFormComponent implements OnInit {
   }
   //Valida la información y guardará en caso que todo esté correcto
   goToLobby(){
-    if(this.mail.invalid||this.playerName.invalid||this.playerLastName.invalid||this.playerNationality.invalid||this.playerAlias.invalid||this.playerPassword.invalid){
+    /**
+     *  if(this.mail.invalid||this.playerName.invalid||this.playerLastName.invalid||this.playerNationality.invalid||this.playerAlias.invalid||this.playerPassword.invalid){
       this.fault=true
     }else if(this.playerPassword.value!=this.confirmPassword.value||this.playerPassword.value?.length!=8){
       this.fault=true
@@ -63,7 +64,10 @@ export class SignUpFormComponent implements OnInit {
 
       this.api.registerAccount(this.user)//acá llama a la API
       this.router.navigate(['/lobby']);
+     
       }
+     */
+   
   }
 
 
