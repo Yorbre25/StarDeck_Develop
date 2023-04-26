@@ -27,9 +27,9 @@ namespace StarAPI.Controllers
 
         // GET api/<RaceController>/5
         [HttpGet("{id}")]
-        public Race Get(int id)
+        public Race Get(string id)
         {
-            return context.Race.FirstOrDefault(r => r.race_id == id);
+            return context.Race.FirstOrDefault(r => r.race == id);
         }
 
         // POST api/<RaceController>
@@ -51,9 +51,9 @@ namespace StarAPI.Controllers
 
         // PUT api/<RaceController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Race race)
+        public ActionResult Put(string id, [FromBody] Race race)
         {
-            if (race.race_id == id)
+            if (race.race == id)
             {
                 context.Entry(race).State = EntityState.Modified;
                 context.SaveChanges();
@@ -64,9 +64,9 @@ namespace StarAPI.Controllers
 
         // DELETE api/<RaceController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            var race = context.Race.FirstOrDefault(r => r.race_id == id);
+            var race = context.Race.FirstOrDefault(r => r.race == id);
             if (race != null)
             {
                 context.Race.Remove(race);

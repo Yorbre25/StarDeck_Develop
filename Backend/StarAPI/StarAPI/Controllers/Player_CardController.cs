@@ -33,7 +33,7 @@ namespace StarAPI.Controllers
             try 
             {
                 var all_cards = context.Card.ToList();
-                all_cards = all_cards.FindAll(c => c.card_type_id == 1);
+                all_cards = all_cards.FindAll(c => c.type == "Basic");
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while(uniques.Count < 15) 
@@ -81,12 +81,12 @@ namespace StarAPI.Controllers
             
         }
         [HttpGet("{player_id}/{n}/{n_type}")]
-        public IEnumerable<Card> Get(string player_id, int n, int n_type) 
+        public IEnumerable<Card> Get(string player_id, int n, string type) 
         {
             try 
             {
                 var cards = context.Card.ToList();
-                cards = cards.FindAll(c => c.card_type_id != n_type);
+                cards = cards.FindAll(c => c.type != type);
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while (uniques.Count < n)
