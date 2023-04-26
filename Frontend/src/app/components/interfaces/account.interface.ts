@@ -1,8 +1,12 @@
 export interface AccountInt{
-    mail:string|null;
-    playerName:string|null;
-    playerLastName:string|null;
-    playerNationality:string|null;
-    playerAlias:string|null;
-    playerPassword:string|null;
+    id:string|null;
+    email:string|null;
+    f_name:string|null;
+    l_name:string|null;
+    country:string|null;
+    nickname:string|null;
+    p_hash:string|null;
+    rank:string|null;
+    lvl:number;
+    coins:number;
 }

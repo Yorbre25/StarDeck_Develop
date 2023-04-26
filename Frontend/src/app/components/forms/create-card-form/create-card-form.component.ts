@@ -64,13 +64,13 @@ export class CreateCardFormComponent {
       this.fault = true
     } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else {
+    } else if(this.price.value != null) {
       this.card.name = this.characterName.value
       this.card.description = this.description.value
-      this.card.race = this.race.value
+      this.card.card_race = this.race.value
       this.card.energy = this.energy.value
-      this.card.price = this.price.value
-      this.card.type = this.type.value
+      this.card.cost = +this.price.value
+      this.card.card_type = this.type.value
       this.card.image = this.image.value
 
       this.api.addCard(this.card)//acá llama a la API
@@ -83,13 +83,15 @@ export class CreateCardFormComponent {
   ngOnInit() {
     this.card =
     {
+      id:'',
       name: "Nombre del Personaje",
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
       energy: "100",
-      price: "1000",
-      type: "MR",
-      race: "Cat",
-      description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song."
+      cost: 1000,
+      card_type: "MR",
+      card_race: "Cat",
+      description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
+      activated_card:true
     };
     //this.nationalities=this.api.getCountries()
     this.types = ["UR", "MR", "R", "N", "B"]

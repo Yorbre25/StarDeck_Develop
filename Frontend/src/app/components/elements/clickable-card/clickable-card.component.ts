@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
+import {CardInt} from '../../interfaces/card.interface';
 
 @Component({
   selector: 'app-clickable-card',
@@ -9,22 +11,27 @@ import { Router } from '@angular/router';
 export class ClickableCardComponent {
 
   @Input()
-  element!: { name: string|null; 
+  element!: {
+    id: string|null; 
+    name: string|null; 
     image: string|null; 
     description: string|null; 
     energy: string|null; 
-    price: string|null; 
-    type: string|null; 
-    race: string|null; };
+    cost: number|undefined; 
+    card_type: string|null; 
+    card_race: string|null; 
+    activated_card: boolean|null};
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private api:ApiService) {
    
   }
 
 
   onClick(){
-
+    
+    this.api.addCard(this.element);
     this.router.navigate(['/cards']);
+
     
 
   }
