@@ -7,25 +7,8 @@
 -- USE StarDeckDB;
 
 -- DROP TABLE IF EXISTS
-IF OBJECT_ID('Deck', 'U') IS NOT NULL
-BEGIN
-  DROP TABLE Deck;
-END
 
-IF OBJECT_ID('Card', 'U') IS NOT NULL
-BEGIN
-  DROP TABLE Card;
-END
 
-IF OBJECT_ID('Card_Type', 'U') IS NOT NULL
-BEGIN
-  DROP TABLE Card_Type;
-END
-
-IF OBJECT_ID('Race', 'U') IS NOT NULL
-BEGIN
-  DROP TABLE Race
-END
 
 -- CREATE TABLES
 CREATE TABLE Card_Type (
@@ -49,6 +32,7 @@ Create Table Card (
     card_race_id INT NOT NULL,
     activated_card BIT NOT NULL DEFAULT 1,
     description VARCHAR(1000), 
+	image VARCHAR(MAX),
     PRIMARY KEY (id)
 )
 
@@ -69,10 +53,18 @@ CREATE TABLE Deck_Card (
 CREATE TABLE Player
 (
 	id VARCHAR(15) NOT NULL,
-	f_name VARCHAR(50) NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	f_name VARCHAR(15) NOT NULL,
+	l_name VARCHAR(15) NOT NULL,
+	nickname VARCHAR(15) NOT NULL,
 	p_hash VARCHAR(1000) NOT NULL,
 	lvl INT NOT NULL,
+	ranking VARCHAR(15) NOT NULL,
+	in_game BIT NOT NULL,
+	active BIT NOT NULL,
 	country VARCHAR(15) Not NULL,
+	coins INT NOT NULL,
+	avatar VARCHAR(MAX),
 	PRIMARY KEY(id)
 )
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Context;
 using StarAPI.Models;
@@ -26,8 +27,8 @@ namespace StarAPI.Controllers
         }
 
         // GET: api/<Player_CardController>
-        [HttpGet("{player_id}")]
-        public ActionResult Get(string player_id)
+        [HttpPost("{player_id}")]
+        public IEnumerable<Card> Post( string player_id)
         {
             try 
             {
@@ -40,24 +41,45 @@ namespace StarAPI.Controllers
                     uniques.Add(random.Next(0,all_cards.Count));
                 }
                 List<int> uniquesIndexes = uniques.ToList();
+                List<Card> cards = new List<Card>();
                 foreach(var u in uniquesIndexes)
                 {
                     var card = new Player_Card();
                     card.card_id = all_cards[u].id;
                     card.player_id = player_id;
                     Post(card);
+                    cards.Add(all_cards[u]);
 
                 }
-                return Ok();
+                return cards;
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return null;
             }
             
         }
 
-        
+        [HttpGet("player_id")]
+        public IEnumerable<Card> Get(string player_id) 
+        {
+            try 
+            {
+                var cards_id = context.Player_Card.ToList();
+                cards_id = cards_id.FindAll(c => c.player_id == player_id);
+                var cards = new List<Card>();
+                foreach (var card in cards_id)
+                {
+                    cards.Add(context.Card.FirstOrDefault(c => c.id == card.card_id));
+                }
+                return cards;
+            }
+            catch 
+            {
+                return null;
+            }
+            
+        }
         [HttpGet("{player_id}/{n}/{n_type}")]
         public IEnumerable<Card> Get(string player_id, int n, int n_type) 
         {
