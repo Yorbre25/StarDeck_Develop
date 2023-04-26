@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
+
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -22,7 +23,18 @@ export class SideMenuComponent {
     fixed: false,
     top: 0,
   });
-  constructor(private router: Router, private _formBuilder: FormBuilder) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog) {}
+
+  showInfo = false;
+
+  playerInfo = {
+    username: "allixe101",
+    image: 'https://preview.redd.it/aq38c844r6771.gif?width=640&crop=smart&format=png8&s=8ed07a3fa6871188e6e8d66553aaf90b587f1953',
+    rank: 'Gold',
+    level: 10,
+    points: 5000
+  };
+
   findGame(){
     const uuid = uuidv4();
     console.log(uuid);
@@ -47,6 +59,10 @@ export class SideMenuComponent {
     if (!this.isExpanded) {
       this.isShowing = false;
     }
+  }
+
+  toggleInfo() {
+    this.showInfo = !this.showInfo;
   }
 
   //openDialog(): void {
