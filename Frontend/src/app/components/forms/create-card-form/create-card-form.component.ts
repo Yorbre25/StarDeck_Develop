@@ -53,6 +53,7 @@ export class CreateCardFormComponent {
       this.card.energy = this.energy.value
       this.card.price = this.price.value
       this.card.type = this.type.value
+      this.card.image = this.image.value
 
       this.api.addCard(this.card)//acá llama a la API
 
@@ -81,6 +82,7 @@ export class CreateCardFormComponent {
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
+    
       reader.onload = () => {
         // Do something with the image data
       };

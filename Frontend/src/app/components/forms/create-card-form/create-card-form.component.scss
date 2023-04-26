@@ -14,6 +14,7 @@
 .form-input {
     padding-top: 1px;
     word-wrap: break-word;
+    resize: none;
 
 }
 
@@ -59,3 +60,20 @@
     height: 1px;
   }
 
+.file {
+    margin: 0;
+    padding: 2rem 1.5rem;
+    font: 1rem/1.5 "PT Sans", Arial, sans-serif;
+    color: #5a5a5a;
+  }
+
+  .input{
+    display:none;
+  }
+
+  .image-text {
+    font-family: 'Rajdhani-SemiBold';
+    background-color: #00fe75;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;}

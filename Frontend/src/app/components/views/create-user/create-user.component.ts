@@ -1,21 +1,27 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
+
+
 export class CreateUserComponent {
 
-  constructor(private router: Router) {}
-  
+
+  constructor(private router: Router) { }
+
+
+
+
   ngOnInIt(): void {
 
   }
-  goToLobby(){
+  goToLobby() {
 
-    this.router.navigate(['/lobby']);
+    this.router.navigate(['/home']);
 
   }
 }

@@ -1,24 +1,22 @@
-<div class = "box">
-    <app-clickable-card class = "app-card"
-    [element]="card"
-    ></app-clickable-card>
+<div class="box">
+    <app-clickable-card class="app-card" [element]="card"></app-clickable-card>
     <form class="form-container">
-    
+
         <div class="form-group">
             <mat-label class="form-text" for="name">Nombre del personaje: </mat-label>
-            <input [formControl]="characterName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
-                placeholder="Nyan Cat" required>
+            <input [formControl]="characterName" type="text" id="name" name="name" class="form-input"
+                style="width: 300px;" placeholder="Nyan Cat" required>
             <br>
             <mat-error *ngIf="characterName.invalid  && fault">{{getErrMessage(characterName)}}</mat-error>
-    
+
             <br>
-    
-    
+
+
             <div class="form-flex">
                 <div class="form-group">
                     <mat-label class="form-text" for="race">Raza: </mat-label>
-                    <input [formControl]="race" type="text" id="race" name="race" class="form-input" style="width: 150px;"
-                        placeholder="Cat" required>
+                    <input [formControl]="race" type="text" id="race" name="race" class="form-input"
+                        style="width: 150px;" placeholder="Cat" required>
                     <br>
                     <mat-error *ngIf="race.invalid  && fault">{{getErrMessage(race)}}</mat-error>
                 </div>
@@ -50,29 +48,40 @@
                     <br>
                     <mat-error *ngIf="price.invalid && fault">{{getErrMessage(price)}}</mat-error>
                 </div>
-    
+
             </div>
             <mat-label class="form-text" for="description"> Descripción del personaje: </mat-label>
-            <textarea [formControl]="description" type="description" id="description" name="description" class="form-input"
-                style="width: 300px;" style="height:100px;"
+            <textarea [formControl]="description" type="description" id="description" name="description"
+                class="form-input" style="width: 300px;" style="height:100px;" resize="none"
                 placeholder="Nyan Cat, or Pop-Tart Cat, 
         refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song." required></textarea>
             <br>
             <mat-error *ngIf="description.invalid && fault">{{getErrMessage(description)}}</mat-error>
+
+
+            <mat-card class="form-text">
+                <button class="form-text" class="image-text" #file mat-flat-button color="primary">Elegir Imagen
+                    <input multiple (change)="onFileSelected($event)" 
+                    style="opacity: 0; position:absolute; left:0px; top:0px; width:100%; height:100%;"  accept="image/png, image/jpg, image/jpeg" type="file"/>
+                </button>
+              
+              </mat-card>
+
+
+            <mat-error *ngIf="characterName.invalid  && fault">{{getErrMessage(characterName)}}</mat-error>
+
+            <br>
         </div>
-    
-        <div class="form-flex">
-            <button>
-                Add Image
-                <input type="file" (change)="onFileSelected($event)" accept="image/*" hidden>
-            </button>
-    
-            <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
-        </div>
-    
-    
+
+
+
+
+
+
+
+
+        <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
+
+
     </form>
 </div>
-    
-    
-    
