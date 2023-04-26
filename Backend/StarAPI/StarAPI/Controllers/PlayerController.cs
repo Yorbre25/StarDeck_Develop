@@ -25,14 +25,14 @@ namespace StarAPI.Controllers
             return context.Player.ToList();
         }
 
-        [HttpGet("{id}/{password}")]
+        [HttpGet("{email}/{password}")]
         
-        public ActionResult Get(string id, string password)
+        public ActionResult Get(string email, string password)
         {
             
-            Player player = context.Player.FirstOrDefault(p => p.id == id);
+            Player player = context.Player.FirstOrDefault(p => p.email == email || (p.id == email));
            
-            if (encrypt.Sha256(password) == player.p_hash) 
+            if (player != null && encrypt.Sha256(password) == player.p_hash ) 
             {
                 return Ok();
             }
@@ -44,7 +44,7 @@ namespace StarAPI.Controllers
         [HttpGet("{id}")]
         public Player Get(string id)
         {
-            return context.Player.FirstOrDefault(p => p.id == id);
+            return context.Player.FirstOrDefault(p => p.id == id || p.email == id);
         }
 
         // POST api/<PlayerController>
@@ -53,6 +53,10 @@ namespace StarAPI.Controllers
         {
             try 
             {
+                if(context.Player.FirstOrDefault(p => p.email == player.email) != null) 
+                {
+                    return BadRequest("The e-mail is already in use");
+                }
                 var id = encrypt.gen_id("U");
                 while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
                 {

@@ -16,5 +16,6 @@ namespace StarAPI.Models
         public int card_race_id { get; set; }
         public bool activated_card { get; set; }
         public string description { get; set; }
+        public string image { get; set; }
     }
 }
