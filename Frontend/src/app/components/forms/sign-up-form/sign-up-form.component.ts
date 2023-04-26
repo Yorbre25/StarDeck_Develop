@@ -39,11 +39,11 @@ export class SignUpFormComponent implements OnInit {
       return "Ingrese un mail valido"
     }else if(this.playerPassword.value!=this.confirmPassword.value){//Las contraseñas no coinciden
       return "Las contraseñas deben coincidir"
+    }else if(component.hasError('maxlength')){//El usuario se pasa de la cantidad de caracteres
+      return "El usuario debe tener entre 1 y 30 caracteres"
     }else if(this.playerPassword.value?.length!=8){//La contraseña no cuenta con la longitud requerida
       return "Las contraseña debe tener un tamaño de 8 caracteres"
-    }else if(component.invalid){//El usuario se pasa de la cantidad de caracteres
-      return "El usuario debe tener entre 1 y 30 caracteres"}
-    else{
+    }else{
       return ""
     }
   }
@@ -55,15 +55,16 @@ export class SignUpFormComponent implements OnInit {
     }else if(this.playerPassword.value!=this.confirmPassword.value||this.playerPassword.value?.length!=8){
       this.fault=true
     }else{
-      this.user.mail = this.mail.value
-      this.user.playerName = this.playerName.value
-      this.user.playerLastName = this.playerLastName.value
-      this.user.playerNationality = this.playerNationality.value
-      this.user.playerAlias = this.playerAlias.value
-      this.user.playerPassword=this.playerPassword.value
+      this.user.email = this.mail.value
+      this.user.f_name = this.playerName.value
+      this.user.l_name = this.playerLastName.value
+      this.user.country = this.playerNationality.value
+      this.user.nickname = this.playerAlias.value
+      this.user.p_hash=this.playerPassword.value
 
       this.api.registerAccount(this.user)//acá llama a la API
-      this.router.navigate(['/lobby']);
+
+      this.router.navigate(['/home']);
      
       }
      
@@ -74,12 +75,16 @@ export class SignUpFormComponent implements OnInit {
   //Inicializa las variables
   ngOnInit(){
     this.user = {
-      mail:'',
-      playerName:'',
-      playerLastName:'',
-      playerNationality:'',
-      playerAlias:'',
-      playerPassword:''
+      id:'',
+      email:'',
+      f_name:'',
+      l_name:'',
+      country:'',
+      nickname:'',
+      p_hash:'',
+      rank:'',
+      lvl:0,
+      coins:20
     }
     //this.nationalities=this.api.getCountries()
     this.nationalities=["Estados Unidos","México","Costa Rica"]
