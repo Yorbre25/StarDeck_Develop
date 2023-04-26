@@ -34,11 +34,12 @@ namespace StarAPI.Controllers
 
         // POST api/<RaceController>
         [HttpPost]
-        public ActionResult Post([FromBody] Race race)
+        public ActionResult Post([FromBody] Race _race)
         {
             try
             {
-
+                Race race = new Race();
+                race.race_name = _race.race_name;
                 context.Race.Add(race);
                 context.SaveChanges();
                 return Ok();

@@ -32,10 +32,12 @@ namespace StarAPI.Controllers
 
         // POST api/<Card_TypeController>
         [HttpPost]
-        public ActionResult Post([FromBody] Card_Type card_type)
+        public ActionResult Post([FromBody] Card_Type _card_type)
         {
             try
             {
+                Card_Type card_type = new Card_Type();
+                card_type.type_name = _card_type.type_name;
                 context.Card_Type.Add(card_type);
                 context.SaveChanges();
                 return Ok();
