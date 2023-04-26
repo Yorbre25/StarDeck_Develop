@@ -1,8 +1,11 @@
 .multiple-cards{
     display: flex;
-  }
-
-  .app-card{
-    padding-right: 20px;
-  }
- 
+    flex-wrap: wrap;
+    margin: 20px;
+    margin-bottom: 20px;
+    }
+  
+    .app-card{
+     padding: 15px;
+    }
+   

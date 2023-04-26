@@ -26,10 +26,10 @@ export class LobbyComponent{
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.maxHeight = 100;
-    dialogConfig.maxWidth = 100;
+    dialogConfig.maxHeight = 500;
+    dialogConfig.maxWidth = 1100;
 
-    this.dialog.open(InitialCardChooserComponent, );
+    this.dialog.open(InitialCardChooserComponent, dialogConfig);
 
   }
   findGame(){
