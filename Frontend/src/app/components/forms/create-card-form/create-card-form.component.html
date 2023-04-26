@@ -15,14 +15,18 @@
             <div class="form-flex">
                 <div class="form-group">
                     <mat-label class="form-text" for="race">Raza: </mat-label>
-                    <input [formControl]="race" type="text" id="race" name="race" class="form-input"
-                        style="width: 150px;" placeholder="Cat" required>
+                    <select [formControl]="race" id="race" name="race" class="form-input"
+                        style="width: 150px;" placeholder="Humano" required>
+                        <option *ngFor="let race of races">
+                            {{race}}
+                        </option>
+                    </select>
                     <br>
                     <mat-error *ngIf="race.invalid  && fault">{{getErrMessage(race)}}</mat-error>
                 </div>
                 <div class="form-group">
                     <mat-label class="form-text" for="type">Tipo: </mat-label>
-                    <select [formControl]="type" id="type" name="type" class="form-input" placeholder="SSR"
+                    <select [formControl]="type" id="type" name="type" class="form-input" placeholder="MR"
                         style="width: 150px;" required>
                         <option *ngFor="let type of types">
                             {{type}}
