@@ -18,6 +18,11 @@
 
   }
 
+  .app-card:hover{
+    pointer-events: none;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+  }
+
   .title-text {
     font-size: 1.7rem;
   }
