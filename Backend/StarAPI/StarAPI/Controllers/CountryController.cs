@@ -8,7 +8,11 @@ using System.Numerics;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarAPI.Controllers
-{
+{ 
+
+    /// <summary>
+    /// This class is the controller for the Country table. 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CountryController : ControllerBase
@@ -19,13 +23,23 @@ namespace StarAPI.Controllers
         {
             this.context = context;
         }
+
+        /// <summary>
+        /// This method is used to get all countries from the Country table.
+        /// </summary>
+        /// <returns>All countries</returns>
         // GET: api/<CountryController>
-        [HttpGet]
+        [HttpGet]   
         public IEnumerable<Country> Get()
         {
             return context.Country.ToList();
         }
 
+        /// <summary>
+        /// This method is used to get an specific country from the Country table.
+        /// </summary>
+        /// <param name="id">Id of country to get</param>
+        /// <returns></returns>
         // GET api/<CountryController>/5
         [HttpGet("{id}")]
         public Country Get(string id)
@@ -33,6 +47,7 @@ namespace StarAPI.Controllers
             return context.Country.FirstOrDefault(c=> c.id == id);
         }
 
+        // This method is used to add a new country to the Country table.
         // POST api/<CountryController>
         [HttpPost]
         public ActionResult Post([FromBody] Country country) 
@@ -50,6 +65,13 @@ namespace StarAPI.Controllers
             }
         }
 
+    
+        /// <summary>
+        /// This method is used to update an specific country from the Country table. 
+        /// </summary>
+        /// <param name="id">Id of country to update</param>
+        /// <param name="country">New country name</param>
+        /// <returns></returns>
         // PUT api/<CountryController>/5
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Country country)
@@ -63,6 +85,11 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// This method is used to delete an specific country from the Country table. 
+        /// </summary>
+        /// <param name="id">Id of country to delete</param>
+        /// <returns></returns>
         // DELETE api/<CountryController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)

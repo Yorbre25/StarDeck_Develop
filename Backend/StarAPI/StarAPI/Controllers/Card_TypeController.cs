@@ -5,6 +5,9 @@ using StarAPI.Models;
 
 namespace StarAPI.Controllers
 {
+    /// <summary>
+    /// This class is used to handle all requests to the Card_Type table.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class Card_TypeController : ControllerBase
@@ -16,21 +19,37 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
+        // / <summary>
+        // / This method is used to get all card types from the Card_Type table.
+        // / </summary>
+        // / <returns> </returns>
+        // / 
         // GET: api/<Card_TypeController>
         [HttpGet]
         public IEnumerable<Card_Type> Get()
         {
-            return context.Card_Type.ToList();
+           return context.Card_Type.ToList();
         }
 
         // GET api/<Card_TypeController>/5
+        /// <summary>
+        /// This method is used to get a card type from the Card_Type table.
+        /// </summary>
+        /// <param name="id"> Card type id </param>
+        /// <returns>card type found</returns>
         [HttpGet("{id}")]
         public Card_Type Get(string id)
         {
             return context.Card_Type.FirstOrDefault(c => c.type == id);
         }
 
+
         // POST api/<Card_TypeController>
+        /// <summary>
+        /// This method is used to add a card type to the Card_Type table.
+        /// </summary>
+        /// <param name="card_type"> Name of new card type</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] Card_Type card_type)
         {
@@ -46,7 +65,14 @@ namespace StarAPI.Controllers
             }
         }
 
+        // This method is used to update a card type in the Card_Type table.
         // PUT api/<Card_TypeController>/5
+        /// <summary>
+        /// This method is used to update a card type in the Card_Type table.
+        /// </summary>
+        /// <param name="id">Id of card type to change  </param>
+        /// <param name="card_type"> New card type name</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Card_Type card_type)
         {
@@ -59,7 +85,13 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
+        // This method is used to delete a card type from the Card_Type table.
         // DELETE api/<Card_TypeController>/5
+        /// <summary>
+        /// Deteles a card type from the Card_Type table.
+        /// </summary>
+        /// <param name="id">Id of card type to delete</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {

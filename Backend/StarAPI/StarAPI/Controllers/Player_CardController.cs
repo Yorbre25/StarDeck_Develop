@@ -87,7 +87,8 @@ namespace StarAPI.Controllers
                 var player_cards = Get(player_id);
                 var cards = context.Card.ToList();
                 
-                cards = cards.FindAll(c => c.type == "N" && c.type == "R" && !player_cards.Contains(context.Card.FirstOrDefault(k => k.id == c.id)) );
+                cards = cards.FindAll(c => (c.type == "Normal" || c.type == "Rara") && !player_cards.Contains(context.Card.FirstOrDefault(k => k.id == c.id)) );
+                // posible_cards = cards.FindAll(c => c.type == "Normal" && c.type == "Rara" );
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while (uniques.Count < n)
