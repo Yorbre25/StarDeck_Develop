@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 })
 
 export class ApiService{
-    url:string="https://localhost:#02#/api/"
+    url:string="https://localhost:7023/api/"
 
     constructor(private http:HttpClient){}
     
@@ -21,14 +21,15 @@ export class ApiService{
         return this.http.post<ResponseI>(dir,player)
     }
     addCard(card:CardInt):Observable<ResponseI>{
-        let dir =this.url + "Card"
+        let dir =this.url + ""
         console.log("dir: "+ dir)
         console.log(card)
         return this.http.post<ResponseI>(dir,card)
     }
 
     getAllCards():Observable<CardInt[]>{
-        let dir = this.url + "Dirección 3"
+        let dir = this.url + "Card"
+        console.log(dir)
         return this.http.get<CardInt[]>(dir)
       }
 
