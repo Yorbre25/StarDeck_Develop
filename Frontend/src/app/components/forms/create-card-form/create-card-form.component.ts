@@ -73,7 +73,9 @@ export class CreateCardFormComponent {
       this.card.type = this.type.value
      
 
-      this.api.addCard(this.card)//acá llama a la API
+      this.api.addCard(this.card).subscribe(data=>{
+        console.log(data);
+      })//acá llama a la API
 
       this.router.navigate(['/home']);
 
