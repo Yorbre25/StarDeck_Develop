@@ -56,7 +56,7 @@ export class CreateCardFormComponent {
 
 
   goToLobby() {
-    if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid || this.image.invalid) {
+    if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid ) {
       this.fault = true
     } else if (this.description.value?.length! >= 1000 || this.description.value?.length! <= 0) {
       this.fault = true
@@ -71,7 +71,7 @@ export class CreateCardFormComponent {
       this.card.energy = +this.energy.value
       this.card.cost = +this.price.value
       this.card.type = this.type.value
-      this.card.image = this.image.value
+     
 
       this.api.addCard(this.card)//acá llama a la API
 
@@ -108,6 +108,14 @@ export class CreateCardFormComponent {
 
       reader.onload = () => {
         console.log(reader.result);
+        const imageData: string | null = reader.result ? reader.result.toString() : null;
+        this.card.name = this.characterName.value
+          this.card.description = this.description.value
+          this.card.race = this.race.value
+          
+          this.card.type = this.type.value
+          
+        this.card.image = imageData;
       };
     }
   }
