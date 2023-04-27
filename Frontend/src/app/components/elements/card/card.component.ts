@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { CardInt } from '../../interfaces/card.interface';
+import { LoginService } from '../../services/login.service';
+import { seleced_Card_S } from '../../services/selected_card.service';
 /**
  * @description
  * This component displays content belonging to an existing card from 
@@ -33,16 +35,13 @@ export class CardComponent {
   @Input() clickable: boolean = false;
 
 
-  constructor(private router: Router, private api: ApiService) {
+  constructor(private router: Router, private api: ApiService, private logins:LoginService, private Scard:seleced_Card_S) {
   }
 
 
   onClick() {
     if (this.clickable) {
-
-
-      this.api.addCard(this.element);
-      this.router.navigate(['/cards']);
+      this.Scard.setcard(this.element)
     }
 
 
