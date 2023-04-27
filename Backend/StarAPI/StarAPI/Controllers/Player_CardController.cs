@@ -19,7 +19,18 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
-
+        [HttpGet("card_count/{player_id}")]
+        public int GetCardCount(string player_id)
+        {   
+            // check if player exists
+            var player = context.Player.FirstOrDefault(p => p.id == player_id);
+            if (player == null)
+            {
+                return -1;
+            }
+            var player_cards = Get(player_id);
+            return player_cards.Count();
+        }
        
 
         // GET: api/<Player_CardController>
@@ -87,8 +98,15 @@ namespace StarAPI.Controllers
                 var player_cards = Get(player_id);
                 var cards = context.Card.ToList();
                 
-                cards = cards.FindAll(c => (c.type == "Normal" || c.type == "Rara") && !player_cards.Contains(context.Card.FirstOrDefault(k => k.id == c.id)) );
-                // posible_cards = cards.FindAll(c => c.type == "Normal" && c.type == "Rara" );
+                cards = cards.FindAll(c => (c.type == "Normal" || c.type == "Rara"));
+                // Delete cards that player already have
+                foreach(var card in cards)
+                {
+                    if (player_cards.Contains(card))
+                    {
+                        cards.Remove(card);
+                    }
+                }
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while (uniques.Count < n)
