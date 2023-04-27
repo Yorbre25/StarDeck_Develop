@@ -4,14 +4,14 @@
     <mat-card>
       <h2 class = "title-text">Se han añadido estas 15 cartas a sus cartas.</h2>
       <div class="form-flex">
-        <app-multiple-cards></app-multiple-cards>
+        <app-multiple-cards [cards]="cards"></app-multiple-cards>
       
       </div>
     </mat-card>
     
     <mat-card>
       <h2 class = "title-text">Elija una de estas tres cartas para añadir.</h2>
-      <app-multiple-clickable-cards></app-multiple-clickable-cards>
+      <app-multiple-clickable-cards ></app-multiple-clickable-cards>
     </mat-card>
   </div>
   <div class="pop-up-button">
