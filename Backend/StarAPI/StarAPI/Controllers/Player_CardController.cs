@@ -20,11 +20,7 @@ namespace StarAPI.Controllers
         }
 
 
-        [HttpGet]
-        public IEnumerable<Player_Card> Get() 
-        {
-            return context.Player_Card.ToList();
-        }
+       
 
         // GET: api/<Player_CardController>
         [HttpPost("{player_id}")]
@@ -62,7 +58,7 @@ namespace StarAPI.Controllers
             
         }
 
-        [HttpGet("player_id")]
+        [HttpGet("{player_id}")]
         public IEnumerable<Card> Get(string player_id) 
         {
             try 
@@ -83,19 +79,20 @@ namespace StarAPI.Controllers
             }
             
         }
-        [HttpGet("{player_id}/{type}")]
-        public IEnumerable<Card> Get(string player_id, string type) 
+        [HttpGet]
+        public IEnumerable<Card> Get() 
         {
             try 
             {
-                int n = 3;
+                
                 var cards = context.Card.ToList();
-                cards = cards.FindAll(c => c.type != type);
+                cards = cards.FindAll(c => c.type != "Basic");
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
-                while (uniques.Count < n)
+                while (uniques.Count < 3)
                 {
                     uniques.Add(random.Next(0, cards.Count));
+                    
                 }
                 List<int> uniquesIndexes = uniques.ToList();
                 List<Card> sel_cards = new List<Card>();
