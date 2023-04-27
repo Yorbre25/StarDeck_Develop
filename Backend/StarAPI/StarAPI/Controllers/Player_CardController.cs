@@ -83,7 +83,7 @@ namespace StarAPI.Controllers
             }
             
         }
-        [HttpGet("{player_id}/{n}/{n_type}")]
+        [HttpGet("{player_id}/{n}/{type}")]
         public IEnumerable<Card> Get(string player_id, int n, string type) 
         {
             try 
