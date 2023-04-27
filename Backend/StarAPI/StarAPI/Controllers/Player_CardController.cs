@@ -79,17 +79,18 @@ namespace StarAPI.Controllers
             }
             
         }
-        [HttpGet]
-        public IEnumerable<Card> Get() 
+        [HttpGet("{player_id}/{n}")]
+        public IEnumerable<Card> Get(string player_id, int n) 
         {
             try 
             {
-                
+                var player_cards = Get(player_id);
                 var cards = context.Card.ToList();
-                cards = cards.FindAll(c => c.type != "Basic");
+                
+                cards = cards.FindAll(c => c.type == "N" && c.type == "R" && !player_cards.Contains(context.Card.FirstOrDefault(k => k.id == c.id)) );
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
-                while (uniques.Count < 3)
+                while (uniques.Count < n)
                 {
                     uniques.Add(random.Next(0, cards.Count));
                     
