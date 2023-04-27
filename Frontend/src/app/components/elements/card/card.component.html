@@ -1,5 +1,5 @@
 
-  <div (click)="onClick()" class="card">
+  <div (click)="onClick()"  [ngClass] ="{'card':!clickable ,'clickable-card':clickable}">
     <mat-card class="card">
      
       
