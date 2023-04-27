@@ -90,7 +90,7 @@ export class InitialCardChooserComponent implements OnInit{
           console.log(data)
           this.cards = data 
         });
-        this.api.getchoosingcard(this.logins.getcorreo()).subscribe(data=>{
+        this.api.getchoosingcard(this.logins.getid()).subscribe(data=>{
           this.clickableCards=data
         })
       }

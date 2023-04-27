@@ -51,8 +51,7 @@ export class ApiService{
         console.log(dir)
         return this.http.get<CardInt[]>(dir)
     }
-    //playerchoseCard(card:CardInt,player:string|null):Observable<ResponseI>{
-    playerchoseCard(card:string|null,player:string|null){
+    playerchoseCard(card:string|null,player:string|null):Observable<ResponseI>{
         let dir = this.url + 'PLayer_Card/'+player+'/'+card
         let pack={
             player_id:player,
@@ -60,7 +59,7 @@ export class ApiService{
         }
         console.log(pack)
         
-        //return this.http.post<ResponseI>(dir,package)
+        return this.http.post<ResponseI>(dir,pack)
     }
 
     getchoosingcard(player:string|null):Observable<CardInt[]>{

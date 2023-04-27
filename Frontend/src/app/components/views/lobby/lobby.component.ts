@@ -27,7 +27,7 @@ import { LoginService } from '../../services/login.service';
   styleUrls: ['./lobby.component.scss']
 })
 export class LobbyComponent{
-  showPopup ?: boolean;
+  showPopup=true;
   Ammount ?:number;
 
   options = this._formBuilder.group({
@@ -37,18 +37,21 @@ export class LobbyComponent{
   });
 
   constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog, private api:ApiService, private logs:LoginService) {
-    this.api.getAmCards(this.logs.getid()).subscribe(data=>{
+    
+    /*this.api.getAmCards(this.logs.getid()).subscribe(data=>{
+      console.log(data)
       this.Ammount=data
     })
-    if(this.Ammount!=undefined){
+    console.log(this.Ammount)
+  if(this.Ammount!=undefined){
     this.showPopup=this.Ammount<18
-    this.openDialog()
-    
+    this.openDialog()  
   }else{
     console.log("Something wrong")
-  }
+  }*/
 
-    
+    this.showPopup=true
+    this.openDialog() 
   }
 
   openDialog(){ // hacer que verifique que el usuario tenga 18 cartas para ver si ensena el popup o no 
