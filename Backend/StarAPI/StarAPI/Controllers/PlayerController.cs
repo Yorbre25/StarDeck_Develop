@@ -62,6 +62,7 @@ namespace StarAPI.Controllers
                 {
                     id = encrypt.gen_id("U");
                 }
+                player.coins = 20;
                 player.id = id;
                 player.p_hash = encrypt.Sha256(player.p_hash);
                 context.Player.Add(player);

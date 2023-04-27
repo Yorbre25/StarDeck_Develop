@@ -32,6 +32,8 @@ namespace StarAPI.Controllers
         {
             try 
             {
+                var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
+                player_id = player.id;
                 var all_cards = context.Card.ToList();
                 all_cards = all_cards.FindAll(c => c.type == "Basic");
                 Random random = new Random();
@@ -65,8 +67,9 @@ namespace StarAPI.Controllers
         {
             try 
             {
+                var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
                 var cards_id = context.Player_Card.ToList();
-                cards_id = cards_id.FindAll(c => c.player_id == player_id);
+                cards_id = cards_id.FindAll(c => c.player_id == player_id || player.email == player_id);
                 var cards = new List<Card>();
                 foreach (var card in cards_id)
                 {
