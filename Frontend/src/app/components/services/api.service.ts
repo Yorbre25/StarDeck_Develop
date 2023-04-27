@@ -21,7 +21,7 @@ export class ApiService{
         return this.http.post<ResponseI>(dir,player)
     }
     addCard(card:CardInt):Observable<ResponseI>{
-        let dir =this.url + ""
+        let dir =this.url + "Card"
         console.log("dir: "+ dir)
         console.log(card)
         return this.http.post<ResponseI>(dir,card)
