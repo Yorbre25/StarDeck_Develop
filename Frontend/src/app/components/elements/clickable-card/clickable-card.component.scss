@@ -1,0 +1,67 @@
+.card {
+   
+    width: 170px;
+    height: 270px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border: solid 1px #0f0c16;
+    text-align:justify;
+    color: black;
+    border-radius: 10px;
+    align-items: center;
+    word-wrap: break-word;
+
+}
+
+.card:hover {
+    cursor: pointer;
+    background: white;
+    border: solid 1px #4facfe;
+
+}
+
+.form-input {
+    background-color:  #ff93cf80;
+    width: 100%;
+}
+.mat-card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    width: 170;
+    color: #f0f0f0;
+    
+    
+  
+    
+}
+
+.mat-card-image {
+    height: 120px;
+    width: 120px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border-radius: 5px;
+    border-radius: 10%;
+    
+    
+
+}
+
+.mat-card-content {
+    padding-top: 2px;
+    font-size: 0.7rem;
+    background-color:  #ff93cf50;
+    height: 110px;
+    width: 130px;
+    line-height: 0.8;
+    border-radius: 10px;
+
+}
+
+.mat-card-description {
+    height: 50px;
+    width: 130px;
+    line-height: 0.4;
+   
+
+}

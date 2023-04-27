@@ -1,0 +1,11 @@
+
+.form-group  mat-form-field + mat-form-field{
+    padding-top: 10vh;
+    padding: 10px;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    align-items: center;
+    flex-direction: column;
+}

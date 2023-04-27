@@ -1,0 +1,21 @@
+<mat-toolbar color="#251c36" class="example-toolbar">
+    <button class="button-text" mat-icon-button (click)="toggleInfo()"><mat-icon>menu</mat-icon></button>
+    
+    <img class="navbar-image" src="assets/images/logo.png" alt="logo">
+    <button mat-button class="form-text" routerLink="/create_card">Crear Carta</button>
+    <button mat-button class="form-text" routerLink="/cards">Ver Cartas</button>
+    <button mat-button class="form-text" routerLink="/home">Lobby</button>
+    <button mat-button class="form-text" routerLink="/">Salir</button>
+</mat-toolbar>
+<div *ngIf="showInfo" class="info-text">
+    <img  class="player-image" [src]="playerInfo.image" alt="Player Image">
+    <p class="username">{{ playerInfo.username }}</p>
+    <br>
+    <p>Lvl {{ playerInfo.level }}   {{ playerInfo.points }} XP</p>
+ 
+    <p> {{ playerInfo.rank }}</p>
+   
+</div>
+
+  
+  
