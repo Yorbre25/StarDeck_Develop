@@ -64,11 +64,11 @@ export class CreateCardFormComponent {
       this.fault = true
     } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if(this.price.value != null) {
+    } else if(this.price.value != null && this.energy.value != null) {
       this.card.name = this.characterName.value
       this.card.description = this.description.value
       this.card.card_race = this.race.value
-      this.card.energy = this.energy.value
+      this.card.energy = +this.energy.value
       this.card.cost = +this.price.value
       this.card.card_type = this.type.value
       this.card.image = this.image.value
@@ -86,7 +86,7 @@ export class CreateCardFormComponent {
       id:'',
       name: "Nombre del Personaje",
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy: "100",
+      energy: 100 ,
       cost: 1000,
       card_type: "MR",
       card_race: "Cat",

@@ -16,7 +16,7 @@ export class ClickableCardComponent {
     name: string|null; 
     image: string|null; 
     description: string|null; 
-    energy: string|null; 
+    energy: number|undefined; 
     cost: number|undefined; 
     card_type: string|null; 
     card_race: string|null; 
