@@ -2,6 +2,7 @@ import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {FloatLabelType} from '@angular/material/form-field';
+import { LoginService } from '../../services/login.service';
 
 
 /**
@@ -24,7 +25,7 @@ export class LoginFormComponent {
     floatLabel: this.floatLabelControl,
   });
 
-  constructor(private router: Router, private _formBuilder: FormBuilder) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private logins:LoginService) {}
   
   getFloatLabelValue(): FloatLabelType {
     return this.floatLabelControl.value || 'auto';
@@ -32,7 +33,11 @@ export class LoginFormComponent {
 
   goToLobby(){
 
+
+    this.logins.setcorreo("nasserbrwn%40gmail.com")
+    this.logins.setid("U-ah2s7fvkzrhn")
     this.router.navigate(['/home']);
+
 
   }
 
