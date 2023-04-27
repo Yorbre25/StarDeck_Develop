@@ -44,29 +44,36 @@ export class CreateCardFormComponent {
 
   //Objetos de input del frontend
   characterName = new FormControl('', [Validators.required]);
-  description = new FormControl('', [Validators.required]);
+  description = new FormControl('', [Validators.required, Validators.minLength(1),  Validators.maxLength(1000)]);
   race = new FormControl('', [Validators.required]);
-  energy = new FormControl('', [Validators.required]);
-  price = new FormControl('', [Validators.required]);
+  energy = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(-100)]);
+  price = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(0)]);
   type = new FormControl('', [Validators.required]);
   image = new FormControl('', [Validators.required]);
-
+  
   constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) { }
 
 
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component: FormControl) {
-    if (component.hasError('required')) {//El usuario no escribió nada
-      return "Este campo es obligatorio."
-    } else if (component.value.length > 30) {//La contraseña no cuenta con la longitud requerida
-      return "Las contraseña debe tener un tamaño de 8 caracteres"
-    } else if (component.invalid) {//El usuario se pasa de la cantidad de caracteres
-      return "El usuario debe tener entre 1 y 30 caracteres"
-    }
-    else {
-      return ""
-    }
+    if(this.energy.value!=null){
+      if (component.hasError('required')) {//El usuario no escribió nada
+        return "Este campo es obligatorio."
+      } else if (component.hasError('minlength')) {
+        return "No se cumple con el número mínimo de caracteres"
+      } else if (component.hasError('maxlength')) {
+        return "Se ha excedido el numero de caracteres"
+      } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
+        return "La energía debe tener un valor entre -100 y 100"
+      } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
+        return "El costo debe tener entre 0 y 100 caracteres"
+      } else {
+        return ""
+      }
+    }else{
+      return "Esto no debería de pasar"
+   }
   }
 
   /**
@@ -80,15 +87,16 @@ export class CreateCardFormComponent {
 
 
   goToLobby() {
+    if(this.energy.value!=null){
     if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid ) {
       this.fault = true
     } else if (this.description.value?.length! >= 1000 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if (this.energy.value?.length! >= 100 || this.description.value?.length! <= -100) {
+    } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
       this.fault = true
     } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if (this.price.value != null && this.energy.value != null) {
+    } else if (this.price.value != null) {
       this.card.name = this.characterName.value
       this.card.description = this.description.value
       this.card.race = this.race.value
@@ -103,7 +111,7 @@ export class CreateCardFormComponent {
 
       this.router.navigate(['/home']);
 
-    }
+    }}
   }
 
   ngOnInit() {
