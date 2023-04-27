@@ -76,6 +76,11 @@
 
             <br>
         </div>
-        <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
+        <form #myForm="ngForm" (ngSubmit)="goToLobby()">
+       
+        
+            <button type="submit" class = "button-text">Crear</button>
+          </form>
     </form>
+   
 </div>
