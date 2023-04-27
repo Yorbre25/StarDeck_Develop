@@ -5,8 +5,6 @@ using StarAPI.Context;
 using StarAPI.Models;
 using System;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StarAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -19,6 +17,11 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
+        /// <summary>
+        /// This method returns the number of cards that a player has
+        /// </summary>
+        /// <param name="player_id"> Id of player</param>
+        /// <returns></returns>
         [HttpGet("card_count/{player_id}")]
         public int GetCardCount(string player_id)
         {   
@@ -33,7 +36,11 @@ namespace StarAPI.Controllers
         }
        
 
-        // GET: api/<Player_CardController>
+        /// <summary>
+        /// This method assigns 15 basic cards to a player
+        /// </summary>
+        /// <param name="player_id">Id of player</param>
+        /// <returns></returns>
         [HttpPost("{player_id}")]
         public IEnumerable<Card> Post( string player_id)
         {
@@ -69,6 +76,11 @@ namespace StarAPI.Controllers
             
         }
 
+        /// <summary>
+        /// This method returns the cards of a player
+        /// </summary>
+        /// <param name="player_id"></param>
+        /// <returns></returns>
         [HttpGet("{player_id}")]
         public IEnumerable<Card> Get(string player_id) 
         {
@@ -90,6 +102,13 @@ namespace StarAPI.Controllers
             }
             
         }
+
+        /// <summary>
+        /// This method returns n Normal or Rare random cards that a player doesn't have
+        /// </summary>
+        /// <param name="player_id">Id fo player</param>
+        /// <param name="n">Number of cards</param>
+        /// <returns></returns>
         [HttpGet("{player_id}/{n}")]
         public IEnumerable<Card> Get(string player_id, int n) 
         {
@@ -132,7 +151,11 @@ namespace StarAPI.Controllers
         }
         
 
-        // POST api/<Player_CardController>
+        /// <summary>
+        /// This method saves a new player_card
+        /// </summary>
+        /// <param name="player_card">Id of player and Id of card to be added</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] Player_Card player_card)
         {
@@ -148,7 +171,13 @@ namespace StarAPI.Controllers
             }
         }
 
-        // PUT api/<Player_CardController>/5
+        /// <summary>
+        /// This method updates a player_card
+        /// </summary>
+        /// <param name="player_id">Id of player who owns the card</param>
+        /// <param name="card_id">Id of card to be updated</param>
+        /// <param name="player_card">New player_card</param>
+        /// <returns></returns>
         [HttpPut("{player_id}/{card_id}")]
         public ActionResult Put(string player_id, string card_id, [FromBody] Player_Card player_card)
         {
@@ -161,7 +190,12 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
-        // DELETE api/<Player_CardController>/5
+        /// <summary>
+        /// This method deletes a player_card
+        /// </summary>
+        /// <param name="player_id">Id of player who owns the card</param>
+        /// <param name="card_id">Id of card to be deleted</param>
+        /// <returns></returns>
         [HttpDelete("{player_id}/{card_id}")]
         public ActionResult Delete(string player_id, string card_id)
         {

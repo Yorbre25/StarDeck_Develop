@@ -38,17 +38,17 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to get an specific country from the Country table.
         /// </summary>
-        /// <param name="id">Id of country to get</param>
+        /// <param name="id">Id of country to be searched</param>
         /// <returns></returns>
-        // GET api/<CountryController>/5
         [HttpGet("{id}")]
         public Country Get(string id)
         {
             return context.Country.FirstOrDefault(c=> c.id == id);
         }
 
-        // This method is used to add a new country to the Country table.
-        // POST api/<CountryController>
+        /// <summary>
+        /// This method is used to add a new country to the Country table.
+        /// </summary>
         [HttpPost]
         public ActionResult Post([FromBody] Country country) 
         {
@@ -69,10 +69,9 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to update an specific country from the Country table. 
         /// </summary>
-        /// <param name="id">Id of country to update</param>
+        /// <param name="id">Id of country to be updated</param>
         /// <param name="country">New country name</param>
         /// <returns></returns>
-        // PUT api/<CountryController>/5
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Country country)
         {
@@ -88,7 +87,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to delete an specific country from the Country table. 
         /// </summary>
-        /// <param name="id">Id of country to delete</param>
+        /// <param name="id">Id of country to be deleted</param>
         /// <returns></returns>
         // DELETE api/<CountryController>/5
         [HttpDelete("{id}")]

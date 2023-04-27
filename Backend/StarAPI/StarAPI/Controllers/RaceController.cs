@@ -18,21 +18,34 @@ namespace StarAPI.Controllers
         {
             this.context = context;
         }
-        // GET: api/<RaceController>
+        
+        /// <summary>
+        /// This method adds a race to the dabe base
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<Race> Get()
         {
             return context.Race.ToList();
         }
 
-        // GET api/<RaceController>/5
+        /// <summary>
+        /// This method returns a race
+        /// </summary>
+        /// <param name="id">Id of race to be returned</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Race Get(string id)
         {
             return context.Race.FirstOrDefault(r => r.race == id);
         }
 
-        // POST api/<RaceController>
+        
+        /// <summary>
+        /// This method adds a race
+        /// </summary>
+        /// <param name="race"> Name of the race to be added</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] Race race)
         {
@@ -49,7 +62,12 @@ namespace StarAPI.Controllers
             }
         }
 
-        // PUT api/<RaceController>/5
+        /// <summary>
+        /// This method updates a race
+        /// </summary>
+        /// <param name="id">Id of race to be updated</param>
+        /// <param name="race">New name of race</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Race race)
         {
@@ -62,7 +80,11 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
-        // DELETE api/<RaceController>/5
+        /// <summary>
+        /// This method deletes a race
+        /// </summary>
+        /// <param name="id">Id of race to be deleted</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {

@@ -37,7 +37,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This methos is used to get an specific card from the Card table.
         /// </summary>
-        /// <param name="id">Id of card to get</param>
+        /// <param name="id">Id of card to be searched</param>
         /// <returns>Card with the same id</returns>
         // GET api/<CardController>/5
         [HttpGet("{id}")]
@@ -81,7 +81,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to update a card in the Card table. 
         /// </summary>
-        /// <param name="id">Id of card to update</param>
+        /// <param name="id">Id of card to be updated</param>
         /// <param name="card">New card data</param>
         /// <returns></returns>
         // PUT api/<CardController>/5
@@ -100,7 +100,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to delete a card from the Card table.
         /// </summary>
-        /// <param name="id">Id of card to delte</param>
+        /// <param name="id">Id of card to be deleted</param>
         /// <returns></returns>
         // DELETE api/<CardController>/5
         [HttpDelete("{id}")]

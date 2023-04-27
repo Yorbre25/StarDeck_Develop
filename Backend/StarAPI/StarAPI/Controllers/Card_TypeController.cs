@@ -19,23 +19,20 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
-        // / <summary>
-        // / This method is used to get all card types from the Card_Type table.
-        // / </summary>
-        // / <returns> </returns>
-        // / 
-        // GET: api/<Card_TypeController>
+        /// <summary>
+        /// This method is used to get all card types from the Card_Type table.
+        /// </summary>
+        /// <returns> </returns>
         [HttpGet]
         public IEnumerable<Card_Type> Get()
         {
            return context.Card_Type.ToList();
         }
 
-        // GET api/<Card_TypeController>/5
         /// <summary>
         /// This method is used to get a card type from the Card_Type table.
         /// </summary>
-        /// <param name="id"> Card type id </param>
+        /// <param name="id"> Id of card type to be searched </param>
         /// <returns>card type found</returns>
         [HttpGet("{id}")]
         public Card_Type Get(string id)
@@ -70,7 +67,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// This method is used to update a card type in the Card_Type table.
         /// </summary>
-        /// <param name="id">Id of card type to change  </param>
+        /// <param name="id">Id of card type to be updated  </param>
         /// <param name="card_type"> New card type name</param>
         /// <returns></returns>
         [HttpPut("{id}")]
@@ -90,7 +87,7 @@ namespace StarAPI.Controllers
         /// <summary>
         /// Deteles a card type from the Card_Type table.
         /// </summary>
-        /// <param name="id">Id of card type to delete</param>
+        /// <param name="id">Id of card type to be deleted</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)

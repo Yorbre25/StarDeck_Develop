@@ -4,7 +4,6 @@ using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Utils;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarAPI.Controllers
 {
@@ -18,15 +17,24 @@ namespace StarAPI.Controllers
         {
             this.context = context;
         }
-        // GET: api/<PlayerController>
+        
+        /// <summary>
+        /// This method returns all the players in the database
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<Player> Get()
         {
             return context.Player.ToList();
         }
 
+        /// <summary>
+        /// This method returns the player with the given email and password
+        /// </summary>
+        /// <param name="email">Email of user</param>
+        /// <param name="password">Password of user</param>
+        /// <returns></returns>
         [HttpGet("{email}/{password}")]
-        
         public ActionResult Get(string email, string password)
         {
             
@@ -40,14 +48,22 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
-        // GET api/<PlayerController>/5
+        /// <summary>
+        /// This method returns the player with the given id
+        /// </summary>
+        /// <param name="id">Id of player to be searched</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Player Get(string id)
         {
             return context.Player.FirstOrDefault(p => p.id == id || p.email == id);
         }
 
-        // POST api/<PlayerController>
+        /// <summary>
+        /// This method adds a new player to the database
+        /// </summary>
+        /// <param name="player">Player data</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] Player player)
         {
@@ -79,7 +95,12 @@ namespace StarAPI.Controllers
             }
         }
 
-        // PUT api/<PlayerController>/5
+        /// <summary>
+        /// This method updates the player with the given id
+        /// </summary>
+        /// <param name="id">Id of player to be updated</param>
+        /// <param name="player">Player to be updated</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Player player )
         {
@@ -92,7 +113,11 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
-        // DELETE api/<PlayerController>/5
+        /// <summary>
+        /// This method deletes the player with the given id
+        /// </summary>
+        /// <param name="id">Id of player to be deleted</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
