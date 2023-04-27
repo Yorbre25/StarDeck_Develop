@@ -64,6 +64,7 @@ namespace StarAPI.Controllers
                 }
                 player.coins = 20;
                 player.id = id;
+                player.avatar = "avatar encriptado";
                 player.p_hash = encrypt.Sha256(player.p_hash);
                 context.Player.Add(player);
                 context.SaveChanges();
