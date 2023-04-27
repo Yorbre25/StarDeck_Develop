@@ -84,10 +84,11 @@ namespace StarAPI.Controllers
             
         }
         [HttpGet("{player_id}/{n}/{type}")]
-        public IEnumerable<Card> Get(string player_id, int n, string type) 
+        public IEnumerable<Card> Get(string player_id, string type) 
         {
             try 
             {
+                int n = 3;
                 var cards = context.Card.ToList();
                 cards = cards.FindAll(c => c.type != type);
                 Random random = new Random();
@@ -112,12 +113,7 @@ namespace StarAPI.Controllers
             }
            
         }
-        // GET api/<Player_CardController>/5
-        [HttpGet("{player_id}/{card_id}")]
-        public Player_Card Get(string player_id, string card_id)
-        {
-            return context.Player_Card.FirstOrDefault(p => p.player_id == player_id && p.card_id == card_id);
-        }
+        
 
         // POST api/<Player_CardController>
         [HttpPost]
