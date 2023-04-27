@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 import {FormBuilder, FormControl} from '@angular/forms';
 import {FloatLabelType} from '@angular/material/form-field';
 
+
+/**
+ *@description This component acts as a user register form.
+*/
+
+
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',

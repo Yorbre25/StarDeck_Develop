@@ -6,6 +6,19 @@ import {FormBuilder} from '@angular/forms';
 import { DialogConfig } from '@angular/cdk/dialog';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+
+/**
+ * @description 
+ * This component acts as a view for the game lobby. 
+ * 
+ * @typedef {class} LobbyComponent
+ * 
+ * @property {CardInt[]} cards - cards to be displayed. 
+ * @property {boolean} showPopup - used to determine if pop up should be shown.
+ * @property {CardInt[]} cards - cards to be displayed. 
+ * @property {Function} openDialog - The function to call when the dialog should open.
+
+*/
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -46,15 +59,4 @@ export class LobbyComponent{
     
 
   }
-
-  //openDialog(): void {
-   // const dialogRef = this.dialog.open(InitialCardChooserComponent);
-
-   // dialogRef.afterClosed().subscribe(result => {
-  //    // Handle any actions after the dialog is closed here
- //   });
-  
-  
-
-//}
 }

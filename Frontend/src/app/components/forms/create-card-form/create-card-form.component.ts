@@ -4,6 +4,30 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 
+/**
+ * @description
+ * This component acts as a user register form for card creation. The required fields are:
+ * character name, character description, race, energy, price, type and image.
+ * 
+ * @typedef {class} CreateCardFormComponent
+ * 
+ * @property {CardInt} card- card to be created. 
+ * @property {string[]} types - array of available types. 
+ * @property {string[]} races - array of available races.
+ * @property {string} fault - Indicates if there is an error in the user inputs.  
+ * 
+ * @property {string} characterName - card character name. 
+ * @property {string} description - card character description. 
+ * @property {string} race - card character race. 
+ * @property {string} energy- card character energy. 
+ * @property {string} price - card character price. 
+ * @property {string} type - card character type.
+ * @property {string} image - card character image. 
+ * 
+ * @property {Function} onSubmit - The function to call when the form is created displays a card with placeholder information.
+ * @property {Function} goToLobby - The function to call when the form is submitted.
+ * @property {Function} onFileSelected - The function to call when the image is submitted.
+*/
 
 @Component({
   selector: 'app-create-card-form',
@@ -64,7 +88,7 @@ export class CreateCardFormComponent {
       this.fault = true
     } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if(this.price.value != null && this.energy.value != null) {
+    } else if (this.price.value != null && this.energy.value != null) {
       this.card.name = this.characterName.value
       this.card.description = this.description.value
       this.card.race = this.race.value
@@ -85,15 +109,15 @@ export class CreateCardFormComponent {
   ngOnInit() {
     this.card =
     {
-      id:'',
+      id: '',
       name: "Nombre del Personaje",
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy: 100 ,
+      energy: 100,
       cost: 1000,
       type: "MR",
       race: "Cat",
       description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
-      activated_card:true
+      activated_card: true
     };
     //this.nationalities=this.api.getCountries()
     this.types = ["UR", "MR", "R", "N", "B"]

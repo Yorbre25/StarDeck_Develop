@@ -2,6 +2,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
+/**
+ * @description This component displays a button that allows the user to navigate to the previous URL.
+*/
+
+
+
+
+
+
 @Component({
   selector: 'app-back-button',
   templateUrl: './back-button.component.html',

@@ -5,6 +5,32 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 
+
+/**
+ * @description
+ * This component acts as a user register form for user creation. The required fields are:
+ * mail, player name, player last name, player nationality, player alias, player password, player password confirmation.
+ * 
+ * @typedef {class} CreateCardFormComponent
+ * 
+ * @property {AccountInt} user- user to be created. 
+ * @property {string[]} nationalities - array of available nationalities. 
+ * @property {boolean} fault - Indicates if there is an error in the user inputs.  
+ * 
+ * @property {string} mail - user email. 
+ * @property {string} playerName - user name. 
+ * @property {string} playerLastName - user last name. 
+ * @property {string} playerNationality- user nationality. 
+ * @property {string} playerAlias - user alias.  
+ * @property {string} playerPassword - user password. 
+ * @property {string} confirmPassword - user password confirmation. 
+ * 
+ * @property {Function} ngOnInIn - The function to call when the form is created instantias a user with lvl 0 and 20 coins
+ * @property {Function} goToLobby - The function to call when the form is submitted.
+ * @property {Function} getErrMessage - The function to call when fault is true. 
+*/
+
+
 @Component({
   selector: 'app-sign-up-form',
   templateUrl: './sign-up-form.component.html',

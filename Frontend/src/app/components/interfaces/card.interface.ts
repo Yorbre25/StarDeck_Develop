@@ -1,3 +1,7 @@
+/**
+ * @description This component acts as an interface for a card. 
+*/
+
 export interface CardInt{
     id:string|null;
     name:string|null;

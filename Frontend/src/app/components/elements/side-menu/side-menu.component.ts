@@ -10,7 +10,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { AccountInt } from '../../interfaces/account.interface';
+import { ApiService } from '../../services/api.service';
 
+
+/**
+ * @description
+ * This component displays a horizontal navigation bar with the following options and corresponding interactions:
+ * button to show user information: opens a block of content that shows user information like:
+ *                                  avatar image, username, user level, user points, user rank 
+ * logo image: no interaction available 
+ * create card button: routes the user to the create card view
+ * view cards button: routes the user to the view cards view
+ * lobby button: routes the user to the lobby view
+ * exit button: routes the user to the initial view 
+*/
 
 @Component({
   selector: 'app-side-menu',
@@ -23,7 +37,7 @@ export class SideMenuComponent {
     fixed: false,
     top: 0,
   });
-  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog, private api: ApiService) {}
 
   showInfo = false;
 

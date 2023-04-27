@@ -1,3 +1,7 @@
+/**
+ * @description This component acts as an interface for user account. 
+*/
+
 export interface AccountInt{
     id:string|null;
     email:string|null;

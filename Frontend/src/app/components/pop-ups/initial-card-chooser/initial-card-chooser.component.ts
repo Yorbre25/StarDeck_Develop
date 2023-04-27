@@ -4,12 +4,30 @@ import { MatDialogActions } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { ApiService } from '../../services/api.service';
 import { CardInt } from '../../interfaces/card.interface';
+
+/**
+ * @description 
+ * This component acts as dialog for user selection of initial cards. It displays the user's
+ * 15 current cards and lets the user choose between 3 cards 3 times. 
+ * 
+ * @typedef {class} InitialCardChooserComponent
+ * 
+ * @property {number} cardsChosen- times user has chosen a card. 
+ * @property {CardInt[]} cards - cards to be displayed. 
+ * 
+ * @property {Function} ngOnInIt - The function to call when the form is created calls the api service to retrieve cards.
+
+*/
+
+
 @Component({
   selector: 'app-initial-card-chooser',
   templateUrl: './initial-card-chooser.component.html',
   styleUrls: ['./initial-card-chooser.component.scss']
 })
 export class InitialCardChooserComponent implements OnInit{
+
+  cardsChosen = 0;
 
   cards!:CardInt[];
 
