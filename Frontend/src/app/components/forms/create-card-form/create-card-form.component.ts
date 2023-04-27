@@ -107,7 +107,7 @@ export class CreateCardFormComponent {
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        // Do something with the image data
+        console.log(reader.result);
       };
     }
   }

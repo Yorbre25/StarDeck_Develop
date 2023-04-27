@@ -45,7 +45,10 @@ namespace StarAPI.Controllers
                     id = encrypt.gen_id("C");
                 }
                 card.id = id;
-                card.image = "imagen codificada";
+                if(card.image == "")
+                {
+                    card.image = "Imagen predeterminada";
+                }
                 context.Card.Add(card);
                 context.SaveChanges();
                 return Ok();

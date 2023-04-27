@@ -62,9 +62,12 @@ namespace StarAPI.Controllers
                 {
                     id = encrypt.gen_id("U");
                 }
+                if(player.avatar == "")
+                {
+                    player.avatar = "Imagen default";
+                }
                 player.coins = 20;
                 player.id = id;
-                player.avatar = "avatar encriptado";
                 player.p_hash = encrypt.Sha256(player.p_hash);
                 context.Player.Add(player);
                 context.SaveChanges();
