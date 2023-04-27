@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
+/**
+ * @description 
+ * This component acts as a view for the user registration. 
+ * 
+ * @typedef {class} CreateUserComponent
+
+ * @property {Function} goToLobby - The function routes to the lobby. 
+
+*/
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',

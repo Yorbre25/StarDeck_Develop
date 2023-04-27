@@ -7,21 +7,22 @@ import { Injectable } from "@angular/core";
 export class LoginService{
     public id!:string
     public correo!:string
+    
 
     getcorreo(){
-        return this.correo
+        return localStorage.getItem("mail")
     }
 
-    getID(){
-        return this.id
+    getid(){
+        return localStorage.getItem("id")
     }
 
-    setID(ID:string){
-        this.id=ID
+    setid(id:string){
+        localStorage.setItem("id",id)
     }
 
     setcorreo(Correo:string){
-        this.correo=Correo
+        localStorage.setItem("mail",Correo)
     }
 
 }

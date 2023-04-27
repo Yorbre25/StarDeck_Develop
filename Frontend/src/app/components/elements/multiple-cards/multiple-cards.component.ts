@@ -1,146 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
 
+/**
+ * @description
+ * This component displays multiple cards in a matrix. The cards displayed are input by an external component. 
+ * The cards are displayed using the card-component. 
+ *  
+ * @example
+<div class="multiple-cards">
+    <app-card class="app-card" *ngFor="let card of cards" [element]="card">
+    Cards are displayed. 
+    </app-card>
+</div>
+*/
 @Component({
   selector: 'app-multiple-cards',
   templateUrl: './multiple-cards.component.html',
   styleUrls: ['./multiple-cards.component.scss']
 })
-export class MultipleCardsComponent {
-  cards: CardInt[] = [
-    { id:'',
-      name: "Nyan Cat",
-      image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy:"100",
-      cost:500,
-      card_type:"UR",
-      card_race:"Nyan",
-      description: "Nyanyanyanyanyanyanya!",
-      activated_card:true}, 
-    { id:'',
-    name: "Mametchi",
-    image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
-    energy:"30",
-    cost:500,
-    card_type:"SSR",
-    card_race:"Tamagotchi",
-    description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-    activated_card:true },
-    {id:'', 
-    name: "Ginjirotchi",
-    image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
-    energy:"100",
-    cost:500,
-    card_type:"UR",
-    card_race:"Nyan",
-    description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-    activated_card:true},
-    {id:'', 
-    name: "Korok",
-    image:"https://static.wikia.nocookie.net/zelda_gamepedia_en/images/b/b0/TWW_Makar_Artwork.png",
-    energy:"100",
-    cost:5000,
-    card_type:"MR",
-    card_race:"Korok",
-    description: "The Koroks are a race in The Legend of Zelda series. They are small, wooden people who wear leaf masks over their faces. ",
-    activated_card:true},
-    { id:'',
-      name: "Nyan Cat",
-      image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy:"100",
-      cost:500,
-      card_type:"UR",
-      card_race:"Nyan",
-      description: "Nyanyanyanyanyanyanya!",
-      activated_card:true},
-    { id:'',
-    name: "Mametchi",
-    image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
-    energy:"30",
-    cost:500,
-    card_type:"SSR",
-    card_race:"Tamagotchi",
-    description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-    activated_card:true },
-    { id:'',
-    name: "Ginjirotchi",
-    image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
-    energy:"100",
-    cost:500,
-    card_type:"UR",
-    card_race:"Nyan",
-    description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-    activated_card:true},
-    {id:'', 
-    name: "Korok",
-    image:"https://static.wikia.nocookie.net/zelda_gamepedia_en/images/b/b0/TWW_Makar_Artwork.png",
-    energy:"100",
-    cost:5000,
-    card_type:"MR",
-    card_race:"Korok",
-    description: "The Koroks are a race in The Legend of Zelda series. They are small, wooden people who wear leaf masks over their faces. ",
-    activated_card:true },
-    { id:'',
-      name: "Nyan Cat",
-      image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy:"100",
-      cost:500,
-      card_type:"UR",
-      card_race:"Nyan",
-      description: "Nyanyanyanyanyanyanya!",
-      activated_card:true },
-    { id:'',
-    name: "Mametchi",
-    image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
-    energy:"30",
-    cost:500,
-    card_type:"SSR",
-    card_race:"Tamagotchi",
-    description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-    activated_card:true},
-    {id:'',
-    name: "Ginjirotchi",
-    image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
-    energy:"100",
-    cost:500,
-    card_type:"UR",
-    card_race:"Nyan",
-    description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-    activated_card:true},
-    { id:'', 
-    name: "Korok",
-    image:"https://static.wikia.nocookie.net/zelda_gamepedia_en/images/b/b0/TWW_Makar_Artwork.png",
-    energy:"100",
-    cost:5000,
-    card_type:"MR",
-    card_race:"Korok",
-    description: "The Koroks are a race in The Legend of Zelda series. They are small, wooden people who wear leaf masks over their faces. ",
-    activated_card:true },
-    { id:'',
-    name: "Mametchi",
-    image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
-    energy:"30",
-    cost:500,
-    card_type:"SSR",
-    card_race:"Tamagotchi",
-    description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-    activated_card:true },
-    { id:'',
-    name: "Ginjirotchi",
-    image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
-    energy:"100",
-    cost:500,
-    card_type:"UR",
-    card_race:"Nyan",
-    description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-    activated_card:true},
-    { id:'', 
-    name: "Korok",
-    image:"https://static.wikia.nocookie.net/zelda_gamepedia_en/images/b/b0/TWW_Makar_Artwork.png",
-    energy:"100",
-    cost:5000,
-    card_type:"MR",
-    card_race:"Korok",
-    description: "The Koroks are a race in The Legend of Zelda series. They are small, wooden people who wear leaf masks over their faces. ",
-    activated_card:true }];
+export class MultipleCardsComponent{
+
+  @Input()
+  cards!:CardInt[];
+
+  @Input() clickable: boolean = false;
+
+    
+  constructor() {
+    
+  }
+
 }

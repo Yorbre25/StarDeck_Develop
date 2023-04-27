@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import {CardInt} from '../../interfaces/card.interface';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-clickable-card',
@@ -16,23 +17,21 @@ export class ClickableCardComponent {
     name: string|null; 
     image: string|null; 
     description: string|null; 
-    energy: string|null; 
+    energy: number|undefined; 
     cost: number|undefined; 
-    card_type: string|null; 
-    card_race: string|null; 
+    type: string|null; 
+    race: string|null; 
     activated_card: boolean|null};
 
-  constructor(private router: Router, private api:ApiService) {
+  constructor(private router: Router, private api:ApiService, private logins:LoginService) {
    
   }
 
 
   onClick(){
     
-    this.api.addCard(this.element);
+    //this.api.playerchoseCard(this.element,this.logins.getcorreo());
     this.router.navigate(['/cards']);
-
-    
 
   }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace StarAPI.Context
 {
+    // This class is used to create the database context for the StarDeck database.
     public class StarDeckContext : DbContext
     {
         public StarDeckContext(DbContextOptions<StarDeckContext> options) : base(options)
@@ -11,7 +12,8 @@ namespace StarAPI.Context
         {
             Database.EnsureCreated();
         }
-
+        // @description
+        // This method is used to create the database tables for the StarDeck database.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Player>().HasKey(c => new {c.id });

@@ -4,6 +4,30 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 
+/**
+ * @description
+ * This component acts as a user register form for card creation. The required fields are:
+ * character name, character description, race, energy, price, type and image.
+ * 
+ * @typedef {class} CreateCardFormComponent
+ * 
+ * @property {CardInt} card- card to be created. 
+ * @property {string[]} types - array of available types. 
+ * @property {string[]} races - array of available races.
+ * @property {string} fault - Indicates if there is an error in the user inputs.  
+ * 
+ * @property {string} characterName - card character name. 
+ * @property {string} description - card character description. 
+ * @property {string} race - card character race. 
+ * @property {string} energy- card character energy. 
+ * @property {string} price - card character price. 
+ * @property {string} type - card character type.
+ * @property {string} image - card character image. 
+ * 
+ * @property {Function} onSubmit - The function to call when the form is created displays a card with placeholder information.
+ * @property {Function} goToLobby - The function to call when the form is submitted.
+ * @property {Function} onFileSelected - The function to call when the image is submitted.
+*/
 
 @Component({
   selector: 'app-create-card-form',
@@ -20,29 +44,36 @@ export class CreateCardFormComponent {
 
   //Objetos de input del frontend
   characterName = new FormControl('', [Validators.required]);
-  description = new FormControl('', [Validators.required]);
+  description = new FormControl('', [Validators.required, Validators.minLength(1),  Validators.maxLength(1000)]);
   race = new FormControl('', [Validators.required]);
-  energy = new FormControl('', [Validators.required]);
-  price = new FormControl('', [Validators.required]);
+  energy = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(-100)]);
+  price = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(0)]);
   type = new FormControl('', [Validators.required]);
   image = new FormControl('', [Validators.required]);
-
+  
   constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) { }
 
 
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component: FormControl) {
-    if (component.hasError('required')) {//El usuario no escribió nada
-      return "Este campo es obligatorio."
-    } else if (component.value.length > 30) {//La contraseña no cuenta con la longitud requerida
-      return "Las contraseña debe tener un tamaño de 8 caracteres"
-    } else if (component.invalid) {//El usuario se pasa de la cantidad de caracteres
-      return "El usuario debe tener entre 1 y 30 caracteres"
-    }
-    else {
-      return ""
-    }
+    if(this.energy.value!=null){
+      if (component.hasError('required')) {//El usuario no escribió nada
+        return "Este campo es obligatorio."
+      } else if (component.hasError('minlength')) {
+        return "No se cumple con el número mínimo de caracteres"
+      } else if (component.hasError('maxlength')) {
+        return "Se ha excedido el numero de caracteres"
+      } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
+        return "La energía debe tener un valor entre -100 y 100"
+      } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
+        return "El costo debe tener entre 0 y 100 caracteres"
+      } else {
+        return ""
+      }
+    }else{
+      return "Esto no debería de pasar"
+   }
   }
 
   /**
@@ -56,42 +87,45 @@ export class CreateCardFormComponent {
 
 
   goToLobby() {
-    if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid || this.image.invalid) {
+    if(this.energy.value!=null){
+    if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid ) {
       this.fault = true
     } else if (this.description.value?.length! >= 1000 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if (this.energy.value?.length! >= 100 || this.description.value?.length! <= -100) {
+    } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
       this.fault = true
     } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
       this.fault = true
-    } else if(this.price.value != null) {
+    } else if (this.price.value != null) {
       this.card.name = this.characterName.value
       this.card.description = this.description.value
-      this.card.card_race = this.race.value
-      this.card.energy = this.energy.value
+      this.card.race = this.race.value
+      this.card.energy = +this.energy.value
       this.card.cost = +this.price.value
-      this.card.card_type = this.type.value
-      this.card.image = this.image.value
+      this.card.type = this.type.value
+     
 
-      this.api.addCard(this.card)//acá llama a la API
+      this.api.addCard(this.card).subscribe(data=>{
+        console.log(data);
+      })//acá llama a la API
 
       this.router.navigate(['/home']);
 
-    }
+    }}
   }
 
   ngOnInit() {
     this.card =
     {
-      id:'',
+      id: '',
       name: "Nombre del Personaje",
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy: "100",
+      energy: 100,
       cost: 1000,
-      card_type: "MR",
-      card_race: "Cat",
+      type: "MR",
+      race: "Cat",
       description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
-      activated_card:true
+      activated_card: true
     };
     //this.nationalities=this.api.getCountries()
     this.types = ["UR", "MR", "R", "N", "B"]
@@ -107,7 +141,15 @@ export class CreateCardFormComponent {
       reader.readAsDataURL(file);
 
       reader.onload = () => {
-        // Do something with the image data
+        console.log(reader.result);
+        const imageData: string | null = reader.result ? reader.result.toString() : null;
+        this.card.name = this.characterName.value
+          this.card.description = this.description.value
+          this.card.race = this.race.value
+          
+          this.card.type = this.type.value
+          
+        this.card.image = imageData;
       };
     }
   }

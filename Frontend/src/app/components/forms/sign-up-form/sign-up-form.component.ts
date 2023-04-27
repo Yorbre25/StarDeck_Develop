@@ -4,6 +4,32 @@ import { Router } from '@angular/router';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
+import { LoginService } from '../../services/login.service';
+
+/**
+ * @description
+ * This component acts as a user register form for user creation. The required fields are:
+ * mail, player name, player last name, player nationality, player alias, player password, player password confirmation.
+ * 
+ * @typedef {class} CreateCardFormComponent
+ * 
+ * @property {AccountInt} user- user to be created. 
+ * @property {string[]} nationalities - array of available nationalities. 
+ * @property {boolean} fault - Indicates if there is an error in the user inputs.  
+ * 
+ * @property {string} mail - user email. 
+ * @property {string} playerName - user name. 
+ * @property {string} playerLastName - user last name. 
+ * @property {string} playerNationality- user nationality. 
+ * @property {string} playerAlias - user alias.  
+ * @property {string} playerPassword - user password. 
+ * @property {string} confirmPassword - user password confirmation. 
+ * 
+ * @property {Function} ngOnInIn - The function to call when the form is created instantias a user with lvl 0 and 20 coins
+ * @property {Function} goToLobby - The function to call when the form is submitted.
+ * @property {Function} getErrMessage - The function to call when fault is true. 
+*/
+
 
 @Component({
   selector: 'app-sign-up-form',
@@ -29,7 +55,7 @@ export class SignUpFormComponent implements OnInit {
 
   
   
-  constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService, private logs:LoginService) {}
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component:FormControl){
@@ -62,8 +88,20 @@ export class SignUpFormComponent implements OnInit {
       this.user.nickname = this.playerAlias.value
       this.user.p_hash=this.playerPassword.value
 
-      this.api.registerAccount(this.user)//acá llama a la API
+      this.api.registerAccount(this.user).subscribe(data=>{//acá llama a la API
 
+        console.log(data);
+      })
+      if(this.user.email!=null && this.user.id!=null){
+        
+        this.api.getPlayerInfo(this.user.email).subscribe(data=>{
+          this.user=data
+        })
+        this.logs.setcorreo(this.user.email)
+        this.logs.setid(this.user.id)
+
+
+      }
       this.router.navigate(['/home']);
      
       }
@@ -82,9 +120,12 @@ export class SignUpFormComponent implements OnInit {
       country:'',
       nickname:'',
       p_hash:'',
-      rank:'',
+      ranking:'',
       lvl:0,
-      coins:20
+      coins:20,
+      avatar:'https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG',
+      in_game:false,
+      active:false
     }
     //this.nationalities=this.api.getCountries()
     this.nationalities=["Estados Unidos","México","Costa Rica"]

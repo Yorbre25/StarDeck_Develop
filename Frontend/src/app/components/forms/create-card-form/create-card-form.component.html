@@ -43,7 +43,7 @@
                     <input [formControl]="energy" type="number" id="energy" name="energy" class="form-input"
                         placeholder="100" style="width: 150px;" required>
                     <br>
-                    <mat-error *ngIf="energy.invalid  && fault">{{getErrMessage(energy)}}</mat-error>
+                    <mat-error *ngIf="fault">{{getErrMessage(energy)}}</mat-error>
                 </div>
                 <div class="form-group">
                     <mat-label class="form-text" for="price">Costo: </mat-label>
@@ -76,16 +76,11 @@
 
             <br>
         </div>
-
-
-
-
-
-
-
-
-        <button type="submit" class="button-text" (click)="goToLobby()">Crear</button>
-
-
+        <form #myForm="ngForm" (ngSubmit)="goToLobby()">
+       
+        
+            <button type="submit" class = "button-text">Crear</button>
+          </form>
     </form>
+   
 </div>

@@ -5,8 +5,6 @@ using StarAPI.Context;
 using StarAPI.Models;
 using System;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StarAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -19,19 +17,37 @@ namespace StarAPI.Controllers
             this.context = context;
         }
 
-
-        [HttpGet]
-        public IEnumerable<Player_Card> Get() 
-        {
-            return context.Player_Card.ToList();
+        /// <summary>
+        /// This method returns the number of cards that a player has
+        /// </summary>
+        /// <param name="player_id"> Id of player</param>
+        /// <returns></returns>
+        [HttpGet("card_count/{player_id}")]
+        public int GetCardCount(string player_id)
+        {   
+            // check if player exists
+            var player = context.Player.FirstOrDefault(p => p.id == player_id);
+            if (player == null)
+            {
+                return -1;
+            }
+            var player_cards = Get(player_id);
+            return player_cards.Count();
         }
+       
 
-        // GET: api/<Player_CardController>
+        /// <summary>
+        /// This method assigns 15 basic cards to a player
+        /// </summary>
+        /// <param name="player_id">Id of player</param>
+        /// <returns></returns>
         [HttpPost("{player_id}")]
         public IEnumerable<Card> Post( string player_id)
         {
             try 
             {
+                var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
+                player_id = player.id;
                 var all_cards = context.Card.ToList();
                 all_cards = all_cards.FindAll(c => c.type == "Basic");
                 Random random = new Random();
@@ -60,13 +76,19 @@ namespace StarAPI.Controllers
             
         }
 
-        [HttpGet("player_id")]
+        /// <summary>
+        /// This method returns the cards of a player
+        /// </summary>
+        /// <param name="player_id"></param>
+        /// <returns></returns>
+        [HttpGet("{player_id}")]
         public IEnumerable<Card> Get(string player_id) 
         {
             try 
             {
+                var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
                 var cards_id = context.Player_Card.ToList();
-                cards_id = cards_id.FindAll(c => c.player_id == player_id);
+                cards_id = cards_id.FindAll(c => c.player_id == player_id || player.email == player_id);
                 var cards = new List<Card>();
                 foreach (var card in cards_id)
                 {
@@ -80,18 +102,36 @@ namespace StarAPI.Controllers
             }
             
         }
-        [HttpGet("{player_id}/{n}/{n_type}")]
-        public IEnumerable<Card> Get(string player_id, int n, string type) 
+
+        /// <summary>
+        /// This method returns n Normal or Rare random cards that a player doesn't have
+        /// </summary>
+        /// <param name="player_id">Id fo player</param>
+        /// <param name="n">Number of cards</param>
+        /// <returns></returns>
+        [HttpGet("{player_id}/{n}")]
+        public IEnumerable<Card> Get(string player_id, int n) 
         {
             try 
             {
+                var player_cards = Get(player_id);
                 var cards = context.Card.ToList();
-                cards = cards.FindAll(c => c.type != type);
+                
+                cards = cards.FindAll(c => (c.type == "Normal" || c.type == "Rara"));
+                // Delete cards that player already have
+                foreach(var card in cards)
+                {
+                    if (player_cards.Contains(card))
+                    {
+                        cards.Remove(card);
+                    }
+                }
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while (uniques.Count < n)
                 {
                     uniques.Add(random.Next(0, cards.Count));
+                    
                 }
                 List<int> uniquesIndexes = uniques.ToList();
                 List<Card> sel_cards = new List<Card>();
@@ -109,14 +149,13 @@ namespace StarAPI.Controllers
             }
            
         }
-        // GET api/<Player_CardController>/5
-        [HttpGet("{player_id}/{card_id}")]
-        public Player_Card Get(string player_id, string card_id)
-        {
-            return context.Player_Card.FirstOrDefault(p => p.player_id == player_id && p.card_id == card_id);
-        }
+        
 
-        // POST api/<Player_CardController>
+        /// <summary>
+        /// This method saves a new player_card
+        /// </summary>
+        /// <param name="player_card">Id of player and Id of card to be added</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post([FromBody] Player_Card player_card)
         {
@@ -132,7 +171,13 @@ namespace StarAPI.Controllers
             }
         }
 
-        // PUT api/<Player_CardController>/5
+        /// <summary>
+        /// This method updates a player_card
+        /// </summary>
+        /// <param name="player_id">Id of player who owns the card</param>
+        /// <param name="card_id">Id of card to be updated</param>
+        /// <param name="player_card">New player_card</param>
+        /// <returns></returns>
         [HttpPut("{player_id}/{card_id}")]
         public ActionResult Put(string player_id, string card_id, [FromBody] Player_Card player_card)
         {
@@ -145,7 +190,12 @@ namespace StarAPI.Controllers
             return BadRequest();
         }
 
-        // DELETE api/<Player_CardController>/5
+        /// <summary>
+        /// This method deletes a player_card
+        /// </summary>
+        /// <param name="player_id">Id of player who owns the card</param>
+        /// <param name="card_id">Id of card to be deleted</param>
+        /// <returns></returns>
         [HttpDelete("{player_id}/{card_id}")]
         public ActionResult Delete(string player_id, string card_id)
         {
