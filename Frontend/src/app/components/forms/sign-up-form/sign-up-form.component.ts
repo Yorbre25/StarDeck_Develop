@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
-
+import { LoginService } from '../../services/login.service';
 
 /**
  * @description
@@ -55,7 +55,7 @@ export class SignUpFormComponent implements OnInit {
 
   
   
-  constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService, private logs:LoginService) {}
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component:FormControl){
@@ -88,8 +88,20 @@ export class SignUpFormComponent implements OnInit {
       this.user.nickname = this.playerAlias.value
       this.user.p_hash=this.playerPassword.value
 
-      this.api.registerAccount(this.user)//acá llama a la API
+      this.api.registerAccount(this.user).subscribe(data=>{//acá llama a la API
 
+        console.log(data);
+      })
+      if(this.user.email!=null && this.user.id!=null){
+        
+        this.api.getPlayerInfo(this.user.email).subscribe(data=>{
+          this.user=data
+        })
+        this.logs.setcorreo(this.user.email)
+        this.logs.setid(this.user.id)
+
+
+      }
       this.router.navigate(['/home']);
      
       }
@@ -108,9 +120,12 @@ export class SignUpFormComponent implements OnInit {
       country:'',
       nickname:'',
       p_hash:'',
-      rank:'',
+      ranking:'',
       lvl:0,
-      coins:20
+      coins:20,
+      avatar:'https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG',
+      in_game:false,
+      active:false
     }
     //this.nationalities=this.api.getCountries()
     this.nationalities=["Estados Unidos","México","Costa Rica"]
