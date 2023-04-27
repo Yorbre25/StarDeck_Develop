@@ -12,8 +12,8 @@ export class MultipleClickableCardsComponent {
       image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
       energy:100,
       cost:500,
-      card_type:"UR",
-      card_race:"Nyan",
+      type:"UR",
+      race:"Nyan",
       description: "Nyanyanyanyanyanyanya!",
       activated_card:true},
       
@@ -23,8 +23,8 @@ export class MultipleClickableCardsComponent {
     image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
     energy:30,
     cost:500,
-    card_type:"SSR",
-    card_race:"Tamagotchi",
+    type:"SSR",
+    race:"Tamagotchi",
     description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
     activated_card:true},
     {
@@ -33,8 +33,8 @@ export class MultipleClickableCardsComponent {
     image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
     energy:100,
     cost:500,
-    card_type:"UR",
-    card_race:"Nyan",
+    type:"UR",
+    race:"Nyan",
     description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
     activated_card:true},
   ];

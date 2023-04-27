@@ -5,8 +5,8 @@ export interface CardInt{
     description:string|null;
     energy:number|undefined;
     cost:number|undefined;
-    card_type:string|null;
-    card_race:string|null;
+    type:string|null;
+    race:string|null;
     activated_card:boolean|null;
     
     
