@@ -5,6 +5,7 @@ namespace StarAPI.Models
     public class Race
     {
         [Key]
-        public string race { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }

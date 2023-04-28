@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StarAPI.Context;
 using StarAPI.Models;
+using StarAPI.Logic.AdminLogic;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,21 +11,20 @@ namespace StarAPI.Controllers
     [ApiController]
     public class RaceController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private readonly RaceHandling raceHandling;
 
-        public RaceController(StarDeckContext context)
+        public RaceController()
         {
-            this.context = context;
         }
         
         /// <summary>
-        /// This method adds a race to the dabe base
+        /// Sends all races from the database
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Race> Get()
+        public IEnumerable<Race> GetAllRaces()
         {
-            return context.Race.ToList();
+            return raceHandling.GetAllRaces();
         }
 
         /// <summary>
@@ -35,49 +33,30 @@ namespace StarAPI.Controllers
         /// <param name="id">Id of race to be returned</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public Race Get(string id)
+        public Race? GetById(int id)
         {
-            return context.Race.FirstOrDefault(r => r.race == id);
+            return raceHandling.GetRace(id);
         }
 
         
         /// <summary>
         /// This method adds a race
         /// </summary>
-        /// <param name="race"> Name of the race to be added</param>
+        /// <param name="raceName"> Name of the race to be added</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Post([FromBody] Race race)
+        public ActionResult AddRace(string raceName)
         {
             try
             {
-
-                context.Race.Add(race);
-                context.SaveChanges();
+                raceHandling.AddRace(raceName);
                 return Ok();
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-        }
-
-        /// <summary>
-        /// This method updates a race
-        /// </summary>
-        /// <param name="id">Id of race to be updated</param>
-        /// <param name="race">New name of race</param>
-        /// <returns></returns>
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Race race)
-        {
-            if (race.race == id)
-            {
-                context.Entry(race).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
+            
         }
 
         /// <summary>
@@ -86,16 +65,17 @@ namespace StarAPI.Controllers
         /// <param name="id">Id of race to be deleted</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
-            var race = context.Race.FirstOrDefault(r => r.race == id);
-            if (race != null)
+            try
             {
-                context.Race.Remove(race);
-                context.SaveChanges();
+                raceHandling.DeleteRace(id);
                 return Ok();
             }
-            return BadRequest();
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }
