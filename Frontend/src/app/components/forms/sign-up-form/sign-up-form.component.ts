@@ -42,6 +42,8 @@ export class SignUpFormComponent implements OnInit {
   user !: AccountInt;
   nationalities !: string[];
   fault!:boolean;
+  emailalreadytaken!:boolean;
+
 
 
   //Objetos de input del frontend
@@ -57,22 +59,26 @@ export class SignUpFormComponent implements OnInit {
   
   constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService, private logs:LoginService) {}
 
-  //La idea es que este módul genera el mensaje de error
+  //La idea es que este módulo genera el mensaje de error
   getErrMessage(component:FormControl){
     if(component.hasError('required')){//El usuario no escribió nada
       return "Este campo es obligatorio"
-    }else if(component.hasError('email')){//El mail no es en formato válido
+    }else if(component.hasError('email')){
       return "Ingrese un mail valido"
-    }else if(this.playerPassword.value!=this.confirmPassword.value){//Las contraseñas no coinciden
-      return "Las contraseñas deben coincidir"
-    }else if(component.hasError('maxlength')){//El usuario se pasa de la cantidad de caracteres
+    }else if(component.hasError('maxlength')){
       return "El usuario debe tener entre 1 y 30 caracteres"
-    }else if(this.playerPassword.value?.length!=8){//La contraseña no cuenta con la longitud requerida
+    }else if(this.emailalreadytaken){
+      return ("El correo proporcionado ya se encuentra registrado")
+    }else if(this.playerPassword.value!=this.confirmPassword.value){
+      return "Las contraseñas deben coincidir"
+    }else if(this.playerPassword.value?.length!=8){
       return "Las contraseña debe tener un tamaño de 8 caracteres"
     }else{
       return ""
     }
   }
+
+
   //Valida la información y guardará en caso que todo esté correcto
   goToLobby(){
     
@@ -89,21 +95,21 @@ export class SignUpFormComponent implements OnInit {
       this.user.p_hash=this.playerPassword.value
 
       this.api.registerAccount(this.user).subscribe(data=>{//acá llama a la API
-
         console.log(data);
+        if(data.status == "ok"){
+          if(this.user.email!=null && this.user.id!=null){
+            this.api.getPlayerInfo(this.user.email).subscribe(data=>{
+              this.user=data
+            })
+            this.logs.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
+            this.logs.setid(this.user.id) //Guarda el id del usuario que está actualmente loggeado
+          }
+          this.router.navigate(['/home']);
+        }else{
+          this.emailalreadytaken=true
+        }
+
       })
-      if(this.user.email!=null && this.user.id!=null){
-        
-        this.api.getPlayerInfo(this.user.email).subscribe(data=>{
-          this.user=data
-        })
-        this.logs.setcorreo(this.user.email)
-        this.logs.setid(this.user.id)
-
-
-      }
-      this.router.navigate(['/home']);
-     
       }
      
    
@@ -122,7 +128,7 @@ export class SignUpFormComponent implements OnInit {
       p_hash:'',
       ranking:'',
       lvl:0,
-      coins:20,
+      coins:20,//
       avatar:'https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG',
       in_game:false,
       active:false
@@ -130,7 +136,9 @@ export class SignUpFormComponent implements OnInit {
     //this.nationalities=this.api.getCountries()
     this.nationalities=["Estados Unidos","México","Costa Rica"]
 
+    //Settinf fault flags to initial false
     this.fault=false
+    this.emailalreadytaken=false
   }
 
 }

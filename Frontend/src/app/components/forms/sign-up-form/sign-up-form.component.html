@@ -3,7 +3,7 @@
         <mat-label for="mail"> Correo: </mat-label>
         <input [formControl]="mail" type="email" id="email" name="email" class="form-input" style="width: 300px;" placeholder="example@something.com" required>
         <br>
-        <mat-error *ngIf="mail.invalid && fault">{{getErrMessage(mail)}}</mat-error>
+        <mat-error *ngIf="(mail.invalid && fault)||emailalreadytaken">{{getErrMessage(mail)}}</mat-error>
     </div>
     <br>
     <div class="form-group">
