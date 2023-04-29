@@ -70,9 +70,9 @@ export class CreateCardFormComponent {
         return "La descripción excede los 1000 caracteres posibles"
       } else if(this.duplicatecardnamefault){
         return "Ya existe una carta con este nombre"
-      }else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
+      }else if (+this.energy.value > 100 || +this.energy.value < -100) {
         return "La energía debe tener un valor entre -100 y 100"
-      } else if (+this.price.value >= 100 || +this.price.value <= 0) {
+      } else if (+this.price.value > 100 || +this.price.value <= 0) {
         return "El costo debe tener un valor entre 0 y 100"
       } else {
         return ""
@@ -101,6 +101,8 @@ export class CreateCardFormComponent {
       } else if (+this.price.value >= 100 || +this.price.value <= 0) {
         this.pricerangefault = true
       } else {
+        this.pricerangefault=false
+        this.energyrangefault=false
         this.card.name = this.characterName.value
         this.card.description = this.description.value
         this.card.race = this.race.value
@@ -109,16 +111,14 @@ export class CreateCardFormComponent {
         this.card.type = this.type.value
       
 
-        this.api.addCard(this.card).subscribe(data=>{
-          console.log(data);
-          if(data.ok){
+        this.api.addCard(this.card).subscribe(//acá llama a la API
+          (response) => {
+            console.log(response);
             this.router.navigate(['/home']);
-          }else{
-            this.duplicatecardnamefault=true
-          }
-        })//acá llama a la API
-
-        
+          },(error)=>{
+            console.log(error)
+            this.duplicatecardnamefault=true;
+          });
 
     }}
   }

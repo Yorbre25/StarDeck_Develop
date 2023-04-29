@@ -37,11 +37,11 @@ export class ApiService{
         return this.http.get<AccountInt>(dir)
     }
 
-    addCard(card:CardInt):Observable<ResponseI>{
+    addCard(card:CardInt):Observable<any>{
         let dir =this.url + "Card"
         console.log("dir: "+ dir)
         console.log(card)
-        return this.http.post<ResponseI>(dir,card)
+        return this.http.post<ResponseI>(dir,card).pipe(catchError(this.handleError))
     }
 
     getAllCards():Observable<CardInt[]>{
