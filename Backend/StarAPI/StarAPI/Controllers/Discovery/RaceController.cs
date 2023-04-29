@@ -11,11 +11,15 @@ namespace StarAPI.Controllers
     [ApiController]
     public class RaceController : ControllerBase
     {
-        private readonly RaceHandling raceHandling;
+        private readonly StarDeckContext _context;
+        private  RaceHandling raceHandling;
 
-        public RaceController()
+        public RaceController(StarDeckContext context)
         {
+            this._context = context;
+            raceHandling = new RaceHandling(_context);
         }
+
         
         /// <summary>
         /// Sends all races from the database

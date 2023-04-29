@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StarAPI.Context;
 using StarAPI.Models;
 
 namespace StarAPI.Controllers
@@ -35,9 +34,9 @@ namespace StarAPI.Controllers
         /// <param name="id"> Id of card type to be searched </param>
         /// <returns>card type found</returns>
         [HttpGet("{id}")]
-        public Card_Type Get(string id)
+        public Card_Type Get(int id)
         {
-            return context.Card_Type.FirstOrDefault(c => c.type == id);
+            return context.Card_Type.FirstOrDefault(c => c.id == id);
         }
 
 
@@ -48,10 +47,11 @@ namespace StarAPI.Controllers
         /// <param name="card_type"> Name of new card type</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Post([FromBody] Card_Type card_type)
+        public ActionResult Post(string card_type_name)
         {
             try
             {
+                var card_type = new Card_Type { typeName = card_type_name};
                 context.Card_Type.Add(card_type);
                 context.SaveChanges();
                 return Ok();
@@ -73,7 +73,7 @@ namespace StarAPI.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(string id, [FromBody] Card_Type card_type)
         {
-            if (card_type.type == id)
+            if (card_type.typeName == id)
             {
                 context.Entry(card_type).State = EntityState.Modified;
                 context.SaveChanges();
@@ -90,9 +90,9 @@ namespace StarAPI.Controllers
         /// <param name="id">Id of card type to be deleted</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
-            var card_type = context.Card_Type.FirstOrDefault(c => c.type == id);
+            var card_type = context.Card_Type.FirstOrDefault(c => c.id == id);
             if (card_type != null)
             {
                 context.Card_Type.Remove(card_type);

@@ -1,5 +1,4 @@
-
-using StarAPI.Context;
+using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 
 namespace StarAPI.Logic.AdminLogic;
@@ -47,6 +46,7 @@ public class RaceHandling
     }
 
 
+
     /// <summary>
     /// Top function for adding a race
     /// </summary>
@@ -54,7 +54,7 @@ public class RaceHandling
     public void AddRace(string raceName)
     {
         bool isNameValid = CheckInputName(raceName);
-        bool alreadyExist = AlreadyExist(raceName);
+        bool alreadyExist = AlreadyExists(raceName);
 
         if(!isNameValid){
             throw new ArgumentException("Invalid name");
@@ -70,7 +70,7 @@ public class RaceHandling
     /// Inserts the new race to the database
     /// </summary>
     /// <param name="raceName"> New race name</param>
-    private void InsertRace(string raceName){
+    public void InsertRace(string raceName){
         var race = new Race {name = raceName};
         _context.Race.Add(race);
         _context.SaveChanges();
@@ -90,9 +90,8 @@ public class RaceHandling
     /// </summary>
     /// <param name="raceName"> Name of the race</param>
     /// <returns></returns>
-    private bool AlreadyExist(string raceName){
-        Race? race = new Race();
-        race = _context.Race.FirstOrDefault(r => r.name == raceName);
+    private bool AlreadyExists(string raceName){
+        var race = _context.Race.FirstOrDefault(r => r.name == raceName);
         if(race == null){
             return false;
         }
@@ -104,7 +103,7 @@ public class RaceHandling
     /// </summary>
     /// <param name="id"> Id of race to look</param>
     /// <returns></returns>
-    private bool AlreadyExist(int id){
+    private bool AlreadyExists(int id){
         Race? race = new Race();
         race = _context.Race.FirstOrDefault(r => r.id == id);
         if(race == null){
@@ -119,7 +118,7 @@ public class RaceHandling
     /// <param name="id">Id of race to be removed</param>
     public void DeleteRace(int id)
     {
-        bool alreadyExists = AlreadyExist(id);
+        bool alreadyExists = AlreadyExists(id);
         if(!alreadyExists)
         {
             throw new ArgumentNullException("Race does not exist");

@@ -5,6 +5,8 @@ namespace StarAPI.Models
     public class Card_Type
     {
         [Key]
-        public string type { get; set; }
+        public int id { get; set; }
+
+        public string typeName { get; set; }
     }
 }
