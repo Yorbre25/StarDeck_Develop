@@ -43,14 +43,14 @@
                     <input [formControl]="energy" type="number" id="energy" name="energy" class="form-input"
                         placeholder="100" style="width: 150px;" required>
                     <br>
-                    <mat-error *ngIf="fault">{{getErrMessage(energy)}}</mat-error>
+                    <mat-error *ngIf="(energy.invalid && fault)||energyrangefault">{{getErrMessage(energy)}}</mat-error>
                 </div>
                 <div class="form-group">
                     <mat-label class="form-text" for="price">Costo: </mat-label>
                     <input [formControl]="price" type="number" id="price" name="price" class="form-input"
                         style="width: 150px;" placeholder="10000" required>
                     <br>
-                    <mat-error *ngIf="price.invalid && fault">{{getErrMessage(price)}}</mat-error>
+                    <mat-error *ngIf="(price.invalid && fault) || pricerangefault">{{getErrMessage(price)}}</mat-error>
                 </div>
 
             </div>

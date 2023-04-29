@@ -3,6 +3,7 @@ import { CardInt } from '../../interfaces/card.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { RouterTestingHarness } from '@angular/router/testing';
 
 /**
  * @description
@@ -39,15 +40,20 @@ export class CreateCardFormComponent {
   card !: CardInt;
   types !: string[];
   races !: string[];
+
+  //Variables de control de ingresod e datos
   fault!: boolean;
+  pricerangefault!:boolean;
+  energyrangefault!:boolean;
+  duplicatecardnamefault!:boolean;
 
 
   //Objetos de input del frontend
   characterName = new FormControl('', [Validators.required]);
-  description = new FormControl('', [Validators.required, Validators.minLength(1),  Validators.maxLength(1000)]);
+  description = new FormControl('', [Validators.required,Validators.maxLength(1000)]);
   race = new FormControl('', [Validators.required]);
-  energy = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(-100)]);
-  price = new FormControl('', [Validators.required, Validators.maxLength(100), Validators.minLength(0)]);
+  energy = new FormControl('', [Validators.required]);
+  price = new FormControl('', [Validators.required]);
   type = new FormControl('', [Validators.required]);
   image = new FormControl('', [Validators.required]);
   
@@ -57,22 +63,22 @@ export class CreateCardFormComponent {
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component: FormControl) {
-    if(this.energy.value!=null){
+    if(this.energy.value!=null && this.price.value!=null){
       if (component.hasError('required')) {//El usuario no escribió nada
         return "Este campo es obligatorio."
-      } else if (component.hasError('minlength')) {
-        return "No se cumple con el número mínimo de caracteres"
       } else if (component.hasError('maxlength')) {
-        return "Se ha excedido el numero de caracteres"
-      } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
+        return "La descripción excede los 1000 caracteres posibles"
+      } else if(this.duplicatecardnamefault){
+        return "Ya existe una carta con este nombre"
+      }else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
         return "La energía debe tener un valor entre -100 y 100"
-      } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
-        return "El costo debe tener entre 0 y 100 caracteres"
+      } else if (+this.price.value >= 100 || +this.price.value <= 0) {
+        return "El costo debe tener un valor entre 0 y 100"
       } else {
         return ""
       }
     }else{
-      return "Esto no debería de pasar"
+      return "Este campo es obligatorio."
    }
   }
 
@@ -87,29 +93,32 @@ export class CreateCardFormComponent {
 
 
   goToLobby() {
-    if(this.energy.value!=null){
-    if (this.characterName.invalid || this.description.invalid || this.race.invalid || this.energy.invalid || this.price.invalid || this.type.invalid ) {
-      this.fault = true
-    } else if (this.description.value?.length! >= 1000 || this.description.value?.length! <= 0) {
-      this.fault = true
-    } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
-      this.fault = true
-    } else if (this.price.value?.length! >= 100 || this.description.value?.length! <= 0) {
-      this.fault = true
-    } else if (this.price.value != null) {
-      this.card.name = this.characterName.value
-      this.card.description = this.description.value
-      this.card.race = this.race.value
-      this.card.energy = +this.energy.value
-      this.card.cost = +this.price.value
-      this.card.type = this.type.value
-     
+    if(this.energy.value!=null&&this.price.value!=null){
+      if (this.characterName.invalid||this.description.invalid||this.race.invalid||this.energy.invalid||this.price.invalid||this.type.invalid) {
+        this.fault = true
+      } else if (+this.energy.value >= 100 || +this.energy.value <= -100) {
+        this.energyrangefault = true
+      } else if (+this.price.value >= 100 || +this.price.value <= 0) {
+        this.pricerangefault = true
+      } else {
+        this.card.name = this.characterName.value
+        this.card.description = this.description.value
+        this.card.race = this.race.value
+        this.card.energy = +this.energy.value
+        this.card.cost = +this.price.value
+        this.card.type = this.type.value
+      
 
-      this.api.addCard(this.card).subscribe(data=>{
-        console.log(data);
-      })//acá llama a la API
+        this.api.addCard(this.card).subscribe(data=>{
+          console.log(data);
+          if(data.status=="ok"){
+            this.router.navigate(['/home']);
+          }else{
+            this.duplicatecardnamefault=true
+          }
+        })//acá llama a la API
 
-      this.router.navigate(['/home']);
+        
 
     }}
   }
@@ -127,10 +136,13 @@ export class CreateCardFormComponent {
       description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
       activated_card: true
     };
-    //this.nationalities=this.api.getCountries()
-    this.types = ["UR", "MR", "R", "N", "B"]
+    
+    this.types = ["Ultra Rara", "Muy Rara", "Rara", "Normal", "Basica"]
     this.races = ["Humano", "Cyborg", "Alien", "Robot", "Angel", "Demonio", "Pirata", "Elemental", "Dragon", "Asesino", "Mascota"]
     this.fault = false
+    this.energyrangefault = false
+    this.pricerangefault = false
+    this.duplicatecardnamefault = false
   }
 
 
