@@ -111,7 +111,7 @@ export class CreateCardFormComponent {
 
         this.api.addCard(this.card).subscribe(data=>{
           console.log(data);
-          if(data.status=="ok"){
+          if(data.ok){
             this.router.navigate(['/home']);
           }else{
             this.duplicatecardnamefault=true

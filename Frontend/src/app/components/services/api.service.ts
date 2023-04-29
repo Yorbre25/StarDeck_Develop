@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { AccountInt } from "../interfaces/account.interface";
 import { ResponseI } from "../interfaces/response.interface";
 import { CardInt } from "../interfaces/card.interface";
-import { HttpClient,HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient,HttpHeaders, HttpErrorResponse } from "@angular/common/http";
+import { catchError, Observable, throwError } from "rxjs";
 import { RouterTestingHarness } from "@angular/router/testing";
 
 @Injectable({
@@ -14,17 +14,21 @@ export class ApiService{
     url:string="https://localhost:7023/api/"
 
     constructor(private http:HttpClient){}
-    
+
+    handleError(error: HttpErrorResponse) {
+        return throwError(()=>new Error('Something bad happened; please try again later.'));
+    }
+
     getAmCards(player:string|null):Observable<number>{
         let dir = this.url + "Player_Card/card_count/"+player
         return this.http.get<number>(dir)
     }
 
-    registerAccount(player:AccountInt):Observable<ResponseI>{
+    registerAccount(player:AccountInt):Observable<any>{
         let dir = this.url + "Player"
         console.log("dir: "+ dir)
         console.log(player)
-        return this.http.post<ResponseI>(dir,player)
+        return this.http.post(dir,player).pipe(catchError(this.handleError))
     }
     
     getPlayerInfo(player:string|null):Observable<AccountInt>{
