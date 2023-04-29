@@ -7,17 +7,23 @@ using StarAPI.Logic.AdminLogic;
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// This is class is used to handle all requests of the Race table
+    /// </summary>
+    [Route("[controller]")]
     [ApiController]
     public class RaceController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private  RaceHandling raceHandling;
+        private  RaceHandling _raceHandling;
 
+        /// <summary>
+        /// Constructor for RaceController
+        /// </summary>
         public RaceController(StarDeckContext context)
         {
             this._context = context;
-            raceHandling = new RaceHandling(_context);
+            _raceHandling = new RaceHandling(_context);
         }
 
         
@@ -25,10 +31,10 @@ namespace StarAPI.Controllers
         /// Sends all races from the database
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("GetAllRaces")]
         public IEnumerable<Race> GetAllRaces()
         {
-            return raceHandling.GetAllRaces();
+            return _raceHandling.GetAllRaces();
         }
 
         /// <summary>
@@ -36,10 +42,10 @@ namespace StarAPI.Controllers
         /// </summary>
         /// <param name="id">Id of race to be returned</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public Race? GetById(int id)
+        [HttpGet("GetRace/{id}")]
+        public Race? GetRace(int id)
         {
-            return raceHandling.GetRace(id);
+            return _raceHandling.GetRace(id);
         }
 
         
@@ -49,11 +55,12 @@ namespace StarAPI.Controllers
         /// <param name="raceName"> Name of the race to be added</param>
         /// <returns></returns>
         [HttpPost]
+        [Route("AddRace/{raceName}")]
         public ActionResult AddRace(string raceName)
         {
             try
             {
-                raceHandling.AddRace(raceName);
+                _raceHandling.AddRace(raceName);
                 return Ok();
             }
             catch (Exception e)
@@ -68,12 +75,12 @@ namespace StarAPI.Controllers
         /// </summary>
         /// <param name="id">Id of race to be deleted</param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [HttpDelete("DelteRace/{id}")]
+        public ActionResult DeleteCardType(int id)
         {
             try
             {
-                raceHandling.DeleteRace(id);
+                _raceHandling.DeleteRace(id);
                 return Ok();
             }
             catch

@@ -13,3 +13,7 @@ To update database use the following command:
 
 To drop database use the following command:
 	dotnet ef database drop
+
+
+string conexion (Yordi):
+"StarDeckDB":"Data Source=YordiB;Initial Catalog=StarDeck;Integrated Security=True;Encrypt=False"
