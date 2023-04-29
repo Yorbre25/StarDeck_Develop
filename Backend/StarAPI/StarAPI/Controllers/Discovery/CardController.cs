@@ -13,12 +13,12 @@ namespace StarAPI.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private readonly StarDeckContext _context;
         private Encrypt encrypt = new Encrypt();
 
         public CardController(StarDeckContext context)
         {
-            this.context = context;
+            this._context = context;
         }
  
         /// <summary>
@@ -29,7 +29,7 @@ namespace StarAPI.Controllers
         [HttpGet]
         public IEnumerable<Card> Get()
         {
-            return context.Card.ToList();
+            return _context.Card.ToList();
         }
 
 
@@ -42,7 +42,7 @@ namespace StarAPI.Controllers
         [HttpGet("{id}")]
         public Card Get(string id)
         {
-            return context.Card.FirstOrDefault(c => c.id == id);
+            return _context.Card.FirstOrDefault(c => c.id == id);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace StarAPI.Controllers
             try
             {
                 string id = encrypt.gen_id("C");
-                while (context.Player.FirstOrDefault(p => p.id == id) != null)
+                while (_context.Player.FirstOrDefault(p => p.id == id) != null)
                 {
                     id = encrypt.gen_id("C");
                 }
@@ -66,8 +66,8 @@ namespace StarAPI.Controllers
                 {
                     card.image = "Imagen predeterminada";
                 }
-                context.Card.Add(card);
-                context.SaveChanges();
+                _context.Card.Add(card);
+                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception e)
@@ -89,8 +89,8 @@ namespace StarAPI.Controllers
         {
             if (card.id == id)
             {
-                context.Entry(card).State = EntityState.Modified;
-                context.SaveChanges();
+                _context.Entry(card).State = EntityState.Modified;
+                _context.SaveChanges();
                 return Ok();
             }
             return BadRequest();
@@ -105,11 +105,11 @@ namespace StarAPI.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(string id)
         {
-            var card = context.Card.FirstOrDefault(c => c.id == id);
+            var card = _context.Card.FirstOrDefault(c => c.id == id);
             if (card != null)
             {
-                context.Card.Remove(card);
-                context.SaveChanges();
+                _context.Card.Remove(card);
+                _context.SaveChanges();
                 return Ok();
             }
             return BadRequest();
