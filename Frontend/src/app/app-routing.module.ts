@@ -6,6 +6,9 @@ import { LobbyComponent } from './components/views/lobby/lobby.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { CardMenuComponent } from './components/views/card-menu/card-menu.component';
 import { CreateCardComponent } from './components/views/create-card/create-card.component';
+import { DeckMenuComponent } from './components/views/deck-menu/deck-menu.component';
+import { CreateDeckComponent } from './components/views/create-deck/create-deck.component';
+import { SingleDeckComponent } from './components/views/single-deck/single-deck.component';
 
 
 const routes: Routes = [
@@ -14,7 +17,10 @@ const routes: Routes = [
   { path: 'home', component: LobbyComponent},
   { path: 'partida/:id', component: GameComponent},
   { path: 'create_card', component: CreateCardComponent},
-  { path: 'cards', component: CardMenuComponent}
+  { path: 'cards', component: CardMenuComponent},
+  { path: 'decks', component: DeckMenuComponent},
+  { path: 'deck', component: SingleDeckComponent},
+  { path: 'create_deck', component: CreateDeckComponent}
 ];
 
 @NgModule({

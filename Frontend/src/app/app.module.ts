@@ -37,6 +37,11 @@ import { HeaderComponent } from './components/elements/header/header.component';
 import { BackButtonComponent } from './components/elements/back-button/back-button.component';
 import { ClickableCardComponent } from './components/elements/clickable-card/clickable-card.component';
 import { MultipleClickableCardsComponent } from './components/elements/multiple-clickable-cards/multiple-clickable-cards.component';
+import { CreateDeckFormComponent } from './components/forms/create-deck-form/create-deck-form.component';
+import { DeckMenuComponent } from './components/views/deck-menu/deck-menu.component';
+import { CreateDeckComponent } from './components/views/create-deck/create-deck.component';
+import { DeckComponent } from './components/elements/deck/deck.component';
+import { SingleDeckComponent } from './components/views/single-deck/single-deck.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +64,12 @@ import { MultipleClickableCardsComponent } from './components/elements/multiple-
     BackButtonComponent,
  
     ClickableCardComponent,
-       MultipleClickableCardsComponent
+       MultipleClickableCardsComponent,
+       CreateDeckFormComponent,
+       DeckMenuComponent,
+       CreateDeckComponent,
+       DeckComponent,
+       SingleDeckComponent
   ],
   imports: [
     MatFormFieldModule,
