@@ -81,7 +81,7 @@ export class SignUpFormComponent implements OnInit {
 
   //Valida la información y guardará en caso que todo esté correcto
   goToLobby(){
-    
+
     if(this.mail.invalid||this.playerName.invalid||this.playerLastName.invalid||this.playerNationality.invalid||this.playerAlias.invalid||this.playerPassword.invalid){
       this.fault=true
     }else if(this.playerPassword.value!=this.confirmPassword.value||this.playerPassword.value?.length!=8){
@@ -93,10 +93,10 @@ export class SignUpFormComponent implements OnInit {
       this.user.country = this.playerNationality.value
       this.user.nickname = this.playerAlias.value
       this.user.p_hash=this.playerPassword.value
-
-      this.api.registerAccount(this.user).subscribe(data=>{//acá llama a la API
-        console.log(data);
-        if(data.status == "ok"){
+      console.log("Before")
+      this.api.registerAccount(this.user).subscribe( //acá llama a la API
+        (response) => {
+          console.log(response)
           if(this.user.email!=null && this.user.id!=null){
             this.api.getPlayerInfo(this.user.email).subscribe(data=>{
               this.user=data
@@ -105,11 +105,11 @@ export class SignUpFormComponent implements OnInit {
             this.logs.setid(this.user.id) //Guarda el id del usuario que está actualmente loggeado
           }
           this.router.navigate(['/home']);
-        }else{
+        
+      },(error)=>{
           this.emailalreadytaken=true
         }
-
-      })
+        );
       }
      
    
