@@ -29,15 +29,12 @@ export class CardMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //  this.api.getAllCards().subscribe(data => {
-    //  console.log(data)
-    // this.cards = data 
-    // });
-    this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
-      console.log(data);
-      this.cards = data
-    });
-}
+    this.api.getAllCards().subscribe(data => {
+      console.log(data)
+     this.cards = data 
+     });
+    
 
+  }
 }
 
