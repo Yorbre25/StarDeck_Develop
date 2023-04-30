@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using StarAPI.Context;
 using StarAPI.Logic.AdminLogic;
 
 var builder = WebApplication.CreateBuilder(args);

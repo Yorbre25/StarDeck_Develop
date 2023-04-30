@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using StarAPI.DTOs;
 using StarAPI.Models;
-using System;
+using StarAPI.Context;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class Player_CardController : ControllerBase
+    public class CardAssignController : ControllerBase
     {
         private readonly StarDeckContext context;
-        public Player_CardController(StarDeckContext context)
+        private CardGenerator _cardGenerator;
+        public CardAssignController(StarDeckContext context)
         {
             this.context = context;
+            this._cardGenerator = new CardGenerator(context);
         }
 
         /// <summary>
@@ -206,6 +210,11 @@ namespace StarAPI.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpGet("GetRandomCardWithType/{cardTypeName}")]
+        public OutputCard GetRandomCardWith(string cardTypeName){
+            return _cardGenerator.GetRandomCardWith(cardTypeName);
         }
     }
 }
