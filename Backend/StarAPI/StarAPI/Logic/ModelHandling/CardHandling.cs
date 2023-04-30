@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.DTOs;
-using StarAPI.Logic;
+using StarAPI.Logic.Utils;
 using StarAPI.Context;
 
 namespace StarAPI.Logic.ModelHandling;
@@ -20,7 +20,7 @@ public class CardHandling
     private static int s_maxDescriptionLenght = 1000;
     private static string s_idPrefix = "C";
 
-    private IdGenerator _idGenerator = new IdGenerator();
+    private KeyGenerator _idGenerator = new KeyGenerator();
     private RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
 
@@ -157,7 +157,7 @@ public class CardHandling
         bool alreadyExists = true;
         while (alreadyExists)
         {
-            id = _idGenerator.GenerateId(s_idPrefix);
+            id = _idGenerator.gen_id(s_idPrefix);
             alreadyExists = IdAlreadyExists(id);
         }
         return id;

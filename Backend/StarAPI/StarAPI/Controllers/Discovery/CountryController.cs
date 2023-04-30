@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Utils;
+using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using System.Numerics;
 

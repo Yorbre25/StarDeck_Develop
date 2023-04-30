@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Utils;
+using StarAPI.Logic.Utils;
 using StarAPI.Context;
 
 
@@ -12,6 +12,7 @@ namespace StarAPI.Controllers
     public class PlayerController : ControllerBase
     {
         private Encrypt encrypt = new Encrypt();
+        private KeyGenerator _idGenerator = new KeyGenerator();
         private readonly StarDeckContext context;
         public PlayerController(StarDeckContext context) 
         {
@@ -73,10 +74,10 @@ namespace StarAPI.Controllers
                 {
                     return BadRequest("The e-mail is already in use");
                 }
-                var id = encrypt.gen_id("U");
+                var id = _idGenerator.gen_id("U");
                 while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
                 {
-                    id = encrypt.gen_id("U");
+                    id = _idGenerator.gen_id("U");
                 }
                 if(player.avatar == "")
                 {
