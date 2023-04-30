@@ -1,1 +1,61 @@
-<p>create-planet-form works!</p>
+<div class="box">
+    <app-planet class="app-card" [element]="planet"></app-planet>
+    <form class="form-container">
+
+        <div class="form-group">
+            <mat-label class="form-text" for="name">Nombre del planeta: </mat-label>
+            <input [formControl]="planetName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
+                placeholder="Nyan Cat Planet" required>
+            <br>
+            <mat-error *ngIf="planetName.invalid  && fault">{{getErrMessage(planetName)}}</mat-error>
+
+            <br>
+
+
+            <mat-label class="form-text" for="description"> Descripción del planeta: </mat-label>
+            <textarea [formControl]="description" type="description" id="description" name="description"
+                class="form-input" style="width: 300px;" style="height:100px;" resize="none"
+                placeholder="Nyan Cat, or Pop-Tart Cat, 
+        refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song." required></textarea>
+            <br>
+            <mat-error *ngIf="description.invalid && fault">{{getErrMessage(description)}}</mat-error>
+
+
+
+                <div class="form-group">
+                    <mat-label class="form-text" for="type">Tipo: </mat-label>
+                    <select [formControl]="type" id="type" name="type" class="form-input" placeholder="MR"
+                        style="width: 150px;" required>
+                        <option *ngFor="let type of types">
+                            {{type}}
+                        </option>
+                    </select>
+                    <br>
+                    <mat-error *ngIf="type.invalid  && fault">{{getErrMessage(type)}}</mat-error>
+                </div>
+            
+            <br>
+
+            
+            <mat-card class="form-text">
+                <button class="form-text" class="image-text" #file mat-flat-button color="primary">Elegir Imagen
+                    <input multiple (change)="onFileSelected($event)"
+                        style="opacity: 0; position:absolute; left:0px; top:0px; width:100%; height:100%;"
+                        accept="image/png, image/jpg, image/jpeg" type="file" />
+                </button>
+
+            </mat-card>
+
+
+            <mat-error *ngIf="planetName.invalid  && fault">{{getErrMessage(planetName)}}</mat-error>
+
+            <br>
+        </div>
+        <form #myForm="ngForm" (ngSubmit)="goToLobby()">
+
+
+            <button type="submit" class="button-text">Crear</button>
+        </form>
+    </form>
+
+</div>
