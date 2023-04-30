@@ -10,6 +10,7 @@ public class AddPlaceholderData
 {
     private readonly StarDeckContext _context;
     private  CardHandling _cardHandling;
+    private PlanetHandling _planetHandling;
     private DataForTest _dataForTest;
 
     public AddPlaceholderData(StarDeckContext context)
@@ -17,6 +18,7 @@ public class AddPlaceholderData
         this._context = context;
         this._dataForTest = new DataForTest();
         this._cardHandling = new CardHandling(context);
+        this._planetHandling = new PlanetHandling(context);
     }
 
 
@@ -36,6 +38,14 @@ public class AddPlaceholderData
         foreach(var card in _dataForTest.cards)
         {
             _cardHandling.AddCard(card);
+        }
+    }
+
+    public void AddPlanets()
+    {
+        foreach(var planet in _dataForTest.planets)
+        {
+            _planetHandling.AddPlanet(planet);
         }
     }
 }
