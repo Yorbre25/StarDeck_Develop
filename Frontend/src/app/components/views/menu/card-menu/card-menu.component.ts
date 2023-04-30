@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { CardInt } from '../../interfaces/card.interface';
+import { ApiService } from 'src/app/components/services/api.service';
+import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
 
 /**
