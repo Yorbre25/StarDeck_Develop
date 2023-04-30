@@ -7,129 +7,74 @@ using StarAPI.Context;
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private Encrypt encrypt = new Encrypt();
-        private IdGenerator _idGenerator = new IdGenerator();
         private readonly StarDeckContext context;
+
         public PlayerController(StarDeckContext context) 
         {
             this.context = context;
         }
         
-        /// <summary>
-        /// This method returns all the players in the database
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IEnumerable<Player> Get()
+        [HttpGet("GetAllPlayers")]
+        public IEnumerable<Player> GetAllPlayers()
         {
             return context.Player.ToList();
         }
 
-        /// <summary>
-        /// This method returns the player with the given email and password
-        /// </summary>
-        /// <param name="email">Email of user</param>
-        /// <param name="password">Password of user</param>
-        /// <returns></returns>
-        [HttpGet("{email}/{password}")]
-        public ActionResult Get(string email, string password)
-        {
+
+        // [HttpGet("{email}/{password}")]
+        // public ActionResult Get(string email, string password)
+        // {
             
-            Player player = context.Player.FirstOrDefault(p => p.email == email || (p.id == email));
+        //     Player player = context.Player.FirstOrDefault(p => p.email == email || (p.id == email));
            
-            if (player != null && encrypt.Sha256(password) == player.p_hash ) 
-            {
-                return Ok();
-            }
+        //     if (player != null && encrypt.Sha256(password) == player.p_hash ) 
+        //     {
+        //         return Ok();
+        //     }
                          
-            return BadRequest();
-        }
+        //     return BadRequest();
+        // }
 
-        /// <summary>
-        /// This method returns the player with the given id
-        /// </summary>
-        /// <param name="id">Id of player to be searched</param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public Player Get(string id)
-        {
-            return context.Player.FirstOrDefault(p => p.id == id || p.email == id);
-        }
+        // [HttpGet("GetPlayerById/{id}")]
+        // public Player GetPlayerById(string id)
+        // {
+        //     return context.Player.FirstOrDefault(p => p.id == id || p.email == id);
+        // }
 
-        /// <summary>
-        /// This method adds a new player to the database
-        /// </summary>
-        /// <param name="player">Player data</param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Post([FromBody] Player player)
-        {
-            try 
-            {
-                if(context.Player.FirstOrDefault(p => p.email == player.email) != null) 
-                {
-                    return BadRequest("The e-mail is already in use");
-                }
-                var id = _idGenerator.GenerateId("U");
-                while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
-                {
-                    id = _idGenerator.GenerateId("U");
-                }
-                if(player.avatar == "")
-                {
-                    player.avatar = "Imagen default";
-                }
-                player.coins = 20;
-                player.id = id;
-                player.p_hash = encrypt.Sha256(player.p_hash);
-                context.Player.Add(player);
-                context.SaveChanges();
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// This method updates the player with the given id
-        /// </summary>
-        /// <param name="id">Id of player to be updated</param>
-        /// <param name="player">Player to be updated</param>
-        /// <returns></returns>
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Player player )
-        {
-            if (player.id == id) 
-            {
-                context.Entry(player).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
-
-        /// <summary>
-        /// This method deletes the player with the given id
-        /// </summary>
-        /// <param name="id">Id of player to be deleted</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
-        {
-            Player player = context.Player.FirstOrDefault(p => p.id == id);
-            if (player != null) 
-            {
-                context.Player.Remove(player);
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
+ 
+        // [HttpPost]
+        // public ActionResult AddPlayer([FromBody] Player player)
+        // {
+        //     try 
+        //     {
+        //         if(context.Player.FirstOrDefault(p => p.email == player.email) != null) 
+        //         {
+        //             return BadRequest("The e-mail is already in use");
+        //         }
+        //         var id = _idGenerator.GenerateId("U");
+        //         while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
+        //         {
+        //             id = _idGenerator.GenerateId("U");
+        //         }
+        //         if(player.avatar == "")
+        //         {
+        //             player.avatar = "Imagen default";
+        //         }
+        //         player.coins = 20;
+        //         player.id = id;
+        //         player.p_hash = encrypt.Sha256(player.p_hash);
+        //         context.Player.Add(player);
+        //         context.SaveChanges();
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
     }
 }

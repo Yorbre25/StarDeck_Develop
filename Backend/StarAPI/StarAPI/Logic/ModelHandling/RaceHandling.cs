@@ -30,11 +30,6 @@ public class RaceHandling
     }
 
 
-    /// <summary>
-    /// Returns a race with the given id
-    /// </summary>
-    /// <param name="id">Id of race to be searched</param>
-    /// <returns></returns>
     public string GetRace(int id){
         try
         {

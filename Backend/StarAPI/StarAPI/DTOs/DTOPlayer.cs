@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StarAPI.Models
+namespace StarAPI.DTOs
 {
-    public class Player
+    public class OutputPlayer
     {
-        [Key]
         public string id {get;set;}
         public string email {get;set;}
         public string firstName {get;set;}
@@ -14,12 +13,10 @@ namespace StarAPI.Models
         public string pHash {get;set;}
         public int level {get;set;}
         public string ranking { get; set; }
-        public bool inGame { get; set; }
         public bool activatedAccount { get; set; }
-        [ForeignKey("Country")]
-        public int countryId {get;set;}
+        public string country {get;set;}
         public int coins { get; set; }
-        public int avatarId { get; set; }
+        public string avatar { get; set; }
 
 
 
