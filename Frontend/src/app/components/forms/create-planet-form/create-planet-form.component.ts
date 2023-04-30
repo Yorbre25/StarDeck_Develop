@@ -66,7 +66,7 @@ export class CreatePlanetFormComponent {
           });
          */
 
-
+          this.router.navigate(['/home']);
       }
     }
   }
