@@ -50,7 +50,7 @@ export class LobbyComponent{
     console.log("Something wrong")
   }*/
 
-    this.showPopup=true
+    this.showPopup=false
     this.openDialog() 
   }
 
