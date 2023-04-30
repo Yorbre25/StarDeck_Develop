@@ -18,7 +18,7 @@
                     <select [formControl]="race" id="race" name="race" class="form-input"
                         style="width: 150px;" placeholder="Humano" required>
                         <option *ngFor="let race of races">
-                            {{race}}
+                            {{race.name}}
                         </option>
                     </select>
                     <br>
@@ -29,7 +29,7 @@
                     <select [formControl]="type" id="type" name="type" class="form-input" placeholder="MR"
                         style="width: 150px;" required>
                         <option *ngFor="let type of types">
-                            {{type}}
+                            {{type.typeName}}
                         </option>
                     </select>
                     <br>
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <mat-label class="form-text" for="price">Costo: </mat-label>
                     <input [formControl]="price" type="number" id="price" name="price" class="form-input"
-                        style="width: 150px;" placeholder="10000" required>
+                        style="width: 150px;" placeholder="100" required>
                     <br>
                     <mat-error *ngIf="(price.invalid && fault) || pricerangefault">{{getErrMessage(price)}}</mat-error>
                 </div>
@@ -77,8 +77,6 @@
             <br>
         </div>
         <form #myForm="ngForm" (ngSubmit)="goToLobby()">
-       
-        
             <button type="submit" class = "button-text">Crear</button>
           </form>
     </form>

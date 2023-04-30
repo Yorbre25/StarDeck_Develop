@@ -134,7 +134,7 @@ export class SignUpFormComponent implements OnInit {
       active:false
     }
     //this.nationalities=this.api.getCountries()
-    this.nationalities=["Estados Unidos","México","Costa Rica"]
+    this.nationalities=["","Estados Unidos","México","Costa Rica"]
 
     //Settinf fault flags to initial false
     this.fault=false

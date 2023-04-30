@@ -42,8 +42,8 @@ export class InitialCardChooserComponent implements OnInit{
     cost:500,
     type:"UR",
     race:"Nyan",
-    description: "Nyanyanyanyanyanyanya!",
-    activated_card:true}, 
+    description: "Nyanyanyanyanyanyanya!"
+  },
   { id:'',
   name: "Mametchi",
   image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
@@ -51,8 +51,8 @@ export class InitialCardChooserComponent implements OnInit{
   cost:500,
   type:"SSR",
   race:"Tamagotchi",
-  description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-  activated_card:true },
+  description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports."
+  },
   { id:'',
   name: "Ginjirotchi",
   image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
@@ -60,8 +60,8 @@ export class InitialCardChooserComponent implements OnInit{
   cost:500,
   type:"UR",
   race:"Nyan",
-  description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-  activated_card:true}]
+  description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies."
+  }]
 
  // clickableCards!:CardInt[];
 
@@ -91,7 +91,7 @@ export class InitialCardChooserComponent implements OnInit{
           this.cards = data 
         });
         this.api.getchoosingcard(this.logins.getid()).subscribe(data=>{
-          this.clickableCards=data
+          this.clickableCards=data[this.cardsChosen]
         })
       }
     }

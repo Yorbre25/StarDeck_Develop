@@ -29,7 +29,6 @@ export class CardComponent {
     cost: number | undefined;
     type: string | null;
     race: string | null;
-    activated_card: boolean | null
   };
 
   @Input() clickable: boolean = false;

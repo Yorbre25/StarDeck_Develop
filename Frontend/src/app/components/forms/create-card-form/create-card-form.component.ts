@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { RouterTestingHarness } from '@angular/router/testing';
-
+import { RaceInterface} from '../../interfaces/race.interface';
+import { TypeInterface } from '../../interfaces/type.interface';
+import { ElementSchemaRegistry } from '@angular/compiler';
 /**
  * @description
  * This component acts as a user register form for card creation. The required fields are:
@@ -38,8 +40,8 @@ import { RouterTestingHarness } from '@angular/router/testing';
 export class CreateCardFormComponent {
   //Variables del backend
   card !: CardInt;
-  types !: string[];
-  races !: string[];
+  types !: TypeInterface[];
+  races !: RaceInterface[];
 
   //Variables de control de ingresod e datos
   fault!: boolean;
@@ -60,6 +62,41 @@ export class CreateCardFormComponent {
   constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) { }
 
 
+  ngOnInit() {
+    this.card =
+    {
+      id: '',
+      name: "Nombre del Personaje",
+      image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
+      energy: 100,
+      cost: 1000,
+      type: "MR",
+      race: "Cat",
+      description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
+    };
+    
+    this.races=[{
+      id: '',
+      name: ''}]
+
+    this.types=[{
+        id: '',
+        typeName: ''}]
+
+    this.api.getRaces().subscribe(data=>{
+      console.log(data)
+      this.races=this.races.concat(data)
+    })
+
+    this.api.getTypes().subscribe(data=>{
+      this.types=this.types.concat(data)
+    })
+
+    this.fault = false
+    this.energyrangefault = false
+    this.pricerangefault = false
+    this.duplicatecardnamefault = false
+  }
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component: FormControl) {
@@ -81,16 +118,6 @@ export class CreateCardFormComponent {
       return "Este campo es obligatorio."
    }
   }
-
-  /**
-   * El nombre de la carta debe tener entre 5 y 30 caracteres y la descripción debe ser de hasta 1000 caracteres.  
-  El sistema debe de manera predeterminada marcar la carta en estado activa.
-  Los valores de energía es numéricos y puede ir en un rango de -100 a 100.
-  El costo en batalla es numéricos y puede ir desde 0 hasta 100. 
-  El tipo de carta debe seleccionarse de 5 valores posibles: Ultra-Rara, Muy Rara, Rara, Normal, Básica.
-  La raza de la carta debe ser seleccionada de una lista pre-cargada con las razas oficiales.
-   */
-
 
   goToLobby() {
     if(this.energy.value!=null&&this.price.value!=null){
@@ -114,7 +141,7 @@ export class CreateCardFormComponent {
         this.api.addCard(this.card).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/cards']);
           },(error)=>{
             console.log(error)
             this.duplicatecardnamefault=true;
@@ -123,27 +150,6 @@ export class CreateCardFormComponent {
     }}
   }
 
-  ngOnInit() {
-    this.card =
-    {
-      id: '',
-      name: "Nombre del Personaje",
-      image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
-      energy: 100,
-      cost: 1000,
-      type: "MR",
-      race: "Cat",
-      description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
-      activated_card: true
-    };
-    
-    this.types = ["Ultra Rara", "Muy Rara", "Rara", "Normal", "Basica"]
-    this.races = ["Humano", "Cyborg", "Alien", "Robot", "Angel", "Demonio", "Pirata", "Elemental", "Dragon", "Asesino", "Mascota"]
-    this.fault = false
-    this.energyrangefault = false
-    this.pricerangefault = false
-    this.duplicatecardnamefault = false
-  }
 
 
   onFileSelected(event: any) {
