@@ -23,7 +23,12 @@ namespace StarAPI.Context
             modelBuilder.Entity<Deck>().HasKey(c => new { c.deck_id });
             modelBuilder.Entity<Deck_Card>().HasKey(c => new { c.deck_id, c.card_id });
             modelBuilder.Entity<Player_Card>().HasKey(c => new { c.player_id, c.card_id });
+            modelBuilder.Entity<PlanetType>().HasKey(c => new { c.id });
+            modelBuilder.Entity<Planet>().HasKey(c => new { c.id });
             modelBuilder.Entity<Match_Player>().HasNoKey();
+            modelBuilder.Entity<Game>().HasKey(c => new { c.id });
+            modelBuilder.Entity<Game_Planets>().HasKey(c => new { c.gameId, c.planetId });
+
         }
 
         public DbSet<Player> Player { get; set; }
@@ -35,6 +40,8 @@ namespace StarAPI.Context
         public DbSet<Deck_Card> Deck_Card { get; set; }
         public DbSet<Player_Card> Player_Card { get; set; }
         public DbSet<Card_Image> Card_Image { get; set; }
+        public DbSet<PlanetType> PlanetType { get; set; }
+        public DbSet<Planet> Planet { get; set; }
         public DbSet<Match_Player> Match_Player { get; set; }
     }
 

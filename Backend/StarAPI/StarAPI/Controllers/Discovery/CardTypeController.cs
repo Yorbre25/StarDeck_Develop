@@ -11,20 +11,22 @@ namespace StarAPI.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class CardTypeController : ControllerBase
+    public class TypeController : ControllerBase
     {
         private readonly StarDeckContext _context;
 
-        private CardTypeHandling cardTypeHandling;
+        private CardTypeHandling _cardTypeHandling;
+        private PlanetTypeHandling _planetTypeHandling;
 
         /// <summary>
-        /// Constructor for CardTypeController.
+        /// Constructor for TypeController.
         /// </summary>
         /// <param name="context"></param>
-        public CardTypeController(StarDeckContext context)
+        public TypeController(StarDeckContext context)
         {
             this._context = context;
-            cardTypeHandling = new CardTypeHandling(_context);
+            _cardTypeHandling = new CardTypeHandling(_context);
+            _planetTypeHandling = new PlanetTypeHandling(_context);
         }
 
         /// <summary>
@@ -33,9 +35,9 @@ namespace StarAPI.Controllers
         /// <returns> </returns>
         [HttpGet]
         [Route("GetAllCardTypes")]
-        public IEnumerable<CardType> GetAllCard()
+        public IEnumerable<CardType> GetAllCardTypes()
         {
-           return cardTypeHandling.GetAllCardTypes();
+           return _cardTypeHandling.GetAllCardTypes();
         }
 
         /// <summary>
@@ -46,7 +48,7 @@ namespace StarAPI.Controllers
         [HttpGet("GetCardType/{id}")]
         public string GetCardType(int id)
         {
-            return cardTypeHandling.GetCardType(id);
+            return _cardTypeHandling.GetCardType(id);
         }
 
 
@@ -62,7 +64,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                cardTypeHandling.AddCardType(cardTypeName);
+                _cardTypeHandling.AddCardType(cardTypeName);
                 return Ok();
             }
             catch (Exception e)
@@ -85,7 +87,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                cardTypeHandling.DeleteCardType(id);
+                _cardTypeHandling.DeleteCardType(id);
                 return Ok();
             }
             catch
@@ -93,5 +95,13 @@ namespace StarAPI.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        [Route("GetAllPlanetTypes")]
+        public IEnumerable<PlanetType> GetAllPlanetTypes()
+        {
+           return _planetTypeHandling.GetAllPlanetTypes();
+        }
+
     }
 }

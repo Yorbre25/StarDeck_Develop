@@ -11,6 +11,7 @@ public class PopulateDB
     private readonly StarDeckContext _context;
     private  RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
+    private PlanetTypeHandling _planetTypeHandling;
 
     private DataForTest _dataForTest;
 
@@ -20,6 +21,7 @@ public class PopulateDB
         this._dataForTest = new DataForTest();
         this._raceHandling = new RaceHandling(context);
         this._cardTypeHandling = new CardTypeHandling(context);
+        this._planetTypeHandling = new PlanetTypeHandling(context);
 
 
     }
@@ -30,12 +32,14 @@ public class PopulateDB
         dropPreviousData();
         addRaces();
         addCardTypes();
+        addPlanetTypes();
     }
 
     private void dropPreviousData()
     {
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Race");
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card_Type");
+        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE PlanetType");
     }
 
     public void addRaces()
@@ -51,6 +55,14 @@ public class PopulateDB
         foreach(var cardType in _dataForTest.cardTypes)
         {
             _cardTypeHandling.AddCardType(cardType);
+        }
+    }
+
+    public void addPlanetTypes()
+    {
+        foreach(var planetType in _dataForTest.planetTypes)
+        {
+            _planetTypeHandling.AddPlanetType(planetType);
         }
     }
 }
