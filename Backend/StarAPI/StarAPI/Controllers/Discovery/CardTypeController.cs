@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.AdminLogic;
+using StarAPI.Logic.ModelHandling;
 
 namespace StarAPI.Controllers
 {

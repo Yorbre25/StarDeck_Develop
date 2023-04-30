@@ -1,7 +1,7 @@
 // using StarAPI.Models;
 
 
-// namespace StarAPI.Logic.AdminLogic;
+// namespace StarAPI.Logic.ModelHandling;;
 
 
 // public class ImageHandling

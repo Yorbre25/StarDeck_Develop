@@ -13,11 +13,11 @@ namespace StarAPI.Controllers
     public class CardAssignController : ControllerBase
     {
         private readonly StarDeckContext context;
-        private CardGenerator _cardGenerator;
+        private CardPackageGenerator _cardPackageGenerator;
         public CardAssignController(StarDeckContext context)
         {
             this.context = context;
-            this._cardGenerator = new CardGenerator(context);
+            this._cardPackageGenerator = new CardPackageGenerator(context);
         }
 
         /// <summary>
@@ -106,51 +106,17 @@ namespace StarAPI.Controllers
             
         }
 
-        /// <summary>
-        /// This method returns n Normal or Rare random cards that a player doesn't have
-        /// </summary>
-        /// <param name="player_id">Id fo player</param>
-        /// <param name="n">Number of cards</param>
-        /// <returns></returns>
-        [HttpGet("{player_id}/{n}")]
-        public IEnumerable<Card> Get(string player_id, int n) 
+        [HttpGet("GetPackagesForNewPlayer")]
+        public List<List<OutputCard>> GetPackagesForNewPlayer() 
         {
-            try 
+            try
             {
-                var player_cards = Get(player_id);
-                var cards = context.Card.ToList();
-                
-                cards = cards.FindAll(c => (c.typeId == 1 || c.typeId == 1));
-                // Delete cards that player already have
-                foreach(var card in cards)
-                {
-                    if (player_cards.Contains(card))
-                    {
-                        cards.Remove(card);
-                    }
-                }
-                Random random = new Random();
-                HashSet<int> uniques = new HashSet<int>();
-                while (uniques.Count < n)
-                {
-                    uniques.Add(random.Next(0, cards.Count));
-                    
-                }
-                List<int> uniquesIndexes = uniques.ToList();
-                List<Card> sel_cards = new List<Card>();
-                foreach (var u in uniquesIndexes)
-                {
-                    sel_cards.Add(cards[u]);
-
-                }
-
-                return sel_cards;
+                return this._cardPackageGenerator.GetPackagesForNewPlayer();
             }
-            catch 
+            catch (Exception e)
             {
-                return null;
-            }
-           
+                return new List<List<OutputCard>>();
+            }    
         }
         
 
@@ -174,47 +140,11 @@ namespace StarAPI.Controllers
             }
         }
 
-        /// <summary>
-        /// This method updates a player_card
-        /// </summary>
-        /// <param name="player_id">Id of player who owns the card</param>
-        /// <param name="card_id">Id of card to be updated</param>
-        /// <param name="player_card">New player_card</param>
-        /// <returns></returns>
-        [HttpPut("{player_id}/{card_id}")]
-        public ActionResult Put(string player_id, string card_id, [FromBody] Player_Card player_card)
-        {
-            if (player_card.player_id == player_id && player_card.card_id == card_id)
-            {
-                context.Entry(player_card).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
 
-        /// <summary>
-        /// This method deletes a player_card
-        /// </summary>
-        /// <param name="player_id">Id of player who owns the card</param>
-        /// <param name="card_id">Id of card to be deleted</param>
-        /// <returns></returns>
-        [HttpDelete("{player_id}/{card_id}")]
-        public ActionResult Delete(string player_id, string card_id)
-        {
-            var player_card = context.Player_Card.FirstOrDefault(p => p.player_id == player_id && p.card_id == card_id);
-            if (player_card != null)
-            {
-                context.Player_Card.Remove(player_card);
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
 
-        [HttpGet("GetRandomCardWithType/{cardTypeName}")]
-        public OutputCard GetRandomCardWith(string cardTypeName){
-            return _cardGenerator.GetRandomCardWith(cardTypeName);
-        }
+        // [HttpGet("GetRandomCardWithType/{cardTypeName}")]
+        // public OutputCard GetRandomCardWith(string cardTypeName){
+        //     // return _cardGenerator.GetRandomCardWith(cardTypeName);
+        // }
     }
 }

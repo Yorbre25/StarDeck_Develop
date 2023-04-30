@@ -1,14 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.AdminLogic;
-
+using StarAPI.DataTesting;
 namespace StarAPI.Controllers
 {
-    /// <summary>
-    /// This class is used to handle all requests to the Card_Type table.
-    /// </summary>
+    /// This class is used to fill the database with placeholder data.
     [Route("[controller]")]
     [ApiController]
     public class PopulateController : ControllerBase
@@ -16,15 +11,13 @@ namespace StarAPI.Controllers
         private readonly StarDeckContext _context;
 
         private PopulateDB _populateDB;
+        private AddPlaceholderData _addPlaceholderData;
 
-        /// <summary>
-        /// Constructor for PopulateController.
-        /// </summary>
-        /// <param name="context"></param>
         public PopulateController(StarDeckContext context)
         {
             this._context = context;
             _populateDB = new PopulateDB(_context);
+            _addPlaceholderData = new AddPlaceholderData(_context);
         }
 
        
@@ -42,7 +35,21 @@ namespace StarAPI.Controllers
             {
                 return BadRequest(e.Message);
             }
-            
+        }
+
+        [HttpPost]
+        [Route("AddPlaceholderData")]
+        public ActionResult AddData()
+        {
+            try
+            {
+                _addPlaceholderData.AddData();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 

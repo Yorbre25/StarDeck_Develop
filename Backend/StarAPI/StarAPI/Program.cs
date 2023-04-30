@@ -3,7 +3,7 @@ using StarAPI.Models;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using StarAPI.Context;
-using StarAPI.Logic.AdminLogic;
+using StarAPI.Logic.ModelHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
