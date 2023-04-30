@@ -79,11 +79,6 @@ namespace StarAPI.Controllers
             
         }
 
-        /// <summary>
-        /// This method returns the cards of a player
-        /// </summary>
-        /// <param name="player_id"></param>
-        /// <returns></returns>
         [HttpGet("{player_id}")]
         public IEnumerable<Card> Get(string player_id) 
         {
@@ -125,7 +120,7 @@ namespace StarAPI.Controllers
         /// </summary>
         /// <param name="player_card">Id of player and Id of card to be added</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("AddCardToPlayer")]
         public ActionResult Post([FromBody] Player_Card player_card)
         {
             try

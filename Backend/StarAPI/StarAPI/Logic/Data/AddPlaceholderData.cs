@@ -26,11 +26,13 @@ public class AddPlaceholderData
     {
         dropPreviousData();
         AddCards();
+        AddPlanets();
     }
 
     private void dropPreviousData()
     {
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card");
+        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Planet");
     }
 
     public void AddCards()
