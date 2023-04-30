@@ -20,7 +20,7 @@ public class CardHandling
     private static int s_maxDescriptionLenght = 1000;
     private static string s_idPrefix = "C";
 
-    private KeyGenerator _idGenerator = new KeyGenerator();
+    private IdGenerator _idGenerator = new IdGenerator();
     private RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
 
@@ -157,7 +157,7 @@ public class CardHandling
         bool alreadyExists = true;
         while (alreadyExists)
         {
-            id = _idGenerator.gen_id(s_idPrefix);
+            id = _idGenerator.GenerateId(s_idPrefix);
             alreadyExists = IdAlreadyExists(id);
         }
         return id;

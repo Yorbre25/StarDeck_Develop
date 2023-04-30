@@ -12,7 +12,7 @@ namespace StarAPI.Controllers
     public class PlayerController : ControllerBase
     {
         private Encrypt encrypt = new Encrypt();
-        private KeyGenerator _idGenerator = new KeyGenerator();
+        private IdGenerator _idGenerator = new IdGenerator();
         private readonly StarDeckContext context;
         public PlayerController(StarDeckContext context) 
         {
@@ -74,10 +74,10 @@ namespace StarAPI.Controllers
                 {
                     return BadRequest("The e-mail is already in use");
                 }
-                var id = _idGenerator.gen_id("U");
+                var id = _idGenerator.GenerateId("U");
                 while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
                 {
-                    id = _idGenerator.gen_id("U");
+                    id = _idGenerator.GenerateId("U");
                 }
                 if(player.avatar == "")
                 {

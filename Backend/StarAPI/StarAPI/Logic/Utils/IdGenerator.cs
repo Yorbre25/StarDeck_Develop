@@ -1,13 +1,14 @@
 ﻿namespace StarAPI.Logic.Utils
 {
-    public class KeyGenerator
+    public class IdGenerator
     {
-        public string gen_id(string type)
+        private static int idLenght = 12;
+        public string GenerateId(string idPrefix)
         {
             var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
             Random random = new Random();
             var rand_string = new string(Enumerable.Repeat(chars, 12).Select(s => s[random.Next(s.Length)]).ToArray());
-            return type + "-" + rand_string;
+            return idPrefix + "-" + rand_string;
         }
     }
 }
