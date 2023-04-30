@@ -181,7 +181,8 @@ public class CardHandling
     }
 
 
-    private bool NameAlreadyExists(string cardName){
+    private bool NameAlreadyExists(string cardName)
+    {
         var card = _context.Card.FirstOrDefault(r => r.name == cardName);
         if(card == null){
             return false;

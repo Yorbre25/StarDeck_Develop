@@ -113,6 +113,60 @@ public class DataForTest
         }
     };
 
+    public InputPlanet[] planets = new InputPlanet[]
+    {
+        new InputPlanet()
+        {
+            name = "Planeta A",
+            typeId = 1,
+            image = "Imagen A",
+            description = "Descripción A",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta B",
+            typeId = 1,
+            image = "Imagen B",
+            description = "Descripción B",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta C",
+            typeId = 1,
+            image = "Imagen C",
+            description = "Descripción C",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta D",
+            typeId = 2,
+            image = "Imagen D",
+            description = "Descripción D",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta E",
+            typeId = 2,
+            image = "Imagen E",
+            description = "Descripción E",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta F",
+            typeId = 3,
+            image = "Imagen F",
+            description = "Descripción F",
+        },
+        new InputPlanet()
+        {
+            name = "Planeta G",
+            typeId = 3,
+            image = "Imagen G",
+            description = "Descripción G",
+        },
+
+    };
+
     public string[] races = new string[]
         {
             "Human",
@@ -129,6 +183,13 @@ public class DataForTest
             "Rara",
             "Muy Rara",
             "Ultra Rara"
+        };
+
+    public string[] planetTypes = new string[]
+        {
+            "Popular",
+            "Basico",
+            "Raro",
         };
 
     public int numero = 3;
