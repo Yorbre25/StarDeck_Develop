@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DeckInterface } from '../../interfaces/deck.interface';
 import { CardInt } from '../../interfaces/card.interface';
 import { ApiService } from '../../services/api.service';
-import { DeckInterface } from '../../interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
+import { MatCardContent } from '@angular/material/card';
 @Component({
   selector: 'app-single-deck',
   templateUrl: './single-deck.component.html',
@@ -11,26 +13,8 @@ import { HttpClient } from '@angular/common/http';
 export class SingleDeckComponent {
 
 
-  //deck!:DeckInterface[];
-  cards!: CardInt[];
-
-  constructor(private api: ApiService, private http: HttpClient) {
-
-    //console.log(this.cards)
-  }
-
-  ngOnInit(): void {
-    //this.api.getDeck(id).subscribe(data => {
-    // console.log(data)
-    //this.deck = data 
-    //});
-  }
-
-  @Input()
-  deck!: {
-    id: string | null;
-    name: string | null;
-    cards: CardInt[] | null;
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
+    console.log(data)
+    console.log(this.data.deck.name)
   }
 }
