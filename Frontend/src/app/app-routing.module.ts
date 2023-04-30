@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateUserComponent } from './components/views/create/create-user/create-user.component';
-import { GameComponent } from './components/views/game/game.component';
+import { GameComponent } from './components/views/game-setup/game/game.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { CardMenuComponent } from './components/views/menu/card-menu/card-menu.component';
@@ -11,6 +11,7 @@ import { CreateDeckComponent } from './components/views/create/create-deck/creat
 import { SingleDeckComponent } from './components/views/single-deck/single-deck.component';
 import { CreatePlanetComponent } from './components/views/create/create-planet/create-planet.component';
 import { PlanetMenuComponent } from './components/views/menu/planet-menu/planet-menu.component';
+import { LoadingGameComponent } from './components/views/game-setup/loading-game/loading-game.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'create_deck', component: CreateDeckComponent},
   { path: 'create_planet', component: CreatePlanetComponent},
   { path: 'planets', component: PlanetMenuComponent},
+  { path: 'searching', component: LoadingGameComponent},
 ];
 
 @NgModule({
