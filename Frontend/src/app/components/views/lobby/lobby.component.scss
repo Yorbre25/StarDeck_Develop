@@ -2,36 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    margin: 250px;
 }
 
-.container {
-    position: absolute;
-    top: 60px;
-    bottom: 60px;
-    left: 0;
-    right: 0;
-  }
-  
-  .sidenav-cont {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    background-color: #2a556e80;
-  }
-  
-  .button-navbar {
-    font-family: 'Rajdhani-SemiBold';
-    text-align: center;
-    font-size: 1rem;
-    background-color: transparent;
-    border: none;
-    border-radius: 25px;
-    justify-content: right;
-    cursor: pointer;}
-
     .button-text {
-        background-color: transparent;
-        font-size: 3rem;
+      font-size: 4rem;
+      background: #fe00be80;
+      margin: 0px;
+      font-family: 'Rajdhani-Bold';
     }
