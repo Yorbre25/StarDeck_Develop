@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Logic.AdminLogic;
+using StarAPI.Context;
+using StarAPI.Logic.ModelHandling;
 
 namespace StarAPI.Controllers
 {

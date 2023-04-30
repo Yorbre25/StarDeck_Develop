@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Logic.AdminLogic;
+using StarAPI.Logic.ModelHandling;
 using StarAPI.DTOs;
+using StarAPI.Context;
 
 namespace StarAPI.Controllers
 {
@@ -22,12 +23,10 @@ namespace StarAPI.Controllers
             this._context = context;
             this._cardHandling = new CardHandling(_context);
         }
+
+
  
-        /// <summary>
-        /// This method is used to get all cards from the Card table. 
-        /// </summary>
-        /// <returns>All cards</returns>
-        // GET: api/<CardController>
+
         [HttpGet("GetAllCards")]
         public IEnumerable<OutputCard> GetAllCards()
         {
@@ -35,24 +34,14 @@ namespace StarAPI.Controllers
         }
 
 
-        /// <summary>
-        /// This methos is used to get an specific card from the Card table.
-        /// </summary>
-        /// <param name="id">Id of card to be searched</param>
-        /// <returns>Card with the same id</returns>
-        // GET api/<CardController>/5
+
         [HttpGet("GetCardById/{id}")]
         public OutputCard GetCard(string id)
         {
             return _cardHandling.GetCard(id);
         }
 
-        /// <summary>
-        /// This method is used to add a new card to the Card table.
-        /// </summary>
-        /// <param name="card"> Card to add</param>
-        /// <returns></returns>
-        // POST api/<CardController>
+
         [HttpPost("AddCard")]
         public ActionResult Post([FromBody] InputCard card)
         {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-
-namespace StarAPI.Logic.AdminLogic;
+using StarAPI.Context;
+namespace StarAPI.Logic.ModelHandling;
 
 /// <summary>
 /// Class who creates, deletes and adds card types to the database
