@@ -43,7 +43,7 @@ namespace StarAPI.Controllers
         /// <param name="id">Id of race to be returned</param>
         /// <returns></returns>
         [HttpGet("GetRace/{id}")]
-        public Race? GetRace(int id)
+        public string? GetRace(int id)
         {
             return _raceHandling.GetRace(id);
         }

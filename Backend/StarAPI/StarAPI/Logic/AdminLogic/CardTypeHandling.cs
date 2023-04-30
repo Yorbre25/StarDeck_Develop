@@ -23,7 +23,7 @@ public class CardTypeHandling
     /// Returns all card types from the database
     /// </summary>
     /// <returns>A list of Card_Type</returns>
-    public List<Card_Type> GetAllCardTypes()
+    public List<CardType> GetAllCardTypes()
     {
         return _context.Card_Type.ToList();
     }
@@ -34,11 +34,11 @@ public class CardTypeHandling
     /// </summary>
     /// <param name="id">Id of card type to be searched</param>
     /// <returns></returns>
-    public Card_Type? GetCardType(int id)
+    public string GetCardType(int id)
     {
         try
         {
-            return _context.Card_Type.FirstOrDefault(r => r.id == id);
+            return GetCardTypeName(id);
         }
         catch (System.Exception)
         {
@@ -46,6 +46,15 @@ public class CardTypeHandling
         }
     }
 
+    public string GetCardTypeName(int id)
+    {
+        CardType? cardType = _context.Card_Type.FirstOrDefault(r => r.id == id);
+        if (cardType == null)
+        {
+            throw new ArgumentException("CardType does not exist");
+        }
+        return cardType.typeName;
+    }
 
 
     /// <summary>xc
@@ -72,7 +81,7 @@ public class CardTypeHandling
     /// </summary>
     /// <param name="raceName"> New card type name</param>
     public void InsertCardType(string raceName){
-        var cardType = new Card_Type {typeName = raceName};
+        var cardType = new CardType {typeName = raceName};
         _context.Card_Type.Add(cardType);
         _context.SaveChanges();
     }
@@ -105,7 +114,7 @@ public class CardTypeHandling
     /// <param name="id"> Id of card type to look</param>
     /// <returns></returns>
     private bool AlreadyExists(int id){
-        Card_Type? cardType = new Card_Type();
+        CardType? cardType = new CardType();
         cardType = _context.Card_Type.FirstOrDefault(r => r.id == id);
         if(cardType == null){
             return false;

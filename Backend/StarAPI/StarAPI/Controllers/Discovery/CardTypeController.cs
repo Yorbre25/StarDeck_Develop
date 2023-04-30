@@ -32,7 +32,7 @@ namespace StarAPI.Controllers
         /// <returns> </returns>
         [HttpGet]
         [Route("GetAllCardTypes")]
-        public IEnumerable<Card_Type> GetAllCard()
+        public IEnumerable<CardType> GetAllCard()
         {
            return cardTypeHandling.GetAllCardTypes();
         }
@@ -43,7 +43,7 @@ namespace StarAPI.Controllers
         /// <param name="id"> Id of card type to be searched </param>
         /// <returns>card type found</returns>
         [HttpGet("GetCardType/{id}")]
-        public Card_Type? GetCardType(int id)
+        public string GetCardType(int id)
         {
             return cardTypeHandling.GetCardType(id);
         }

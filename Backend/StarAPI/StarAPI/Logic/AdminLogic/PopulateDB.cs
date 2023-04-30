@@ -15,10 +15,6 @@ public class PopulateDB
     private string[] _races;
     private string[] _cardTypes;
 
-    /// <summary>
-    /// Contructor of PopulateDB
-    /// </summary>
-    /// <param name="_context"></param>
     public PopulateDB(StarDeckContext _context)
     {
         this._raceHandling = new RaceHandling(_context);
@@ -43,19 +39,20 @@ public class PopulateDB
         };
     }
 
-    /// <summary>
-    /// Adds necesary data to the database
-    /// </summary>
-    /// <returns>A list of Card_Type</returns>
+
     public void Populate()
     {
+        // dropPreviousData();
         addRaces();
         addCardTypes();
     }
 
-    /// <summary>
-    /// Adds races to the database
-    /// </summary>
+    private void dropPreviousData()
+    {
+        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Race");
+        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card_Type");
+    }
+
     public void addRaces()
     {
         foreach(var race in _races)
@@ -64,9 +61,6 @@ public class PopulateDB
         }
     }
 
-    /// <summary>
-    /// Adds card types to the database
-    /// </summary>
     public void addCardTypes()
     {
         foreach(var cardType in _cardTypes)
