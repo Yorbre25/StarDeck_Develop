@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CardInt } from '../../interfaces/card.interface';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * @description 
@@ -19,18 +20,24 @@ import { CardInt } from '../../interfaces/card.interface';
   templateUrl: './card-menu.component.html',
   styleUrls: ['./card-menu.component.scss']
 })
-export class CardMenuComponent implements OnInit{
-  cards!:CardInt[];
+export class CardMenuComponent implements OnInit {
+  cards!: CardInt[];
 
-  constructor(private api: ApiService) {
-      
+  constructor(private api: ApiService, private http: HttpClient) {
+
     //console.log(this.cards)
   }
 
   ngOnInit(): void {
-    this.api.getAllCards().subscribe(data => {
-      console.log(data)
-      this.cards = data 
+    //  this.api.getAllCards().subscribe(data => {
+    //  console.log(data)
+    // this.cards = data 
+    // });
+    this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
+      console.log(data);
+      this.cards = data
     });
-  }
 }
+
+}
+

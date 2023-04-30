@@ -1,5 +1,4 @@
-{
-    "cards": [
+[
         {
             "id": "''",
             "name": "Nyan Cat",
@@ -34,4 +33,3 @@
             "activated_card": true
         }
     ]
-}

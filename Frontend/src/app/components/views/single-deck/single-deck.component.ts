@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
 import { ApiService } from '../../services/api.service';
 import { DeckInterface } from '../../interfaces/deck.interface';
-
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-single-deck',
   templateUrl: './single-deck.component.html',
@@ -14,7 +14,7 @@ export class SingleDeckComponent {
   //deck!:DeckInterface[];
   cards!: CardInt[];
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private http: HttpClient) {
 
     //console.log(this.cards)
   }
