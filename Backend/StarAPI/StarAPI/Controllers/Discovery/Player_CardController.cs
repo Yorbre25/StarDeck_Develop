@@ -48,7 +48,7 @@ namespace StarAPI.Controllers
                 var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
                 player_id = player.id;
                 var all_cards = context.Card.ToList();
-                all_cards = all_cards.FindAll(c => c.type == "Basic");
+                all_cards = all_cards.FindAll(c => c.typeId == 1);
                 Random random = new Random();
                 HashSet<int> uniques = new HashSet<int>();
                 while(uniques.Count < 15) 
@@ -116,7 +116,7 @@ namespace StarAPI.Controllers
                 var player_cards = Get(player_id);
                 var cards = context.Card.ToList();
                 
-                cards = cards.FindAll(c => (c.type == "Normal" || c.type == "Rara"));
+                cards = cards.FindAll(c => (c.typeId == 1 || c.typeId == 1));
                 // Delete cards that player already have
                 foreach(var card in cards)
                 {

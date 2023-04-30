@@ -34,10 +34,10 @@ public class RaceHandling
     /// </summary>
     /// <param name="id">Id of race to be searched</param>
     /// <returns></returns>
-    public Race? GetRace(int id){
+    public string GetRace(int id){
         try
         {
-            return _context.Race.FirstOrDefault(r => r.id == id);
+            return GetRaceName(id);
         }
         catch (System.Exception)
         {
@@ -45,6 +45,15 @@ public class RaceHandling
         }
     }
 
+    public string GetRaceName(int id)
+    {
+        Race? race = _context.Race.FirstOrDefault(r => r.id == id);
+        if (race == null)
+        {
+            throw new ArgumentException("Race does not exist");
+        }
+        return race.name;
+    }
 
 
     /// <summary>

@@ -2,7 +2,7 @@
 
 namespace StarAPI.Models
 {
-    public class Card_Type
+    public class CardType
     {
         [Key]
         public int id { get; set; }
