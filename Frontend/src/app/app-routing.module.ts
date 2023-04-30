@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateUserComponent } from './components/views/create-user/create-user.component';
+import { CreateUserComponent } from './components/views/create/create-user/create-user.component';
 import { GameComponent } from './components/views/game/game.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
 import { LoginComponent } from './components/views/login/login.component';
-import { CardMenuComponent } from './components/views/card-menu/card-menu.component';
-import { CreateCardComponent } from './components/views/create-card/create-card.component';
-import { DeckMenuComponent } from './components/views/deck-menu/deck-menu.component';
-import { CreateDeckComponent } from './components/views/create-deck/create-deck.component';
+import { CardMenuComponent } from './components/views/menu/card-menu/card-menu.component';
+import { CreateCardComponent } from './components/views/create/create-card/create-card.component';
+import { DeckMenuComponent } from './components/views/menu/deck-menu/deck-menu.component';
+import { CreateDeckComponent } from './components/views/create/create-deck/create-deck.component';
 import { SingleDeckComponent } from './components/views/single-deck/single-deck.component';
-
+import { CreatePlanetComponent } from './components/views/create/create-planet/create-planet.component';
+import { PlanetMenuComponent } from './components/views/menu/planet-menu/planet-menu.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
@@ -20,7 +21,9 @@ const routes: Routes = [
   { path: 'cards', component: CardMenuComponent},
   { path: 'decks', component: DeckMenuComponent},
   { path: 'deck', component: SingleDeckComponent},
-  { path: 'create_deck', component: CreateDeckComponent}
+  { path: 'create_deck', component: CreateDeckComponent},
+  { path: 'create_planet', component: CreatePlanetComponent},
+  { path: 'planets', component: PlanetMenuComponent},
 ];
 
 @NgModule({

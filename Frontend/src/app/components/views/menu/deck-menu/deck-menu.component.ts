@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { DeckInterface } from '../../interfaces/deck.interface';
+import { ApiService } from 'src/app/components/services/api.service';
+import { DeckInterface } from 'src/app/components/interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { SingleDeckComponent } from '../single-deck/single-deck.component';
+import { SingleDeckComponent } from 'src/app/components/views/single-deck/single-deck.component';
 @Component({
   selector: 'app-deck-menu',
   templateUrl: './deck-menu.component.html',
