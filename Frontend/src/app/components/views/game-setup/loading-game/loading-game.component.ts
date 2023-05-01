@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatchNotFoundComponent } from 'src/app/components/pop-ups/match-not-found/match-not-found.component';
-import {MatDialogConfig} from '@angular/material/dialog';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-loading-game',
   templateUrl: './loading-game.component.html',
@@ -13,7 +15,7 @@ export class LoadingGameComponent {
   timeExpired: boolean = false;
   showPopUp: boolean = false;
 
-  constructor(public dialog: MatDialog) {
+  constructor(private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -21,7 +23,7 @@ export class LoadingGameComponent {
       this.remainingTime--;
       if (this.remainingTime == 0) {
         this.timeExpired = true;
-       this.openPopup()
+        this.openPopup()
       }
     }, 1000);
   }
@@ -36,5 +38,14 @@ export class LoadingGameComponent {
 
     this.dialog.open(MatchNotFoundComponent, dialogConfig);
 
+  }
+
+  findMatch() {
+    /**
+     * 
+     */
+     const uuid = uuidv4();
+    console.log(uuid);
+    this.router.navigate(['/match/choose_deck', uuid]);
   }
 }

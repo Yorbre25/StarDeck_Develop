@@ -1,14 +1,15 @@
-.flex_container{
-    display: flex;
+.game{
+    display: grid;
     flex-direction: row;
     flex-wrap: wrap;
     line-height: 100px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
-.card{
-    flex: 1 0 16%;
-    background-color:aquamarine;
-    border: solid 2px white;
-    text-align: center;
+.cards{
+    padding: 0px;
+    margin: 0px;
     
 }

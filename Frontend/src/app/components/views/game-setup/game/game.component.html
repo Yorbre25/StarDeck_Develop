@@ -1,6 +1,8 @@
 <div class="game">
+    <h4 class="title-text">Juego</h4>
     <div class="flex-container">
-        <app-multiple-planets></app-multiple-planets>
-        <app-multiple-cards></app-multiple-cards>
+        <app-multiple-planets [planets]="planets"></app-multiple-planets>
+        <app-multiple-cards class="cards" [clickable]="true" [cards]="cards"></app-multiple-cards>
     </div>
 </div>
+

@@ -12,12 +12,14 @@ import { SingleDeckComponent } from './components/views/single-deck/single-deck.
 import { CreatePlanetComponent } from './components/views/create/create-planet/create-planet.component';
 import { PlanetMenuComponent } from './components/views/menu/planet-menu/planet-menu.component';
 import { LoadingGameComponent } from './components/views/game-setup/loading-game/loading-game.component';
+import { DeckSelectComponent } from './components/views/game-setup/deck-select/deck-select.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'sign_up', component: CreateUserComponent},
   { path: 'home', component: LobbyComponent},
-  { path: 'partida/:id', component: GameComponent},
+  { path: 'match/:id', component: GameComponent},
+  { path: 'match/choose_deck/:id', component: DeckSelectComponent},
   { path: 'create_card', component: CreateCardComponent},
   { path: 'cards', component: CardMenuComponent},
   { path: 'decks', component: DeckMenuComponent},
