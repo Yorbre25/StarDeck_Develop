@@ -192,6 +192,13 @@ public class DataForTest
             "Raro",
         };
 
+    public string[] countries = new string[]
+    {
+        "Costa Rica",
+        "Estados Unidos",
+        "Mexico"
+    };
+
     public int numero = 3;
 
 

@@ -6,8 +6,8 @@ namespace StarAPI.Models
     public class Country
     {
         [Key]
-        public string id { get; set; }
-        public string c_name { get; set; }
+        public int id { get; set; }
+        public string countryName { get; set; }
 
     }
 }

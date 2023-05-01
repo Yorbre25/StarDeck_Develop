@@ -12,6 +12,7 @@ public class PopulateDB
     private  RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
     private PlanetTypeHandling _planetTypeHandling;
+    private CountryHandling _countryHandling;
 
     private DataForTest _dataForTest;
 
@@ -22,6 +23,7 @@ public class PopulateDB
         this._raceHandling = new RaceHandling(context);
         this._cardTypeHandling = new CardTypeHandling(context);
         this._planetTypeHandling = new PlanetTypeHandling(context);
+        this._countryHandling = new CountryHandling(context);
 
 
     }
@@ -33,6 +35,7 @@ public class PopulateDB
         addRaces();
         addCardTypes();
         addPlanetTypes();
+        addCountries();
     }
 
     private void dropPreviousData()
@@ -40,6 +43,7 @@ public class PopulateDB
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Race");
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card_Type");
         _context.Database.ExecuteSqlRaw("TRUNCATE TABLE PlanetType");
+        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Country");
     }
 
     public void addRaces()
@@ -64,5 +68,14 @@ public class PopulateDB
         {
             _planetTypeHandling.AddPlanetType(planetType);
         }
+    }
+
+    public void addCountries()
+    {
+        foreach(var country in _dataForTest.countries)
+        {
+            _countryHandling.AddCountry(country);
+        }
+        _context.SaveChanges();
     }
 }
