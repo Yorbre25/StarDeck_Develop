@@ -1,6 +1,6 @@
 [{
     "id": 1,
-    "name": "Example Deck",
+    "name": "kit kat",
     "cards": [
         {
             "id": "''",
@@ -205,7 +205,7 @@
   },
   {
     "id": 2,
-    "name": "Example Deck 2",
+    "name": "ez",
     "cards": [
         {
             "id": "''",

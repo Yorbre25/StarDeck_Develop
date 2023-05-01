@@ -14,5 +14,13 @@
         "type": "SSR",
         "description": "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
         "activated_card": true
+    },
+    {
+        "id": "''",
+        "name": "Tamagotchi Planet 2",
+        "image": "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
+        "type": "SSR",
+        "description": "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
+        "activated_card": true
     }
 ]

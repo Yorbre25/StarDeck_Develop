@@ -72,7 +72,7 @@ export class LobbyComponent{
   findGame(){
     const uuid = uuidv4();
     console.log(uuid);
-    this.router.navigate(['/partida', uuid]);
+    this.router.navigate(['/searching']);
     
 
   }

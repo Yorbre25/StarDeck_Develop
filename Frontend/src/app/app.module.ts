@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
-import { GameComponent } from './components/views/game/game.component';
+import { GameComponent } from './components/views/game-setup/game/game.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { CreateUserComponent } from './components/views/create/create-user/create-user.component';
 import { CardComponent } from './components/elements/card/card.component';
@@ -46,6 +46,9 @@ import { PlanetComponent } from './components/elements/planet/planet.component';
 import { CreatePlanetComponent } from './components/views/create/create-planet/create-planet.component';
 import { PlanetMenuComponent } from './components/views/menu/planet-menu/planet-menu.component';
 import { MultiplePlanetsComponent } from './components/elements/multiple-planets/multiple-planets.component';
+import { DeckSelectComponent } from './components/views/game-setup/deck-select/deck-select.component';
+import { LoadingGameComponent } from './components/views/game-setup/loading-game/loading-game.component';
+import { MatchNotFoundComponent } from './components/pop-ups/match-not-found/match-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +78,10 @@ import { MultiplePlanetsComponent } from './components/elements/multiple-planets
     PlanetComponent,
     CreatePlanetComponent,
     PlanetMenuComponent,
-    MultiplePlanetsComponent
+    MultiplePlanetsComponent,
+    DeckSelectComponent,
+    LoadingGameComponent,
+    MatchNotFoundComponent
   ],
   imports: [
     MatFormFieldModule,
