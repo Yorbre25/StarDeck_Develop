@@ -8,8 +8,8 @@
     .button-text {
       color: #f0f0f0;
       border: 5px solid #f0f0f0;
-      font-size: 4rem;
-      background: linear-gradient(to right,#f455ff80, #3c08b480);
+      font-size: 6rem;
+      background: transparent;
       margin: 0px;
       font-family: 'Rajdhani-Bold';
      
@@ -17,9 +17,9 @@
 
 
     .button-text:hover {
-      color: #3c08b480;
-      background: #f0f0f0;
-      border: 5px solid #3c08b480;
+      color: #ffffff;
+      background: #5099c390;
+      border: 5px solid #ffffff;
       box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),
       0px 5px 8px 0px rgba(0,0,0,0.14),
       0px 1px 14px 0px rgba(0,0,0,0.12);

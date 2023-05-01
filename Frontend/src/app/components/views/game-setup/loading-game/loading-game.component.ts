@@ -36,6 +36,5 @@ export class LoadingGameComponent {
 
     this.dialog.open(MatchNotFoundComponent, dialogConfig);
 
-    const dialogRef = this.dialog.open(MatchNotFoundComponent, dialogConfig);
   }
 }
