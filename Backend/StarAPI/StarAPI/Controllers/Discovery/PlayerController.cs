@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
-
+using StarAPI.Logic.ModelHandling;
+using StarAPI.DTOs;
 
 namespace StarAPI.Controllers
 {
@@ -11,17 +12,19 @@ namespace StarAPI.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private readonly StarDeckContext _context;
+        private PlayerHandling _playerHandling;
 
         public PlayerController(StarDeckContext context) 
         {
-            this.context = context;
+            this._context = context;
+            this._playerHandling = new PlayerHandling(_context);
         }
         
         [HttpGet("GetAllPlayers")]
-        public IEnumerable<Player> GetAllPlayers()
+        public IEnumerable<OutputPlayer> GetAllPlayers()
         {
-            return context.Player.ToList();
+            return _playerHandling.GetAllPlayers();
         }
 
 
@@ -46,35 +49,18 @@ namespace StarAPI.Controllers
         // }
 
  
-        // [HttpPost]
-        // public ActionResult AddPlayer([FromBody] Player player)
-        // {
-        //     try 
-        //     {
-        //         if(context.Player.FirstOrDefault(p => p.email == player.email) != null) 
-        //         {
-        //             return BadRequest("The e-mail is already in use");
-        //         }
-        //         var id = _idGenerator.GenerateId("U");
-        //         while (context.Player.FirstOrDefault(p=> p.id == id) !=null )
-        //         {
-        //             id = _idGenerator.GenerateId("U");
-        //         }
-        //         if(player.avatar == "")
-        //         {
-        //             player.avatar = "Imagen default";
-        //         }
-        //         player.coins = 20;
-        //         player.id = id;
-        //         player.p_hash = encrypt.Sha256(player.p_hash);
-        //         context.Player.Add(player);
-        //         context.SaveChanges();
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(e.Message);
-        //     }
-        // }
+        [HttpPost("AddPlayer")]
+        public ActionResult AddPlayer([FromBody] InputPlayer player)
+        {
+            try 
+            {
+                _playerHandling.AddPlayer(player);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

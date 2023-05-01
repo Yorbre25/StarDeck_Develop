@@ -13,7 +13,7 @@ namespace StarAPI.Models
         public string username {get; set;}
         public string pHash {get;set;}
         public int level {get;set;}
-        public string ranking { get; set; }
+        public int ranking { get; set; }
         public bool inGame { get; set; }
         public bool activatedAccount { get; set; }
         [ForeignKey("Country")]

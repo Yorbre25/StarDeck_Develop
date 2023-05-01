@@ -110,10 +110,6 @@ public class CardHandling
     }
 
 
-    /// <summary>
-    /// Public function for adding a card
-    /// </summary>
-    /// <param name="inputCard"></param>
     public void AddCard(InputCard inputCard)
     {
         bool isValid = CheckInputValues(inputCard);
