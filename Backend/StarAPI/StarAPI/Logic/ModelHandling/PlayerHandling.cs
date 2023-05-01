@@ -18,6 +18,8 @@ public class PlayerHandling
     private static int s_defaultCoins = 0;
     private static string s_idPrefix = "U";
 
+
+
     private Encrypt _encrypt;
 
     private IdGenerator _idGenerator;
@@ -42,6 +44,46 @@ public class PlayerHandling
         {
             throw new Exception("Error getting players");
         }
+    }
+
+    public string[] GetAllPlayersIds()
+    {
+        try
+        {
+            return GettingAllPlayersIds();
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting players ids");
+        }
+    }
+
+    private string[] GettingAllPlayersIds()
+    {
+        //Get List of players ids from database
+        List<Player> players = _context.Player.ToList();
+        var result = from player in players select player.id;
+        return result.ToArray();
+
+    }
+
+    public void SetPlayerRanking(string id, int ranking)
+    {
+        try
+        {
+           SettingPlayerRanking(id, ranking);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error setting player ranking");
+        }
+    }
+
+    private void SettingPlayerRanking(string id, int ranking)
+    {
+        Player player = _context.Player.Find(id);
+        player.ranking = ranking;
+        _context.SaveChanges();
     }
 
 
@@ -88,7 +130,7 @@ public class PlayerHandling
         return outputCard;
     }
 
- public void AddPlayer(InputPlayer inputPlayer)
+    public void AddPlayer(InputPlayer inputPlayer)
     {
         bool isValid = CheckInputValues(inputPlayer);
         bool usernameAlreadyExist = UsernameAlreadyExists(inputPlayer.username);
@@ -105,6 +147,12 @@ public class PlayerHandling
         }
         InsertPlayer(inputPlayer);
 
+    }
+
+    public void AddVeteranPlayer(Player player)
+    {
+        _context.Player.Add(player);
+        _context.SaveChanges();
     }
 
 
@@ -166,7 +214,7 @@ public class PlayerHandling
         return true;
     }
 
-        private bool EmailAlreadyExists(string email)
+    private bool EmailAlreadyExists(string email)
     {
         var player = _context.Player.FirstOrDefault(r => r.email == email);
         if(player == null){
@@ -184,4 +232,6 @@ public class PlayerHandling
         }
         return true;
     }
+
+    
 }
