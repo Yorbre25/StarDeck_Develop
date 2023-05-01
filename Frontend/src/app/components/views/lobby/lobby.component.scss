@@ -7,9 +7,9 @@
 
     .button-text {
       color: #f0f0f0;
-      border: 5px double #f0f0f0;
+      border: 5px solid #f0f0f0;
       font-size: 4rem;
-      background: linear-gradient(to right,#f455ff8b, #3c08b480);
+      background: linear-gradient(to right,#f455ff80, #3c08b480);
       margin: 0px;
       font-family: 'Rajdhani-Bold';
      
@@ -17,9 +17,9 @@
 
 
     .button-text:hover {
-      color: #ff558e;
-      background: #f0f0f080;
-      border: 5px double #ff558e;
+      color: #3c08b480;
+      background: #f0f0f0;
+      border: 5px solid #3c08b480;
       box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2),
       0px 5px 8px 0px rgba(0,0,0,0.14),
       0px 1px 14px 0px rgba(0,0,0,0.12);
