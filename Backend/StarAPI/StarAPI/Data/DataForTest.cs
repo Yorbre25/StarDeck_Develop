@@ -1,8 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using StarAPI.Logic.ModelHandling;
 using StarAPI.DTOs;
-using StarAPI.Context;
-
 namespace StarAPI.Data;
 
 
@@ -167,30 +163,74 @@ public class DataForTest
 
     };
 
-    public string[] races = new string[]
+    public InputPlayer[] players = new InputPlayer[]
+    {
+        new InputPlayer()
         {
-            "Human",
-            "Trisolariano",
-            "Robot",
-            "Marciano",
-            "Ciborg"
-        };
+            email = "yraulbr25@gmail.com",
+            firstName = "Yordi",
+            lastName = "Brenes",
+            username = "sadKaladin",
+            password = "ABC123",
+            countryId = 1,
+            avatar = "Imagen A",
+        },
+        new InputPlayer()
+        {
+            email = "adriana@gmail.com",
+            firstName = "Adriana",
+            lastName = "Brenes",
+            username = "cuadriante",
+            password = "ABC123",
+            countryId = 2,
+            avatar = "Imagen B",
+        },
+        new InputPlayer()
+        {
+            email = "nasser@gmail,com",
+            firstName = "Nasser",
+            lastName = "Brenes",
+            username = "bigNass",
+            password = "ABC123",
+            countryId = 3,
+            avatar = "Imagen C",
+        },
+        new InputPlayer()
+        {
+            email = "marcelo@gmail.com",
+            firstName = "Marcelo",
+            lastName = "Truque",
+            username = "MarceT",
+            password = "ABC123",
+            countryId = 1,
+            avatar = "Imagen D",
+        }
+    };
+
+    public string[] races = new string[]
+    {
+        "Human",
+        "Trisolariano",
+        "Robot",
+        "Marciano",
+        "Ciborg"
+    };
     
     public string[] cardTypes = new string[]
-        {
-            "Basica",
-            "Normal",
-            "Rara",
-            "Muy Rara",
-            "Ultra Rara"
-        };
+    {
+        "Basica",
+        "Normal",
+        "Rara",
+        "Muy Rara",
+        "Ultra Rara"
+    };
 
     public string[] planetTypes = new string[]
-        {
-            "Popular",
-            "Basico",
-            "Raro",
-        };
+    {
+        "Popular",
+        "Basico",
+        "Raro",
+    };
 
     public string[] countries = new string[]
     {
