@@ -55,5 +55,19 @@ namespace StarAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpDelete("DeleteCard/{id}")]
+        public ActionResult Delete(string id)
+        {
+            try
+            {
+                _cardHandling.DeleteCard(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

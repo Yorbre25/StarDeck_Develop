@@ -124,6 +124,24 @@ public class CardHandling
         _context.SaveChanges();
     }
 
+    public void DeleteCard(string id){
+        try
+        {
+            DeletingCard(id);
+        }
+        catch (System.Exception)
+        {
+            throw new ArgumentException("Invalid id");
+        }
+    }
+
+    private void DeletingCard(string id)
+    {
+        Card? card = ExtractCard(id);
+        _context.Card.Remove(card);
+        _context.SaveChanges();
+    }
+
     private Card setNewCardValues(InputCard newCard){
         Card card = new Card();
         string id = GenerateId();
