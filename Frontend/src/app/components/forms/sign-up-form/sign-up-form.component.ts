@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api.service';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 import { LoginService } from '../../services/login.service';
 import { CountryInterface } from '../../interfaces/countryinterface';
+import { onErrorResumeNextWith } from 'rxjs';
 
 /**
  * @description
@@ -44,6 +45,7 @@ export class SignUpFormComponent implements OnInit {
   nationalities !: CountryInterface[];
   fault!:boolean;
   emailalreadytaken!:boolean;
+  useralreadytaken!:boolean;
   validalphanumpassword!:boolean;
   validPattern:string="^[a-zA-Z0-9]{8}$";
     
@@ -75,6 +77,8 @@ export class SignUpFormComponent implements OnInit {
       return "Las contraseña debe tener un tamaño de 8 caracteres y debe ser alfanumérica"
     }else if(this.emailalreadytaken){
       return ("El correo proporcionado ya se encuentra registrado")
+    }else if(this.useralreadytaken){
+      return ("Ya existe un jugador con ese alias porfavor elija otro")
     }else if(!(/[a-zA-Z]/.test(component.value))){
       return "la contraseña debe de contar con al menos un valor alfabetico"
     }else if(!(/\d/.test(component.value))){
@@ -92,11 +96,16 @@ export class SignUpFormComponent implements OnInit {
     if(this.mail.invalid||this.playerName.invalid||this.playerLastName.invalid||this.playerNationality.invalid||this.playerAlias.invalid||this.playerPassword.invalid){
       this.fault=true
       this.emailalreadytaken=false
+      this.useralreadytaken=false
+      this.validalphanumpassword=false
     }else if(this.playerPassword.value!=this.confirmPassword.value){
       this.fault=true
       this.emailalreadytaken=false
+      this.useralreadytaken=false
+      this.validalphanumpassword=false
     }else if(this.playerPassword.value!=null&&(!(/[a-zA-Z]/.test(this.playerPassword.value))||!(/\d/.test(this.playerPassword.value)))){
       this.fault=true
+      this.useralreadytaken=false
       this.emailalreadytaken=false
       this.validalphanumpassword=true
     }else{
@@ -121,7 +130,17 @@ export class SignUpFormComponent implements OnInit {
           this.router.navigate(['/home']);
         
         },(error)=>{
-          this.emailalreadytaken=true
+          console.log(error.message)
+          console.log(error.message=="Player username already exist.")
+          if(error.message=="Player username already exist."){
+            this.useralreadytaken=true
+            this.emailalreadytaken=false
+          }else if(error.message=="Player email already exist."){
+            this.emailalreadytaken=true
+            this.useralreadytaken=false
+          }else{
+            console.log("Something wrong with the request")
+          }
         }
       );
     } 
@@ -154,6 +173,7 @@ export class SignUpFormComponent implements OnInit {
     //Settinf fault flags to initial false
     this.fault=false
     this.emailalreadytaken=false
+    this.useralreadytaken=false
     this.validalphanumpassword=false
   }
 

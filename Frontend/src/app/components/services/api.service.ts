@@ -19,7 +19,14 @@ export class ApiService{
     constructor(private http:HttpClient){}
 
     handleError(error: HttpErrorResponse) {
-        return throwError(()=>new Error('Something bad happened; please try again later.'));
+        console.log(error)
+        if(error.error=="Player username already exist"){
+            return throwError(()=>new Error('Player username already exist.'));    
+        }else if(error.error=="Player email already exist"){
+            return throwError(()=>new Error('Player email already exist.'));
+        }else{
+            return throwError(()=>new Error('Something bad happened; please try again later.'));
+        }
     }
 
     getAmCards(player:string|null):Observable<number>{

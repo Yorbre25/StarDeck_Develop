@@ -35,7 +35,7 @@
         <mat-label for="username">Alias: </mat-label>
         <input [formControl]="playerAlias" type="text" id="username" name="username" class="form-input" style="width: 300px;" placeholder="_JD2001_" required>
         <br>
-        <mat-error *ngIf="playerAlias.invalid && fault">{{getErrMessage(playerAlias)}}</mat-error>   
+        <mat-error *ngIf="(playerAlias.invalid&&fault)||useralreadytaken">{{getErrMessage(playerAlias)}}</mat-error>   
     </div>
     <br>
     <div class="form-group">
