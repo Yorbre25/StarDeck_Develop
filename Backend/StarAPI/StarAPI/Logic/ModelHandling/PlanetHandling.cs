@@ -50,15 +50,7 @@ public class PlanetHandling
         List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
         foreach(var planet in planets)
         {
-            try
-            {
-                outputPlanets.Add(PassPlanetValuesToOutputPlanet(planet));
-                
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
+            outputPlanets.Add(PassPlanetValuesToOutputPlanet(planet));    
         }
         return outputPlanets;
     }

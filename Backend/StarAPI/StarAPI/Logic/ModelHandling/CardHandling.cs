@@ -57,15 +57,7 @@ public class CardHandling
         List<OutputCard> outputCards = new List<OutputCard>();
         foreach(var card in cards)
         {
-            try
-            {
-                outputCards.Add(PassCardValuesToOutputCard(card));
-                
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
+            outputCards.Add(PassCardValuesToOutputCard(card));
         }
         return outputCards;
     }
@@ -162,16 +154,16 @@ public class CardHandling
     private bool CheckInputValues(InputCard card){
         bool isValid = true;
         if(card.name.Length < s_minCardNameLenght || card.name.Length > s_maxCardNameLenght){
-            isValid = false;
+            throw new Exception("Invalid name lenght");
         }
         else if(card.energy < s_minEnergyValue || card.energy > s_maxEnergyValue){
-            isValid = false;
+            throw new Exception("Invalid energy value");
         }
         else if(card.cost < s_minBattleCost || card.cost > s_maxBattleCost){
-            isValid = false;
+            throw new Exception("Invalid battle cost");
         }
         else if(card.description.Length > s_maxDescriptionLenght){
-            isValid = false;
+            throw new Exception("Invalid description lenght");
         }
         return isValid;
     }
