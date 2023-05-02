@@ -15,7 +15,6 @@ namespace StarAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        // private Encrypt encrypt = new Encrypt();
         private CardHandling _cardHandling;
 
         public CardController(StarDeckContext context)

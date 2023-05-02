@@ -160,7 +160,7 @@ public class PlayerHandling
         string id = GenerateId();
         player.id = id;
         player.email = newPlayer.email;
-        player.firstName = newPlayer.lastName;
+        player.firstName = newPlayer.firstName;
         player.lastName = newPlayer.lastName;
         player.username = newPlayer.username;
         player.pHash = _encrypt.Sha256(newPlayer.password);
@@ -216,7 +216,7 @@ public class PlayerHandling
     }
 
 
-    private bool IdAlreadyExists(string id){
+    public bool IdAlreadyExists(string id){
         Player? player = new Player();
         player = _context.Player.FirstOrDefault(c => c.id == id);
         if(player == null){

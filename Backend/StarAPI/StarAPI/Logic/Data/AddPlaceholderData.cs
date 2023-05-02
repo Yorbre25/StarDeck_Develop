@@ -43,8 +43,10 @@ public class AddPlaceholderData
     }
 
     private void AddCards()
-    {
-        foreach(var card in _dataForTest.cards)
+    {   
+        //append arrays
+        var cards = _dataForTest.basicCards.Concat(_dataForTest.advancedCards);
+        foreach(var card in cards)
         {
             _cardHandling.AddCard(card);
         }

@@ -5,14 +5,14 @@ namespace StarAPI.Data;
 public class DataForTest
 {
 
-    public InputCard[] cards = new InputCard[]{
-
+    public InputCard[] basicCards = new InputCard[]
+    {
         new InputCard()
         {
             name = "Carta A",
             energy = 10,
             cost = 10,
-            typeId = 2,
+            typeId = 1,
             raceId = 1,
             description = "Descripción A",
             image = "Imagen A"
@@ -22,7 +22,7 @@ public class DataForTest
             name = "Carta B",
             energy = 10,
             cost = 10,
-            typeId = 2,
+            typeId = 1,
             raceId = 1,
             description = "Descripción B",
             image = "Imagen B"
@@ -32,7 +32,7 @@ public class DataForTest
             name = "Carta C",
             energy = 10,
             cost = 10,
-            typeId = 2,
+            typeId = 1,
             raceId = 1,
             description = "Descripción C",
             image = "Imagen C"
@@ -42,7 +42,7 @@ public class DataForTest
             name = "Carta D",
             energy = 10,
             cost = 10,
-            typeId = 2,
+            typeId = 1,
             raceId = 1,
             description = "Descripción D",
             image = "Imagen D"
@@ -52,7 +52,7 @@ public class DataForTest
             name = "Carta E",
             energy = 10,
             cost = 10,
-            typeId = 2,
+            typeId = 1,
             raceId = 1,
             description = "Descripción E",
             image = "Imagen E"
@@ -62,7 +62,7 @@ public class DataForTest
             name = "Carta F",
             energy = 10,
             cost = 10,
-            typeId = 3,
+            typeId = 1,
             raceId = 1,
             description = "Descripción F",
             image = "Imagen F"
@@ -72,7 +72,7 @@ public class DataForTest
             name = "Carta G",
             energy = 10,
             cost = 10,
-            typeId = 3,
+            typeId = 1,
             raceId = 1,
             description = "Descripción G",
             image = "Imagen G"
@@ -82,7 +82,7 @@ public class DataForTest
             name = "Carta H",
             energy = 10,
             cost = 10,
-            typeId = 3,
+            typeId = 1,
             raceId = 1,
             description = "Descripción H",
             image = "Imagen H"
@@ -92,7 +92,7 @@ public class DataForTest
             name = "Carta I",
             energy = 10,
             cost = 10,
-            typeId = 3,
+            typeId = 1,
             raceId = 1,
             description = "Descripción I",
             image = "Imagen I"
@@ -102,11 +102,176 @@ public class DataForTest
             name = "Carta J",
             energy = 10,
             cost = 10,
-            typeId = 3,
+            typeId = 1,
             raceId = 1,
             description = "Descripción J",
             image = "Imagen J"
+        },
+        new InputCard()
+        {
+            name = "Carta K",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción K",
+            image = "Imagen K"
+        },
+        new InputCard() 
+        {
+            name = "Carta L",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción L",
+            image = "Imagen L"
+        },
+        new InputCard()
+        {
+            name = "Carta M",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción M",
+            image = "Imagen M"
+        },
+        new InputCard()
+        {
+            name = "Carta N",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción N",
+            image = "Imagen N"
+        },
+        new InputCard()
+        {
+            name = "Carta O",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción O",
+            image = "Imagen O"
+        },
+        new InputCard()
+        {
+            name = "Carta P",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción P",
+            image = "Imagen P"
+        },
+        new InputCard()
+        {
+            name = "Carta Q",
+            energy = 10,
+            cost = 10,
+            typeId = 1,
+            raceId = 1,
+            description = "Descripción Q",
+            image = "Imagen Q"
+        },
+    };
+    public InputCard[] advancedCards = new InputCard[]
+    {
+
+        new InputCard()
+        {
+            name = "Carta R",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción R",
+            image = "Imagen R"
+        },
+        new InputCard()
+        {
+            name = "Carta S",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción S",
+            image = "Imagen S"
+        },
+        new InputCard()
+        {
+            name = "Carta T",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción T",
+            image = "Imagen T"
+        },
+        new InputCard()
+        {
+            name = "Carta U",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción U",
+            image = "Imagen U"
+        },
+        new InputCard()
+        {
+            name = "Carta V",
+            energy = 10,
+            cost = 10,
+            typeId = 3,
+            raceId = 1,
+            description = "Descripción V",
+            image = "Imagen V"
+        },
+        new InputCard()
+        {
+            name = "Carta W",
+            energy = 10,
+            cost = 10,
+            typeId = 3,
+            raceId = 1,
+            description = "Descripción W",
+            image = "Imagen W"
+        },
+        new InputCard()
+        {
+            name = "Carta X",
+            energy = 10,
+            cost = 10,
+            typeId = 4,
+            raceId = 1,
+            description = "Descripción W",
+            image = "Imagen W"
+        },
+        new InputCard()
+        {
+            name = "Carta Y",
+            energy = 10,
+            cost = 10,
+            typeId = 4,
+            raceId = 1,
+            description = "Descripción Y",
+            image = "Imagen Y"
+        },
+        new InputCard()
+        {
+            name = "Carta Z",
+            energy = 10,
+            cost = 10,
+            typeId = 5,
+            raceId = 1,
+            description = "Descripción Z",
+            image = "Imagen Z"
         }
+
     };
 
     public InputPlanet[] planets = new InputPlanet[]

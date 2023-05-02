@@ -10,6 +10,10 @@ namespace StarAPI.Logic.ModelHandling;
 public class CardHandling
 {
     private readonly StarDeckContext _context;
+
+    private IdGenerator _idGenerator = new IdGenerator();
+    private RaceHandling _raceHandling;
+    private CardTypeHandling _cardTypeHandling;
     private static int s_minCardNameLenght = 5;
     private static int s_maxCardNameLenght = 30;
     private static bool s_defaultActivationState = true;
@@ -19,10 +23,6 @@ public class CardHandling
     private static int s_maxBattleCost = 100;
     private static int s_maxDescriptionLenght = 1000;
     private static string s_idPrefix = "C";
-
-    private IdGenerator _idGenerator = new IdGenerator();
-    private RaceHandling _raceHandling;
-    private CardTypeHandling _cardTypeHandling;
 
 
     public CardHandling(StarDeckContext context)
@@ -204,6 +204,14 @@ public class CardHandling
             return false;
         }
         return true;
+    }
+
+    public List<OutputCard> GetCardsWith(string cardTypeName)
+    {
+        List<OutputCard> allCards = GetAllCards();
+        List<OutputCard> specificCards;
+        specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
+        return specificCards;
     }
 
 }
