@@ -64,8 +64,8 @@ namespace StarAPI.Controllers
                 foreach(var u in uniquesIndexes)
                 {
                     var card = new Player_Card();
-                    card.card_id = all_cards[u].id;
-                    card.player_id = player_id;
+                    card.cardId = all_cards[u].id;
+                    card.playerId = player_id;
                     Post(card);
                     cards.Add(all_cards[u]);
 
@@ -86,11 +86,11 @@ namespace StarAPI.Controllers
             {
                 var player = context.Player.FirstOrDefault(p => p.id == player_id || p.email == player_id);
                 var cards_id = context.Player_Card.ToList();
-                cards_id = cards_id.FindAll(c => c.player_id == player_id || player.email == player_id);
+                cards_id = cards_id.FindAll(c => c.playerId == player_id || player.email == player_id);
                 var cards = new List<Card>();
                 foreach (var card in cards_id)
                 {
-                    cards.Add(context.Card.FirstOrDefault(c => c.id == card.card_id));
+                    cards.Add(context.Card.FirstOrDefault(c => c.id == card.cardId));
                 }
                 return cards;
             }

@@ -5,8 +5,8 @@ namespace StarAPI.Models
     public class Player_Card
     {
         [ForeignKey("Player")]
-        public string player_id { get; set; }
+        public string playerId { get; set; }
         [ForeignKey("Card")]
-        public string card_id { get; set; }
+        public string cardId { get; set; }
     }
 }

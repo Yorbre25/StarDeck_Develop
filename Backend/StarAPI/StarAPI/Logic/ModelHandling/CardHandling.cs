@@ -57,15 +57,7 @@ public class CardHandling
         List<OutputCard> outputCards = new List<OutputCard>();
         foreach(var card in cards)
         {
-            try
-            {
-                outputCards.Add(PassCardValuesToOutputCard(card));
-                
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
+            outputCards.Add(PassCardValuesToOutputCard(card));
         }
         return outputCards;
     }
@@ -132,6 +124,24 @@ public class CardHandling
         _context.SaveChanges();
     }
 
+    public void DeleteCard(string id){
+        try
+        {
+            DeletingCard(id);
+        }
+        catch (System.Exception)
+        {
+            throw new ArgumentException("Invalid id");
+        }
+    }
+
+    private void DeletingCard(string id)
+    {
+        Card? card = ExtractCard(id);
+        _context.Card.Remove(card);
+        _context.SaveChanges();
+    }
+
     private Card setNewCardValues(InputCard newCard){
         Card card = new Card();
         string id = GenerateId();
@@ -162,16 +172,16 @@ public class CardHandling
     private bool CheckInputValues(InputCard card){
         bool isValid = true;
         if(card.name.Length < s_minCardNameLenght || card.name.Length > s_maxCardNameLenght){
-            isValid = false;
+            throw new Exception("Invalid name lenght");
         }
         else if(card.energy < s_minEnergyValue || card.energy > s_maxEnergyValue){
-            isValid = false;
+            throw new Exception("Invalid energy value");
         }
         else if(card.cost < s_minBattleCost || card.cost > s_maxBattleCost){
-            isValid = false;
+            throw new Exception("Invalid battle cost");
         }
         else if(card.description.Length > s_maxDescriptionLenght){
-            isValid = false;
+            throw new Exception("Invalid description lenght");
         }
         return isValid;
     }

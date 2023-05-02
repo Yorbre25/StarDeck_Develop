@@ -98,15 +98,7 @@ public class PlayerHandling
         List<OutputPlayer> outputPlayers = new List<OutputPlayer>();
         foreach(var player in players)
         {
-            try
-            {
-                outputPlayers.Add(PassPlayerValuesToOutputPlayer(player));
-                
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
+            outputPlayers.Add(PassPlayerValuesToOutputPlayer(player));
         }
         return outputPlayers;
     }
