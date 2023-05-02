@@ -24,9 +24,13 @@ export class ApiService{
             return throwError(()=>new Error('Player username already exist.'));    
         }else if(error.error=="Player email already exist"){
             return throwError(()=>new Error('Player email already exist.'));
+        }else if(error.error=="Card name already exist"){
+            return throwError(()=>new Error('Card name already exist.'));
         }else{
             return throwError(()=>new Error('Something bad happened; please try again later.'));
         }
+
+        
     }
 
     getAmCards(player:string|null):Observable<number>{

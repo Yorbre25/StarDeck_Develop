@@ -143,8 +143,11 @@ export class CreateCardFormComponent {
             console.log(response);
             this.router.navigate(['/cards']);
           },(error)=>{
-            console.log(error)
-            this.duplicatecardnamefault=true;
+            if(error.message=="Card name already exist."){
+              this.duplicatecardnamefault=true;
+            }else{
+              console.log("Something happened on the server try again later")
+            }
           });
 
     }}
