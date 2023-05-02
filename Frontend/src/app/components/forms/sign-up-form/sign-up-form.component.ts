@@ -100,6 +100,8 @@ export class SignUpFormComponent implements OnInit {
       this.emailalreadytaken=false
       this.validalphanumpassword=true
     }else{
+      this.fault=false
+      this.validalphanumpassword=false
       this.user.email = this.mail.value
       this.user.firstName = this.playerName.value
       this.user.lastName = this.playerLastName.value
