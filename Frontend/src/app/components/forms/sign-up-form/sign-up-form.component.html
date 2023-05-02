@@ -24,7 +24,7 @@
         <mat-label for="nationality">Nacionalidad: </mat-label>
         <select [formControl]="playerNationality" id="nationality" name="nationality" class="form-input" style="width: 300px;" required>
             <option *ngFor="let nation of nationalities">
-                {{nation}}
+                {{nation.countryName}}
             </option>
         </select>
         <br>
@@ -35,14 +35,14 @@
         <mat-label for="username">Alias: </mat-label>
         <input [formControl]="playerAlias" type="text" id="username" name="username" class="form-input" style="width: 300px;" placeholder="_JD2001_" required>
         <br>
-        <mat-error *ngIf="playerAlias.invalid && fault">{{getErrMessage(playerAlias)}}</mat-error>   
+        <mat-error *ngIf="(playerAlias.invalid&&fault)||useralreadytaken">{{getErrMessage(playerAlias)}}</mat-error>   
     </div>
     <br>
     <div class="form-group">
         <mat-label for="password">Contraseña: </mat-label>
-        <input [formControl]="playerPassword" type="password" id="password" name="password" class="form-input" style="width: 300px;" required>
+        <input [pattern]="validPattern" [formControl]="playerPassword" type="password" id="password" name="password" class="form-input" style="width: 300px;" required>
         <br>
-        <mat-error *ngIf="fault">{{getErrMessage(playerPassword)}}</mat-error>
+        <mat-error *ngIf="fault && (validalphanumpassword || playerPassword.errors?.pattern)">{{getErrMessage(playerPassword)}}</mat-error>
     </div>
     <br>
     <div class="form-group">

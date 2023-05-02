@@ -4,5 +4,5 @@
 
 export interface CountryInterface{
     id:string|null;
-    c_name:string|null;
+    countryName:string|null;
 }

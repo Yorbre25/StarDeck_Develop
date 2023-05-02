@@ -138,13 +138,16 @@ export class CreateCardFormComponent {
         this.card.type = this.type.value
       
 
-        this.api.addCard(this.card).subscribe(//acá llama a la API
+        this.api.addCard(this.card,this.types,this.races).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
             this.router.navigate(['/cards']);
           },(error)=>{
-            console.log(error)
-            this.duplicatecardnamefault=true;
+            if(error.message=="Card name already exist."){
+              this.duplicatecardnamefault=true;
+            }else{
+              console.log("Something happened on the server try again later")
+            }
           });
 
     }}

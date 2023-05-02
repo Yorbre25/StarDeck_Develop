@@ -5,6 +5,8 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 import { LoginService } from '../../services/login.service';
+import { CountryInterface } from '../../interfaces/countryinterface';
+import { onErrorResumeNextWith } from 'rxjs';
 
 /**
  * @description
@@ -40,9 +42,13 @@ import { LoginService } from '../../services/login.service';
 export class SignUpFormComponent implements OnInit {
   //Variables del backend
   user !: AccountInt;
-  nationalities !: string[];
+  nationalities !: CountryInterface[];
   fault!:boolean;
   emailalreadytaken!:boolean;
+  useralreadytaken!:boolean;
+  validalphanumpassword!:boolean;
+  validPattern:string="^[a-zA-Z0-9]{8}$";
+    
 
 
 
@@ -52,7 +58,7 @@ export class SignUpFormComponent implements OnInit {
   playerLastName = new FormControl('',[Validators.required]);
   playerNationality = new FormControl('',[Validators.required]);
   playerAlias = new FormControl('',[Validators.required,Validators.maxLength(30)]);
-  playerPassword = new FormControl('',[Validators.required]);
+  playerPassword = new FormControl('',[Validators.required,Validators.pattern(this.validPattern)]);
   confirmPassword = new FormControl('',[Validators.required]);
 
   
@@ -67,12 +73,18 @@ export class SignUpFormComponent implements OnInit {
       return "Ingrese un mail valido"
     }else if(component.hasError('maxlength')){
       return "El usuario debe tener entre 1 y 30 caracteres"
+    }else if(component.hasError('pattern')){
+      return "Las contraseña debe tener un tamaño de 8 caracteres y debe ser alfanumérica"
     }else if(this.emailalreadytaken){
       return ("El correo proporcionado ya se encuentra registrado")
+    }else if(this.useralreadytaken){
+      return ("Ya existe un jugador con ese alias porfavor elija otro")
+    }else if(!(/[a-zA-Z]/.test(component.value))){
+      return "la contraseña debe de contar con al menos un valor alfabetico"
+    }else if(!(/\d/.test(component.value))){
+      return "la contraseña debe de contar con al menos un valor numerico"
     }else if(this.playerPassword.value!=this.confirmPassword.value){
       return "Las contraseñas deben coincidir"
-    }else if(this.playerPassword.value?.length!=8){
-      return "Las contraseña debe tener un tamaño de 8 caracteres"
     }else{
       return ""
     }
@@ -81,38 +93,57 @@ export class SignUpFormComponent implements OnInit {
 
   //Valida la información y guardará en caso que todo esté correcto
   goToLobby(){
-
     if(this.mail.invalid||this.playerName.invalid||this.playerLastName.invalid||this.playerNationality.invalid||this.playerAlias.invalid||this.playerPassword.invalid){
       this.fault=true
-    }else if(this.playerPassword.value!=this.confirmPassword.value||this.playerPassword.value?.length!=8){
+      this.emailalreadytaken=false
+      this.useralreadytaken=false
+      this.validalphanumpassword=false
+    }else if(this.playerPassword.value!=this.confirmPassword.value){
       this.fault=true
+      this.emailalreadytaken=false
+      this.useralreadytaken=false
+      this.validalphanumpassword=false
+    }else if(this.playerPassword.value!=null&&(!(/[a-zA-Z]/.test(this.playerPassword.value))||!(/\d/.test(this.playerPassword.value)))){
+      this.fault=true
+      this.useralreadytaken=false
+      this.emailalreadytaken=false
+      this.validalphanumpassword=true
     }else{
+      this.fault=false
+      this.validalphanumpassword=false
       this.user.email = this.mail.value
-      this.user.f_name = this.playerName.value
-      this.user.l_name = this.playerLastName.value
+      this.user.firstName = this.playerName.value
+      this.user.lastName = this.playerLastName.value
       this.user.country = this.playerNationality.value
-      this.user.nickname = this.playerAlias.value
-      this.user.p_hash=this.playerPassword.value
-      console.log("Before")
-      this.api.registerAccount(this.user).subscribe( //acá llama a la API
+      this.user.username = this.playerAlias.value
+      this.user.pHash=this.playerPassword.value
+      this.api.registerAccount(this.user,this.nationalities).subscribe( //acá llama a la API
         (response) => {
           console.log(response)
-          if(this.user.email!=null && this.user.id!=null){
-            this.api.getPlayerInfo(this.user.email).subscribe(data=>{
-              this.user=data
-            })
+          if(this.user.email!=null && this.user.id!=null){  
             this.logs.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
-            this.logs.setid(this.user.id) //Guarda el id del usuario que está actualmente loggeado
+            let id = this.api.getPlayerID(this.user.email) //Guarda el id del usuario que está actualmente loggeado
+            if(id!=null){
+              this.logs.setid(id) //Guarda el correo del usuario que está actualmente loggeado
+            }
           }
           this.router.navigate(['/home']);
         
-      },(error)=>{
-          this.emailalreadytaken=true
+        },(error)=>{
+          console.log(error.message)
+          console.log(error.message=="Player username already exist.")
+          if(error.message=="Player username already exist."){
+            this.useralreadytaken=true
+            this.emailalreadytaken=false
+          }else if(error.message=="Player email already exist."){
+            this.emailalreadytaken=true
+            this.useralreadytaken=false
+          }else{
+            console.log("Something wrong with the request")
+          }
         }
-        );
-      }
-     
-   
+      );
+    } 
   }
 
 
@@ -121,24 +152,29 @@ export class SignUpFormComponent implements OnInit {
     this.user = {
       id:'',
       email:'',
-      f_name:'',
-      l_name:'',
+      firstName:'',
+      lastName:'',
       country:'',
-      nickname:'',
-      p_hash:'',
+      username:'',
+      pHash:'',
       ranking:'',
-      lvl:0,
+      level:0,
       coins:20,//
       avatar:'https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG',
-      in_game:false,
-      active:false
     }
-    //this.nationalities=this.api.getCountries()
-    this.nationalities=["","Estados Unidos","México","Costa Rica"]
+    this.nationalities=[{
+      id:"",
+      countryName:""
+    }]
+    this.api.getCountries().subscribe((data)=>{
+      this.nationalities=this.nationalities.concat(data)
+    })
 
     //Settinf fault flags to initial false
     this.fault=false
     this.emailalreadytaken=false
+    this.useralreadytaken=false
+    this.validalphanumpassword=false
   }
 
 }
