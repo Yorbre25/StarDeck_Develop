@@ -95,12 +95,6 @@ namespace StarAPI.Logic
             return allCards;
         }
 
-        // public OutputCard GetRandomCardWith(string cardTypeName)
-        // {
-        //     List<OutputCard> cards = GetCardsWith(cardTypeName);
-        //     return GetRandomCard(cards);
-        // }
-
         private OutputCard GetRandomCard(List<OutputCard> cards)
         {
             Random random = new Random();
