@@ -138,7 +138,7 @@ export class CreateCardFormComponent {
         this.card.type = this.type.value
       
 
-        this.api.addCard(this.card).subscribe(//acá llama a la API
+        this.api.addCard(this.card,this.types,this.races).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
             this.router.navigate(['/cards']);

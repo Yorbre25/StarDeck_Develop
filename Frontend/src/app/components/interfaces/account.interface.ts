@@ -5,14 +5,12 @@
 export interface AccountInt{
     id:string|null;
     email:string|null;
-    f_name:string|null;
-    l_name:string|null;
-    nickname:string|null;
-    p_hash:string|null;
-    lvl:number;
+    firstName:string|null;
+    lastName:string|null;
+    username:string|null;
+    pHash:string|null;
+    level:number;
     ranking:string|null;
-    in_game:boolean;
-    active:boolean;
     country:string|null;
     coins:number;
     avatar:string;

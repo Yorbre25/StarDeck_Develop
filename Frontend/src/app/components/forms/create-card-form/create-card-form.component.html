@@ -7,7 +7,7 @@
             <input [formControl]="characterName" type="text" id="name" name="name" class="form-input"
                 style="width: 300px;" placeholder="Nyan Cat" required>
             <br>
-            <mat-error *ngIf="characterName.invalid  && fault">{{getErrMessage(characterName)}}</mat-error>
+            <mat-error *ngIf="(characterName.invalid  && fault)|| duplicatecardnamefault">{{getErrMessage(characterName)}}</mat-error>
 
             <br>
 
