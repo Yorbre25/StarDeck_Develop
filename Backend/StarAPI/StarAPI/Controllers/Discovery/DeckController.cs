@@ -1,44 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StarAPI.Models;
+using StarAPI.Logic.ModelHandling;
+using StarAPI.DTOs;
 using StarAPI.Context;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DeckController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private readonly StarDeckContext _context;
+        private DeckHandling _deckHandling;
+        private DeckCardHandling _deckCardHandling;
 
         public DeckController(StarDeckContext context)
         {
-            this.context = context;
+            this._context = context;
+            this._deckHandling = new DeckHandling(context);
+            this._deckCardHandling = new DeckCardHandling(context);
         }
-        // GET: api/<DeckController>
-        [HttpGet]
-        public IEnumerable<Deck> Get()
+        
+        [HttpGet("GetDecksFromPlayer/{playerId}")]
+        public List<OutputDeck> GetDecksFromPlayer(string playerId)
         {
-            return context.Deck.ToList();
+            return _deckHandling.GetDecksFromPlayer(playerId);
         }
 
-        // GET api/<DeckController>/5
-        [HttpGet("{id}")]
-        public Deck Get(string id)
+        
+        [HttpGet("GetCardsFromDeck/{deckId}")]
+        public List<OutputCard> GetCardsFromDeck(string deckId)
         {
-            return context.Deck.FirstOrDefault(d => d.deck_id == id);
+            return _deckCardHandling.GetCardsFromDeck(deckId);
         }
 
-        // POST api/<DeckController>
-        [HttpPost]
-        public ActionResult Post([FromBody] Deck deck)
+
+        [HttpPost("AddDeck")]
+        public ActionResult AddDeck([FromBody] InputDeck deck)
         {
             try
             {
-                context.Deck.Add(deck);
-                context.SaveChanges();
+                _deckHandling.AddDeck(deck);
                 return Ok();
             }
             catch (Exception e)
@@ -47,31 +50,6 @@ namespace StarAPI.Controllers
             }
         }
 
-        // PUT api/<DeckController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Deck deck)
-        {
-            if (deck.deck_id == id)
-            {
-                context.Entry(deck).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
-
-        // DELETE api/<DeckController>/5
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
-        {
-            var deck = context.Deck.FirstOrDefault(d => d.deck_id == id);
-            if (deck != null)
-            {
-                context.Deck.Remove(deck);
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
+      
     }
 }
