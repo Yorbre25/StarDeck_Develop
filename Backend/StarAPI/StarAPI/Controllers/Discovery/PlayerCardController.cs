@@ -30,8 +30,8 @@ namespace StarAPI.Controllers
         }
        
 
-        [HttpPost("GenerateCardsForNewPlayer")]
-        public ActionResult GenerateCardsForNewPlayer([FromBody] string playerId)
+        [HttpPost("GenerateCardsForNewPlayer/{playerId}")]
+        public ActionResult GenerateCardsForNewPlayer(string playerId)
         {
             try
             {
