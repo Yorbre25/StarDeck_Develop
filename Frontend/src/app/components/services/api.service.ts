@@ -5,7 +5,8 @@ import { CountryInterface } from "../interfaces/countryinterface";
 import { CardInt } from "../interfaces/card.interface";
 import { RaceInterface } from "../interfaces/race.interface";
 import { TypeInterface } from "../interfaces/type.interface";
-import { HttpClient,HttpHeaders, HttpErrorResponse } from "@angular/common/http";
+import { PlanetInterface } from "../interfaces/planet.interface";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, Observable, throwError } from "rxjs";
 import { RouterTestingHarness } from "@angular/router/testing";
 
@@ -26,6 +27,8 @@ export class ApiService{
             return throwError(()=>new Error('Player email already exist.'));
         }else if(error.error=="Card name already exist"){
             return throwError(()=>new Error('Card name already exist.'));
+        }else if(error.error=="PLanet name already exist"){
+            return throwError(()=>new Error('Planet name already exist.'));
         }else{
             return throwError(()=>new Error('Something bad happened; please try again later.'));
         }
@@ -34,7 +37,7 @@ export class ApiService{
     }
 
     getAmCards(player:string|null):Observable<number>{
-        let dir = this.url + "CardAssign/card_count/"+player
+        let dir = this.url + "PlayerCard/CardCount/"+player
         return this.http.get<number>(dir)
     }
 
@@ -51,22 +54,13 @@ export class ApiService{
         return -1
     }
 
-    getPlayerID(playermail:string|null){
-        var allplayers:AccountInt[]
-        allplayers=[]
-        this.getAllPlayers().subscribe(//acá llama a la API
-          (data) => {
-            allplayers=data
-        });
-
-        for (var player of allplayers){
-            if(player.email==playermail){
-                return player.id
-            }
-        }
-        console.log("Something went wrong with account")
-        return "ERROR"
-        }
+    assignPlayerInitialCards(playerid:string|null){
+        let dir= this.url + "PlayerCard/GenerateCardsForNewPlayer"
+        console.log(dir)
+        console.dir(playerid)
+        return this.http.post(dir,playerid)
+        
+    }
     
     registerAccount(player:AccountInt, countries:CountryInterface[]):Observable<any>{
         let dir = this.url + "Player/AddPlayer"
@@ -91,6 +85,17 @@ export class ApiService{
         return this.http.get<AccountInt[]>(dir)
     }
 
+
+    getPlayerID(playermail:string|null,allPlayers:AccountInt[]){ 
+        for (var player of allPlayers){
+            if(player.email==playermail){
+                return player.id
+            }
+        }
+        console.log("Something went wrong with account")
+        return "ERROR"
+    }
+    
     searchtypeID(typename:string|null,types:TypeInterface[]){
         if(typename!=null){
             for (var type of types){
@@ -117,6 +122,18 @@ export class ApiService{
         return -1
     }
     
+    addPlanet(planet:PlanetInterface,types:TypeInterface[]):Observable<any>{
+        let dir = this.url+"Planet/AddPlanet"
+        let planetforAPI={
+            name:planet.name,
+            typeId:this.searchtypeID(planet.type,types),
+            description:planet.description,
+            image:planet.image
+        }
+        console.log(planetforAPI)
+        return this.http.post<ResponseI>(dir,planetforAPI).pipe(catchError(this.handleError))
+    }
+
     addCard(card:CardInt,types:TypeInterface[],races:RaceInterface[]):Observable<any>{
         let dir =this.url + "Card/AddCard"
         console.log("dir: "+ dir)
@@ -141,7 +158,7 @@ export class ApiService{
       }
 
     getplayerCards(player:string|null):Observable<CardInt[]>{
-        let dir = this.url +"CardAssign/"+player
+        let dir = this.url +"PlayerCard/GetPlayerCards"+player
         console.log(dir)
         return this.http.get<CardInt[]>(dir)
     }
@@ -153,19 +170,19 @@ export class ApiService{
     }
 
     playerchoseCard(cardId:string|null,playerId:string|null):Observable<ResponseI>{
-        let dir = this.url + 'CardAssign/'+playerId
+        let dir = this.url + 'PlayerCard/AssignCardToPlayer/'+playerId+"/"+cardId
         console.log(dir)
-        let card;
-        if(cardId!=null)
-            this.getCard(cardId).subscribe(data=>{
-                card=data
-            })
-        console.log(card)
-        return this.http.post<ResponseI>(dir,card)
+        return this.http.post<ResponseI>(dir,{})
     }
 
-    getchoosingcard(player:string|null):Observable<CardInt[][]>{
-        let dir = this.url+'CardAssign/GetPackagesForNewPlayer'
+    getAllPlanets():Observable<PlanetInterface[]>{
+        let dir = this.url+"Planet/GetAllPlanets"
+        console.log(dir)
+        return this.http.get<PlanetInterface[]>(dir)
+    }
+
+    getchoosingcard():Observable<CardInt[][]>{
+        let dir = this.url+'PlayerCard/GetPackagesForNewPlayer'
         return this.http.get<CardInt[][]>(dir)
     }
 

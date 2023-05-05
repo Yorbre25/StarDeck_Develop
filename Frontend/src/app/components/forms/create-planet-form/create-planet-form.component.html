@@ -27,7 +27,7 @@
                     <select [formControl]="type" id="type" name="type" class="form-input" placeholder="MR"
                         style="width: 150px;" required>
                         <option *ngFor="let type of types">
-                            {{type}}
+                            {{type.typeName}}
                         </option>
                     </select>
                     <br>

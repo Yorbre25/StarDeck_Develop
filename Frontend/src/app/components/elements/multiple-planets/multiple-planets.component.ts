@@ -1,5 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { Planet } from '../../interfaces/planet.interface';
+import { PlanetInterface } from '../../interfaces/planet.interface';
 
 @Component({
   selector: 'app-multiple-planets',
@@ -9,7 +9,7 @@ import { Planet } from '../../interfaces/planet.interface';
 export class MultiplePlanetsComponent {
 
   @Input()
-  planets!:Planet[];
+  planets!:PlanetInterface[];
 
     
   constructor() {

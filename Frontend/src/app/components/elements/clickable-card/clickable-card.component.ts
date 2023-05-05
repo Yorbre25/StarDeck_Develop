@@ -31,6 +31,7 @@ export class ClickableCardComponent {
   onClick(){
     
     //this.api.playerchoseCard(this.element,this.logins.getcorreo());
+    console.log("CLICKABLE CARD LOG")
     this.router.navigate(['/cards']);
 
   }

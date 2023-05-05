@@ -40,7 +40,11 @@ export class CardComponent {
 
   onClick() {
     if (this.clickable) {
-      this.Scard.setcard(this.element)
+      if(this.element.id==''){
+        console.log("Card not ready yet")
+      }else{
+        this.Scard.setcard(this.element)
+      }
     }
 
 

@@ -54,7 +54,6 @@ export class SideMenuComponent implements OnInit{
   showInfo = false;
 
   ngOnInit(){
-    console.log("ACAAAAA")
     /** 
     this.api.getPlayerInfo(this.logins.getcorreo()).subscribe(data => {
       console.log(data)

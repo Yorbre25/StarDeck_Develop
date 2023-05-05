@@ -119,19 +119,18 @@ export class SignUpFormComponent implements OnInit {
       this.user.pHash=this.playerPassword.value
       this.api.registerAccount(this.user,this.nationalities).subscribe( //acá llama a la API
         (response) => {
-          console.log(response)
-          if(this.user.email!=null && this.user.id!=null){  
+          if(this.user.email!=null){  
             this.logs.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
-            let id = this.api.getPlayerID(this.user.email) //Guarda el id del usuario que está actualmente loggeado
-            if(id!=null){
-              this.logs.setid(id) //Guarda el correo del usuario que está actualmente loggeado
-            }
           }
-          this.router.navigate(['/home']);
-        
+          this.api.getAllPlayers().subscribe((data)=>{
+            this.user.id=this.api.getPlayerID(this.user.email,data)  
+            this.api.assignPlayerInitialCards(this.user.id)
+            if(this.user.id!=null){
+              this.logs.setid(this.user.id)
+            }
+            this.router.navigate(['/home']);
+            }) 
         },(error)=>{
-          console.log(error.message)
-          console.log(error.message=="Player username already exist.")
           if(error.message=="Player username already exist."){
             this.useralreadytaken=true
             this.emailalreadytaken=false

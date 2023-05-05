@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { Planet } from '../../interfaces/planet.interface';
+import { PlanetInterface } from '../../interfaces/planet.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { RouterTestingHarness } from '@angular/router/testing';
+import { TypeInterface } from '../../interfaces/type.interface';
+
 
 @Component({
   selector: 'app-create-planet-form',
@@ -12,8 +14,8 @@ import { RouterTestingHarness } from '@angular/router/testing';
 })
 export class CreatePlanetFormComponent {
 
-  planet !: Planet;
-  types !: string[];
+  planet !: PlanetInterface;
+  types !: TypeInterface[];
 
   //Variables de control de ingresod e datos
   fault!: boolean;
@@ -50,23 +52,19 @@ export class CreatePlanetFormComponent {
       if (this.planetName.invalid || this.description.invalid || this.type.invalid) {
         this.fault = true
       } else {
+        this.fault=false
         this.planet.name = this.planetName.value
         this.planet.description = this.description.value
         this.planet.type = this.type.value
-
-
-        /**
-         *  this.api.addCard(this.card).subscribe(//acá llama a la API
+        
+           this.api.addPlanet(this.planet,this.types).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
             this.router.navigate(['/home']);
           }, (error) => {
             console.log(error)
-            this.duplicatecardnamefault = true;
+            this.duplicatePlanetNameFault = true;
           });
-         */
-
-          this.router.navigate(['/home']);
       }
     }
   }
@@ -83,7 +81,6 @@ export class CreatePlanetFormComponent {
         this.planet.name = this.planetName.value
         this.planet.description = this.description.value
         this.planet.type = this.type.value
-
         this.planet.image = imageData;
       };
     }
@@ -98,10 +95,18 @@ export class CreatePlanetFormComponent {
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
       type: "Basico",
       description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
-      activated_planet: true
     };
+    
+    this.types = [{
+      id:"",
+      typeName:""
+    }]
+    
 
-    this.types = ["Ultra Rara", "Muy Rara", "Rara", "Normal", "Basica"]
+    this.api.getTypes().subscribe((data)=>{
+      this.types=this.types.concat(data)
+    })
+    
     this.fault = false
     this.duplicatePlanetNameFault = false
   }
