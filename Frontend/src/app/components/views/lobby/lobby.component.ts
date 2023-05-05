@@ -58,9 +58,8 @@ export class LobbyComponent implements OnInit{
   findGame(){
     const uuid = uuidv4();
     console.log(uuid);
-    this.router.navigate(['/partida', uuid]);
-  }
-
+    this.router.navigate(['/searching']);
+    
   ngOnInit(): void {
     this.api.getAmCards(this.logs.getid()).subscribe((data)=>{
       console.log("Card Amount")

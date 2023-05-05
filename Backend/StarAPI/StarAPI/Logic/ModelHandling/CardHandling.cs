@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
@@ -10,6 +9,10 @@ namespace StarAPI.Logic.ModelHandling;
 public class CardHandling
 {
     private readonly StarDeckContext _context;
+
+    private IdGenerator _idGenerator = new IdGenerator();
+    private RaceHandling _raceHandling;
+    private CardTypeHandling _cardTypeHandling;
     private static int s_minCardNameLenght = 5;
     private static int s_maxCardNameLenght = 30;
     private static bool s_defaultActivationState = true;
@@ -19,10 +22,6 @@ public class CardHandling
     private static int s_maxBattleCost = 100;
     private static int s_maxDescriptionLenght = 1000;
     private static string s_idPrefix = "C";
-
-    private IdGenerator _idGenerator = new IdGenerator();
-    private RaceHandling _raceHandling;
-    private CardTypeHandling _cardTypeHandling;
 
 
     public CardHandling(StarDeckContext context)
@@ -57,15 +56,7 @@ public class CardHandling
         List<OutputCard> outputCards = new List<OutputCard>();
         foreach(var card in cards)
         {
-            try
-            {
-                outputCards.Add(PassCardValuesToOutputCard(card));
-                
-            }
-            catch (System.Exception)
-            {
-                continue;
-            }
+            outputCards.Add(PassCardValuesToOutputCard(card));
         }
         return outputCards;
     }
@@ -110,10 +101,6 @@ public class CardHandling
     }
 
 
-    /// <summary>
-    /// Public function for adding a card
-    /// </summary>
-    /// <param name="inputCard"></param>
     public void AddCard(InputCard inputCard)
     {
         bool isValid = CheckInputValues(inputCard);
@@ -131,12 +118,30 @@ public class CardHandling
 
 
     public void InsertCard(InputCard inputCard){
-        var newCard = setNewCardValues(inputCard);
+        var newCard = SetNewCardValues(inputCard);
         _context.Card.Add(newCard);
         _context.SaveChanges();
     }
 
-    private Card setNewCardValues(InputCard newCard){
+    public void DeleteCard(string id){
+        try
+        {
+            DeletingCard(id);
+        }
+        catch (System.Exception)
+        {
+            throw new ArgumentException("Invalid id");
+        }
+    }
+
+    private void DeletingCard(string id)
+    {
+        Card? card = ExtractCard(id);
+        _context.Card.Remove(card);
+        _context.SaveChanges();
+    }
+
+    private Card SetNewCardValues(InputCard newCard){
         Card card = new Card();
         string id = GenerateId();
         card.id = id;
@@ -166,16 +171,16 @@ public class CardHandling
     private bool CheckInputValues(InputCard card){
         bool isValid = true;
         if(card.name.Length < s_minCardNameLenght || card.name.Length > s_maxCardNameLenght){
-            isValid = false;
+            throw new Exception("Invalid name lenght");
         }
         else if(card.energy < s_minEnergyValue || card.energy > s_maxEnergyValue){
-            isValid = false;
+            throw new Exception("Invalid energy value");
         }
         else if(card.cost < s_minBattleCost || card.cost > s_maxBattleCost){
-            isValid = false;
+            throw new Exception("Invalid battle cost");
         }
         else if(card.description.Length > s_maxDescriptionLenght){
-            isValid = false;
+            throw new Exception("Invalid description lenght");
         }
         return isValid;
     }
@@ -198,6 +203,14 @@ public class CardHandling
             return false;
         }
         return true;
+    }
+
+    public List<OutputCard> GetCardsWith(string cardTypeName)
+    {
+        List<OutputCard> allCards = GetAllCards();
+        List<OutputCard> specificCards;
+        specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
+        return specificCards;
     }
 
 }

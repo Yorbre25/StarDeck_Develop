@@ -1,0 +1,15 @@
+.game{
+    display: grid;
+    flex-direction: row;
+    flex-wrap: wrap;
+    line-height: 100px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.cards{
+    padding: 0px;
+    margin: 0px;
+    
+}

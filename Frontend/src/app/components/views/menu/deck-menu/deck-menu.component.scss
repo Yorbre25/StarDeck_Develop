@@ -1,13 +1,36 @@
-.multiple-decks{
+.multiple-decks {
     display: grid;
     flex-wrap: wrap;
     margin: 10px;
     margin-bottom: 20px;
     align-items: center;
     justify-content: center;
-    }
+}
 
-    .button-text{
-        margin: 10px;
-    }
-  
+
+.title-text {
+    font-size: 4.5rem;
+    font-family: 'Rajdhani-SemiBold';
+    text-shadow: 2px 2px;
+    margin-bottom: 40px;
+  }
+.button-text {
+    color: #f0f0f0;
+    border: 5px solid #f0f0f0;
+    font-size: 1.8rem;
+    background: transparent;
+    margin: 10px;
+    border-radius: 15px;
+
+
+}
+
+
+.button-text:hover {
+    color: #ffffff;
+    background: #5099c390;
+    border: 5px solid #ffffff;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+        0px 5px 8px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 14px 0px rgba(0, 0, 0, 0.12);
+}

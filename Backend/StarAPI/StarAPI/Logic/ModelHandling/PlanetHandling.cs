@@ -26,6 +26,48 @@ public class PlanetHandling
         this._planetTypeHandling = new PlanetTypeHandling(_context);
     }
 
+
+    public List<OutputPlanet> GetAllPlanets()
+    {
+        try
+        {
+            return GettingAllPlanets();
+        } 
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planets");
+        }
+    }
+
+    private List<OutputPlanet> GettingAllPlanets()
+    {
+        List<Planet> planets = _context.Planet.ToList();
+        return PlanetsToOutputPlanets(planets);
+    }
+
+    private List<OutputPlanet> PlanetsToOutputPlanets(List<Planet> planets)
+    {
+        List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
+        foreach(var planet in planets)
+        {
+            outputPlanets.Add(PassPlanetValuesToOutputPlanet(planet));    
+        }
+        return outputPlanets;
+    }
+
+    private OutputPlanet PassPlanetValuesToOutputPlanet(Planet planet)
+    {
+        OutputPlanet outputCard = new OutputPlanet
+        {
+            id = planet.id,
+            name = planet.name,
+            type = _planetTypeHandling.GetPlanetType(planet.typeId),
+            description = planet.description,
+            image = "Hola"
+        };
+        return outputCard;
+    }
+
     public void AddPlanet(InputPlanet inputPlanet)
     {
         bool isValid = CheckInputValues(inputPlanet);

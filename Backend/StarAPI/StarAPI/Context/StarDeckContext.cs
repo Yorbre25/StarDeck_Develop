@@ -20,9 +20,9 @@ namespace StarAPI.Context
             modelBuilder.Entity<Card>().HasKey(c => new { c.id });
             modelBuilder.Entity<Race>().HasKey(c => new { c.id });
             modelBuilder.Entity<CardType>().HasKey(c => new { c.id });
-            modelBuilder.Entity<Deck>().HasKey(c => new { c.deck_id });
-            modelBuilder.Entity<Deck_Card>().HasKey(c => new { c.deck_id, c.card_id });
-            modelBuilder.Entity<Player_Card>().HasKey(c => new { c.player_id, c.card_id });
+            modelBuilder.Entity<Deck>().HasKey(c => new { c.id });
+            modelBuilder.Entity<Deck_Card>().HasKey(c => new { c.deckId, c.cardId });
+            modelBuilder.Entity<Player_Card>().HasKey(c => new { c.playerId, c.cardId });
             modelBuilder.Entity<PlanetType>().HasKey(c => new { c.id });
             modelBuilder.Entity<Planet>().HasKey(c => new { c.id });
             modelBuilder.Entity<Match_Player>().HasNoKey();

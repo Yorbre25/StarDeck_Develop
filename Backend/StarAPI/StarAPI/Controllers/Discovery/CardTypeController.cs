@@ -52,12 +52,6 @@ namespace StarAPI.Controllers
         }
 
 
-        // POST api/<Card_TypeController>
-        /// <summary>
-        /// This method is used to add a card type to the Card_Type table.
-        /// </summary>
-        /// <param name="card_type"> Name of new card type</param>
-        /// <returns></returns>
         [HttpPost]
         [Route("AddCardType/{cardTypeName}")]
         public ActionResult AddCardType(string cardTypeName)

@@ -21,7 +21,11 @@ namespace StarAPI.Controllers
             this._planetHandling = new PlanetHandling(_context);
         }
 
-
+        [HttpGet("GetAllPlanets")]
+        public IEnumerable<OutputPlanet> GetAllPlanets()
+        {
+            return _planetHandling.GetAllPlanets();
+        }
 
 
         [HttpPost("AddPlanet")]
