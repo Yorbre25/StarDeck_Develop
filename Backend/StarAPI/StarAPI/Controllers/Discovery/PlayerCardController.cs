@@ -44,7 +44,7 @@ namespace StarAPI.Controllers
             }
         }
 
-        [HttpGet("GetPlayerCards{playerId}")]
+        [HttpGet("GetPlayerCards/{playerId}")]
         public IEnumerable<OutputCard> GetPlayerCards(string playerId) 
         {
             return _playerCardHandling.GetPlayerCards(playerId);

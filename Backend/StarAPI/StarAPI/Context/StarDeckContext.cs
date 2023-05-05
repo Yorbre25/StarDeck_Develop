@@ -43,6 +43,7 @@ namespace StarAPI.Context
         public DbSet<PlanetType> PlanetType { get; set; }
         public DbSet<Planet> Planet { get; set; }
         public DbSet<Match_Player> Match_Player { get; set; }
+        // public DbSet<SetupParam> SetupParam { get; set; }
     }
 
    
