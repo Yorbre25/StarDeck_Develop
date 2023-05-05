@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { CardInt } from '../../interfaces/card.interface';
 import { LoginService } from '../../services/login.service';
 import { seleced_Card_S } from '../../services/selected_card.service';
 
@@ -25,7 +24,6 @@ export class PlanetComponent {
     image: string | null;
     type: string | null;
     description: string | null;
-    activated_planet: boolean | null;
   };
 
   @Input() clickable: boolean = false;
