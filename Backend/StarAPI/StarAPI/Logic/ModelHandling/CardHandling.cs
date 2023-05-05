@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
@@ -119,7 +118,7 @@ public class CardHandling
 
 
     public void InsertCard(InputCard inputCard){
-        var newCard = setNewCardValues(inputCard);
+        var newCard = SetNewCardValues(inputCard);
         _context.Card.Add(newCard);
         _context.SaveChanges();
     }
@@ -142,7 +141,7 @@ public class CardHandling
         _context.SaveChanges();
     }
 
-    private Card setNewCardValues(InputCard newCard){
+    private Card SetNewCardValues(InputCard newCard){
         Card card = new Card();
         string id = GenerateId();
         card.id = id;

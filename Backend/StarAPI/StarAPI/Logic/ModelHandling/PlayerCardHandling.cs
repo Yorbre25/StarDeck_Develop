@@ -76,19 +76,7 @@ public class PlayerCardHandling
         _context.Player_Card.Add(playerCard);
         _context.SaveChanges();
     }
-
-    // public void GenerateCardsForNewPlayer(string playerId)
-    // {
-    //     try
-    //     {
-    //         _newPlayerCardGenerator.GenerateCardsForNewPlayer(playerId);
-    //     } 
-    //     catch (System.Exception)
-    //     {
-    //         throw new Exception("Error generating cards for new player");
-    //     }
-    // }
-    
+ 
     public List<List<OutputCard>> GetPackagesForNewPlayer()
     {
         try

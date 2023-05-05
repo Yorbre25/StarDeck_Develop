@@ -223,6 +223,36 @@ public class DataForTest
         },
         new InputCard()
         {
+            name = "Carta 1",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción 1",
+            image = "Imagen 1"
+        },
+        new InputCard()
+        {
+            name = "Carta 2",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción 2",
+            image = "Imagen 2"
+        },
+        new InputCard()
+        {
+            name = "Carta 3",
+            energy = 10,
+            cost = 10,
+            typeId = 2,
+            raceId = 1,
+            description = "Descripción 3",
+            image = "Imagen 3"
+        },
+        new InputCard()
+        {
             name = "Carta V",
             energy = 10,
             cost = 10,
@@ -233,44 +263,74 @@ public class DataForTest
         },
         new InputCard()
         {
-            name = "Carta W",
+            name = "Carta 4",
             energy = 10,
             cost = 10,
             typeId = 3,
             raceId = 1,
-            description = "Descripción W",
-            image = "Imagen W"
+            description = "Descripción 4",
+            image = "Imagen 4"
         },
         new InputCard()
         {
-            name = "Carta X",
+            name = "Carta 5",
             energy = 10,
             cost = 10,
-            typeId = 4,
+            typeId = 3,
             raceId = 1,
-            description = "Descripción W",
-            image = "Imagen W"
+            description = "Descripción 5",
+            image = "Imagen 5"
         },
         new InputCard()
         {
-            name = "Carta Y",
+            name = "Carta 6",
             energy = 10,
             cost = 10,
-            typeId = 4,
+            typeId = 3,
             raceId = 1,
-            description = "Descripción Y",
-            image = "Imagen Y"
-        },
-        new InputCard()
-        {
-            name = "Carta Z",
-            energy = 10,
-            cost = 10,
-            typeId = 5,
-            raceId = 1,
-            description = "Descripción Z",
-            image = "Imagen Z"
+            description = "Descripción 6",
+            image = "Imagen 6"
         }
+        // new InputCard()
+        // {
+        //     name = "Carta W",
+        //     energy = 10,
+        //     cost = 10,
+        //     typeId = 3,
+        //     raceId = 1,
+        //     description = "Descripción W",
+        //     image = "Imagen W"
+        // },
+        // new InputCard()
+        // {
+        //     name = "Carta X",
+        //     energy = 10,
+        //     cost = 10,
+        //     typeId = 4,
+        //     raceId = 1,
+        //     description = "Descripción W",
+        //     image = "Imagen W"
+        // },
+        // new InputCard()
+        // {
+        //     name = "Carta Y",
+        //     energy = 10,
+        //     cost = 10,
+        //     typeId = 4,
+        //     raceId = 1,
+        //     description = "Descripción Y",
+        //     image = "Imagen Y"
+        // },
+        // new InputCard()
+        // {
+        //     name = "Carta Z",
+        //     energy = 10,
+        //     cost = 10,
+        //     typeId = 5,
+        //     raceId = 1,
+        //     description = "Descripción Z",
+        //     image = "Imagen Z"
+        // }
 
     };
 
