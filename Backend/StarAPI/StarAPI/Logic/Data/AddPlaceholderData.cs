@@ -44,7 +44,6 @@ public class AddPlaceholderData
 
     private void AddCards()
     {   
-        //append arrays
         var cards = _dataForTest.basicCards.Concat(_dataForTest.advancedCards);
         foreach(var card in cards)
         {
@@ -71,12 +70,10 @@ public class AddPlaceholderData
 
     private void setPlayersRanking()
     {
-        //write in console
         string [] ids = _playerHandling.GetAllPlayersIds().ToArray();
         int randomNumber;
         foreach(var id in ids)
         {
-            // random number between 1 and 500
             randomNumber = random.Next(1, 501);
             _playerHandling.SetPlayerRanking(id, randomNumber);
         }
