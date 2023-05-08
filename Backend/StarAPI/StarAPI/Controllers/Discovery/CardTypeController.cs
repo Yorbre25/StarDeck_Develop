@@ -7,7 +7,7 @@ using StarAPI.Logic.ModelHandling;
 namespace StarAPI.Controllers
 {
     /// <summary>
-    /// This class is used to handle all requests to the Card_Type table.
+    /// This class is used to handle all requests to the CardType table.
     /// </summary>
     [Route("[controller]")]
     [ApiController]
@@ -30,7 +30,7 @@ namespace StarAPI.Controllers
         }
 
         /// <summary>
-        /// This method is used to get all card types from the Card_Type table.
+        /// This method is used to get all card types from the CardType table.
         /// </summary>
         /// <returns> </returns>
         [HttpGet]
@@ -41,7 +41,7 @@ namespace StarAPI.Controllers
         }
 
         /// <summary>
-        /// This method is used to get a card type from the Card_Type table.
+        /// This method is used to get a card type from the CardType table.
         /// </summary>
         /// <param name="id"> Id of card type to be searched </param>
         /// <returns>card type found</returns>
@@ -69,10 +69,10 @@ namespace StarAPI.Controllers
         }
 
 
-        // This method is used to delete a card type from the Card_Type table.
-        // DELETE api/<Card_TypeController>/5
+        // This method is used to delete a card type from the CardType table.
+        // DELETE api/<CardTypeController>/5
         /// <summary>
-        /// Deteles a card type from the Card_Type table.
+        /// Deteles a card type from the CardType table.
         /// </summary>
         /// <param name="id">Id of card type to be deleted</param>
         /// <returns></returns>

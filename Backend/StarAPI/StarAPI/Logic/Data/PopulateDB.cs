@@ -40,10 +40,13 @@ public class PopulateDB
 
     private void dropPreviousData()
     {
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Race");
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card_Type");
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE PlanetType");
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Country");
+        _context.Database.ExecuteSqlRaw("Delete Deck");
+        _context.Database.ExecuteSqlRaw("Delete Card");
+        _context.Database.ExecuteSqlRaw("Delete Player");
+        _context.Database.ExecuteSqlRaw("Delete Planet");
+        _context.Database.ExecuteSqlRaw("Delete CardType");
+        _context.Database.ExecuteSqlRaw("Delete PlanetType");
+        _context.Database.ExecuteSqlRaw("Delete Country");
     }
 
     public void addRaces()

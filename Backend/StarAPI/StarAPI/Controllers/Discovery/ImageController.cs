@@ -19,16 +19,16 @@ namespace StarAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Card_Image> GetAllImages()
+        public IEnumerable<Image> GetAllImages()
         {
-            return context.Card_Image.ToList();
+            return context.Image.ToList();
         }
 
         // GET api/<DeckController>/5
         [HttpPost("{image_string}")]
-        public ActionResult AddImage([FromBody] Card_Image card_image)
+        public ActionResult AddImage([FromBody] Image card_image)
         {
-            context.Card_Image.Add(card_image);
+            context.Image.Add(card_image);
             context.SaveChanges();
             return Ok();
         }

@@ -12,7 +12,7 @@ namespace StarAPI.Models
         public string lastName { get; set; }
         public string username {get; set;}
         public string pHash {get;set;}
-        public int level {get;set;}
+        public int xp {get;set;}
         public int ranking { get; set; }
         public bool inGame { get; set; }
         public bool activatedAccount { get; set; }

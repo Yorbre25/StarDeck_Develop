@@ -13,7 +13,7 @@ public class PlayerHandling
     private static int s_maxPlayerUsernameLenght = 30;
     private static bool  s_defaultInGameState = false;
     private static bool s_defaultActivationState = true;
-    private static int s_defaultLevel = 0;
+    private static int s_defaultXp = 0;
     private static int s_defaultRanking = 0;
     private static int s_defaultCoins = 0;
     private static string s_idPrefix = "U";
@@ -113,7 +113,7 @@ public class PlayerHandling
             lastName = player.lastName,
             username = player.username,
             pHash = player.pHash,
-            level = player.level,
+            xp = player.xp,
             ranking = player.ranking,
             country = _countryHandling.GetCountry(player.countryId),
             coins = player.coins,
@@ -164,7 +164,7 @@ public class PlayerHandling
         player.lastName = newPlayer.lastName;
         player.username = newPlayer.username;
         player.pHash = _encrypt.Sha256(newPlayer.password);
-        player.level = s_defaultLevel;
+        player.xp = s_defaultXp;
         player.ranking = s_defaultRanking;
         player.inGame = s_defaultInGameState;
         player.activatedAccount = s_defaultActivationState;

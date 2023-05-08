@@ -17,7 +17,7 @@ public class CardTypeHandling
 
     public List<CardType> GetAllCardTypes()
     {
-        return _context.Card_Type.ToList();
+        return _context.CardType.ToList();
     }
 
 
@@ -35,7 +35,7 @@ public class CardTypeHandling
 
     public string GetCardTypeName(int id)
     {
-        CardType? cardType = _context.Card_Type.FirstOrDefault(r => r.id == id);
+        CardType? cardType = _context.CardType.FirstOrDefault(r => r.id == id);
         if (cardType == null)
         {
             throw new ArgumentException("CardType does not exist");
@@ -53,7 +53,7 @@ public class CardTypeHandling
             throw new ArgumentException("Invalid name");
         }
         if(alreadyExist){
-            throw new ArgumentException("Card_Type already exist");
+            throw new ArgumentException("CardType already exist");
         }
         InsertCardType(raceName);
 
@@ -61,7 +61,7 @@ public class CardTypeHandling
 
     public void InsertCardType(string raceName){
         var cardType = new CardType {typeName = raceName};
-        _context.Card_Type.Add(cardType);
+        _context.CardType.Add(cardType);
         _context.SaveChanges();
     }
 
@@ -71,7 +71,7 @@ public class CardTypeHandling
 
 
     private bool AlreadyExists(string typeName){
-        var cardType = _context.Card_Type.FirstOrDefault(r => r.typeName == typeName);
+        var cardType = _context.CardType.FirstOrDefault(r => r.typeName == typeName);
         if(cardType == null){
             return false;
         }
@@ -80,7 +80,7 @@ public class CardTypeHandling
 
     private bool AlreadyExists(int id){
         CardType? cardType = new CardType();
-        cardType = _context.Card_Type.FirstOrDefault(r => r.id == id);
+        cardType = _context.CardType.FirstOrDefault(r => r.id == id);
         if(cardType == null){
             return false;
         }
@@ -92,7 +92,7 @@ public class CardTypeHandling
         bool alreadyExists = AlreadyExists(id);
         if(!alreadyExists)
         {
-            throw new ArgumentNullException("Card_Type does not exist");
+            throw new ArgumentNullException("CardType does not exist");
         }
         else
         {
@@ -101,13 +101,13 @@ public class CardTypeHandling
     }
 
     /// <summary>
-    /// Removes card_type with the given id
+    /// Removes cardtype with the given id
     /// </summary>
     /// <param name="id">Id of card type to be removed</param>
     private void RemoveCardType(int id)
     {
-        var cardType = _context.Card_Type.FirstOrDefault(r => r.id == id);
-        _context.Card_Type.Remove(cardType);
+        var cardType = _context.CardType.FirstOrDefault(r => r.id == id);
+        _context.CardType.Remove(cardType);
         _context.SaveChanges();
     }
 
