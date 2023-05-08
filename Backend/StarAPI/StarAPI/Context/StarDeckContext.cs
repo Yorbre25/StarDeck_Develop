@@ -28,6 +28,7 @@ namespace StarAPI.Context
             modelBuilder.Entity<Match_Player>().HasNoKey();
             modelBuilder.Entity<Game>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game_Planets>().HasKey(c => new { c.gameId, c.planetId });
+            modelBuilder.Entity<SetupParam>().HasKey(c => new { c.id });
 
         }
 
@@ -43,7 +44,7 @@ namespace StarAPI.Context
         public DbSet<PlanetType> PlanetType { get; set; }
         public DbSet<Planet> Planet { get; set; }
         public DbSet<Match_Player> Match_Player { get; set; }
-        // public DbSet<SetupParam> SetupParam { get; set; }
+        public DbSet<SetupParam> SetupParam { get; set; }
     }
 
    

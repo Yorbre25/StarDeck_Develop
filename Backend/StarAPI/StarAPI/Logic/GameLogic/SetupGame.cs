@@ -1,27 +1,43 @@
+using StarAPI.Models;
+using StarAPI.Context;
+using StarAPI.Utils;
 
-// using StarAPI.Context;
+namespace StarAPI.Logic.GameLogic;
 
-// namespace StarAPI.Logic.GameLogic;
+public class SetupGame
+{
+    private readonly StarDeckContext _context;
+    private DefaultSetupParam _defaultSetupParam;
 
-// public class SetupGame
-// {
-//     private readonly StarDeckContext _context;
+    public SetupGame(StarDeckContext context)
+    {
+        this._context = context;
+        this._defaultSetupParam = new DefaultSetupParam();
+    }
 
-//     public SetupGame(StarDeckContext context)
-//     {
-//         this._context = context;
-//     }
+    public SetupParam GetSetupParam()
+    {
+        try
+        {
+            //Change default values for setupParam is not implemented yet
 
-//     public SetUpValues GetSetupParam()
-//     {
-//     }
+            // return GettingSetupParam();
+            return _defaultSetupParam.GetDefaultSetupParam();
 
-//     public SetUpValues GettingSetupParam()
-//     {
-//         SetUPValues setupValues = new SetUPValues();
-//         SetupGame setupGame = _context.SetupGame.FirstOrDefault();
-//     }
+        } 
+        catch (System.Exception)
+        {
+            return _defaultSetupParam.GetDefaultSetupParam();
+        }
+    }
+
+    public SetupParam GettingSetupParam()
+    {
+        SetupParam? setupParam = new SetupParam();
+        setupParam = _context.SetupParam.OrderByDescending(x => x.date).FirstOrDefault();
+        return setupParam;
+    }
 
 
-// }
+}
 

@@ -1,33 +1,31 @@
-// using Microsoft.AspNetCore.Mvc;
-// using Microsoft.EntityFrameworkCore;
-// using StarAPI.Models;
-// using StarAPI.Logic.ModelHandling;
-// using StarAPI.DTOs;
-// using StarAPI.Context;
+using Microsoft.AspNetCore.Mvc;
+using StarAPI.Context;
+using StarAPI.Models;
+using StarAPI.Logic.GameLogic;
 
-// namespace StarAPI.Controllers
-// {
-//     [Route("[controller]")]
-//     [ApiController]
-//     public class SetupController : ControllerBase
-//     {
-//         private readonly StarDeckContext _context;
+namespace StarAPI.Controllers
+{
+    [Route("[controller]")]
+    [ApiController]
+    public class SetupController : ControllerBase
+    {
+        private readonly StarDeckContext _context;
+        private SetupGame _setupGame;
 
-//         public SetupController(StarDeckContext context)
-//         {
-//             this._context = context;
-//         }
+        public SetupController(StarDeckContext context)
+        {
+            this._context = context;
+            this._setupGame = new SetupGame(_context);
+        }
 
 
- 
-
-//         [HttpGet("SetupParameters")]
-//         public IEnumerable<OutputCard> GetSetupParam()
-//         {
-//             return _gameHandling.GetAllCards();
-//         }
+        [HttpGet("GetSetupParameters")]
+        public SetupParam GetSetupParam()
+        {
+            return _setupGame.GetSetupParam();
+        }
 
 
         
-//     }
-// }
+    }
+}
