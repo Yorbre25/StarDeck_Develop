@@ -37,6 +37,7 @@ export class LobbyComponent implements OnInit{
     fixed: false,
     top: 0,
   });
+  
 
   constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog, private api:ApiService, private logs:LoginService) {}
 
@@ -59,6 +60,7 @@ export class LobbyComponent implements OnInit{
     const uuid = uuidv4();
     console.log(uuid);
     this.router.navigate(['/searching']);
+  }
     
   ngOnInit(): void {
     this.api.getAmCards(this.logs.getid()).subscribe((data)=>{
