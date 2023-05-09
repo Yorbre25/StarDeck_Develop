@@ -10,12 +10,14 @@ namespace StarAPI.Logic.Mappers
     {
         private StarDeckContext _context;
         private PlanetTypeHandling _planetTypeHandling;
+        private ImageHandling _imageHandling;
         private bool s_defaultActivationState = true;
 
         public PlanetMapper(StarDeckContext context)
         {
             _context = context;
             _planetTypeHandling = new PlanetTypeHandling(_context);
+            _imageHandling = new ImageHandling(_context);
         }
         
         public OutputPlanet FillOutputPlanet(Planet planet)
@@ -26,7 +28,7 @@ namespace StarAPI.Logic.Mappers
                 name = planet.name,
                 type = _planetTypeHandling.GetPlanetType(planet.typeId),
                 description = planet.description,
-                image = "Hola"
+                image = _imageHandling.GetImage(planet.imageId)
             };
             return outputPlanet;
         }
@@ -49,7 +51,7 @@ namespace StarAPI.Logic.Mappers
             planet.typeId = newPlanet.typeId;
             planet.activatedPlanet = s_defaultActivationState;
             planet.description = newPlanet.description;
-            planet.imageId = 1;
+            planet.imageId = _imageHandling.GetImageId(newPlanet.image);
             return planet;
         }
     }

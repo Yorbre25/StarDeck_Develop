@@ -10,6 +10,7 @@ namespace StarAPI.Logic.Mappers
     {
         private StarDeckContext _context;
         private CountryHandling _countryHandling;
+        private ImageHandling _imageHandling;
         private Encrypt _encrypt;
         private bool s_defaultActivationState = true;
         private static int s_defaultXp = 0;
@@ -39,7 +40,7 @@ namespace StarAPI.Logic.Mappers
             player.activatedAccount = s_defaultActivationState;
             player.countryId = newPlayer.countryId;
             player.coins = s_defaultCoins;
-            // player.avatarId = 1;
+            player.avatarId = _imageHandling.GetImageId(newPlayer.avatar);
             return player;
         }
 
@@ -57,7 +58,7 @@ namespace StarAPI.Logic.Mappers
                 ranking = player.ranking,
                 country = _countryHandling.GetCountry(player.countryId),
                 coins = player.coins,
-                avatar = "Hola"
+                avatar = _imageHandling.GetImage(player.avatarId)
             };
             return outputCard;
         }

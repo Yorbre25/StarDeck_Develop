@@ -11,13 +11,16 @@ namespace StarAPI.Logic.Mappers
         private StarDeckContext _context;
         private RaceHandling _raceHandling;
         private CardTypeHandling _cardTypeHandling;
+        private ImageHandling _imageHandling;
         private bool s_defaultActivationState = true;
+
 
         public CardMapper(StarDeckContext context)
         {
             _context = context;
             _raceHandling = new RaceHandling(_context);
             _cardTypeHandling = new CardTypeHandling(_context);
+            _imageHandling = new ImageHandling(_context);
         }
         
         public OutputCard FillOutputCard(Card card)
@@ -31,7 +34,7 @@ namespace StarAPI.Logic.Mappers
                 type = _cardTypeHandling.GetCardType(card.typeId),
                 race = _raceHandling.GetRace(card.raceId),
                 description = card.description,
-                image = "Hola"
+                image = _imageHandling.GetImage(card.imageId)
             };
             return outputCard;
         }
@@ -57,6 +60,7 @@ namespace StarAPI.Logic.Mappers
             card.raceId = newCard.raceId;
             card.activatedCard = s_defaultActivationState;
             card.description = newCard.description;
+            card.imageId = _imageHandling.GetImageId(newCard.image);
             return card;
         }
 

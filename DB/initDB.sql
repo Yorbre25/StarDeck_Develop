@@ -1,4 +1,5 @@
-Create database StarDeck
+-- Create database StarDeck
+Use StarDeck
 
 CREATE TABLE CardType (
 	id INT NOT NULL IDENTITY(1,1),
