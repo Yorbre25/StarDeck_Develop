@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/components/services/api.service';
-import { Planet } from 'src/app/components/interfaces/planet.interface';
+import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -11,7 +11,7 @@ import { Planet } from 'src/app/components/interfaces/planet.interface';
 export class GameComponent {
 
   cards!: CardInt[];
-  planets!: Planet[];
+  planets!: PlanetInterface[];
 
 
   constructor(private api: ApiService, private http: HttpClient) {

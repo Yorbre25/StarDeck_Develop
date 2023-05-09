@@ -45,6 +45,24 @@ public class PlanetHandling
         return PlanetsToOutputPlanets(planets);
     }
 
+    public List<OutputPlanet> GetPlanetsByType(string planetType)
+    {
+        try
+        {
+            return GettingPlanetsByType(planetType);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planets by type");
+        }
+    }
+
+    public List<OutputPlanet> GettingPlanetsByType(string planetType)
+    {
+        List<OutputPlanet> allPlanets = GetAllPlanets();
+        return allPlanets.Where(p => p.type == planetType).ToList();
+    }
+
     private List<OutputPlanet> PlanetsToOutputPlanets(List<Planet> planets)
     {
         List<OutputPlanet> outputPlanets = new List<OutputPlanet>();

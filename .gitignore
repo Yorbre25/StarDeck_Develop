@@ -5,6 +5,7 @@
 Backend/.vs
 Backend/Backend.csproj
 Backend/Migrations/*
+Backend\StarAPI\StarAPI\appsettings.json
 !Backend/Migrations/StarDeckDbContextModelSnapshot.cs
 
 Frontend/node_modules

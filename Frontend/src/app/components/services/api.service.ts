@@ -158,7 +158,7 @@ export class ApiService{
       }
 
     getplayerCards(player:string|null):Observable<CardInt[]>{
-        let dir = this.url +"PlayerCard/GetPlayerCards"+player
+        let dir = this.url +"PlayerCard/GetPlayerCards/"+player
         console.log(dir)
         return this.http.get<CardInt[]>(dir)
     }

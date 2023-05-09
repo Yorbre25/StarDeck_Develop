@@ -1,123 +1,202 @@
+Create database StarDeck
 
--- IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'StarDeckDB')
--- BEGIN
---   CREATE DATABASE StarDeckDB;
--- END
-
--- USE StarDeckDB;
-
--- DROP TABLE IF EXISTS
-
-
-
--- CREATE TABLES
-CREATE TABLE Card_Type (
-    type VARCHAR(30) UNIQUE NOT NULL,
-    PRIMARY KEY (type)
+CREATE TABLE CardType (
+	id INT NOT NULL IDENTITY(1,1),
+    typeName VARCHAR(30) UNIQUE NOT NULL,
+    PRIMARY KEY (id)
 )
 
 CREATE TABLE Race(
-    race VARCHAR(30) UNIQUE NOT NULL,
-    PRIMARY KEY (race)
+	id INT NOT NULL IDENTITY(1,1),
+    name VARCHAR(30) UNIQUE NOT NULL,
+    PRIMARY KEY (id)
 )
 
-Create Table Card (
+CREATE TABLE PlanetType(
+	id INT NOT NULL IDENTITY(1,1),
+	typeName VARCHAR(30) UNIQUE NOT NULL,
+	PRIMARY KEY (id)
+)
+
+CREATE Table Country
+(
+	id INT NOT NULL IDENTITY(1,1),
+	countryName VARCHAR(30) UNIQUE NOT NULL,
+	PRIMARY KEY(id)
+)
+
+CREATE TABLE Image(
+	id INT NOT NULL IDENTITY(1,1),
+	imageString VARCHAR(MAX) NOT NULL,
+	PRIMARY KEY(id)
+)
+
+CREATE TABLE Card (
     id VARCHAR(15) NOT NULL,
     name VARCHAR(30) NOT NULL,
     energy INT NOT NULL,
     cost INT NOT NULL,
-    type VARCHAR(30) NOT NULL,
-    race VARCHAR(30) NOT NULL,
-    activated_card BIT NOT NULL DEFAULT 1,
+    typeId INT NOT NULL,
+    raceId INT NOT NULL,
+    activatedCard BIT NOT NULL DEFAULT 1,
     description VARCHAR(1000), 
-	image VARCHAR(MAX),
+	imageId INT ,
     PRIMARY KEY (id)
-)
-
-CREATE TABLE Deck
-(
-	deck_id VARCHAR(15) NOT NULL,
-	name VARCHAR(15) NOT NULL,
-	player_id VARCHAR(15) NOT NULL,
-	PRIMARY KEY (deck_id)
-)
-
-CREATE TABLE Deck_Card (
-    deck_id VARCHAR(15) NOT NULL,
-    card_id VARCHAR(15) NOT NULL,
-    PRIMARY KEY (deck_id, card_id)
 )
 
 CREATE TABLE Player
 (
 	id VARCHAR(15) NOT NULL,
 	email VARCHAR(30) NOT NULL,
-	f_name VARCHAR(15) NOT NULL,
-	l_name VARCHAR(15) NOT NULL,
-	nickname VARCHAR(15) NOT NULL,
-	p_hash VARCHAR(1000) NOT NULL,
-	lvl INT NOT NULL,
+	firstName VARCHAR(15) NOT NULL,
+	lastName VARCHAR(15) NOT NULL,
+	username VARCHAR(15) NOT NULL,
+	pHash VARCHAR(1000) NOT NULL,
 	ranking VARCHAR(15) NOT NULL,
-	in_game BIT NOT NULL,
-	active BIT NOT NULL,
-	country VARCHAR(15) Not NULL,
+	xp INT NOT NULL,
+	inGame BIT NOT NULL,
+	activatedAccount BIT NOT NULL,
+	countryId INT Not NULL,
 	coins INT NOT NULL,
-	avatar VARCHAR(MAX),
+	avatarId VARCHAR(MAX),
+	PRIMARY KEY(id)
+)
+
+CREATE TABLE Planet
+(
+	id VARCHAR(15) NOT NULL,
+	name VARCHAR(15) NOT NULL,
+	typeId int NOT NULL,
+	activatedPlanet BIT DEFAULT 1 NOT NULL,
+	description VARCHAR(1000),
+	imageId INT,
 	PRIMARY KEY(id)
 )
 
 CREATE TABLE Player_Card
 (
-	player_id VARCHAR(15) NOT NULL,
-	card_id VARCHAR(15) NOT NULL,
-	PRIMARY KEY(player_id, card_id)
+	playerId VARCHAR(15) NOT NULL,
+	cardId VARCHAR(15) NOT NULL,
+	PRIMARY KEY(playerId, cardId)
 )
 
-CREATE Table Country
-(
+
+CREATE TABLE Deck(
 	id VARCHAR(15) NOT NULL,
-	c_name VARCHAR(30) NOT NULL,
-	PRIMARY KEY(id)
+	name VARCHAR(15) NOT NULL,
+	playerId VARCHAR(15) NOT NULL,
+	PRIMARY KEY (id)
 )
+
+CREATE TABLE Deck_Card (
+    deckId VARCHAR(15) NOT NULL,
+    cardId VARCHAR(15) NOT NULL,
+    PRIMARY KEY (deckId, cardId)
+)
+
+CREATE TABLE SetupParam(
+	id INT NOT NULL IDENTITY(1,1),
+	totalTurns INT NOT NULL,
+	turnTime INT NOT NULL,
+	PRIMARY KEY (id)
+)
+
+CREATE TABLE Match_Player(
+	id VARCHAR(15) NOT NULL,
+	waiting_since VARCHAR(15) NOT NULL,
+)
+
+CREATE TABLE Game_Planets(
+	gameId VARCHAR(15) NOT NULL,
+	planetId VARCHAR(15) NOT NULL,
+)
+
+CREATE TABLE Game(
+	id VARCHAR(15) NOT NULL,
+	player1Id VARCHAR(15) NOT NULL,
+	player2Id VARCHAR(15) NOT NULL,
+	PRIMARY KEY (id)
+)
+
 
 -- CREATE FOREIGN KEYS
 ALTER TABLE Card
 ADD CONSTRAINT fk_Card_Race
-FOREIGN KEY (race)
-REFERENCES Race(race);
+FOREIGN KEY (raceId)
+REFERENCES Race(id);
 
 ALTER TABLE Card
 ADD CONSTRAINT fk_Card_Type
-FOREIGN KEY (type)
-REFERENCES Card_Type(type);
+FOREIGN KEY (typeId)
+REFERENCES CardType(id);
 
-ALTER TABLE Deck_Card
-ADD CONSTRAINT fk_Deck_Card
-FOREIGN KEY (card_id)
-REFERENCES Card(id);
-
-ALTER TABLE Deck_Card
-ADD CONSTRAINT fk_Card_Deck
-FOREIGN KEY (deck_id)
-REFERENCES Deck(deck_id);
-
-ALTER TABLE Deck
-ADD CONSTRAINT fk_Deck_Player
-FOREIGN KEY (player_id)
-REFERENCES Player(id)
+ALTER TABLE Card
+ADD CONSTRAINT fk_Card_Image
+FOREIGN KEY (imageId)
+REFERENCES Image(id);
 
 ALTER TABLE Player
 ADD CONSTRAINT fk_Country_Player
-FOREIGN KEY (country)
+FOREIGN KEY (countryId)
 REFERENCES Country(id)
+
+ALTER TABLE Planet
+ADD CONSTRAINT fk_PlanetType_Planet
+FOREIGN KEY (typeId)
+REFERENCES PlanetType(id)
+
+ALTER TABLE Planet
+ADD CONSTRAINT fk_Image_Planet
+FOREIGN KEY (imageId)
+REFERENCES Image(id)
 
 ALTER TABLE Player_Card
 ADD CONSTRAINT fk_Card_Player
-FOREIGN KEY (card_id)
+FOREIGN KEY (cardId)
 REFERENCES Card(id)
 
 ALTER TABLE Player_Card
 ADD CONSTRAINT fk_Player_Card
-FOREIGN KEY (player_id)
+FOREIGN KEY (playerId)
 REFERENCES Player(id)
+
+ALTER TABLE Deck
+ADD CONSTRAINT fk_Deck_Player
+FOREIGN KEY (playerId)
+REFERENCES Player(id)
+
+ALTER TABLE Deck_Card
+ADD CONSTRAINT fk_Deck_Card
+FOREIGN KEY (cardId)
+REFERENCES Card(id);
+
+ALTER TABLE Deck_Card
+ADD CONSTRAINT fk_Card_Deck
+FOREIGN KEY (deckId)
+REFERENCES Deck(id);
+
+ALTER TABLE Match_Player
+ADD CONSTRAINT fk_Player_Match
+FOREIGN KEY (id)
+REFERENCES Player(id);
+
+ALTER TABLE Game_Planets
+ADD CONSTRAINT fk_Game_Planet
+FOREIGN KEY (gameId)
+REFERENCES Game(id);
+
+ALTER TABLE Game_Planets
+ADD CONSTRAINT fk_Planet_Game
+FOREIGN KEY (planetId)
+REFERENCES Planet(id);
+
+ALTER TABLE Game
+ADD CONSTRAINT fk_Player1_Game
+FOREIGN KEY (player1Id)
+REFERENCES Player(id);
+
+ALTER TABLE Game
+ADD CONSTRAINT fk_Player2_Game
+FOREIGN KEY (player2Id)
+REFERENCES Player(id);
 
