@@ -9,10 +9,13 @@ namespace StarAPI.DataTesting;
 public class AddPlaceholderData
 {
     private readonly StarDeckContext _context;
-    private  CardHandling _cardHandling;
+    private CardHandling _cardHandling;
+    private PlanetTypeHandling _planetTypeHandling;
     private PlanetHandling _planetHandling;
     private DataForTest _dataForTest;
     private PlayerHandling _playerHandling;
+
+    private DeckHandling _deckHandling;
 
     private Random random = new Random();
     
@@ -23,6 +26,7 @@ public class AddPlaceholderData
         this._dataForTest = new DataForTest();
         this._cardHandling = new CardHandling(context);
         this._planetHandling = new PlanetHandling(context);
+        this._deckHandling = new DeckHandling(context);
         this._playerHandling = new PlayerHandling(context);
     }
 
@@ -33,13 +37,15 @@ public class AddPlaceholderData
         AddCards();
         AddPlanets();
         AddPlayers();
+        AddDecks();
     }
 
     private void DropPreviousData()
     {
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Card");
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Planet");
-        _context.Database.ExecuteSqlRaw("TRUNCATE TABLE Player");
+        _context.Database.ExecuteSqlRaw("Delete Deck");
+        _context.Database.ExecuteSqlRaw("Delete Card");
+        _context.Database.ExecuteSqlRaw("Delete Planet");
+        _context.Database.ExecuteSqlRaw("Delete Player");
     }
 
     private void AddCards()
@@ -77,6 +83,30 @@ public class AddPlaceholderData
             randomNumber = random.Next(1, 501);
             _playerHandling.SetPlayerRanking(id, randomNumber);
         }
+    }
+    public void AddDecks()
+    {
+        string [] ids = _playerHandling.GetAllPlayersIds().ToArray();
+        var decks = _dataForTest.decks;
+        for(int i = 0; i < decks.Length; i++)
+        {
+            decks[i].playerId = ids[i];
+            decks[i].cardIds = GenerateCardsForDeck();
+            // Console.WriteLine(decks[i].cardIds);
+            _deckHandling.AddDeck(decks[i]);
+        }
+    }
+
+    public string[] GenerateCardsForDeck()
+    {
+        string [] cardIds = new string[18];
+        var allCards = _cardHandling.GetAllCards();
+
+        for(int i = 0; i < 18; i++)
+        {
+            cardIds[i] = allCards[i].id;
+        }   
+        return cardIds;
     }
 
     

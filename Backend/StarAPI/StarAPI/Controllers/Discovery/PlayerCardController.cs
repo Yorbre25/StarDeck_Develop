@@ -30,19 +30,19 @@ namespace StarAPI.Controllers
         }
        
 
-        [HttpPost("GenerateCardsForNewPlayer")]
-        public ActionResult GenerateCardsForNewPlayer([FromBody] string playerId)
-        {
-            try
-            {
-                _newPlayerCardGenerator.GenerateCardsForNewPlayer(playerId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        // [HttpPost("GenerateCardsForNewPlayer")]
+        // public ActionResult GenerateCardsForNewPlayer([FromBody] string playerId)
+        // {
+        //     try
+        //     {
+        //         _newPlayerCardGenerator.GenerateCardsForNewPlayer(playerId);
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
 
         [HttpGet("GetPlayerCards/{playerId}")]
         public IEnumerable<OutputCard> GetPlayerCards(string playerId) 
@@ -50,18 +50,18 @@ namespace StarAPI.Controllers
             return _playerCardHandling.GetPlayerCards(playerId);
         }
 
-        [HttpGet("GetPackagesForNewPlayer")]
-        public List<List<OutputCard>> GetPackagesForNewPlayer() 
-        {
-            try
-            {
-                return this._cardPackageGenerator.GetPackagesForNewPlayer();
-            }
-            catch (Exception e)
-            {
-                return new List<List<OutputCard>>();
-            }    
-        }
+        // [HttpGet("GetPackagesForNewPlayer")]
+        // public List<List<OutputCard>> GetPackagesForNewPlayer() 
+        // {
+        //     try
+        //     {
+        //         return this._cardPackageGenerator.GetPackagesForNewPlayer();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return new List<List<OutputCard>>();
+        //     }    
+        // }
         
 
         [HttpPost("AssignCardToPlayer/{playerId}/{cardId}")]

@@ -77,18 +77,18 @@ public class PlayerCardHandling
         _context.SaveChanges();
     }
  
-    public List<List<OutputCard>> GetPackagesForNewPlayer()
-    {
-        try
-        {
-            // return _cardPackageGenerator.GetPackagesForNewPlayer();
-            return _cardPackageGenerator.GetPackagesForNewPlayer();
-        } 
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting packages for new player");
-        }
-    }
+    // public List<List<OutputCard>> GetPackagesForNewPlayer()
+    // {
+    //     try
+    //     {
+    //         // return _cardPackageGenerator.GetPackagesForNewPlayer();
+    //         return _cardPackageGenerator.GetPackagesForNewPlayer();
+    //     } 
+    //     catch (System.Exception)
+    //     {
+    //         throw new Exception("Error getting packages for new player");
+    //     }
+    // }
 
     internal bool PlayerAlreadyHasCards(string playerId)
     {

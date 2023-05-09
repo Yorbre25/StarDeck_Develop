@@ -21,34 +21,34 @@ namespace StarAPI.Logic
 
 
         // Top public method for getting packages of cards
-        public List<List<OutputCard>> GetPackagesForNewPlayer()
-        {
-            try
-            {
-                return GettingPackages();
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
+        // public List<List<OutputCard>> GetPackagesForNewPlayer()
+        // {
+        //     try
+        //     {
+        //         return GettingPackages();
+        //     }
+        //     catch(Exception e)
+        //     {
+        //         throw new Exception(e.Message);
+        //     }
+        // }
 
-        private List<List<OutputCard>> GettingPackages()
-        {
-            List<OutputCard> suitableCards = GetCardsSuitableForPackage();
-            List<OutputCard> cardsToSend = GetCardsToSend(suitableCards);
-            return BuildPackages(cardsToSend);
-        }
+        // private List<List<OutputCard>> GettingPackages()
+        // {
+        //     List<OutputCard> suitableCards = GetCardsSuitableForPackage();
+        //     List<OutputCard> cardsToSend = GetCardsToSend(suitableCards);
+        //     return BuildPackages(cardsToSend);
+        // }
 
         // Return a card list of type "Normal" or "Rara"
-        private List<OutputCard> GetCardsSuitableForPackage ()
-        {
-            string cardTypeName1 = "Rara";
-            string cardTypeName2 = "Normal";
-            List<OutputCard> rareCards = GetCardsWith(cardTypeName1);
-            List<OutputCard> normalCards = GetCardsWith(cardTypeName2);
-            return JoinListOfCards(rareCards, normalCards);
-        }
+        // private List<OutputCard> GetCardsSuitableForPackage ()
+        // {
+        //     string cardTypeName1 = "Rara";
+        //     string cardTypeName2 = "Normal";
+        //     List<OutputCard> rareCards = GetCardsWith(cardTypeName1);
+        //     List<OutputCard> normalCards = GetCardsWith(cardTypeName2);
+        //     return JoinListOfCards(rareCards, normalCards);
+        // }
 
         private List<OutputCard> GetCardsToSend(List<OutputCard> suitableCards)
         {
@@ -112,13 +112,13 @@ namespace StarAPI.Logic
             
         }
 
-        private List<OutputCard> GetCardsWith(string cardTypeName)
-        {
-            List<OutputCard> allCards = _cardHandling.GetAllCards();
-            List<OutputCard> specificCards;
-            specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
-            return specificCards;
-        }
+        // private List<OutputCard> GetCardsWith(string cardTypeName)
+        // {
+            // List<OutputCard> allCards = _cardHandling.GetAllCards();
+            // List<OutputCard> specificCards;
+            // specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
+            // return specificCards;
+        // }
 
     }
 }

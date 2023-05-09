@@ -46,6 +46,7 @@ public class PopulateDB
         _context.Database.ExecuteSqlRaw("Delete Planet");
         _context.Database.ExecuteSqlRaw("Delete CardType");
         _context.Database.ExecuteSqlRaw("Delete PlanetType");
+        _context.Database.ExecuteSqlRaw("Delete Race");
         _context.Database.ExecuteSqlRaw("Delete Country");
     }
 
