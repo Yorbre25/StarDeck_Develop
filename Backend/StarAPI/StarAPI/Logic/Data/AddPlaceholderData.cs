@@ -92,7 +92,6 @@ public class AddPlaceholderData
         {
             decks[i].playerId = ids[i];
             decks[i].cardIds = GenerateCardsForDeck();
-            // Console.WriteLine(decks[i].cardIds);
             _deckHandling.AddDeck(decks[i]);
         }
     }

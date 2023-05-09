@@ -11,6 +11,9 @@ public class PlayerHandling
 {
     private readonly StarDeckContext _context;
     private PlayerMapper _playerMapper;
+    private IdGenerator _idGenerator;
+
+
     private static int s_minPlayerUsernameLenght = 1;
     private static int s_maxPlayerUsernameLenght = 30;
     private static bool  s_defaultInGameState = false;
@@ -21,19 +24,11 @@ public class PlayerHandling
     private static string s_idPrefix = "U";
 
 
-
-    private Encrypt _encrypt;
-
-    private IdGenerator _idGenerator;
-    private CountryHandling _countryHandling;
-
     public PlayerHandling(StarDeckContext context)
     {
         this._context = context;
-        this._countryHandling = new CountryHandling(context);
         this._playerMapper = new PlayerMapper(context);
         this._idGenerator = new IdGenerator();
-        this._encrypt = new Encrypt();
     }
 
 
@@ -111,7 +106,7 @@ public class PlayerHandling
         if(emailAlreadyExist){
             throw new ArgumentException("Player email already exist");
         }
-        InsertPlayer(inputPlayer);
+        AddingPlayer(inputPlayer);
 
     }
 
@@ -123,12 +118,13 @@ public class PlayerHandling
 
 
 
-    public void InsertPlayer(InputPlayer inputPlayer){
+    public void AddingPlayer(InputPlayer inputPlayer){
         string id = GenerateId();
         var newPlayer = _playerMapper.FillNewPlayer(inputPlayer, id);
         _context.Player.Add(newPlayer);
         _context.SaveChanges();
     }
+    
     private string GenerateId()
     {
         string id = "";

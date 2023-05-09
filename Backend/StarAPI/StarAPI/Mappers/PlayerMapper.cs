@@ -22,6 +22,7 @@ namespace StarAPI.Logic.Mappers
         {
             this._context = context;
             this._countryHandling = new CountryHandling(_context);
+            this._imageHandling = new ImageHandling(_context);
             this._encrypt = new Encrypt();
         }
         
