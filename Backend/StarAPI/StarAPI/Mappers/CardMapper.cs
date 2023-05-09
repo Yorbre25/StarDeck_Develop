@@ -36,6 +36,16 @@ namespace StarAPI.Logic.Mappers
             return outputCard;
         }
 
+        public List<OutputCard> FillOutputCard(List<Card> cards)
+        {
+            List<OutputCard> outputCards = new List<OutputCard>();
+            foreach (Card card in cards)
+            {
+                outputCards.Add(FillOutputCard(card));
+            }
+            return outputCards;
+        }
+
         public Card FillNewCard(InputCard newCard, string id)
         {
             Card card = new Card();

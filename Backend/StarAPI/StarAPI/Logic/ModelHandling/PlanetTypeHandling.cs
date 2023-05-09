@@ -64,20 +64,9 @@ public class PlanetTypeHandling
         _context.SaveChanges();
     }
 
-    /// <summary>
-    /// Checks if the name is valid
-    /// </summary>
-    /// <param name="raceName"> New Planet type name</param>
-    /// <returns></returns>
     private bool CheckInputName(string raceName){
         return true;
     }
-
-    /// <summary>
-    /// Checks if the Planet type already exists
-    /// </summary>
-    /// <param name="typeName"> Name of the Planet type</param>
-    /// <returns></returns>
     private bool AlreadyExists(string typeName){
         var PlanetType = _context.PlanetType.FirstOrDefault(r => r.typeName == typeName);
         if(PlanetType == null){

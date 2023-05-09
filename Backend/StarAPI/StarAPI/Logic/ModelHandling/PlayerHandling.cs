@@ -3,12 +3,14 @@ using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
 public class PlayerHandling
 {
     private readonly StarDeckContext _context;
+    private PlayerMapper _playerMapper;
     private static int s_minPlayerUsernameLenght = 1;
     private static int s_maxPlayerUsernameLenght = 30;
     private static bool  s_defaultInGameState = false;
@@ -29,6 +31,7 @@ public class PlayerHandling
     {
         this._context = context;
         this._countryHandling = new CountryHandling(context);
+        this._playerMapper = new PlayerMapper(context);
         this._idGenerator = new IdGenerator();
         this._encrypt = new Encrypt();
     }
@@ -90,36 +93,7 @@ public class PlayerHandling
     private List<OutputPlayer> GettingAllPlayers()
     {
         List<Player> players = _context.Player.ToList();
-        return PlayersToOutputPlayers(players);
-    }
-
-    private List<OutputPlayer> PlayersToOutputPlayers(List<Player> players)
-    {
-        List<OutputPlayer> outputPlayers = new List<OutputPlayer>();
-        foreach(var player in players)
-        {
-            outputPlayers.Add(PassPlayerValuesToOutputPlayer(player));
-        }
-        return outputPlayers;
-    }
-
-    private OutputPlayer PassPlayerValuesToOutputPlayer(Player player)
-    {
-        OutputPlayer outputCard = new OutputPlayer
-        {
-            id = player.id,
-            email = player.email,
-            firstName = player.firstName,
-            lastName = player.lastName,
-            username = player.username,
-            pHash = player.pHash,
-            xp = player.xp,
-            ranking = player.ranking,
-            country = _countryHandling.GetCountry(player.countryId),
-            coins = player.coins,
-            avatar = "Hola"
-        };
-        return outputCard;
+        return _playerMapper.FillOutputPlayer(players);
     }
 
     public void AddPlayer(InputPlayer inputPlayer)
@@ -150,30 +124,11 @@ public class PlayerHandling
 
 
     public void InsertPlayer(InputPlayer inputPlayer){
-        var newPlayer = setNewPlayerValues(inputPlayer);
+        string id = GenerateId();
+        var newPlayer = _playerMapper.FillNewPlayer(inputPlayer, id);
         _context.Player.Add(newPlayer);
         _context.SaveChanges();
     }
-
-    private Player setNewPlayerValues(InputPlayer newPlayer){
-        Player player = new Player();
-        string id = GenerateId();
-        player.id = id;
-        player.email = newPlayer.email;
-        player.firstName = newPlayer.firstName;
-        player.lastName = newPlayer.lastName;
-        player.username = newPlayer.username;
-        player.pHash = _encrypt.Sha256(newPlayer.password);
-        player.xp = s_defaultXp;
-        player.ranking = s_defaultRanking;
-        player.inGame = s_defaultInGameState;
-        player.activatedAccount = s_defaultActivationState;
-        player.countryId = newPlayer.countryId;
-        player.coins = 0;
-        // player.avatarId = 1;
-        return player;
-    }
-
     private string GenerateId()
     {
         string id = "";

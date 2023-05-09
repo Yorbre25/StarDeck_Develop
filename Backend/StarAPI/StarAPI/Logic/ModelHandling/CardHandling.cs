@@ -50,17 +50,7 @@ public class CardHandling
     private List<OutputCard> GettingAllCards()
     {
         List<Card> cards = _context.Card.ToList();
-        return CardsToOutputCards(cards);
-    }
-
-    private List<OutputCard> CardsToOutputCards(List<Card> cards)
-    {
-        List<OutputCard> outputCards = new List<OutputCard>();
-        foreach(var card in cards)
-        {
-            outputCards.Add(_cardMapper.FillOutputCard(card));
-        }
-        return outputCards;
+        return _cardMapper.FillOutputCard(cards);
     }
 
     public OutputCard GetCard(string id){
