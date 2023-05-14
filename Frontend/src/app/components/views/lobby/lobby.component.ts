@@ -59,6 +59,7 @@ export class LobbyComponent implements OnInit{
     const uuid = uuidv4();
     console.log(uuid);
     this.router.navigate(['/searching']);
+  }
     
   ngOnInit(): void {
     this.api.getAmCards(this.logs.getid()).subscribe((data)=>{
