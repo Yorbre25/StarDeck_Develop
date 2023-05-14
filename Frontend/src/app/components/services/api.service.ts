@@ -6,6 +6,7 @@ import { CardInt } from "../interfaces/card.interface";
 import { RaceInterface } from "../interfaces/race.interface";
 import { TypeInterface } from "../interfaces/type.interface";
 import { PlanetInterface } from "../interfaces/planet.interface";
+import { DeckInterface } from "../interfaces/deck.interface";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { catchError, Observable, throwError } from "rxjs";
 import { RouterTestingHarness } from "@angular/router/testing";
@@ -109,6 +110,19 @@ export class ApiService{
         return -1
     }
 
+    searchDeckID(deckname:string|null,decks:DeckInterface[]){
+        if(deckname!=null){
+            for (var deck of decks){
+                if(deck.name==deckname){
+                    return deck.id
+                }
+                continue
+            }
+        }
+        console.log("Something went wrong with type")
+        return -1
+    }
+
     searchraceID(racename:string|null,races:RaceInterface[]){
         if(racename!=null){
             for (var race of races){
@@ -156,6 +170,30 @@ export class ApiService{
         console.log(dir)
         return this.http.get<CardInt[]>(dir)
       }
+
+    getAllDecks(playerId:string|null):Observable<DeckInterface[]>{
+        let dir = this.url + "Deck/GetDecksFromPlayer/"+playerId
+        console.log(dir)
+        return this.http.get<DeckInterface[]>(dir)
+    }
+    
+    getDeckCards(deckId:string|null):Observable<CardInt[]>{
+        let dir = this.url + "Deck/GetCardsFromDeck/"+deckId
+        console.log(dir)
+        return this.http.get<CardInt[]>(dir)
+    }
+
+    addDeck(playerID:string|null,deckName:string|null,cards:string[]):Observable<any>{
+        let dir =this.url + "Deck/AddDeck"
+        console.log(dir)
+        let deckforAPI={
+            name:deckName,
+            playerId:playerID,
+            cardIds:cards
+        }
+        return this.http.post<ResponseI>(dir,deckforAPI)
+
+    }
 
     getplayerCards(player:string|null):Observable<CardInt[]>{
         let dir = this.url +"PlayerCard/GetPlayerCards"+player
