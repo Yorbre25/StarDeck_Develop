@@ -49,6 +49,8 @@ import { MultiplePlanetsComponent } from './components/elements/multiple-planets
 import { DeckSelectComponent } from './components/views/game-setup/deck-select/deck-select.component';
 import { LoadingGameComponent } from './components/views/game-setup/loading-game/loading-game.component';
 import { MatchNotFoundComponent } from './components/pop-ups/match-not-found/match-not-found.component';
+import { PlanetCardsComponent } from './components/elements/planet-cards/planet-cards.component';
+import { MultiplePlanetCardsComponent } from './components/elements/multiple-planet-cards/multiple-planet-cards.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +83,9 @@ import { MatchNotFoundComponent } from './components/pop-ups/match-not-found/mat
     MultiplePlanetsComponent,
     DeckSelectComponent,
     LoadingGameComponent,
-    MatchNotFoundComponent
+    MatchNotFoundComponent,
+    PlanetCardsComponent,
+    MultiplePlanetCardsComponent
   ],
   imports: [
     MatFormFieldModule,

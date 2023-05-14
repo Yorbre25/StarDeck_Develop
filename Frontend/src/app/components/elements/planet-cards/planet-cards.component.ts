@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component , Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { seleced_Card_S } from '../../services/selected_card.service';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/components/services/api.service';
 import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  selector: 'app-planet-cards',
+  templateUrl: './planet-cards.component.html',
+  styleUrls: ['./planet-cards.component.scss']
 })
-export class GameComponent {
+export class PlanetCardsComponent {
 
+  
   cards!: CardInt[];
-  planets!: PlanetInterface[];
+  //planet!: PlanetInterface;
+
+  @Input()
+  planet!:PlanetInterface;
 
 
   constructor(private api: ApiService, private http: HttpClient) {
@@ -19,16 +26,19 @@ export class GameComponent {
     //console.log(this.cards)
   }
 
+
   ngOnInit(): void {
 
-    this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
+    this.http.get('assets/samples/sampleCards2.json').subscribe((data: any) => {
       console.log(data);
       this.cards = data
     });
 
     this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
       console.log(data2);
-      this.planets = data2
+      this.planet = data2[0]
     });
 }
 }
+
+
