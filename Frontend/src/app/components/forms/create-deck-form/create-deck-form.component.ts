@@ -3,6 +3,8 @@ import { CardInt } from '../../interfaces/card.interface';
 import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { seleced_Card_S } from '../../services/selected_card.service';
+import { LoginService } from '../../services/login.service';
 import { DeckInterface } from '../../interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,13 +43,14 @@ export class CreateDeckFormComponent {
   totalCards!: number;
   name !: string[];
   fault!: boolean;
+  amountFault!:boolean;
 
   deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
 
   // totalCards = new FormArray([]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService, private http: HttpClient, public dialog: MatDialog) {
+  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService, private http: HttpClient, public dialog: MatDialog, private scard:seleced_Card_S, private logs:LoginService) {
 
   }
 
@@ -70,9 +73,14 @@ export class CreateDeckFormComponent {
   }
 
   ngOnInit() {
+    this.scard.resetCardList()
     this.currentCards = 0;
     this.fault = false
     this.totalCards = 5;
+    this.amountFault=false;
+    this.deck={id:"",
+               name:"",
+              cards:[]}
 
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
       console.log(data);
@@ -85,14 +93,22 @@ export class CreateDeckFormComponent {
     //});
 
   }
+
   goToLobby() {
     if (this.deckName.value != null) {
       if (this.deckName.invalid) {
         this.fault = true
-      } else if (this.deckName.value != null) {
+      } else{
         this.deck.name = this.deckName.value
-        this.router.navigate(['/home']);
-
+        this.deck.cards=this.scard.getCardList()
+        this.deck.id=this.logs.getid()  
+        this.currentCards=this.deck.cards.length
+        if (this.currentCards==5){
+          //Aquí se haría el post al api
+          this.router.navigate(['/decks']);}
+        else{
+          console.log("Missing Cards")
+        }
       }
     }
   }
@@ -107,7 +123,7 @@ export class CreateDeckFormComponent {
   openAllCards(cards: CardInt[]) {
     console.log(cards);
     const dialogRef = this.dialog.open(MultipleCardsComponent, {
-      data: { cards: this.allCards, clickable: false }
+      data: { cards: this.allCards, clickable: true}
     });
 
     dialogRef.afterClosed().subscribe(result => {
