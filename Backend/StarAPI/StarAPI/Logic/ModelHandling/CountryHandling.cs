@@ -30,14 +30,26 @@ public class CountryHandling
         if(alreadyExist){
             throw new ArgumentException("Country already exist");
         }
-        InsertCountry(countryName);
+        AddingCountry(countryName);
 
     }
 
-    public void InsertCountry(string countryName){
+    public void AddingCountry(string countryName){
         var country = new Country {countryName = countryName};
         _context.Country.Add(country);
         _context.SaveChanges();
+    }
+
+    public string GetCountry(int id)
+    {
+        try
+        {
+            return GetCountryName(id);
+        }
+        catch (System.Exception)
+        {
+            throw new ArgumentException("Invalid id");
+        }
     }
 
     private bool CheckInputName(string countryName){
@@ -61,17 +73,6 @@ public class CountryHandling
         return true;
     }
 
-    public string GetCountry(int id)
-    {
-        try
-        {
-            return GetCountryName(id);
-        }
-        catch (System.Exception)
-        {
-            throw new ArgumentException("Invalid id");
-        }
-    }
 
     public string GetCountryName(int id)
     {

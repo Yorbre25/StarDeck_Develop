@@ -16,7 +16,7 @@ namespace StarAPI.Models
         public int raceId { get; set; }
         public bool activatedCard { get; set; }
         public string description { get; set; }
-        // [ForeignKey("Card_Image")]
-        // public int imageId { get; set; }
+        [ForeignKey("Card_Image")]
+        public int imageId { get; set; }
     }
 }

@@ -7,6 +7,9 @@ namespace StarAPI.Context
     // This class is used to create the database context for the StarDeck database.
     public class StarDeckContext : DbContext
     {
+        public StarDeckContext()
+        {
+        }
         public StarDeckContext(DbContextOptions<StarDeckContext> options) : base(options)
         {
             Database.EnsureCreated();

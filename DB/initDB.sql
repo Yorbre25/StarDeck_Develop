@@ -1,4 +1,5 @@
-Create database StarDeck
+-- Create database StarDeck
+Use StarDeck
 
 CREATE TABLE CardType (
 	id INT NOT NULL IDENTITY(1,1),
@@ -58,7 +59,7 @@ CREATE TABLE Player
 	activatedAccount BIT NOT NULL,
 	countryId INT Not NULL,
 	coins INT NOT NULL,
-	avatarId VARCHAR(MAX),
+	avatarId INT NOT NULL,
 	PRIMARY KEY(id)
 )
 
@@ -146,8 +147,13 @@ FOREIGN KEY (typeId)
 REFERENCES PlanetType(id)
 
 ALTER TABLE Planet
-ADD CONSTRAINT fk_Image_Planet
+ADD CONSTRAINT fk_Planet_Image
 FOREIGN KEY (imageId)
+REFERENCES Image(id)
+
+ALTER TABLE Player
+ADD CONSTRAINT fk_Player_Image
+FOREIGN KEY (avatarId)
 REFERENCES Image(id)
 
 ALTER TABLE Player_Card
