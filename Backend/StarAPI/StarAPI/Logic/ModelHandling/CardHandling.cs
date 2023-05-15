@@ -28,8 +28,6 @@ public class CardHandling
     public CardHandling(StarDeckContext context)
     {
         this._context = context;
-        this._cardTypeHandling = new CardTypeHandling(_context);
-        this._raceHandling = new RaceHandling(_context);
         this._cardMapper = new CardMapper(_context);
     }
 

@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using StarAPI.Context;
 using StarAPI.Logic.ModelHandling;
+using StarAPI.Logic.GameLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 

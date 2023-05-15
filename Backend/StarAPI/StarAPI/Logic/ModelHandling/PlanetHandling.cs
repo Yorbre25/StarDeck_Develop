@@ -42,6 +42,45 @@ public class PlanetHandling
         }
     }
 
+    public OutputPlanet GetPlanet(string id){
+        try
+        {
+            return GetOutputPlanet(id);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planet");
+        }
+    }
+
+    public List<OutputPlanet> GetPlanets(string[] ids)
+    {
+        try
+        {
+            return GettingPlanets(ids);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planets");
+        }
+    }
+
+    private List<OutputPlanet> GettingPlanets(string[] ids)
+    {
+        List<OutputPlanet> planets = new List<OutputPlanet>();
+        foreach(var id in ids)
+        {
+            planets.Add(GetPlanet(id));
+        }
+        return planets;
+    }
+
+    private OutputPlanet GetOutputPlanet(string id)
+    {
+        Planet? planet = _context.Planet.FirstOrDefault(p => p.id == id);
+        return _planetMapper.FillOutputPlanet(planet);
+    }
+
     private List<OutputPlanet> GettingAllPlanets()
     {
         List<Planet> planets = _context.Planet.ToList();

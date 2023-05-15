@@ -7,9 +7,6 @@ using StarAPI.Context;
 
 namespace StarAPI.Controllers
 {
-    /// <summary>
-    /// This class is used to handle all requests of Card table.
-    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class CardController : ControllerBase
