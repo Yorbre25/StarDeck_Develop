@@ -5,5 +5,4 @@
 export interface DeckInterface{
     id:string|null;
     name:string|null;
-    cards:string[]|null;
 }

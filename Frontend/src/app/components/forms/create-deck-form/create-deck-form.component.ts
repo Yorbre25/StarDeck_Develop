@@ -33,6 +33,7 @@ export class CreateDeckFormComponent {
   currentCards!: number;
   name !: string[];
   fault!: boolean;
+  deckNameFault!:boolean;
 
   deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
@@ -63,6 +64,7 @@ export class CreateDeckFormComponent {
     ngOnInit() {
       this.currentCards = 0;
       this.fault = false
+      this.deckNameFault=false
     }
 
 
@@ -70,7 +72,7 @@ export class CreateDeckFormComponent {
       if (this.deckName.value != null) {
         if (this.deckName.invalid) {
           this.fault = true
-        } else if (this.deckName.value != null) {
+        }else{
           this.deck.name = this.deckName.value
          // this.deck.cards = this.totalCards.value
           
@@ -80,7 +82,7 @@ export class CreateDeckFormComponent {
            // console.log(data);
          // })//acá llama a la API
     
-          this.router.navigate(['/home']);
+          this.router.navigate(['/decks']);
     
         }
       }
