@@ -3,36 +3,51 @@ using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Logic.GameLogic;
 using StarAPI.DTOs;
+using StarAPI.Logic.ModelHandling;
 
 namespace StarAPI.Controllers
 {
-    [Route("[controller]")]
+
     [ApiController]
     public class SetupController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private SetupGame _setupGame;
-        private PlanetsForGame _planetsForGame;
+        private GameHandling _gameHandling;
 
         public SetupController(StarDeckContext context)
         {
             this._context = context;
-            this._setupGame = new SetupGame(_context);
-            this._planetsForGame = new PlanetsForGame(_context);
+            this._gameHandling = new GameHandling(_context);
         }
 
 
-        [HttpGet("GetSetupParameters")]
-        public SetupParam GetSetupParam()
+        [HttpPost("SetupParameters")]
+        public ActionResult SetupParam()
         {
-            return _setupGame.GetSetupParam();
+            try
+            {
+                return Ok(_gameHandling.SetUpGame());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-        [HttpGet("TestPlanetSetUp")]
-        public List<OutputPlanet> TestPlanetSetUp()
+        [HttpPost("GetGamePlanets/{gameId}")]
+        public List<OutputPlanet> GetGamePlanets(string gameId)
         {
-            return _planetsForGame.GetPlanetsForNewGame();
+            return _gameHandling.GetPlanets(gameId);
         }
+
+        // [HttpPost("GetGameTable/{gameTableId}")]
+        // public GameTable NewGame(string gameTableId)
+        // {
+        //     return _gameHandling.GetGameTable(gameTableId);
+
+        // }
+
+
         
         
         

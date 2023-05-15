@@ -27,6 +27,12 @@ namespace StarAPI.Controllers
             return _planetHandling.GetAllPlanets();
         }
 
+        [HttpGet("GetPlanet/{id}")]
+        public OutputPlanet GetPlanet(string id)
+        {
+            return _planetHandling.GetPlanet(id);
+        }
+
 
         [HttpPost("AddPlanet")]
         public ActionResult AddPlanet([FromBody] InputPlanet planet)
