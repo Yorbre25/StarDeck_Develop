@@ -31,5 +31,27 @@
             "race": "Nyan",
             "description": "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
             "activated_card": true
+        },
+        {
+            "id": "''",
+            "name": "Ginjirotchi",
+            "image": "https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
+            "energy": 100,
+            "cost": 500,
+            "type": "UR",
+            "race": "Nyan",
+            "description": "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
+            "activated_card": true
+        },
+        {
+            "id": "''",
+            "name": "Ginjirotchi",
+            "image": "https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
+            "energy": 100,
+            "cost": 500,
+            "type": "UR",
+            "race": "Nyan",
+            "description": "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
+            "activated_card": true
         }
     ]

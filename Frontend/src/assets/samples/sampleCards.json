@@ -9,6 +9,16 @@
             "race": "Nyan",
             "description": "Nyanyanyanyanyanyanya!",
             "activated_card": true
+        }, {
+            "id": "''",
+            "name": "Nyan Cat",
+            "image": "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
+            "energy": 100,
+            "cost": 500,
+            "type": "UR",
+            "race": "Nyan",
+            "description": "Nyanyanyanyanyanyanya!",
+            "activated_card": true
         },
         {
             "id": "''",
