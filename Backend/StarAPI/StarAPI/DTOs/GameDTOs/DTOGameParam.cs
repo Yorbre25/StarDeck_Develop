@@ -1,5 +1,7 @@
 public class SetUpValues
 {
-    public int totalTurns { get; set; }
-    public int timePerTurn{ get; set; } // in seconds
+    public string player1Id { get; set; }
+    public string player2Id { get; set; }
+    public string player1DeckId { get; set; }
+    public string player2DeckId { get; set; }
 }

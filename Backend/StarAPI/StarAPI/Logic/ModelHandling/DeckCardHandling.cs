@@ -47,4 +47,30 @@ public class DeckCardHandling
         }
         return outputCards;
     }
+
+        public string[] GetCardIdsFromDeck(string deckId)
+    {
+        try
+        {
+            return GettingCardIdsFromDeck(deckId);
+        }
+        catch (System.Exception)
+        {
+            
+            throw new Exception("Error getting cards from deck");
+        }
+    }
+
+    public string[] GettingCardIdsFromDeck(string deckId)
+    {
+        var deckCards = _context.Deck_Card.Where(dc => dc.deckId == deckId);
+        string[] cardIds = new string[deckCards.Count()];
+        int i = 0;
+        foreach (var deckCard in deckCards)
+        {
+            cardIds[i] = deckCard.cardId;
+            i++;
+        }
+        return cardIds;
+    }
 }

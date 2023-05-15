@@ -3,6 +3,7 @@ IF DB_ID('StarDeck') IS NULL
 GO
 Use StarDeck
 
+
 CREATE TABLE CardType (
 	id INT NOT NULL IDENTITY(1,1),
     typeName VARCHAR(30) UNIQUE NOT NULL,
@@ -56,9 +57,9 @@ CREATE TABLE Player
 	username VARCHAR(15) NOT NULL,
 	pHash VARCHAR(1000) NOT NULL,
 	ranking VARCHAR(15) NOT NULL,
-	xp INT NOT NULL,
-	inGame BIT NOT NULL,
-	activatedAccount BIT NOT NULL,
+	xp INT NOT NULL DEFAULT 0,
+	inGame BIT NOT NULL DEFAULT 0,
+	activatedAccount BIT NOT NULL DEFAULT 1,
 	countryId INT Not NULL,
 	coins INT NOT NULL,
 	avatarId INT NOT NULL,
@@ -113,6 +114,20 @@ CREATE TABLE GameTable(
 	planet2Id VARCHAR(15),
 	planet3Id VARCHAR(15),
 	PRIMARY KEY (id)
+)
+
+CREATE TABLE Game_Player(
+	playerId VARCHAR(15) NOT NULL,
+	gameId VARCHAR(15) NOT NULL,
+	gameDeckId VARCHAR(15) NOT NULL,
+	-- HandId
+	PRIMARY KEY (playerId, gameId)
+)
+
+CREATE Table Game_Deck(
+	deckId VARCHAR(15) NOT NULL,
+	cardId VARCHAR(15),
+	PRIMARY KEY (deckId, cardId)
 )
 
 CREATE TABLE Game(
@@ -217,3 +232,16 @@ REFERENCES GameTable(id);
 -- FOREIGN KEY (player2Id)
 -- REFERENCES Player(id);
 
+GO
+SET IDENTITY_INSERT dbo.CardType ON;  
+GO
+SET IDENTITY_INSERT dbo.Race ON;
+GO
+
+GO
+
+GO
+
+GO
+SET IDENTITY_INSERT dbo.AVATAR ON;
+GO

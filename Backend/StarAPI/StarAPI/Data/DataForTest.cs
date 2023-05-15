@@ -449,37 +449,37 @@ public class DataForTest
   
     };
 
-    public string[] races = new string[]
-    {
-        "Human",
-        "Trisolariano",
-        "Robot",
-        "Marciano",
-        "Ciborg"
-    };
+    // public string[] races = new string[]
+    // {
+    //     "Human",
+    //     "Trisolariano",
+    //     "Robot",
+    //     "Marciano",
+    //     "Ciborg"
+    // };
     
-    public string[] cardTypes = new string[]
-    {
-        "Basica",
-        "Normal",
-        "Rara",
-        "Muy Rara",
-        "Ultra Rara"
-    };
+    // public string[] cardTypes = new string[]
+    // {
+    //     "Basica",
+    //     "Normal",
+    //     "Rara",
+    //     "Muy Rara",
+    //     "Ultra Rara"
+    // };
 
-    public string[] planetTypes = new string[]
-    {
-        "Popular",
-        "Basico",
-        "Raro",
-    };
+    // public string[] planetTypes = new string[]
+    // {
+    //     "Popular",
+    //     "Basico",
+    //     "Raro",
+    // };
 
-    public string[] countries = new string[]
-    {
-        "Costa Rica",
-        "Estados Unidos",
-        "Mexico"
-    };
+    // public string[] countries = new string[]
+    // {
+    //     "Costa Rica",
+    //     "Estados Unidos",
+    //     "Mexico"
+    // };
 
 
     public int numero = 3;

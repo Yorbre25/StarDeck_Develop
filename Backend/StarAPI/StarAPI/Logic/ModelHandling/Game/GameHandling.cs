@@ -10,6 +10,7 @@ public class GameHandling
 {
     private readonly StarDeckContext _context;
     private GameTableHandling _gameTableHandling;
+    private GamePlayerHandling _gamePlayerHandling;
     private IdGenerator _idGenerator = new IdGenerator();
 
     private static int s_maxTurns = 10;
@@ -24,11 +25,11 @@ public class GameHandling
         this._gameTableHandling = new GameTableHandling(_context);
     }
 
-    public Game SetUpGame()
+    public Game SetUpGame(SetUpValues setUpValues)
     {
         try
         {
-            return SettingupGame();
+            return SettingupGame(setUpValues);
         }
         catch
         {
@@ -42,17 +43,26 @@ public class GameHandling
         string gameTableId = _gameTableHandling.SetupTable();
         return gameTableId;
     }
-    public Game SettingupGame()
+    public Game SettingupGame(SetUpValues setupValues)
     {
+        string gameId = _idGenerator.GenerateId(s_idPrefix);
+        AddPlayersToGame(gameId, setupValues);
         Game newGame = new Game();
-        newGame.id = GenerateId();
+        newGame.id = gameId;
         newGame.timeStarted = DateTime.Now;
+        newGame.player1Id = setupValues.player1Id;
+        newGame.player2Id = setupValues.player2Id;
         newGame.maxTurns = 10;
         newGame.timePerTurn = 10;
         newGame.turn = 0;
         newGame.gameTableId = SetTable();
         AddGame(newGame);
         return newGame;
+    }
+
+    private void AddPlayersToGame(string gameId, SetUpValues setupValues)
+    {
+        this._gamePlayerHandling.AddPlayers(gameId, setupValues);
     }
 
     private void AddGame(Game newGame)
@@ -110,7 +120,6 @@ public class GameHandling
     }
 
     internal GameTable GetGameTable(string gameTableId)
-    // internal List<GameTable> GetGameTable(string gameTableId)
     {
         return _gameTableHandling.GetGameTable(gameTableId);
     }

@@ -21,12 +21,12 @@ namespace StarAPI.Controllers
         }
 
 
-        [HttpPost("SetupParameters")]
-        public ActionResult SetupParam()
+        [HttpPost("SetupParameters/")]
+        public ActionResult SetupParam([FromBody] SetUpValues setUpValues)
         {
             try
             {
-                return Ok(_gameHandling.SetUpGame());
+                return Ok(_gameHandling.SetUpGame(setUpValues));
             }
             catch (Exception e)
             {
@@ -40,12 +40,13 @@ namespace StarAPI.Controllers
             return _gameHandling.GetPlanets(gameId);
         }
 
-        // [HttpPost("GetGameTable/{gameTableId}")]
-        // public GameTable NewGame(string gameTableId)
-        // {
-        //     return _gameHandling.GetGameTable(gameTableId);
 
-        // }
+        // Test
+        [HttpPost("GetGameTable/{gameTableId}")]
+        public GameTable NewGame(string gameTableId)
+        {
+            return _gameHandling.GetGameTable(gameTableId);
+        }
 
 
         

@@ -12,5 +12,10 @@ namespace StarAPI.Models
         public int timePerTurn { get; set; }
         public int turn { get; set; }
         public DateTime timeStarted { get; set; }
+        [ForeignKey("Player")]
+        public string player1Id { get; set; }
+        [ForeignKey("Player")]
+        public string player2Id { get; set; }
+
     }
 }
