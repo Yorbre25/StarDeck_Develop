@@ -432,6 +432,23 @@ public class DataForTest
         }
     };
 
+    public InputDeck[] decks = new InputDeck[]
+    {
+        new InputDeck()
+        {
+            name = "Mazo A",
+        },
+        new InputDeck()
+        {
+            name = "Mazo B",
+        },
+        new InputDeck()
+        {
+            name = "Mazo C",
+        },
+  
+    };
+
     public string[] races = new string[]
     {
         "Human",

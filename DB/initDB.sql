@@ -1,4 +1,7 @@
-Create database StarDeck
+IF DB_ID('StarDeck') IS NULL
+   Create database StarDeck
+GO
+Use StarDeck
 
 CREATE TABLE CardType (
 	id INT NOT NULL IDENTITY(1,1),
@@ -58,7 +61,7 @@ CREATE TABLE Player
 	activatedAccount BIT NOT NULL,
 	countryId INT Not NULL,
 	coins INT NOT NULL,
-	avatarId VARCHAR(MAX),
+	avatarId INT NOT NULL,
 	PRIMARY KEY(id)
 )
 
@@ -94,27 +97,31 @@ CREATE TABLE Deck_Card (
     PRIMARY KEY (deckId, cardId)
 )
 
-CREATE TABLE SetupParam(
-	id INT NOT NULL IDENTITY(1,1),
-	totalTurns INT NOT NULL,
-	turnTime INT NOT NULL,
-	PRIMARY KEY (id)
-)
-
 CREATE TABLE Match_Player(
 	id VARCHAR(15) NOT NULL,
 	waiting_since VARCHAR(15) NOT NULL,
 )
 
-CREATE TABLE Game_Planets(
-	gameId VARCHAR(15) NOT NULL,
-	planetId VARCHAR(15) NOT NULL,
+-- CREATE TABLE Game_Planets(
+-- 	gameId VARCHAR(15) NOT NULL,
+-- 	planetId VARCHAR(15) NOT NULL,
+-- )
+
+CREATE TABLE GameTable(
+	id VARCHAR(15),
+	planet1Id VARCHAR(15),
+	planet2Id VARCHAR(15),
+	planet3Id VARCHAR(15),
+	PRIMARY KEY (id)
 )
 
 CREATE TABLE Game(
 	id VARCHAR(15) NOT NULL,
-	player1Id VARCHAR(15) NOT NULL,
-	player2Id VARCHAR(15) NOT NULL,
+	gameTableId VARCHAR(15),
+	maxTurns INT NOT NULL,
+	timePerTurn int NOT NULL,
+	turn int NOT NULL,
+	timeStarted DATETIME,
 	PRIMARY KEY (id)
 )
 
@@ -146,8 +153,13 @@ FOREIGN KEY (typeId)
 REFERENCES PlanetType(id)
 
 ALTER TABLE Planet
-ADD CONSTRAINT fk_Image_Planet
+ADD CONSTRAINT fk_Planet_Image
 FOREIGN KEY (imageId)
+REFERENCES Image(id)
+
+ALTER TABLE Player
+ADD CONSTRAINT fk_Player_Image
+FOREIGN KEY (avatarId)
 REFERENCES Image(id)
 
 ALTER TABLE Player_Card
@@ -180,23 +192,28 @@ ADD CONSTRAINT fk_Player_Match
 FOREIGN KEY (id)
 REFERENCES Player(id);
 
-ALTER TABLE Game_Planets
-ADD CONSTRAINT fk_Game_Planet
-FOREIGN KEY (gameId)
-REFERENCES Game(id);
-
-ALTER TABLE Game_Planets
-ADD CONSTRAINT fk_Planet_Game
-FOREIGN KEY (planetId)
-REFERENCES Planet(id);
-
 ALTER TABLE Game
-ADD CONSTRAINT fk_Player1_Game
-FOREIGN KEY (player1Id)
-REFERENCES Player(id);
+ADD CONSTRAINT fk_Game_GameTable
+FOREIGN KEY (gameTableId)
+REFERENCES GameTable(id);
 
-ALTER TABLE Game
-ADD CONSTRAINT fk_Player2_Game
-FOREIGN KEY (player2Id)
-REFERENCES Player(id);
+-- ALTER TABLE Game_Planets
+-- ADD CONSTRAINT fk_Game_Planet
+-- FOREIGN KEY (gameId)
+-- REFERENCES Game(id);
+
+-- ALTER TABLE Game_Planets
+-- ADD CONSTRAINT fk_Planet_Game
+-- FOREIGN KEY (planetId)
+-- REFERENCES Planet(id);
+
+-- ALTER TABLE Game
+-- ADD CONSTRAINT fk_Player1_Game
+-- FOREIGN KEY (player1Id)
+-- REFERENCES Player(id);
+
+-- ALTER TABLE Game
+-- ADD CONSTRAINT fk_Player2_Game
+-- FOREIGN KEY (player2Id)
+-- REFERENCES Player(id);
 

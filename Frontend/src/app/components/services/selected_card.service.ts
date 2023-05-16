@@ -7,6 +7,7 @@ import { CardInt } from "../interfaces/card.interface";
 
 export class seleced_Card_S{
     
+    
     getcard(){
         return localStorage.getItem("scard")
     }

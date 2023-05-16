@@ -7,6 +7,9 @@ namespace StarAPI.Context
     // This class is used to create the database context for the StarDeck database.
     public class StarDeckContext : DbContext
     {
+        public StarDeckContext()
+        {
+        }
         public StarDeckContext(DbContextOptions<StarDeckContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -27,6 +30,7 @@ namespace StarAPI.Context
             modelBuilder.Entity<Planet>().HasKey(c => new { c.id });
             modelBuilder.Entity<Match_Player>().HasNoKey();
             modelBuilder.Entity<Game>().HasKey(c => new { c.id });
+            modelBuilder.Entity<GameTable>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game_Planets>().HasKey(c => new { c.gameId, c.planetId });
             modelBuilder.Entity<SetupParam>().HasKey(c => new { c.id });
 
@@ -45,6 +49,8 @@ namespace StarAPI.Context
         public DbSet<Planet> Planet { get; set; }
         public DbSet<Match_Player> Match_Player { get; set; }
         public DbSet<SetupParam> SetupParam { get; set; }
+        public DbSet<Game> Game { get; set; }
+        public DbSet<GameTable> GameTable { get; set; }
     }
 
    

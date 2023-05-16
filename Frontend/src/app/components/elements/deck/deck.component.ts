@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
 import { ApiService } from '../../services/api.service';
+import { LoginService } from '../../services/login.service';
 import { DeckInterface } from '../../interfaces/deck.interface';
 
 @Component({
@@ -12,14 +13,15 @@ export class DeckComponent {
 
   //deck!:DeckInterface[];
   cards!:CardInt[];
+  
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private logs:LoginService) {
       
     //console.log(this.cards)
   }
 
   ngOnInit(): void {
-    //this.api.getDeck(id).subscribe(data => {
+    //this.api.getAllDecks(this.logs.getid()).subscribe(data => {
      // console.log(data)
       //this.deck = data 
     //});

@@ -3,12 +3,14 @@ using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
 public class PlanetHandling
 {
     private readonly StarDeckContext _context;
+    private PlanetMapper _planetMapper;
     private static int s_minPlanetNameLenght = 5;
     private static int s_maxPlanetNameLenght = 30;
     private static int s_maxDescriptionLenght = 1000;
@@ -24,6 +26,7 @@ public class PlanetHandling
     {
         this._context = context;
         this._planetTypeHandling = new PlanetTypeHandling(_context);
+        this._planetMapper = new PlanetMapper(_context);
     }
 
 
@@ -39,10 +42,49 @@ public class PlanetHandling
         }
     }
 
+    public OutputPlanet GetPlanet(string id){
+        try
+        {
+            return GetOutputPlanet(id);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planet");
+        }
+    }
+
+    public List<OutputPlanet> GetPlanets(string[] ids)
+    {
+        try
+        {
+            return GettingPlanets(ids);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting planets");
+        }
+    }
+
+    private List<OutputPlanet> GettingPlanets(string[] ids)
+    {
+        List<OutputPlanet> planets = new List<OutputPlanet>();
+        foreach(var id in ids)
+        {
+            planets.Add(GetPlanet(id));
+        }
+        return planets;
+    }
+
+    private OutputPlanet GetOutputPlanet(string id)
+    {
+        Planet? planet = _context.Planet.FirstOrDefault(p => p.id == id);
+        return _planetMapper.FillOutputPlanet(planet);
+    }
+
     private List<OutputPlanet> GettingAllPlanets()
     {
         List<Planet> planets = _context.Planet.ToList();
-        return PlanetsToOutputPlanets(planets);
+        return _planetMapper.FillOutputPlanet(planets);
     }
 
     public List<OutputPlanet> GetPlanetsByType(string planetType)
@@ -61,29 +103,6 @@ public class PlanetHandling
     {
         List<OutputPlanet> allPlanets = GetAllPlanets();
         return allPlanets.Where(p => p.type == planetType).ToList();
-    }
-
-    private List<OutputPlanet> PlanetsToOutputPlanets(List<Planet> planets)
-    {
-        List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
-        foreach(var planet in planets)
-        {
-            outputPlanets.Add(PassPlanetValuesToOutputPlanet(planet));    
-        }
-        return outputPlanets;
-    }
-
-    private OutputPlanet PassPlanetValuesToOutputPlanet(Planet planet)
-    {
-        OutputPlanet outputCard = new OutputPlanet
-        {
-            id = planet.id,
-            name = planet.name,
-            type = _planetTypeHandling.GetPlanetType(planet.typeId),
-            description = planet.description,
-            image = "Hola"
-        };
-        return outputCard;
     }
 
     public void AddPlanet(InputPlanet inputPlanet)
@@ -113,8 +132,10 @@ public class PlanetHandling
     }
 
     
-    public void InsertCard(InputPlanet inputPlanet){
-        var newPlanet = setNewPlanetValues(inputPlanet);
+    public void InsertCard(InputPlanet inputPlanet)
+    {
+        string id = _idGenerator.GenerateId(s_idPrefix);
+        var newPlanet = _planetMapper.FillNewPlanet(inputPlanet, id);
         _context.Planet.Add(newPlanet);
         _context.SaveChanges();
     }
@@ -135,18 +156,6 @@ public class PlanetHandling
             return false;
         }
         return true;
-    }
-
-    private Planet setNewPlanetValues(InputPlanet newPlanet){
-        Planet card = new Planet();
-        string id = GenerateId();
-        card.id = id;
-        card.name = newPlanet.name;
-        card.typeId = newPlanet.typeId;
-        card.activatedPlanet = s_defaultActivationState;
-        card.description = newPlanet.description;
-        card.imageId = 1;
-        return card;
     }
 
     

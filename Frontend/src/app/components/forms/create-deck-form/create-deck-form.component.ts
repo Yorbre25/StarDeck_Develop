@@ -41,6 +41,7 @@ export class CreateDeckFormComponent {
   totalCards!: number;
   name !: string[];
   fault!: boolean;
+  deckNameFault!:boolean;
 
   deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
@@ -71,7 +72,8 @@ export class CreateDeckFormComponent {
 
   ngOnInit() {
     this.currentCards = 0;
-    this.fault = false
+    this.fault = false;
+    this.deckNameFault=false;
     this.totalCards = 5;
 
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
@@ -85,14 +87,23 @@ export class CreateDeckFormComponent {
     //});
 
   }
-  goToLobby() {
-    if (this.deckName.value != null) {
-      if (this.deckName.invalid) {
-        this.fault = true
-      } else if (this.deckName.value != null) {
-        this.deck.name = this.deckName.value
-        this.router.navigate(['/home']);
 
+    goToLobby() {
+      if (this.deckName.value != null) {
+        if (this.deckName.invalid) {
+          this.fault = true
+        }else{
+          this.deck.name = this.deckName.value
+         // this.deck.cards = this.totalCards.value
+          
+    
+    
+         // this.api.addCard(this.card).subscribe(data => {
+           // console.log(data);
+         // })//acá llama a la API
+    
+          this.router.navigate(['/decks']);
+    
       }
     }
   }

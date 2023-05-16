@@ -3,9 +3,6 @@ using StarAPI.Models;
 using StarAPI.Context;
 namespace StarAPI.Logic.ModelHandling;
 
-/// <summary>
-/// Class who creates, deletes and adds card types to the database
-/// </summary>
 public class CardTypeHandling
 {
     private readonly StarDeckContext _context;
@@ -96,15 +93,11 @@ public class CardTypeHandling
         }
         else
         {
-            RemoveCardType(id);
+            DeletingCardType(id);
         }
     }
 
-    /// <summary>
-    /// Removes cardtype with the given id
-    /// </summary>
-    /// <param name="id">Id of card type to be removed</param>
-    private void RemoveCardType(int id)
+    private void DeletingCardType(int id)
     {
         var cardType = _context.CardType.FirstOrDefault(r => r.id == id);
         _context.CardType.Remove(cardType);

@@ -2,6 +2,7 @@ using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
@@ -13,9 +14,9 @@ public class CardHandling
     private IdGenerator _idGenerator = new IdGenerator();
     private RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
+    private CardMapper _cardMapper;
     private static int s_minCardNameLenght = 5;
     private static int s_maxCardNameLenght = 30;
-    private static bool s_defaultActivationState = true;
     private static int s_minEnergyValue = -100;
     private static int s_maxEnergyValue = 100;
     private static int s_minBattleCost = 0;
@@ -27,8 +28,7 @@ public class CardHandling
     public CardHandling(StarDeckContext context)
     {
         this._context = context;
-        this._cardTypeHandling = new CardTypeHandling(_context);
-        this._raceHandling = new RaceHandling(_context);
+        this._cardMapper = new CardMapper(_context);
     }
 
 
@@ -48,39 +48,13 @@ public class CardHandling
     private List<OutputCard> GettingAllCards()
     {
         List<Card> cards = _context.Card.ToList();
-        return CardsToOutputCards(cards);
-    }
-
-    private List<OutputCard> CardsToOutputCards(List<Card> cards)
-    {
-        List<OutputCard> outputCards = new List<OutputCard>();
-        foreach(var card in cards)
-        {
-            outputCards.Add(PassCardValuesToOutputCard(card));
-        }
-        return outputCards;
-    }
-
-    private OutputCard PassCardValuesToOutputCard(Card card)
-    {
-        OutputCard outputCard = new OutputCard
-        {
-            id = card.id,
-            name = card.name,
-            energy = card.energy,
-            cost = card.cost,
-            type = _cardTypeHandling.GetCardType(card.typeId),
-            race = _raceHandling.GetRace(card.raceId),
-            description = card.description,
-            image = "Hola"
-        };
-        return outputCard;
+        return _cardMapper.FillOutputCard(cards);
     }
 
     public OutputCard GetCard(string id){
         try
         {
-            return GettingCard(id);
+            return GetOutputCard(id);
         }
         catch (System.Exception)
         {
@@ -88,10 +62,10 @@ public class CardHandling
         }
     }
 
-    private OutputCard GettingCard(string id)
+    private OutputCard GetOutputCard(string id)
     {
         Card? card = ExtractCard(id);
-        return PassCardValuesToOutputCard(card);
+        return _cardMapper.FillOutputCard(card);
     }
 
     private Card ExtractCard(string id)
@@ -112,13 +86,14 @@ public class CardHandling
         if(alreadyExist){
             throw new ArgumentException("Card name already exist");
         }
-        InsertCard(inputCard);
+        AddingCard(inputCard);
 
     }
 
 
-    public void InsertCard(InputCard inputCard){
-        var newCard = SetNewCardValues(inputCard);
+    public void AddingCard(InputCard inputCard){
+        string id = GenerateId();
+        var newCard = _cardMapper.FillNewCard(inputCard, id);
         _context.Card.Add(newCard);
         _context.SaveChanges();
     }
@@ -140,22 +115,6 @@ public class CardHandling
         _context.Card.Remove(card);
         _context.SaveChanges();
     }
-
-    private Card SetNewCardValues(InputCard newCard){
-        Card card = new Card();
-        string id = GenerateId();
-        card.id = id;
-        card.name = newCard.name;
-        card.energy = newCard.energy;
-        card.cost = newCard.cost;
-        card.typeId = newCard.typeId;
-        card.raceId = newCard.raceId;
-        card.activatedCard = s_defaultActivationState;
-        card.description = newCard.description;
-        // card.imageId = 1;
-        return card;
-    }
-
     private string GenerateId()
     {
         string id = "";
@@ -211,6 +170,14 @@ public class CardHandling
         List<OutputCard> specificCards;
         specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
         return specificCards;
+    }
+
+    public OutputCard GetRandomCard()
+    {
+        List<OutputCard> cards = GetAllCards();
+        Random random = new Random();
+        int index = random.Next(cards.Count);
+        return cards[index];
     }
 
 }

@@ -2,6 +2,8 @@
 using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Logic.Utils;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace StarAPI.Logic.Match
 {
@@ -14,7 +16,6 @@ namespace StarAPI.Logic.Match
             this._context = context;
             this.cancel = CancelRequest.Instance;
         }
-        
       
         private List<Player> getMatchedPlayers(string id) 
         {
@@ -37,10 +38,16 @@ namespace StarAPI.Logic.Match
             var players = getMatchedPlayers(id);
             while(players.Count < 2)
             {
+                Thread.Sleep(1000);
                 players = getMatchedPlayers(id);
+
                 if (cancel.terminate) 
                 {
                     return false;
+                }
+                if (players.FirstOrDefault(p1 => p1.id == id).inGame) 
+                {
+                    return true;
                 }
             }
             var player = players.FirstOrDefault(p=> p.id != id);
@@ -49,6 +56,7 @@ namespace StarAPI.Logic.Match
             //...
             //..
             //.
+            update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
             return true;
         }
@@ -77,6 +85,16 @@ namespace StarAPI.Logic.Match
             {
                 return false;
             }
+        }
+
+        protected void update([FromBody] Player player1, [FromBody] Player player2, bool state)
+        {
+            player1.inGame = state;
+            player2.inGame = state;
+            _context.Entry(player1).State = EntityState.Modified;
+            _context.Entry(player2).State = EntityState.Modified;
+            _context.SaveChanges();
+
         }
         
     }

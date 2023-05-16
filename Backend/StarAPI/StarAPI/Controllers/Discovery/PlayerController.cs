@@ -28,20 +28,6 @@ namespace StarAPI.Controllers
         }
 
 
-        // [HttpGet("{email}/{password}")]
-        // public ActionResult Get(string email, string password)
-        // {
-            
-        //     Player player = context.Player.FirstOrDefault(p => p.email == email || (p.id == email));
-           
-        //     if (player != null && encrypt.Sha256(password) == player.p_hash ) 
-        //     {
-        //         return Ok();
-        //     }
-                         
-        //     return BadRequest();
-        // }
-
         // [HttpGet("GetPlayerById/{id}")]
         // public Player GetPlayerById(string id)
         // {

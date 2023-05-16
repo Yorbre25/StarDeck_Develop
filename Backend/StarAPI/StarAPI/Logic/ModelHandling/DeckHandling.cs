@@ -2,6 +2,7 @@ using StarAPI.Models;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
@@ -11,6 +12,7 @@ public class DeckHandling
     private readonly StarDeckContext _context;
 
     private IdGenerator _idGenerator = new IdGenerator();
+    private DeckMapper _deckMapper;
 
     private static int s_minDeckNameLength = 5;
     private static int s_maxDeckNameLength = 30;
@@ -22,6 +24,7 @@ public class DeckHandling
     public DeckHandling(StarDeckContext context)
     {
         this._context = context;
+        this._deckMapper = new DeckMapper(_context);
     }
 
     public void AddDeck(InputDeck inputDeck)
@@ -35,26 +38,20 @@ public class DeckHandling
         if(alreadyExist){
             throw new ArgumentException("Deck name already exist");
         }
-        InsertDeck(inputDeck);
+        AddingDeck(inputDeck);
 
     }
 
-    private void InsertDeck(InputDeck inputDeck)
+    private void AddingDeck(InputDeck inputDeck)
     {
-        Deck newDeck = SetNewDeckValues(inputDeck);
+        string id = GenerateId();
+        Deck newDeck = _deckMapper.FillNewDeck(inputDeck, id);
         _context.Deck.Add(newDeck);
         AddCardsToDeck(newDeck.id, inputDeck.cardIds);
         _context.SaveChanges();
     }
 
-    private Deck SetNewDeckValues(InputDeck inputDeck)
-    {
-        Deck deck = new Deck();
-        deck.id = _idGenerator.GenerateId(s_idPrefix);
-        deck.name = inputDeck.name;
-        deck.playerId = inputDeck.playerId;
-        return deck;
-    }
+
 
     private void AddCardsToDeck(string id, string[] cardIds)
     {
@@ -148,9 +145,7 @@ public class DeckHandling
         var decks = _context.Deck.Where(d => d.playerId == playerId);
         foreach (var deck in decks)
         {
-            OutputDeck outputDeck = new OutputDeck();
-            outputDeck.id = deck.id;
-            outputDeck.name = deck.name;
+            OutputDeck outputDeck = _deckMapper.FillOutputDeck(deck);
             outputDecks.Add(outputDeck);
         }
         return outputDecks;
