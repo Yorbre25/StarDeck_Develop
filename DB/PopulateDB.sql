@@ -1,45 +1,46 @@
--- Use StarDeck;
+Use StarDeck
 
-
+SET IDENTITY_INSERT dbo.CardType ON
 INSERT INTO CardType (id, typeName)
 VALUES  (1, 'Básica'),
         (2, 'Normal'),
         (3, 'Rara'),
         (4, 'Muy Rara'),
         (5, 'Ultra Rara');
+SET IDENTITY_INSERT dbo.CardType OFF
 
-Go
 
+Use StarDeck
+SET IDENTITY_INSERT dbo.Race ON
 INSERT INTO Race (id, name)
 VALUES (1,'Humano'),
        (2, 'Trisolariano'),
        (3, 'Robot'),
        (4, 'Marciano'),
        (5, 'Ciborg');
-
-Go
+SET IDENTITY_INSERT dbo.Race OFF
 
 SET IDENTITY_INSERT dbo.PlanetType ON;
 INSERT INTO PlanetType (id, typeName)
 VALUES  (1, 'Popular'),
         (2, 'Basico'),
         (3, 'Raro');
+SET IDENTITY_INSERT dbo.PlanetType OFF;
 
-Go
 
 SET IDENTITY_INSERT dbo.Country ON;
 INSERT INTO Country (id, countryName)
 VALUES (1, 'Costa Rica'),
        (2, 'Estados Unidos'),
        (3, 'Mexico');
-
-Go
+SET IDENTITY_INSERT dbo.Country OFF;
 
 SET IDENTITY_INSERT dbo.Image ON;
 INSERT INTO IMAGE (id, imageString)
 VALUES (1, 'Default Card Image'),
        (2, 'Default Planet Image'),
        (3, 'Default Profile Image');
+SET IDENTITY_INSERT dbo.Image OFF;
 
 
 INSERT INTO Card (
@@ -89,13 +90,13 @@ INSERT INTO Planet (
     TypeId,  
     imageId)
 VALUES 
-    ('P-01a1zyys4aph',"Planeta A","Descripción A",1,1),
-    ('P-01a1zjlg4aph',"Planeta B","Descripción B",1,1),
-    ('P-02a1zjlg4aph',"Planeta C","Descripción C",1,1),
-    ('P-03a1zjlg4aph',"Planeta D","Descripción D",2,1),
-    ('P-04a1zjlg4aph',"Planeta E","Descripción E",2,1),
-    ('P-05a1zjlg4aph',"Planeta F","Descripción F",3,1),
-    ('P-06a1zjlg4aph',"Planeta G","Descripción G",3,1);
+    ('P-01a1zyys4aph','Planeta A','Descripción A',1,1),
+    ('P-01a1zjlg4aph','Planeta B','Descripción B',1,1),
+    ('P-02a1zjlg4aph','Planeta C','Descripción C',1,1),
+    ('P-03a1zjlg4aph','Planeta D','Descripción D',2,1),
+    ('P-04a1zjlg4aph','Planeta E','Descripción E',2,1),
+    ('P-05a1zjlg4aph','Planeta F','Descripción F',3,1),
+    ('P-06a1zjlg4aph','Planeta G','Descripción G',3,1);
 
 INSERT INTO Player (
     id, 
@@ -109,15 +110,16 @@ INSERT INTO Player (
     inGame,
     activatedAccount,
     countryId, 
+    coins,
     avatarId)
 VALUES
-    ('U-01a1zjlg4aph','yraulbr25@gmail.com', 'Yordi', 'Brenes', 'sadKaladin', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-02a1zjlg4aph','adriana@gmail.com', 'Adriana', 'Calderon', 'quadriante', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-03a1zjlg4aph','nasser@gmail,com', 'Nasser', 'Nasser', 'bigNass', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-04a1zjlg4aph','marcelo@gmail.com', 'Marcelo', 'Truque', 'Marce', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-05a1zjlg4aph','nuevo1@gmail.com', 'Nuevo', 'Nuevo', 'nuevo1', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-06a1zjlg4aph','nuevo2@gmail.com', 'Nuevo', 'Nuevo', 'nuevo2', '123ABC', 0, 0, 0, 1, 1, 1),
-    ('U-07a1zjlg4aph','nuevo3@gmail.com', 'Nuevo', 'Nuevo', 'nuevo3', '123ABC', 0, 0, 0, 1, 1, 1);
+    ('U-01a1zjlg4aph','yraulbr25@gmail.com', 'Yordi', 'Brenes', 'sadKaladin', '123ABC', 0, 0, 0, 1, 1, 0, 1),
+    ('U-02a1zjlg4aph','adriana@gmail.com', 'Adriana', 'Calderon', 'quadriante', '123ABC', 0, 0, 0, 1, 1, 0, 1),
+    ('U-03a1zjlg4aph','nasser@gmail,com', 'Nasser', 'Nasser', 'bigNass', '123ABC', 0, 0, 0, 1, 1, 0, 1),
+    ('U-04a1zjlg4aph','marcelo@gmail.com', 'Marcelo', 'Truque', 'Marce', '123ABC', 0, 0, 0, 1, 1, 0, 1),
+    ('U-05a1zjlg4aph','nuevo1@gmail.com', 'Nuevo', 'Nuevo', 'nuevo1', '123ABC', 0, 0, 0, 1, 1,0, 1),
+    ('U-06a1zjlg4aph','nuevo2@gmail.com', 'Nuevo', 'Nuevo', 'nuevo2', '123ABC', 0, 0, 0, 1, 1, 0, 1),
+    ('U-07a1zjlg4aph','nuevo3@gmail.com', 'Nuevo', 'Nuevo', 'nuevo3', '123ABC', 0, 0, 0, 1, 1, 0, 1);
 
 INSERT INTO Player_Card (
     playerId, 
