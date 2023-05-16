@@ -40,13 +40,41 @@ namespace StarAPI.Controllers
             return _gameHandling.GetPlanets(gameId);
         }
 
+        [HttpPost("SetupHand/{gameId}/{playerId}")]
+        public ActionResult SetupHand(string gameId, string playerId)
+        {
+            try
+            {
+                return Ok( _gameHandling.SetupHand(gameId, playerId));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        // [HttpDelete("EndGame/{gameId}")]
+        // public ActionResult EndGame(string gameId)
+        // {
+        //     try
+        //     {
+        //         _gameHandling.EndGame(gameId);
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
+       
+
 
         // Test
-        [HttpPost("GetGameTable/{gameTableId}")]
-        public GameTable NewGame(string gameTableId)
-        {
-            return _gameHandling.GetGameTable(gameTableId);
-        }
+        // [HttpPost("GetGameTable/{gameTableId}")]
+        // public GameTable NewGame(string gameTableId)
+        // {
+        //     return _gameHandling.GetGameTable(gameTableId);
+        // }
 
 
         

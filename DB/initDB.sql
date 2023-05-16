@@ -117,11 +117,16 @@ CREATE TABLE GameTable(
 )
 
 CREATE TABLE Game_Player(
-	id VARCHAR(15) NOT NULL,
 	playerId VARCHAR(15) NOT NULL,
 	deckId VARCHAR(15) NULL,
-	-- HandId
-	PRIMARY KEY (id)
+	-- handId VARCHAR(15) NULL,
+	PRIMARY KEY (playerId)
+)
+
+CREATE TABLE Game_Deck(
+	playerId VARCHAR(15) NOT NULL,
+	deckId VARCHAR(15) NOT NULL,
+	PRIMARY KEY (playerId, deckId)
 )
 
 CREATE Table Game_Deck_Card(
@@ -130,17 +135,17 @@ CREATE Table Game_Deck_Card(
 	PRIMARY KEY (deckId, cardId)
 )
 
--- CREATE Table Hand(
--- 	id VARCHAR(15) NOT NULL,
--- 	playerId  VARCHAR(15) NOT NULL,
--- 	PRIMARY KEY (id)
--- )
+CREATE Table Hand(
+	id VARCHAR(15) NOT NULL,
+	playerId  VARCHAR(15) NOT NULL,
+	PRIMARY KEY (id)
+)
 
--- CREATE TABLE Hand_Card(
--- 	handId VARCHAR(15) NOT NULL,
--- 	cardId VARCHAR(15) NOT NULL,
--- 	PRIMARY Key (handId, cardId)
--- )
+CREATE TABLE Hand_Card(
+	handId VARCHAR(15) NOT NULL,
+	cardId VARCHAR(15) NOT NULL,
+	PRIMARY Key (handId, cardId)
+)
 
 CREATE TABLE Game(
 	id VARCHAR(15) NOT NULL,
@@ -229,12 +234,12 @@ REFERENCES GameTable(id);
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_Game_Player1
 FOREIGN KEY (player1Id)
-REFERENCES Game_Player(id);
+REFERENCES Game_Player(playerId);
 
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_Game_Player2
 FOREIGN KEY (player2Id)
-REFERENCES Game_Player(id);
+REFERENCES Game_Player(playerId);
 
 ALTER TABLE Game_Player
 ADD CONSTRAINT fk_Game_PlayerDeck
@@ -242,7 +247,7 @@ FOREIGN KEY (DeckId)
 REFERENCES Deck(id);
 
 ALTER TABLE Game_Deck_Card
-ADD CONSTRAINT fk_Game_Deck_Deck
+ADD CONSTRAINT fk_Game_Deck_Card_Deck	
 FOREIGN KEY (deckId)
 REFERENCES Deck(id)
 
@@ -251,25 +256,30 @@ ADD CONSTRAINT fk_Game_Deck_Card
 FOREIGN KEY (cardId)
 REFERENCES Card(id)
 
--- ALTER TABLE Hand
--- ADD CONSTRAINT fk_Hand_Game_Player
--- FOREIGN KEY (playerId)
--- REFERENCES Game_Player(id)
+ALTER TABLE Hand
+ADD CONSTRAINT fk_Hand_Player
+FOREIGN KEY (playerId)
+REFERENCES Player(id)
 
--- ALTER TABLE Hand_Card
--- ADD CONSTRAINT fk_Hand_Card_Card
--- FOREIGN KEY (cardId)
--- REFERENCES Card(id)
+ALTER TABLE Hand_Card
+ADD CONSTRAINT fk_Hand_Card_Card
+FOREIGN KEY (cardId)
+REFERENCES Card(id)
 
--- ALTER TABLE Hand_Card
--- ADD CONSTRAINT fk_Hand_Card_Hand
--- FOREIGN KEY (handId)
--- REFERENCES Hand(id)
+ALTER TABLE Hand_Card
+ADD CONSTRAINT fk_Hand_Card_Hand
+FOREIGN KEY (handId)
+REFERENCES Hand(id)
 
--- ALTER TABLE Game_Deck
--- ADD CONSTRAINT fk_Game_Deck_Game
--- FOREIGN KEY (gameId)
--- REFERENCES Game(id)
+ALTER TABLE Game_Deck
+ADD CONSTRAINT fk_Game_Deck_Player
+FOREIGN KEY (playerId)
+REFERENCES Player(id)
+
+ALTER TABLE Game_Deck
+ADD CONSTRAINT fk_Game_Deck_Deck
+FOREIGN KEY (deckId)
+REFERENCES Deck(id)
 
 -- ALTER TABLE Game_Planets
 -- ADD CONSTRAINT fk_Game_Planet

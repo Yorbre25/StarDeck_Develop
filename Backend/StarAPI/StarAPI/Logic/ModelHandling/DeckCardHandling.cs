@@ -38,7 +38,8 @@ public class DeckCardHandling
         return GetCards(cardsId);
     }
 
-    private List<OutputCard> GetCards(string[] cardsId)
+    //DEBERIA ESTAR EN OTRA CLASE
+    public List<OutputCard> GetCards(string[] cardsId)
     {
         List<OutputCard> outputCards = new List<OutputCard>();
         foreach (var id in cardsId)

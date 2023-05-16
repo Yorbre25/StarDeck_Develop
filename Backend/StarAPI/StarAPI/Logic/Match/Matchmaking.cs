@@ -45,7 +45,7 @@ namespace StarAPI.Logic.Match
                 {
                     return false;
                 }
-                if (players.FirstOrDefault(p1 => p1.id == id).inGame) 
+                if (_context.Player.FirstOrDefault(p=>p.id == id).inGame)
                 {
                     return true;
                 }

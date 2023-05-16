@@ -32,9 +32,12 @@ namespace StarAPI.Context
             modelBuilder.Entity<Game>().HasKey(c => new { c.id });
             modelBuilder.Entity<GameTable>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game_Planets>().HasKey(c => new { c.gameId, c.planetId });
-            modelBuilder.Entity<Game_Player>().HasKey(c => new { c.gameId, c.playerId });
-            modelBuilder.Entity<Game_Deck>().HasKey(c => new { c.cardId, c.deckId });
+            modelBuilder.Entity<Game_Player>().HasKey(c => new { c.playerId });
+            modelBuilder.Entity<Game_Deck>().HasKey(c => new { c.playerId, c.deckId });
+            modelBuilder.Entity<Game_Deck_Card>().HasKey(c => new {c.deckId, c.cardId });
             modelBuilder.Entity<SetupParam>().HasKey(c => new { c.id });
+            modelBuilder.Entity<Hand_Card>().HasKey(c => new { c.handId, c.cardId });
+            modelBuilder.Entity<Hand>().HasKey(c => new { c.id });
 
         }
 
@@ -55,6 +58,9 @@ namespace StarAPI.Context
         public DbSet<GameTable> GameTable { get; set; }
         public DbSet<Game_Player> Game_Player { get; set; }
         public DbSet<Game_Deck> Game_Deck { get; set; }
+        public DbSet<Game_Deck_Card> Game_Deck_Card { get; set; }
+        public DbSet<Hand_Card> Hand_Card { get; set; }
+        public DbSet<Hand> Hand { get; set; }
     }
 
    
