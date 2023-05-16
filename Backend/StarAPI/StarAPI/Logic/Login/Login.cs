@@ -12,10 +12,15 @@ namespace StarAPI.Logic.Login
     public class Login : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private Encrypt encrypt = new Encrypt();
+        private Encrypt encrypt;
+        public Login(StarDeckContext context)
+        {
+            _context = context;
+            this.encrypt = new Encrypt();
+        }
 
         // GET: api/<Login>
-       [HttpGet("{email}/{password}")]
+        [HttpGet("{email}/{password}")]
         public ActionResult Get(string email, string password)
         {
            
