@@ -23,7 +23,7 @@ export class LoadingGameComponent {
       this.remainingTime--;
       if (this.remainingTime == 0) {
         this.timeExpired = true;
-        this.openPopup()
+       // this.openPopup() // esto esta desactivado para poder hacer pruebas 
       }
     }, 1000);
   }

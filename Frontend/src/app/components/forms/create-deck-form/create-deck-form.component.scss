@@ -1,0 +1,79 @@
+.box {
+    display: flex;
+}
+
+.form-group {
+
+    padding: 10px;
+    font-size: 1.4rem;
+    display: grid;
+    justify-content: right;
+    text-align: left;
+}
+
+.form-input {
+    padding-top: 1px;
+    word-wrap: break-word;
+    resize: none;
+
+}
+
+.form-text {
+    color: white;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    font-size: 1.2rem;
+
+
+}
+
+
+.button-text {
+    text-align: right;
+    justify-content: right;
+    justify-self: right;
+}
+
+.form-flex {
+
+    margin-left: -10px;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    text-align: left;
+}
+
+.form-container {
+   
+    padding: 10px;
+    font-size: 1.4rem;
+    display: grid;
+    justify-content: right;
+    text-align: right;
+}
+
+.hidden {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+  }
+
+.file {
+    margin: 0;
+    padding: 2rem 1.5rem;
+    font: 1rem/1.5 "PT Sans", Arial, sans-serif;
+    color: #5a5a5a;
+  }
+
+  .input{
+    display:none;
+  }
+
+  .image-text {
+    font-family: 'Rajdhani-SemiBold';
+    background-color: #00fe75;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;}

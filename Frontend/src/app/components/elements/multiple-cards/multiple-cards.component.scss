@@ -5,7 +5,18 @@
   margin-bottom: 20px;
   }
 
-  .app-card{
-   padding: 15px;
-  }
+  .multiple-cards-close{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+    margin-bottom: 5px;
+    }
+
+    .app-card{
+      padding: 5px;
+     }
+
+     .app-card-close{
+      padding: 0px;
+     }
  
