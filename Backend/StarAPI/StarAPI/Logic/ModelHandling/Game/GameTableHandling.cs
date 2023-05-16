@@ -138,4 +138,9 @@ public class GameTableHandling
         _context.SaveChanges();
         return gameTable;
     }
+
+    internal void Delete(string gameTableId)
+    {
+        throw new NotImplementedException();
+    }
 }

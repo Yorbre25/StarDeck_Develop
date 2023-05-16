@@ -1,0 +1,6 @@
+{
+  "player1Id": "U-01a1zjlg4aph",
+  "player2Id": "U-02a1zjlg4aph",
+  "player1DeckId": "D-000000000001",
+  "player2DeckId": "D-000000000002"
+}

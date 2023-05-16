@@ -22,6 +22,5 @@ namespace StarAPI.Models
         public int avatarId { get; set; }
 
 
-
     }
 }

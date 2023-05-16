@@ -10,6 +10,7 @@ public class GameHandling
 {
     private readonly StarDeckContext _context;
     private GameTableHandling _gameTableHandling;
+    private GamePlayerHandling _gamePlayerHandling;
     private IdGenerator _idGenerator = new IdGenerator();
 
     private static int s_maxTurns = 10;
@@ -22,17 +23,18 @@ public class GameHandling
     {
         this._context = context;
         this._gameTableHandling = new GameTableHandling(_context);
+        this._gamePlayerHandling = new GamePlayerHandling(_context);
     }
 
-    public Game SetUpGame()
+    public Game SetUpGame(SetUpValues setUpValues)
     {
         try
         {
-            return SettingupGame();
+            return SettingupGame(setUpValues);
         }
-        catch
+        catch (Exception e)
         {
-            throw new Exception("Error setting up game");
+            throw new Exception(e.Message);
         }
 
     }
@@ -42,11 +44,16 @@ public class GameHandling
         string gameTableId = _gameTableHandling.SetupTable();
         return gameTableId;
     }
-    public Game SettingupGame()
-    {
+    public Game SettingupGame(SetUpValues setupValues)
+    {   
+        AddPlayersToGame(setupValues);
+        string gameId = _idGenerator.GenerateId(s_idPrefix);
+        
         Game newGame = new Game();
-        newGame.id = GenerateId();
+        newGame.id = gameId;
         newGame.timeStarted = DateTime.Now;
+        newGame.player1Id = setupValues.player1Id;
+        newGame.player2Id = setupValues.player2Id;
         newGame.maxTurns = 10;
         newGame.timePerTurn = 10;
         newGame.turn = 0;
@@ -55,9 +62,20 @@ public class GameHandling
         return newGame;
     }
 
+    private string[] AddPlayersToGame(SetUpValues setupValues)
+    {
+        return this._gamePlayerHandling.AddPlayers(setupValues);
+    }
+
     private void AddGame(Game newGame)
     {
         _context.Game.Add(newGame);
+        _context.SaveChanges();
+    }
+
+    private void DeleteGame(Game game)
+    {
+        _context.Game.Remove(game);
         _context.SaveChanges();
     }
 
@@ -75,9 +93,9 @@ public class GameHandling
         {
             return GettingGame(gameId);
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-            throw new ArgumentException("Invalid game id");
+            throw new ArgumentException(e.Message);
         }
     }
 
@@ -110,8 +128,24 @@ public class GameHandling
     }
 
     internal GameTable GetGameTable(string gameTableId)
-    // internal List<GameTable> GetGameTable(string gameTableId)
     {
         return _gameTableHandling.GetGameTable(gameTableId);
+    }
+
+    internal void EndGame(string gameId)
+    {
+        Game game = GetGame(gameId);
+        string[] gamePlayerIds = new string[2];
+        gamePlayerIds[0] = game.player1Id;
+        gamePlayerIds[1] = game.player2Id;
+        _gamePlayerHandling.EndGame(gamePlayerIds);
+        _gameTableHandling.Delete(game.gameTableId);
+        // DeleteGame(game);
+        _context.SaveChanges();
+    }
+
+    internal List<OutputCard> SetupHand(string gameId, string playerId)
+    {
+        return _gamePlayerHandling.SetupHand(gameId, playerId);
     }
 }

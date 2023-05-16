@@ -38,7 +38,8 @@ public class DeckCardHandling
         return GetCards(cardsId);
     }
 
-    private List<OutputCard> GetCards(string[] cardsId)
+    //DEBERIA ESTAR EN OTRA CLASE
+    public List<OutputCard> GetCards(string[] cardsId)
     {
         List<OutputCard> outputCards = new List<OutputCard>();
         foreach (var id in cardsId)
@@ -46,5 +47,31 @@ public class DeckCardHandling
             outputCards.Add(_cardHandling.GetCard(id));
         }
         return outputCards;
+    }
+
+        public string[] GetCardIdsFromDeck(string deckId)
+    {
+        try
+        {
+            return GettingCardIdsFromDeck(deckId);
+        }
+        catch (System.Exception)
+        {
+            
+            throw new Exception("Error getting cards from deck");
+        }
+    }
+
+    public string[] GettingCardIdsFromDeck(string deckId)
+    {
+        var deckCards = _context.Deck_Card.Where(dc => dc.deckId == deckId);
+        string[] cardIds = new string[deckCards.Count()];
+        int i = 0;
+        foreach (var deckCard in deckCards)
+        {
+            cardIds[i] = deckCard.cardId;
+            i++;
+        }
+        return cardIds;
     }
 }
