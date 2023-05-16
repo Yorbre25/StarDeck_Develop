@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { DeckInterface } from '../../interfaces/deck.interface';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog } from '@angular/material/dialog';
+import { SingleDeckComponent } from 'src/app/components/views/single-deck/single-deck.component';
+import { MultipleCardsComponent } from '../../elements/multiple-cards/multiple-cards.component';
 
 /**
  * @description
@@ -28,9 +32,13 @@ import { DeckInterface } from '../../interfaces/deck.interface';
 })
 export class CreateDeckFormComponent {
 
+  decks!: DeckInterface[];
+  allCards!: CardInt[];
+
   //Variables del backend
   deck !: DeckInterface;
   currentCards!: number;
+  totalCards!: number;
   name !: string[];
   fault!: boolean;
   deckNameFault!:boolean;
@@ -40,8 +48,8 @@ export class CreateDeckFormComponent {
 
   // totalCards = new FormArray([]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) {
-    
+  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService, private http: HttpClient, public dialog: MatDialog) {
+
   }
 
   //La idea es que este módul genera el mensaje de error
@@ -59,14 +67,26 @@ export class CreateDeckFormComponent {
       }
     } else {
       return "Esto no debería de pasar"
-    }}
-
-    ngOnInit() {
-      this.currentCards = 0;
-      this.fault = false
-      this.deckNameFault=false
     }
+  }
 
+  ngOnInit() {
+    this.currentCards = 0;
+    this.fault = false;
+    this.deckNameFault=false;
+    this.totalCards = 5;
+
+    this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
+      console.log(data);
+      this.allCards = data
+    });
+
+    //this.api.getAllCards().subscribe(data => {
+      //console.log(data)
+      // this.allCards = data //aqui hay que hacer que traiga solo las del usuario
+    //});
+
+  }
 
     goToLobby() {
       if (this.deckName.value != null) {
@@ -84,10 +104,10 @@ export class CreateDeckFormComponent {
     
           this.router.navigate(['/decks']);
     
-        }
       }
     }
-    
+  }
+
   addCardToTotalCards() {
     if (!(this.currentCards > 18)) {
       //this.totalCards.push(new FormControl(''));
@@ -95,6 +115,18 @@ export class CreateDeckFormComponent {
     }
   }
 
+  openAllCards(cards: CardInt[]) {
+    console.log(cards);
+    const dialogRef = this.dialog.open(MultipleCardsComponent, {
+      data: { cards: this.allCards, clickable: false }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }
+
 
 

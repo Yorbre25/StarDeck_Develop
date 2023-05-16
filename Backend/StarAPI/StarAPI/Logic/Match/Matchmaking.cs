@@ -4,6 +4,7 @@ using StarAPI.Models;
 using StarAPI.Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using System.Linq;
 
 namespace StarAPI.Logic.Match
 {
@@ -19,12 +20,13 @@ namespace StarAPI.Logic.Match
       
         private List<Player> getMatchedPlayers(string id) 
         {
-            var rank = _context.Player.FirstOrDefault(p => p.id == id).ranking;
-            var playersWaiting = _context.Match_Player.OrderBy(p=>p.waiting_since);
-            var playersMatched = _context.Player.Join(playersWaiting, p1 => p1.id, p2 => p2.id, (p1,p2) => p1)
-                .ToList().Where(p=>p.ranking == rank).ToList();
-            
-            return playersMatched;
+            int rank = _context.Player.FirstOrDefault(p => p.id == id).ranking;
+            var playersWaiting = _context.Match_Player.OrderBy(p => p.waiting_since).ToList();
+            var playersMatched = _context.Player.ToList();
+            List<Player> intersec = playersMatched.Where(pm => playersWaiting.Any(pw => pw.id == pm.id)).ToList();
+            intersec = intersec.FindAll(i => i.ranking == rank);
+
+            return intersec;
 
         }
 
@@ -43,9 +45,10 @@ namespace StarAPI.Logic.Match
 
                 if (cancel.terminate) 
                 {
+                    remove(id);
                     return false;
                 }
-                if (_context.Player.FirstOrDefault(p=>p.id == id).inGame)
+                if (players.Count == 0) 
                 {
                     return true;
                 }
@@ -96,6 +99,16 @@ namespace StarAPI.Logic.Match
             _context.SaveChanges();
 
         }
-        
+
+        protected void remove(string id)
+        {
+            var player = _context.Match_Player.FirstOrDefault(p => p.id == id);
+            if (player != null)
+            {
+                _context.Match_Player.Remove(player);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

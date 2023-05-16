@@ -23,7 +23,13 @@ export class MultipleCardsComponent{
   @Input()
   cards!:CardInt[];
 
+  @Input() close: boolean = false;
   @Input() clickable: boolean = false;
+
+
+
+
+
 
     
   constructor() {
