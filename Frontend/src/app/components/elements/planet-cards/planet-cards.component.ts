@@ -31,7 +31,7 @@ export class PlanetCardsComponent {
 
     this.http.get('assets/samples/sampleCards2.json').subscribe((data: any) => {
       console.log(data);
-      this.cards = data
+      this.cards = []
     });
 
     this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {

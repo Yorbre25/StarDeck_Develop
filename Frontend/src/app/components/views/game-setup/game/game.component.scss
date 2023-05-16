@@ -40,6 +40,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    justify-content: center;
 }
 
 .grid {
@@ -52,6 +53,8 @@
 }
 
 .title-text {
-    font-size: 3rem;
-    justify-content:space-around;
+    font-size: 2.2rem;
+    justify-content:right;
+    justify-items: right;
+    align-items:end;
 }
