@@ -17,6 +17,8 @@ export class PlanetCardsComponent {
   
   //planet!: PlanetInterface;
 
+  hidden!:PlanetInterface;
+
   @Input()
   planet!:PlanetInterface;
   cards!: CardInt[];
@@ -42,9 +44,11 @@ export class PlanetCardsComponent {
       this.cards = []
     });
 
-    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
-      console.log(data2);
-      this.planet = data2[1]
+  
+
+    this.http.get('assets/game/hiddenPlanet.json').subscribe((data3: any) => {
+      console.log(data3);
+      this.hidden = data3
     });
 }
 }
