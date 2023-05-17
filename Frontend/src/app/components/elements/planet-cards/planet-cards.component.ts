@@ -25,6 +25,7 @@ export class PlanetCardsComponent {
   currentUserPoints!: number;
   opponentPoints!: number;
   opponentName!: string;
+  currentUserName!: string;
 
 
   constructor(private api: ApiService, private http: HttpClient) {
@@ -37,7 +38,8 @@ export class PlanetCardsComponent {
 
     this.currentUserPoints = 0; 
     this.opponentPoints = 0;
-    this.opponentName = "opponent";
+    this.opponentName = "Opponent";
+    this.currentUserName = "Current User";
 
     this.http.get('assets/samples/sampleCards2.json').subscribe((data: any) => {
       console.log(data);
