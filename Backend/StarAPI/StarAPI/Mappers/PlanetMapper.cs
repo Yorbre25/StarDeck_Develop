@@ -28,7 +28,7 @@ namespace StarAPI.Logic.Mappers
                 name = planet.name,
                 type = _planetTypeHandling.GetPlanetType(planet.typeId),
                 description = planet.description,
-                image = _imageHandling.GetImage(planet.imageId)
+                image = _imageHandling.GetImage(planet.imageId),
             };
             return outputPlanet;
         }

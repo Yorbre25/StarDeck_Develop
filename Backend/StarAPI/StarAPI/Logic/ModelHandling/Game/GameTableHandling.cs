@@ -107,7 +107,6 @@ public class GameTableHandling
     }
 
     public GameTable GetGameTable(string tableId)
-    // private GameTable GetGameTable(string tableId)
     {
         try
         {
@@ -141,6 +140,7 @@ public class GameTableHandling
 
     internal void Delete(string gameTableId)
     {
-        throw new NotImplementedException();
+        GameTable gameTable = GetGameTable(gameTableId);
+        _context.GameTable.Remove(gameTable);
     }
 }

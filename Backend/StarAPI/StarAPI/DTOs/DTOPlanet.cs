@@ -18,5 +18,6 @@ namespace StarAPI.DTOs
         public string  type { get; set; }
         public string description { get; set; }
         public string image { get; set; }
+        public bool show { get; set; }
     }
 }

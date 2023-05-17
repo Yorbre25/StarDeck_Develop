@@ -2,6 +2,7 @@ using StarAPI.Models;
 using StarAPI.Context;
 using StarAPI.Logic.ModelHandling;
 using StarAPI.DTOs;
+using StarAPI.Logic.Utils;
 
 namespace StarAPI.Logic.GameLogic;
 
@@ -9,6 +10,8 @@ public class PlanetsForGame
 {
     private readonly StarDeckContext _context;
     private PlanetHandling _planetHandler;
+
+    private RandomTools _randomTools = new RandomTools();
 
     private static string s_popularPlanetType = "Popular";
     private static string s_basicPlanetType = "Basico";
@@ -26,17 +29,18 @@ public class PlanetsForGame
     //Top function: try and catch
     public List<OutputPlanet> GetPlanetsForNewGame()
     {
+        List<OutputPlanet> planetsForNewGame;
         try
         {
-            // return GettingPlanetsForNewGame();
-            return GenerateRandomPlanets();
+            planetsForNewGame = GenerateRandomPlanets();
+            return planetsForNewGame;
+            // return SetHiddenPlanet(planetsForNewGame);
         }
         catch (System.Exception)
         {
             throw new Exception("Error getting planets for new game");
         }
     }
-
 
     public List<OutputPlanet> GenerateRandomPlanets()
     {
@@ -51,7 +55,6 @@ public class PlanetsForGame
         List<OutputPlanet> planetsToAdd = new List<OutputPlanet>();
         while(outputPlanets.Count() < s_numberOfPlanets)
         {
-            Console.Write(outputPlanets.Count());
             Random rand = new Random();
             int number = rand.Next(0, 100);
             if(number <= 50)
@@ -82,6 +85,13 @@ public class PlanetsForGame
         }
         return randomPlanets;
     }
+
+    // *El show se debe almacenar en la DB, si no no se guarda
+    // private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
+    // {
+    //     _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
+    //     return planetsForNewGame;
+    // }
 
     private void EnoughtPlanets(int numPlanets)
     {

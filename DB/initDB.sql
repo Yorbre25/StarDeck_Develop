@@ -110,6 +110,7 @@ CREATE TABLE Match_Player(
 
 CREATE TABLE GameTable(
 	id VARCHAR(15),
+	gameId VARCHAR(15),
 	planet1Id VARCHAR(15),
 	planet2Id VARCHAR(15),
 	planet3Id VARCHAR(15),
@@ -149,7 +150,6 @@ CREATE TABLE Hand_Card(
 
 CREATE TABLE Game(
 	id VARCHAR(15) NOT NULL,
-	gameTableId VARCHAR(15),
 	maxTurns INT NOT NULL,
 	timePerTurn int NOT NULL,
 	turn int NOT NULL,

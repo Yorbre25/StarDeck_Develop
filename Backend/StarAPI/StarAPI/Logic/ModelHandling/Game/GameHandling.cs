@@ -3,6 +3,7 @@ using StarAPI.Models;
 using StarAPI.Context;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
@@ -11,6 +12,8 @@ public class GameHandling
     private readonly StarDeckContext _context;
     private GameTableHandling _gameTableHandling;
     private GamePlayerHandling _gamePlayerHandling;
+    private GameMapper _gameMapper;
+    private RandomTools _randomTools = new RandomTools();
     private IdGenerator _idGenerator = new IdGenerator();
 
     private static int s_maxTurns = 10;
@@ -24,9 +27,10 @@ public class GameHandling
         this._context = context;
         this._gameTableHandling = new GameTableHandling(_context);
         this._gamePlayerHandling = new GamePlayerHandling(_context);
+        this._gameMapper = new GameMapper(_context);
     }
 
-    public Game SetUpGame(SetUpValues setUpValues)
+    public OutputSetupValues SetUpGame(SetUpValues setUpValues)
     {
         try
         {
@@ -44,9 +48,11 @@ public class GameHandling
         string gameTableId = _gameTableHandling.SetupTable();
         return gameTableId;
     }
-    public Game SettingupGame(SetUpValues setupValues)
+    public OutputSetupValues SettingupGame(SetUpValues setupValues)
     {   
         AddPlayersToGame(setupValues);
+        string deckId1 = setupValues.player1DeckId;
+        string deckId2 = setupValues.player2DeckId;
         string gameId = _idGenerator.GenerateId(s_idPrefix);
         
         Game newGame = new Game();
@@ -59,8 +65,9 @@ public class GameHandling
         newGame.turn = 0;
         newGame.gameTableId = SetTable();
         AddGame(newGame);
-        return newGame;
+        return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
     }
+
 
     private string[] AddPlayersToGame(SetUpValues setupValues)
     {
@@ -76,7 +83,6 @@ public class GameHandling
     private void DeleteGame(Game game)
     {
         _context.Game.Remove(game);
-        _context.SaveChanges();
     }
 
 
@@ -84,7 +90,16 @@ public class GameHandling
     {
         Game? game = GetGame(gameId);
         string gameTableId = game.gameTableId;
-        return _gameTableHandling.GetGamePlanets(gameTableId);
+        List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameTableId);
+        //*Provitional
+        return SetHiddenPlanet(gamePlanets);
+    }
+
+    //*provitional function
+    private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
+    {
+        _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
+        return planetsForNewGame;
     }
 
     public Game GetGame(string gameId)
@@ -132,16 +147,28 @@ public class GameHandling
         return _gameTableHandling.GetGameTable(gameTableId);
     }
 
-    internal void EndGame(string gameId)
+    internal void EndingGame(string gameId)
     {
         Game game = GetGame(gameId);
-        string[] gamePlayerIds = new string[2];
-        gamePlayerIds[0] = game.player1Id;
-        gamePlayerIds[1] = game.player2Id;
-        _gamePlayerHandling.EndGame(gamePlayerIds);
+        DeleteGame(game);
         _gameTableHandling.Delete(game.gameTableId);
-        // DeleteGame(game);
+        // string[] gamePlayerIds = new string[2];
+        // gamePlayerIds[0] = game.player1Id;
+        // gamePlayerIds[1] = game.player2Id;
+        // _gamePlayerHandling.EndGame(gamePlayerIds);
         _context.SaveChanges();
+    }
+
+    public void EndGame(string gameId)
+    {
+        try
+        {
+            EndingGame(gameId);
+        }
+        catch (System.Exception e)
+        {
+            throw new ArgumentException(e.Message);
+        }
     }
 
     internal List<OutputCard> SetupHand(string gameId, string playerId)

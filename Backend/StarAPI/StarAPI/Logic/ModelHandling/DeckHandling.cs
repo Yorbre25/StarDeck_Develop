@@ -151,5 +151,14 @@ public class DeckHandling
         return outputDecks;
     }
 
+    internal string GetDeckName(string id)
+    {
+        var deck = GetDeck(id);
+        return deck.name;
+    }
 
+    private Deck GetDeck(string id)
+    {
+        return _context.Deck.FirstOrDefault(p => p.id == id);
+    }
 }

@@ -53,19 +53,19 @@ namespace StarAPI.Controllers
             }
         }
 
-        // [HttpDelete("EndGame/{gameId}")]
-        // public ActionResult EndGame(string gameId)
-        // {
-        //     try
-        //     {
-        //         _gameHandling.EndGame(gameId);
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(e.Message);
-        //     }
-        // }
+        [HttpDelete("EndGame/{gameId}")]
+        public ActionResult EndGame(string gameId)
+        {
+            try
+            {
+                _gameHandling.EndGame(gameId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
        
 
 

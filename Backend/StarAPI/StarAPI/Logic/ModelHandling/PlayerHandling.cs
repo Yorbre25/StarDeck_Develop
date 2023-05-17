@@ -91,6 +91,17 @@ public class PlayerHandling
         return _playerMapper.FillOutputPlayer(players);
     }
 
+    public string GetUsername(string id)
+    {
+        var player = GetPlayer(id);
+        return player.username;
+    }
+
+    private Player GetPlayer(string id)
+    {
+        return _context.Player.FirstOrDefault(p => p.id == id);
+    }
+
     public void AddPlayer(InputPlayer inputPlayer)
     {
         bool isValid = CheckInputValues(inputPlayer);
