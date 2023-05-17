@@ -14,11 +14,15 @@ import { PlanetInterface } from 'src/app/components/interfaces/planet.interface'
 export class PlanetCardsComponent {
 
   
-  cards!: CardInt[];
+  
   //planet!: PlanetInterface;
 
   @Input()
   planet!:PlanetInterface;
+  cards!: CardInt[];
+  currentUserPoints!: number;
+  opponentPoints!: number;
+  opponentName!: string;
 
 
   constructor(private api: ApiService, private http: HttpClient) {
@@ -29,6 +33,10 @@ export class PlanetCardsComponent {
 
   ngOnInit(): void {
 
+    this.currentUserPoints = 0; 
+    this.opponentPoints = 0;
+    this.opponentName = "opponent";
+
     this.http.get('assets/samples/sampleCards2.json').subscribe((data: any) => {
       console.log(data);
       this.cards = []
@@ -36,7 +44,7 @@ export class PlanetCardsComponent {
 
     this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
       console.log(data2);
-      this.planet = data2[0]
+      this.planet = data2[1]
     });
 }
 }

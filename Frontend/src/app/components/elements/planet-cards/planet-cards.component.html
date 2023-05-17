@@ -1,6 +1,11 @@
 
-<div class="form-container">
+<label> {{opponentName}} points: {{opponentPoints}} </label>
+<div class="form-container">    
     <app-multiple-cards [cards]="cards"></app-multiple-cards>
-    <app-planet [element]="planet"></app-planet>
+    <div *ngIf= "planet.show">
+        <app-planet [element]="planet"></app-planet>
+    </div>
+    
     <app-multiple-cards [cards]="cards"></app-multiple-cards>
 </div>
+<label class="label"> My points: {{currentUserPoints}} </label>

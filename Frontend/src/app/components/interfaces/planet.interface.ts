@@ -8,4 +8,5 @@ export interface PlanetInterface{
     image:string|null;
     description:string|null;
     type:string|null;
+    show:boolean|null;
 }
