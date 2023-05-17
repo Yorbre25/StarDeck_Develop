@@ -19,6 +19,10 @@ export class GameComponent {
   totalTurns!:number;
   remainingCards!:number;
   timeRemaining!:number;
+  opponentName!: string;
+  currentUserName!: string;
+  opponentPhoto!: string;
+  currentUserPhoto!: string; 
 
 
   constructor(private api: ApiService, private http: HttpClient) {
@@ -32,6 +36,9 @@ export class GameComponent {
   }
 
   ngOnInit(): void {
+
+    this.opponentName = "Opponent";
+    this.currentUserName = "Current User";
 
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
       console.log(data);

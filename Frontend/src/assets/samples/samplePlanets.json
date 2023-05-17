@@ -5,7 +5,8 @@
         "image": "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
         "type": "UR",
         "description": "Nyaaaaaaaaaaaaaaaaaan caaaaaaaaaaaaaattttttttttt",
-        "activated_planet": true
+        "activated_planet": true,
+        "show": true
     },
     {
         "id": "''",
@@ -13,7 +14,8 @@
         "image": "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
         "type": "SSR",
         "description": "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-        "activated_card": true
+        "activated_planet": true,
+        "show": true
     },
     {
         "id": "''",
@@ -21,6 +23,7 @@
         "image": "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
         "type": "SSR",
         "description": "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-        "activated_card": true
+        "activated_planet": true,
+        "show": false
     }
 ]

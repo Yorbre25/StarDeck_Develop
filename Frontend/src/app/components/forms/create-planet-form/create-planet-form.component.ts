@@ -95,6 +95,7 @@ export class CreatePlanetFormComponent {
       image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
       type: "Basico",
       description: "Nyan Cat, or Pop-Tart Cat, refers to a cartoon cat with a Pop-Tart body and a rainbow behind it, flying through space, set to the tune of a Japanese pop song.",
+      show: true
     };
     
     this.types = [{

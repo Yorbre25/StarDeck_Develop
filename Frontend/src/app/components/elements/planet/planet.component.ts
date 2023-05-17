@@ -24,6 +24,7 @@ export class PlanetComponent {
     image: string | null;
     type: string | null;
     description: string | null;
+    show: boolean | null;
   };
 
   @Input() clickable: boolean = false;
