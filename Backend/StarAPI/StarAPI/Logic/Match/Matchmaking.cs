@@ -5,6 +5,7 @@ using StarAPI.Logic.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Linq;
+using StarAPI.Logic.ModelHandling;
 
 namespace StarAPI.Logic.Match
 {
@@ -12,10 +13,12 @@ namespace StarAPI.Logic.Match
     {
         private readonly StarDeckContext _context;
         private CancelRequest cancel;
+        private GameHandling gameHandling;
         public Matchmaking (StarDeckContext context) 
         {
             this._context = context;
             this.cancel = CancelRequest.Instance;
+            this.gameHandling = new GameHandling(_context);
         }
       
         private List<Player> getMatchedPlayers(string id) 
@@ -55,10 +58,7 @@ namespace StarAPI.Logic.Match
             }
             var player = players.FirstOrDefault(p=> p.id != id);
 
-            //add both players to a game
-            //...
-            //..
-            //.
+            AddGame(id, player.id);
             update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
             return true;
@@ -82,6 +82,23 @@ namespace StarAPI.Logic.Match
             {
                 _context.Match_Player.Add(match_player);
                 _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        protected bool AddGame(string player1, string player2)
+        {
+            try
+            {
+                SetUpValues  sv = new SetUpValues();
+                sv.player1Id = player1;
+                sv.player2Id = player2;
+
+                gameHandling.SetUpGame(sv);
                 return true;
             }
             catch (Exception e)
