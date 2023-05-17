@@ -21,27 +21,15 @@ public class GameDeckCardHandling
         this._deckCardHandling = new DeckCardHandling(_context);
     }
 
-    public void AddDecks(SetUpValues setUpValues)
+    public void AddDecks(string playerId, string deckId)
     {
-        string[] gameDeckIds = new string[2];
-        string[] cardsFromDeck = ImportCards(setUpValues.player1DeckId);
-        string[] cardsFromDeck2 = ImportCards(setUpValues.player2DeckId);
-        List<Game_Deck> decks = new List<Game_Deck>();
-        Game_Deck newGameDeck1 = new Game_Deck();
-        Game_Deck newGameDeck2 = new Game_Deck();
-        newGameDeck1.deckId = setUpValues.player1DeckId;
-        newGameDeck1.playerId = setUpValues.player1Id;
-        newGameDeck2.deckId = setUpValues.player2DeckId;
-        newGameDeck2.playerId = setUpValues.player2Id;
-        decks.Add(newGameDeck1);
-        decks.Add(newGameDeck2);
-        _context.Game_Deck.AddRange(decks);
+        string[] cardsFromDeck = ImportCards(deckId);
 
-
-        AddCardsToDeck(setUpValues.player1DeckId, cardsFromDeck);
-
-        
-        AddCardsToDeck(setUpValues.player2DeckId, cardsFromDeck2);
+        Game_Deck newGameDeck = new Game_Deck();
+        newGameDeck.playerId = playerId;
+        newGameDeck.deckId = deckId;
+        _context.Game_Deck.Add(newGameDeck);
+        AddCardsToDeck(deckId, cardsFromDeck);
     }
 
     private string[] ImportCards(string deckId)

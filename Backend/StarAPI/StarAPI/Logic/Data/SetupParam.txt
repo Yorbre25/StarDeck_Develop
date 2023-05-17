@@ -4,3 +4,4 @@
   "player1DeckId": "D-000000000001",
   "player2DeckId": "D-000000000002"
 }
+

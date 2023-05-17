@@ -110,7 +110,6 @@ CREATE TABLE Match_Player(
 
 CREATE TABLE GameTable(
 	id VARCHAR(15),
-	gameId VARCHAR(15),
 	planet1Id VARCHAR(15),
 	planet2Id VARCHAR(15),
 	planet3Id VARCHAR(15),

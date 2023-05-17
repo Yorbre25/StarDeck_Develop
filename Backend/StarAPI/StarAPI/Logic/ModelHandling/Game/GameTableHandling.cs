@@ -3,6 +3,7 @@ using StarAPI.Context;
 using StarAPI.Logic.GameLogic;
 using StarAPI.Logic.Utils;
 using StarAPI.DTOs;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
@@ -12,6 +13,7 @@ public class GameTableHandling
     private PlanetHandling _planetHandling;
     private PlanetsForGame _planetsForGame;
     private IdGenerator _idGenerator = new IdGenerator();
+    private GameTableMapper _gameTableMapper;
 
     private static string s_idPrefix = "GT";
     private static int planetsPerGame = 3;
@@ -23,22 +25,25 @@ public class GameTableHandling
         this._context = context;
         this._planetsForGame = new PlanetsForGame(_context);
         this._planetHandling = new PlanetHandling(_context);
+        this._gameTableMapper = new GameTableMapper(_context);
     }
 
     //Creates a new game table for the game
-    // and returns the id of the game tabley
+    // and returns the id of the game table
     public string SetupTable()
     {
-        GameTable newGameTable = new GameTable();
         string id = GenerateId();
-        newGameTable.id = id;
         string[] planetsId = SetupPlanets();
-        newGameTable.planet1Id = planetsId[0];
-        newGameTable.planet2Id = planetsId[1];
-        newGameTable.planet3Id = planetsId[2];
+        GameTable newGameTable = _gameTableMapper.FillNewGameTable(planetsId);
+        newGameTable.id = id;
+        AddGameTable(newGameTable);
+        return id;
+    }
+
+    private void AddGameTable(GameTable newGameTable)
+    {
         _context.GameTable.Add(newGameTable);
         _context.SaveChanges();
-        return id;
     }
 
     private string GenerateId()

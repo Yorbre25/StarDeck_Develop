@@ -14,7 +14,8 @@ public class GameMapper
     private PlayerHandling _playerHandling;
     private ImageHandling _imageHandling;
     private DeckHandling _deckHandling;
-    private bool s_defaultActivationState = true;
+    private static int s_maxTurns = 10;
+    private static int s_timePerTurn = 20;
 
 
     public GameMapper(StarDeckContext context)
@@ -44,6 +45,22 @@ public class GameMapper
             deckNamePlayer2 = _deckHandling.GetDeckName(deckId2)
         };
         return outputSetupValues;
+    }
+
+    public Game FillNewGame(SetUpValues setUpValues, string gameId, string gameTableId)
+    {
+        Game newGame = new Game
+        {
+            id = gameId,
+            timeStarted = DateTime.Now,
+            player1Id = setUpValues.player1Id,
+            player2Id = setUpValues.player2Id,
+            maxTurns = s_maxTurns,
+            timePerTurn = s_timePerTurn,
+            turn = 0,
+            gameTableId = gameTableId
+        };
+        return newGame;
     }
 
 

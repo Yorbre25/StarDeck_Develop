@@ -16,9 +16,6 @@ public class GameHandling
     private RandomTools _randomTools = new RandomTools();
     private IdGenerator _idGenerator = new IdGenerator();
 
-    private static int s_maxTurns = 10;
-    private static int s_timePerTurn = 20;
-
     private static string s_idPrefix = "G";
 
 
@@ -43,35 +40,33 @@ public class GameHandling
 
     }
 
-    public string SetTable()
+    public string SetupTable()
     {
         string gameTableId = _gameTableHandling.SetupTable();
         return gameTableId;
     }
     public OutputSetupValues SettingupGame(SetUpValues setupValues)
     {   
-        AddPlayersToGame(setupValues);
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
         string gameId = _idGenerator.GenerateId(s_idPrefix);
+        string tableId = SetupTable();
+        AddPlayersToGame(setupValues);
         
-        Game newGame = new Game();
-        newGame.id = gameId;
-        newGame.timeStarted = DateTime.Now;
-        newGame.player1Id = setupValues.player1Id;
-        newGame.player2Id = setupValues.player2Id;
-        newGame.maxTurns = 10;
-        newGame.timePerTurn = 10;
-        newGame.turn = 0;
-        newGame.gameTableId = SetTable();
+        Game newGame = _gameMapper.FillNewGame(setupValues, gameId, tableId);
         AddGame(newGame);
         return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
     }
 
 
-    private string[] AddPlayersToGame(SetUpValues setupValues)
+    private void AddPlayersToGame(SetUpValues setupValues)
     {
-        return this._gamePlayerHandling.AddPlayers(setupValues);
+        string player1Id = setupValues.player1Id;
+        string player1DeckId = setupValues.player1DeckId;
+        _gamePlayerHandling.AddPlayer(player1Id, player1DeckId);
+        string player2Id = setupValues.player2Id;
+        string player2DeckId = setupValues.player2DeckId;
+        _gamePlayerHandling.AddPlayer(player2Id, player2DeckId);
     }
 
     private void AddGame(Game newGame)
