@@ -147,19 +147,10 @@ public class GameHandling
         return _gameTableHandling.GetGameTable(gameTableId);
     }
 
-    internal void EndingGame(string gameId)
-    {
-        Game game = GetGame(gameId);
-        DeleteGame(game);
-        _gameTableHandling.Delete(game.gameTableId);
-        // string[] gamePlayerIds = new string[2];
-        // gamePlayerIds[0] = game.player1Id;
-        // gamePlayerIds[1] = game.player2Id;
-        // _gamePlayerHandling.EndGame(gamePlayerIds);
-        _context.SaveChanges();
-    }
+
 
     public void EndGame(string gameId)
+    // public List<Hand_Card> EndGame(string gameId)
     {
         try
         {
@@ -171,8 +162,32 @@ public class GameHandling
         }
     }
 
-    internal List<OutputCard> SetupHand(string gameId, string playerId)
+    internal void EndingGame(string gameId)
+    // internal List<Hand_Card> EndingGame(string gameId)
     {
-        return _gamePlayerHandling.SetupHand(gameId, playerId);
+        Game game = GetGame(gameId);
+        string gameTableId = game.gameTableId;
+        string player1Id = game.player1Id;
+        string player2Id = game.player2Id;
+
+        DeleteGame(game);
+        _gameTableHandling.Delete(gameTableId);
+        _gamePlayerHandling.Delete(player1Id);
+        _gamePlayerHandling.Delete(player2Id);
+        _context.SaveChanges();
+    }
+
+    internal void SetupHands(string gameId)
+    {
+        var game = GetGame(gameId);
+        string player1Id = game.player1Id;
+        string player2Id = game.player2Id;
+        _gamePlayerHandling.SetupHands(gameId, player1Id);
+        _gamePlayerHandling.SetupHands(gameId, player2Id);
+    }
+
+    internal List<OutputCard> GetHandCards(string gameId, string playerId)
+    {
+        return _gamePlayerHandling.GetHandCards(gameId, playerId);
     }
 }

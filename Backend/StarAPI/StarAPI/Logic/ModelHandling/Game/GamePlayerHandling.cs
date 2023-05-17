@@ -92,11 +92,7 @@ public class GamePlayerHandling
         _context.SaveChanges();
     }
 
-    private void DeleteGamePlayer(Game_Player gamePlayer)
-    {
-        _context.Game_Player.Remove(gamePlayer);
-        _context.SaveChanges();
-    }
+
 
     public Game_Player GetGamePlayer(string playerId)
     {
@@ -116,8 +112,27 @@ public class GamePlayerHandling
         return gamePlayer;
     }
 
-    internal List<OutputCard> SetupHand(string gameId, string playerId)
+    internal void SetupHands(string gameId, string playerId)
     {
-       return _handHandling.SetupHand(playerId);
+       _handHandling.SetupHand(playerId);
+    }
+
+    internal void Delete(string playerId)
+    // internal List<Hand_Card> Delete(string playerId)
+    {
+        Game_Player gamePlayer = GetGamePlayer(playerId);
+        DeleteGamePlayer(gamePlayer);
+        _handHandling.Delete(playerId);
+        // _gameDeckCardHandling.Delete(gamePlayer.deckId);
+    }
+
+    private void DeleteGamePlayer(Game_Player gamePlayer)
+    {
+        _context.Game_Player.Remove(gamePlayer);
+    }
+
+    internal List<OutputCard> GetHandCards(string gameId, string playerId)
+    {
+        return _handHandling.GetHandCardsByPlayerId(playerId);
     }
 }

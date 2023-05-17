@@ -14,7 +14,7 @@ public class HandHandling
     private IdGenerator _idGenerator = new IdGenerator();
     private DeckHandling _deckHandling;
     private const string s_idPrefix = "H";
-    private const int s_intialCardsPerHand = 5;
+    private const int s_intialCardsPerHand = 7;
 
 
     public HandHandling(StarDeckContext context)
@@ -26,13 +26,13 @@ public class HandHandling
     }
 
     // public void SetupHand(string playerId)
-    public List<OutputCard> SetupHand(string playerId)
+    public void SetupHand(string playerId)
     {
         try
         {
             CreateHand(playerId);
             GiveInitialCards(playerId);
-            return GetHandCards(playerId);
+            _context.SaveChanges();
         }
         catch(Exception e)
         {
@@ -40,17 +40,12 @@ public class HandHandling
         }
     }
 
-    private List<OutputCard> GetHandCards(string playerId)
-    {
-        string handId = GetHandId(playerId);
-        var handCards = _context.Hand_Card.ToList();
-        var cardsIds = handCards.FindAll(d => d.handId == handId).Select(d => d.cardId).ToList().ToArray();
-        return _deckCardHandling.GetCards(cardsIds);
-    }
+
 
     private void GiveInitialCards(string playerId)
     // private string GiveInitialCards(string playerId)
     {
+        List<Hand_Card> handCards = new List<Hand_Card>();
         string handId = GetHandId(playerId);
         string cardIdFromDeck;
         // Verificar el tamaño de la mano
@@ -60,11 +55,12 @@ public class HandHandling
             Hand_Card newHandCard = new Hand_Card();
             newHandCard.handId = handId;
             newHandCard.cardId = cardIdFromDeck;
-            _context.Hand_Card.Add(newHandCard);
-            _context.SaveChanges();
+            handCards.Add(newHandCard);
         }
-
+        // _context.Hand_Card.AddRange(handCards);
+        // _context.SaveChanges();
     }
+
 
     
     // private string DrawCard(string playerId)
@@ -131,6 +127,50 @@ public class HandHandling
         }
         return alreadyHas;
     }
+
+    internal void Delete(string playerId)
+    // internal List<Hand_Card> Delete(string playerId)
+    {
+        Hand hand = GetHand(playerId);
+        string id = hand.id;
+        DeleteCardsFromHand(id);
+        DeleteHand(hand);   
+    }
+
+    private void DeleteCardsFromHand(string handId)
+    // private List<Hand_Card> DeleteCardsFromHand(string handId)
+    {
+        List<Hand_Card> handCards = GetHandCards(handId);
+        _context.Hand_Card.RemoveRange(handCards);
+        _context.SaveChanges();
+        // return handCards;
+    }
+
+    public List<OutputCard> GetHandCardsByPlayerId(string playerId)
+    {
+        string handId = GetHandId(playerId);
+        var handCards = _context.Hand_Card.ToList();
+        var cardsIds = handCards.FindAll(d => d.handId == handId).Select(d => d.cardId).ToArray();
+        return _deckCardHandling.GetCards(cardsIds);
+    }
+
+    private List<Hand_Card> GetHandCards(string handId)
+    {
+        var handCards = _context.Hand_Card.ToList();
+        return handCards.FindAll(d => d.handId == handId);
+    }
+
+    private void DeleteHand(Hand hand)
+    {
+        _context.Hand.Remove(hand);
+    }
+
+    private Hand GetHand(string playerId)
+    {
+        return _context.Hand.FirstOrDefault(d => d.playerId == playerId);
+    }
+
+
 
 
 
