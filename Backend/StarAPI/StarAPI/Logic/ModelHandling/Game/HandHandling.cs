@@ -132,6 +132,10 @@ public class HandHandling
     // internal List<Hand_Card> Delete(string playerId)
     {
         Hand hand = GetHand(playerId);
+        if (hand == null)
+        {
+            return;
+        }
         string id = hand.id;
         DeleteCardsFromHand(id);
         DeleteHand(hand);   

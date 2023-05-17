@@ -123,7 +123,7 @@ public class GamePlayerHandling
         Game_Player gamePlayer = GetGamePlayer(playerId);
         DeleteGamePlayer(gamePlayer);
         _handHandling.Delete(playerId);
-        // _gameDeckCardHandling.Delete(gamePlayer.deckId);
+        _gameDeckCardHandling.Delete(gamePlayer.deckId);
     }
 
     private void DeleteGamePlayer(Game_Player gamePlayer)

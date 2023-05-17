@@ -128,4 +128,34 @@ public class GameDeckCardHandling
         string randomCardId = cardIds[randomIndex];
         return randomCardId;
     }
+
+    internal void Delete(string deckId)
+    {
+        Game_Deck deck = GetDeck(deckId);
+        DeleteCardsFromDeck(deckId);
+        DeleteDeck(deck);
+    }
+
+    private void DeleteDeck(Game_Deck deck)
+    {
+        _context.Game_Deck.Remove(deck);
+    }
+
+    private void DeleteCardsFromDeck(string deckId)
+    {
+        List<Game_Deck_Card> cards = GetDeckCards(deckId);
+        _context.Game_Deck_Card.RemoveRange(cards);
+        _context.SaveChanges();
+    }
+
+    private List<Game_Deck_Card> GetDeckCards(string deckId)
+    {
+        var deckCards = _context.Game_Deck_Card.ToList();
+        return deckCards.FindAll(d => d.deckId == deckId);
+    }
+
+    private Game_Deck GetDeck(string id)
+    {
+        return _context.Game_Deck.Single(d => d.deckId == id);
+    }
 }
