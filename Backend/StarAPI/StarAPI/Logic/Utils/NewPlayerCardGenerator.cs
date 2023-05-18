@@ -13,7 +13,7 @@ namespace StarAPI.Logic;
         private PlayerHandling _playerHandling;
         private PlayerCardHandling _playerCardHandling;
         private static int s_numOfCardsToAssign = 15;
-        private static string s_typeOfCardToAssign = "Basica";
+        private static string s_typeOfCardToAssign = "Básica";
 
     public NewPlayerCardGenerator(StarDeckContext _context)
     {

@@ -3,6 +3,7 @@ using StarAPI.Models;
 using StarAPI.Context;
 using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic.ModelHandling;
 
@@ -11,10 +12,9 @@ public class GameHandling
     private readonly StarDeckContext _context;
     private GameTableHandling _gameTableHandling;
     private GamePlayerHandling _gamePlayerHandling;
+    private GameMapper _gameMapper;
+    private RandomTools _randomTools = new RandomTools();
     private IdGenerator _idGenerator = new IdGenerator();
-
-    private static int s_maxTurns = 10;
-    private static int s_timePerTurn = 20;
 
     private static string s_idPrefix = "G";
 
@@ -24,9 +24,10 @@ public class GameHandling
         this._context = context;
         this._gameTableHandling = new GameTableHandling(_context);
         this._gamePlayerHandling = new GamePlayerHandling(_context);
+        this._gameMapper = new GameMapper(_context);
     }
 
-    public Game SetUpGame(SetUpValues setUpValues)
+    public OutputSetupValues SetUpGame(SetUpValues setUpValues)
     {
         try
         {
@@ -39,32 +40,33 @@ public class GameHandling
 
     }
 
-    public string SetTable()
+    public string SetupTable()
     {
         string gameTableId = _gameTableHandling.SetupTable();
         return gameTableId;
     }
-    public Game SettingupGame(SetUpValues setupValues)
+    public OutputSetupValues SettingupGame(SetUpValues setupValues)
     {   
-        AddPlayersToGame(setupValues);
+        string deckId1 = setupValues.player1DeckId;
+        string deckId2 = setupValues.player2DeckId;
         string gameId = _idGenerator.GenerateId(s_idPrefix);
+        string tableId = SetupTable();
+        AddPlayersToGame(setupValues);
         
-        Game newGame = new Game();
-        newGame.id = gameId;
-        newGame.timeStarted = DateTime.Now;
-        newGame.player1Id = setupValues.player1Id;
-        newGame.player2Id = setupValues.player2Id;
-        newGame.maxTurns = 10;
-        newGame.timePerTurn = 10;
-        newGame.turn = 0;
-        newGame.gameTableId = SetTable();
+        Game newGame = _gameMapper.FillNewGame(setupValues, gameId, tableId);
         AddGame(newGame);
-        return newGame;
+        return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
     }
 
-    private string[] AddPlayersToGame(SetUpValues setupValues)
+
+    private void AddPlayersToGame(SetUpValues setupValues)
     {
-        return this._gamePlayerHandling.AddPlayers(setupValues);
+        string player1Id = setupValues.player1Id;
+        string player1DeckId = setupValues.player1DeckId;
+        _gamePlayerHandling.AddPlayer(player1Id, player1DeckId);
+        string player2Id = setupValues.player2Id;
+        string player2DeckId = setupValues.player2DeckId;
+        _gamePlayerHandling.AddPlayer(player2Id, player2DeckId);
     }
 
     private void AddGame(Game newGame)
@@ -76,7 +78,6 @@ public class GameHandling
     private void DeleteGame(Game game)
     {
         _context.Game.Remove(game);
-        _context.SaveChanges();
     }
 
 
@@ -84,7 +85,16 @@ public class GameHandling
     {
         Game? game = GetGame(gameId);
         string gameTableId = game.gameTableId;
-        return _gameTableHandling.GetGamePlanets(gameTableId);
+        List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameTableId);
+        //*Provitional
+        return SetHiddenPlanet(gamePlanets);
+    }
+
+    //*provitional function
+    private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
+    {
+        _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
+        return planetsForNewGame;
     }
 
     public Game GetGame(string gameId)
@@ -132,20 +142,47 @@ public class GameHandling
         return _gameTableHandling.GetGameTable(gameTableId);
     }
 
-    internal void EndGame(string gameId)
+
+
+    public void EndGame(string gameId)
+    // public List<Hand_Card> EndGame(string gameId)
+    {
+        try
+        {
+            EndingGame(gameId);
+        }
+        catch (System.Exception e)
+        {
+            throw new ArgumentException(e.Message);
+        }
+    }
+
+    internal void EndingGame(string gameId)
+    // internal List<Hand_Card> EndingGame(string gameId)
     {
         Game game = GetGame(gameId);
-        string[] gamePlayerIds = new string[2];
-        gamePlayerIds[0] = game.player1Id;
-        gamePlayerIds[1] = game.player2Id;
-        _gamePlayerHandling.EndGame(gamePlayerIds);
-        _gameTableHandling.Delete(game.gameTableId);
-        // DeleteGame(game);
+        string gameTableId = game.gameTableId;
+        string player1Id = game.player1Id;
+        string player2Id = game.player2Id;
+
+        DeleteGame(game);
+        _gameTableHandling.Delete(gameTableId);
+        _gamePlayerHandling.Delete(player1Id);
+        _gamePlayerHandling.Delete(player2Id);
         _context.SaveChanges();
     }
 
-    internal List<OutputCard> SetupHand(string gameId, string playerId)
+    internal void SetupHands(string gameId)
     {
-        return _gamePlayerHandling.SetupHand(gameId, playerId);
+        var game = GetGame(gameId);
+        string player1Id = game.player1Id;
+        string player2Id = game.player2Id;
+        _gamePlayerHandling.SetupHands(gameId, player1Id);
+        _gamePlayerHandling.SetupHands(gameId, player2Id);
+    }
+
+    internal List<OutputCard> GetHandCards(string gameId, string playerId)
+    {
+        return _gamePlayerHandling.GetHandCards(gameId, playerId);
     }
 }

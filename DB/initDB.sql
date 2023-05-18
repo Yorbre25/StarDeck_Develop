@@ -149,7 +149,7 @@ CREATE TABLE Hand_Card(
 
 CREATE TABLE Game(
 	id VARCHAR(15) NOT NULL,
-	gameTableId VARCHAR(15),
+	gameTableId VARCHAR(15) NOT NULL,
 	maxTurns INT NOT NULL,
 	timePerTurn int NOT NULL,
 	turn int NOT NULL,
