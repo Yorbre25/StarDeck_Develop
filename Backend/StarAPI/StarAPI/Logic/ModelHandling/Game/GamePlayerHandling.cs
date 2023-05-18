@@ -27,7 +27,7 @@ public class GamePlayerHandling
     public void AddPlayer(string playerId, string deckId)
     {   
         IsPlayerAvailable(playerId);
-        _gameDeckCardHandling.AddDecks(playerId, deckId);
+        _gameDeckCardHandling.AddDeck(playerId, deckId);
         Game_Player newGamePlayer = new Game_Player();
         newGamePlayer.playerId = playerId;
         newGamePlayer.deckId = deckId;
@@ -78,12 +78,10 @@ public class GamePlayerHandling
 
         string deckId = gamePlayer.deckId;
         _gameDeckCardHandling.EndGame(deckId);
-        // DeleteGamePlayer(gamePlayer);
 
         gamePlayer = GetGamePlayer(gamePlayerIds[1]);
         deckId = gamePlayer.deckId;
         _gameDeckCardHandling.EndGame(deckId);
-        // DeleteGamePlayer(gamePlayer);
         _context.SaveChanges();
     }
 
