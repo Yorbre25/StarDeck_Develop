@@ -124,12 +124,15 @@ export class SignUpFormComponent implements OnInit {
           }
           this.api.getAllPlayers().subscribe((data)=>{
             this.user.id=this.api.getPlayerID(this.user.email,data)  
-            this.api.assignPlayerInitialCards(this.user.id)
-            if(this.user.id!=null){
-              this.logs.setid(this.user.id)
-            }
-            this.router.navigate(['/home']);
-            }) 
+            this.api.assignPlayerInitialCards(this.user.id).subscribe((response)=>{
+              console.log(response)
+              if(this.user.id!=null){
+                this.logs.setid(this.user.id)
+              }
+              this.router.navigate(['/home']);
+              })
+            })
+             
         },(error)=>{
           if(error.message=="Player username already exist."){
             this.useralreadytaken=true

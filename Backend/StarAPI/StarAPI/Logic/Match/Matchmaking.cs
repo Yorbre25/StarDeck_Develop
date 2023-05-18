@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Linq;
 using StarAPI.Logic.ModelHandling;
+using System.Diagnostics;
 
 namespace StarAPI.Logic.Match
 {
@@ -14,6 +15,7 @@ namespace StarAPI.Logic.Match
         private readonly StarDeckContext _context;
         private CancelRequest cancel;
         private GameHandling gameHandling;
+        // private PlayerHandling playerHandling;
         public Matchmaking (StarDeckContext context) 
         {
             this._context = context;
@@ -33,20 +35,24 @@ namespace StarAPI.Logic.Match
 
         }
 
-        public bool match(string id) 
+        public bool match(string id, string deckId) 
         {
             Match_Player  match_player = new Match_Player();
             match_player.id = id;
+            match_player.deckId = deckId;
             match_player.waiting_since = DateTime.Now;
             submit(match_player);
 
             var players = getMatchedPlayers(id);
-            while(players.Count < 2)
+            int min_player = 2;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (players.Count < min_player)
             {
                 Thread.Sleep(1000);
                 players = getMatchedPlayers(id);
 
-                if (cancel.terminate) 
+                if (cancel.terminate || stopwatch.Elapsed > TimeSpan.FromSeconds(20)) 
                 {
                     remove(id);
                     return false;
@@ -56,11 +62,20 @@ namespace StarAPI.Logic.Match
                     return true;
                 }
             }
-            var player = players.FirstOrDefault(p=> p.id != id);
 
-            AddGame(id, player.id);
-            update(player, players.FirstOrDefault(p1 => p1.id == id),true);
+            var player = players.FirstOrDefault(p=> p.id != id);
+            SetUpValues sv = new SetUpValues();
+            sv.player1Id = id;
+            sv.player2Id = player.id;
+            sv.player1DeckId = deckId;
+            sv.player2DeckId = _context.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
+
+            AddGame(sv);
+            _context.SaveChanges();
+
+            // update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
+
             return true;
         }
 
@@ -71,6 +86,7 @@ namespace StarAPI.Logic.Match
             if (p1 != null && p2 != null)
             {
                 _context.Match_Player.Remove(p1);
+                _context.SaveChanges();
                 _context.Match_Player.Remove(p2);
                 _context.SaveChanges();
             }
@@ -90,14 +106,11 @@ namespace StarAPI.Logic.Match
             }
         }
 
-        protected bool AddGame(string player1, string player2)
+        public bool AddGame(SetUpValues sv)
         {
             try
             {
-                SetUpValues  sv = new SetUpValues();
-                sv.player1Id = player1;
-                sv.player2Id = player2;
-
+              
                 gameHandling.SetUpGame(sv);
                 return true;
             }
@@ -107,15 +120,16 @@ namespace StarAPI.Logic.Match
             }
         }
 
-        protected void update([FromBody] Player player1, [FromBody] Player player2, bool state)
-        {
-            player1.inGame = state;
-            player2.inGame = state;
-            _context.Entry(player1).State = EntityState.Modified;
-            _context.Entry(player2).State = EntityState.Modified;
-            _context.SaveChanges();
+        // protected void update(string idPlayer1, string idPlayer2, bool state)
+        // {
+            
+        //     player1.inGame = state;
+        //     player2.inGame = state;
+        //     _context.Entry(player1).State = EntityState.Modified;
+        //     _context.Entry(player2).State = EntityState.Modified;
+        //     _context.SaveChanges();
 
-        }
+        // }
 
         protected void remove(string id)
         {

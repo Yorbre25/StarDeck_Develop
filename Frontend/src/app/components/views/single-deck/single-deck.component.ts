@@ -14,9 +14,7 @@ export class SingleDeckComponent implements OnInit {
   DeckCards!:CardInt[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public something: any, private api:ApiService) { 
-    console.log(something)
-    console.log(this.something.deck.name)
-    api.getDeckCards(this.something.deck.name).subscribe((data)=>{
+    api.getDeckCards(this.something.deck.id).subscribe((data)=>{
         this.DeckCards=data
     })
   }
