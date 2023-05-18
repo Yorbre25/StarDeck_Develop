@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/components/services/api.service';
+import { LoginService } from 'src/app/components/services/login.service';
 import { DeckInterface } from 'src/app/components/interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,16 +14,16 @@ export class DeckMenuComponent {
 
   decks!: DeckInterface[];
 
-  constructor(private api: ApiService, private http: HttpClient, public dialog: MatDialog) {
+  constructor(private api: ApiService, private http: HttpClient, public dialog: MatDialog, private logs: LoginService ) {
 
     //console.log(this.cards)
   }
 
 
   ngOnInit(): void {
-    //  this.api.getAllCards().subscribe(data => {
+    //  this.api.getAllDecks(logs.getid()).subscribe(data => {
     //  console.log(data)
-    // this.cards = data 
+    //  this.decks = data 
     // });
     this.http.get('assets/samples/sampleDecks.json').subscribe((data: any) => {
       console.log(data);

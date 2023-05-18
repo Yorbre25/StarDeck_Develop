@@ -7,7 +7,7 @@ using StarAPI.Context;
 
 namespace StarAPI.Logic.Login
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class Login : ControllerBase
     {
@@ -16,15 +16,15 @@ namespace StarAPI.Logic.Login
         public Login(StarDeckContext context)
         {
             _context = context;
-            this.encrypt = new Encrypt();
+            encrypt = new Encrypt();
         }
 
         // GET: api/<Login>
         [HttpGet("{email}/{password}")]
         public ActionResult Get(string email, string password)
         {
-           
-            Player player = _context.Player.FirstOrDefault(p => p.email == email || (p.id == email));
+
+            Player player = _context.Player.FirstOrDefault(p => p.email == email);
 
             if (player != null && encrypt.Sha256(password) == player.pHash)
             {
@@ -33,6 +33,6 @@ namespace StarAPI.Logic.Login
 
             return BadRequest();
         }
-        
+
     }
 }

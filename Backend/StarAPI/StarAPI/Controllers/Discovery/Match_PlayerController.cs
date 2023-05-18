@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
 using StarAPI.Logic.Match;
 using StarAPI.Logic.Utils;
@@ -7,6 +7,7 @@ using System.Threading;
 
 [Route("[controller]")]
 [ApiController]
+
 public class Match_PlayerController : ControllerBase
 {
     private CancelRequest cancel;
