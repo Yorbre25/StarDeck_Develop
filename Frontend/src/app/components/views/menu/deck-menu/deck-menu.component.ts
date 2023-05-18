@@ -21,14 +21,16 @@ export class DeckMenuComponent {
 
 
   ngOnInit(): void {
-    //  this.api.getAllDecks(logs.getid()).subscribe(data => {
-    //  console.log(data)
-    //  this.decks = data 
-    // });
+    this.api.getAllDecks(this.logs.getid()).subscribe(data => {
+      console.log(data)
+      this.decks = data 
+    });
+    /**
     this.http.get('assets/samples/sampleDecks.json').subscribe((data: any) => {
       console.log(data);
       this.decks = data
     });
+    */
   }
 
   openClickedDeck(deck: DeckInterface){
