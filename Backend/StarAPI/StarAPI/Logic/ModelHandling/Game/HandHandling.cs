@@ -13,8 +13,8 @@ public class HandHandling
     private GameDeckCardHandling _gameDeckCardHandling;
     private IdGenerator _idGenerator = new IdGenerator();
     private DeckHandling _deckHandling;
-    private const string s_idPrefix = "H";
-    private const int s_intialCardsPerHand = 7;
+    private const string IdPrefix = "H";
+    private const int IntialCardsPerHand = 7;
 
 
     public HandHandling(StarDeckContext context)
@@ -25,7 +25,6 @@ public class HandHandling
         this._deckHandling = new DeckHandling(_context);
     }
 
-    // public void SetupHand(string playerId)
     public void SetupHand(string playerId)
     {
         try
@@ -43,27 +42,33 @@ public class HandHandling
 
 
     private void GiveInitialCards(string playerId)
-    // private string GiveInitialCards(string playerId)
     {
-        List<Hand_Card> handCards = new List<Hand_Card>();
         string handId = GetHandId(playerId);
-        string cardIdFromDeck;
-        // Verificar el tamaño de la mano
-        for (int i = 0; i < s_intialCardsPerHand; i++)
+        string cardId;
+        int handSize = SetHandSize(playerId);
+        for (int i = 0; i < handSize; i++)
         {
-            cardIdFromDeck = DrawCard(playerId);
+            cardId = DrawCard(playerId);
             Hand_Card newHandCard = new Hand_Card();
             newHandCard.handId = handId;
-            newHandCard.cardId = cardIdFromDeck;
-            handCards.Add(newHandCard);
+            newHandCard.cardId = cardId;
+
+            _context.Hand_Card.Add(newHandCard);
+            _context.SaveChanges();
         }
-        // _context.Hand_Card.AddRange(handCards);
-        // _context.SaveChanges();
+    }
+
+    private int SetHandSize(string playerId)
+    {
+        int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
+        if(numCardsInDeck < IntialCardsPerHand){
+            return numCardsInDeck;
+        }
+        return IntialCardsPerHand;
     }
 
 
-    
-    // private string DrawCard(string playerId)
+
     private string DrawCard(string playerId)
     {
         return _gameDeckCardHandling.DrawCard(playerId);
@@ -87,10 +92,11 @@ public class HandHandling
 
     private string CreatingHand(string playerId)
     {
-        string id = GenerateId();
         Hand newHand = new Hand();
+        string id = GenerateId();
         newHand.id = id;
         newHand.playerId = playerId;
+        
         _context.Hand.Add(newHand);
         _context.SaveChanges();
         return id;
@@ -102,7 +108,7 @@ public class HandHandling
         bool alreadyExists = true;
         while (alreadyExists)
         {
-            id = _idGenerator.GenerateId(s_idPrefix);
+            id = _idGenerator.GenerateId(IdPrefix);
             alreadyExists = IdAlreadyExists(id);
         }
         return id;
