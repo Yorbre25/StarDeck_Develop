@@ -28,7 +28,7 @@ export class ApiService{
             return throwError(()=>new Error('Player email already exist.'));
         }else if(error.error=="Card name already exist"){
             return throwError(()=>new Error('Card name already exist.'));
-        }else if(error.error=="PLanet name already exist"){
+        }else if(error.error=="Planet name already exist"){
             return throwError(()=>new Error('Planet name already exist.'));
         }else{
             return throwError(()=>new Error('Something bad happened; please try again later.'));
@@ -36,6 +36,7 @@ export class ApiService{
 
         
     }
+
 
     getAmCards(player:string|null):Observable<number>{
         let dir = this.url + "PlayerCard/CardCount/"+player
@@ -148,6 +149,17 @@ export class ApiService{
         return this.http.post<ResponseI>(dir,planetforAPI).pipe(catchError(this.handleError))
     }
 
+    addDeck(playerID:string|null,deckName:string|null,cards:string[]):Observable<any>{
+        let dir =this.url + "Deck/AddDeck"
+        console.log(dir)
+        let deckforAPI={
+            name:deckName,
+            playerId:playerID,
+            cardIds:cards
+        }
+        return this.http.post<ResponseI>(dir,deckforAPI)
+    }
+
     addCard(card:CardInt,types:TypeInterface[],races:RaceInterface[]):Observable<any>{
         let dir =this.url + "Card/AddCard"
         console.log("dir: "+ dir)
@@ -169,7 +181,7 @@ export class ApiService{
         let dir = this.url + "Card/GetAllCards"
         console.log(dir)
         return this.http.get<CardInt[]>(dir)
-      }
+    }
 
     getAllDecks(playerId:string|null):Observable<DeckInterface[]>{
         let dir = this.url + "Deck/GetDecksFromPlayer/"+playerId
@@ -183,17 +195,6 @@ export class ApiService{
         return this.http.get<CardInt[]>(dir)
     }
 
-    addDeck(playerID:string|null,deckName:string|null,cards:string[]):Observable<any>{
-        let dir =this.url + "Deck/AddDeck"
-        console.log(dir)
-        let deckforAPI={
-            name:deckName,
-            playerId:playerID,
-            cardIds:cards
-        }
-        return this.http.post<ResponseI>(dir,deckforAPI)
-
-    }
 
     getplayerCards(player:string|null):Observable<CardInt[]>{
         let dir = this.url +"PlayerCard/GetPlayerCards/"+player
