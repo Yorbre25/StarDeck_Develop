@@ -5,6 +5,10 @@ using StarAPI.Logic.Utils;
 using System.Net;
 using System.Threading;
 
+
+[Route("[controller]")]
+[ApiController]
+
 public class Match_PlayerController : ControllerBase
 {
     private CancelRequest cancel;
