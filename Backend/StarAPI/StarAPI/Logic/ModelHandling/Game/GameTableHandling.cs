@@ -43,7 +43,6 @@ public class GameTableHandling
     private void AddGameTable(GameTable newGameTable)
     {
         _context.GameTable.Add(newGameTable);
-        _context.SaveChanges();
     }
 
     private string GenerateId()

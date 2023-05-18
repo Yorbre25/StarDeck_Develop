@@ -144,6 +144,6 @@ public class GameDeckCardHandling
 
     private Game_Deck GetDeck(string id)
     {
-        return _context.Game_Deck.Single(d => d.deckId == id);
+        return _context.Game_Deck.FirstOrDefault(d => d.deckId == id);
     }
 }

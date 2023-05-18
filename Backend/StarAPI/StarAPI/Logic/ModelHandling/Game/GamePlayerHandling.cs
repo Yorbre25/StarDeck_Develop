@@ -37,7 +37,7 @@ public class GamePlayerHandling
 
     private void IsPlayerAvailable(string playerId)
     {
-        var gamePlayer = _context.Game_Player.Single(g => g.playerId == playerId);
+        var gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
         if (gamePlayer != null)
         {
             throw new ArgumentException("Player is currently in game");
