@@ -97,5 +97,35 @@ namespace StarAPI.Controllers
            return _planetTypeHandling.GetAllPlanetTypes();
         }
 
+        [HttpPost("AddPlanetType/{planetTypeName}")]
+        public ActionResult AddPlanetType(string planetTypeName)
+        {
+            try
+            {
+                _planetTypeHandling.AddPlanetType(planetTypeName);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
+
+        [HttpDelete("DeletePlanetType/{id}")]
+        public ActionResult DeletePlanetType(int id)
+        {
+            try
+            {
+                _planetTypeHandling.DeletePlanetType(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }
