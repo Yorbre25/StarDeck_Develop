@@ -100,7 +100,7 @@ CREATE TABLE Deck_Card (
 
 CREATE TABLE Match_Player(
 	id VARCHAR(15) NOT NULL,
-	waiting_since VARCHAR(15) NOT NULL,
+	waiting_since Datetime NOT NULL,
 	deckId VARCHAR(15) NOT NULL,
 	PRIMARY KEY (id)
 )

@@ -15,6 +15,7 @@ namespace StarAPI.Logic.Match
         private readonly StarDeckContext _context;
         private CancelRequest cancel;
         private GameHandling gameHandling;
+        // private PlayerHandling playerHandling;
         public Matchmaking (StarDeckContext context) 
         {
             this._context = context;
@@ -67,11 +68,12 @@ namespace StarAPI.Logic.Match
             sv.player1Id = id;
             sv.player2Id = player.id;
             sv.player1DeckId = deckId;
-            //sv.player2DeckId = _context.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
+            sv.player2DeckId = _context.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
 
             AddGame(sv);
+            _context.SaveChanges();
 
-            update(player, players.FirstOrDefault(p1 => p1.id == id),true);
+            // update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
 
             return true;
@@ -84,6 +86,7 @@ namespace StarAPI.Logic.Match
             if (p1 != null && p2 != null)
             {
                 _context.Match_Player.Remove(p1);
+                _context.SaveChanges();
                 _context.Match_Player.Remove(p2);
                 _context.SaveChanges();
             }
@@ -117,15 +120,16 @@ namespace StarAPI.Logic.Match
             }
         }
 
-        protected void update([FromBody] Player player1, [FromBody] Player player2, bool state)
-        {
-            player1.inGame = state;
-            player2.inGame = state;
-            _context.Entry(player1).State = EntityState.Modified;
-            _context.Entry(player2).State = EntityState.Modified;
-            _context.SaveChanges();
+        // protected void update(string idPlayer1, string idPlayer2, bool state)
+        // {
+            
+        //     player1.inGame = state;
+        //     player2.inGame = state;
+        //     _context.Entry(player1).State = EntityState.Modified;
+        //     _context.Entry(player2).State = EntityState.Modified;
+        //     _context.SaveChanges();
 
-        }
+        // }
 
         protected void remove(string id)
         {
