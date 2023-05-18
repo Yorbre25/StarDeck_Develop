@@ -10,15 +10,11 @@ public class PlayerCardHandling
 {
     private readonly StarDeckContext _context;
     private CardHandling _cardHandling;
-    private NewPlayerCardGenerator _newPlayerCardGenerator;
-    private CardPackageGenerator _cardPackageGenerator;
 
     public PlayerCardHandling(StarDeckContext context)
     {
         this._context = context;
         this._cardHandling = new CardHandling(_context);
-        this._newPlayerCardGenerator = new NewPlayerCardGenerator(_context);
-        this._cardPackageGenerator = new CardPackageGenerator(_context);
     }
 
     public List<OutputCard> GetPlayerCards(string playerId)
@@ -35,6 +31,7 @@ public class PlayerCardHandling
         {
             cards.Add(_cardHandling.GetCard(cardId));
         }
+        _context.Player_Card.ToList();
         return cards;
     }
 
@@ -77,18 +74,6 @@ public class PlayerCardHandling
         _context.SaveChanges();
     }
  
-    public List<List<OutputCard>> GetPackagesForNewPlayer()
-    {
-        try
-        {
-            return _cardPackageGenerator.GetPackagesForNewPlayer();
-        } 
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting packages for new player");
-        }
-    }
-
     internal bool PlayerAlreadyHasCards(string playerId)
     {
         int cardCount = GetCardCount(playerId);
@@ -98,4 +83,5 @@ public class PlayerCardHandling
         }
         return false;
     }
+
 }
