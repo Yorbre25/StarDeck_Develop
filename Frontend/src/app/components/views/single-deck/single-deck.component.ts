@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DeckInterface } from '../../interfaces/deck.interface';
 import { CardInt } from '../../interfaces/card.interface';
@@ -10,11 +10,18 @@ import { MatCardContent } from '@angular/material/card';
   templateUrl: './single-deck.component.html',
   styleUrls: ['./single-deck.component.scss']
 })
-export class SingleDeckComponent {
+export class SingleDeckComponent implements OnInit {
+  DeckCards!:CardInt[];
 
+  constructor(@Inject(MAT_DIALOG_DATA) public something: any, private api:ApiService) { 
+    console.log(something)
+    console.log(this.something.deck.name)
+    api.getDeckCards(this.something.deck.name).subscribe((data)=>{
+        this.DeckCards=data
+    })
+  }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
-    console.log(data)
-    console.log(this.data.deck.name)
+  ngOnInit(): void {
+    
   }
 }
