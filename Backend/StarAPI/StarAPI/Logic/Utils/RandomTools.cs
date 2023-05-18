@@ -13,4 +13,11 @@ namespace StarAPI.Logic.Utils;
             int randomIndex = random.Next(0, list.Count);
             return list[randomIndex];
         }
+
+        public T GetRandomElement<T>(T[] array)
+        {
+            Random random = new Random();
+            int randomIndex = random.Next(0, array.Length);
+            return array[randomIndex];
+        }
     }

@@ -75,4 +75,32 @@ public class PlanetTypeHandling
         return true;
     }
 
+    private bool AlreadyExists(int id){
+        PlanetType? planetType = new PlanetType();
+        planetType = _context.PlanetType.FirstOrDefault(r => r.id == id);
+        if(planetType == null){
+            return false;
+        }
+        return true;
+    }
+
+    public void DeletePlanetType(int id)
+    {
+        bool alreadyExists = AlreadyExists(id);
+        if(!alreadyExists)
+        {
+            throw new ArgumentNullException("PlanetType does not exist");
+        }
+        else
+        {
+            DeletingCardType(id);
+        }
+    }
+
+    private void DeletingCardType(int id)
+    {
+        var planetType = _context.PlanetType.FirstOrDefault(r => r.id == id);
+        _context.PlanetType.Remove(planetType);
+        _context.SaveChanges();
+    }
 }

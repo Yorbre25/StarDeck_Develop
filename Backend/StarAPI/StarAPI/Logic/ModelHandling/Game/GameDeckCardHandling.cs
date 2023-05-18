@@ -11,6 +11,7 @@ public class GameDeckCardHandling
     private readonly StarDeckContext _context;
     private DeckCardHandling _deckCardHandling;
     private IdGenerator _idGenerator = new IdGenerator();
+    private RandomTools _randomTools = new RandomTools();
     private const string s_idPrefix = "GM";
     private const int s_cardsPerDeck = 18;
 
@@ -21,8 +22,9 @@ public class GameDeckCardHandling
         this._deckCardHandling = new DeckCardHandling(_context);
     }
 
-    public void AddDecks(string playerId, string deckId)
+    public void AddDeck(string playerId, string deckId)
     {
+        IsDeckValid(playerId, deckId);
         string[] cardsFromDeck = ImportCards(deckId);
 
         Game_Deck newGameDeck = new Game_Deck();
@@ -30,6 +32,46 @@ public class GameDeckCardHandling
         newGameDeck.deckId = deckId;
         _context.Game_Deck.Add(newGameDeck);
         AddCardsToDeck(deckId, cardsFromDeck);
+    }
+
+    private void IsDeckValid(string playerId, string deckId)
+    {
+        bool deckExists = AlreadyExists(deckId);
+        if (!deckExists)
+        {
+            throw new ArgumentException("Deck does not exist");
+        }
+        bool isPlayersDeck = IsPlayersDeck(playerId, deckId);
+        if (!isPlayersDeck)
+        {
+            throw new ArgumentException("Deck does not belong to player");
+        }
+    }
+
+    private bool AlreadyExists(string deckId)
+    {
+        var deck = _context.Deck.FirstOrDefault(d => d.id == deckId);
+        if (deck != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsPlayersDeck(string playerId, string deckId)
+    {
+        var decks = _context.Deck.Where(d => d.id == deckId).ToList();
+        var playerDecks = decks.Where(d => d.playerId == playerId).ToList();
+        if (playerDecks.Count == 0)
+        {
+            return false;
+        }
+        var selectedDeck = playerDecks.FirstOrDefault(d => d.id == deckId);
+        if (selectedDeck == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     private string[] ImportCards(string deckId)
@@ -100,22 +142,38 @@ public class GameDeckCardHandling
     internal string DrawCard(string playerId)
     {
         //Verificar que el mazo no esté vació
-        var deck = _context.Game_Deck.Where(d => d.playerId == playerId).FirstOrDefault();
-        //verificar que no esté vació
+        var deck = GetDeckByPlayer(playerId);
         string[] cardIds = GetCardIds(deck.deckId);
-        string cardId = PickCard(cardIds);
+        if (cardIds.Count() == 0)
+        {
+            throw new ArgumentException("Deck is empty");
+        }
+        string cardId = _randomTools.GetRandomElement<string>(cardIds);
         DeleteCard(cardId);
         return cardId;
 
     }
 
-    private string PickCard(string[] cardIds)
+    private Game_Deck GetDeckByPlayer(string playerId)
     {
-        Random random = new Random();
-        int randomIndex = random.Next(0, cardIds.Length);
-        string randomCardId = cardIds[randomIndex];
-        return randomCardId;
+        try
+        {
+            return _context.Game_Deck.Where(d => d.playerId == playerId).FirstOrDefault();
+        }
+        catch (System.Exception)
+        {
+            
+            throw new Exception("Error getting deck by player");
+        }
     }
+
+    // private string PickCard(string[] cardIds)
+    // {
+    //     Random random = new Random();
+    //     int randomIndex = random.Next(0, cardIds.Length);
+    //     string randomCardId = cardIds[randomIndex];
+    //     return randomCardId;
+    // }
 
     internal void Delete(string deckId)
     {
@@ -145,5 +203,12 @@ public class GameDeckCardHandling
     private Game_Deck GetDeck(string id)
     {
         return _context.Game_Deck.FirstOrDefault(d => d.deckId == id);
+    }
+
+    internal int NumCardsInDeck(string playerId)
+    {
+        var deck = _context.Game_Deck.Where(d => d.playerId == playerId).FirstOrDefault();
+        string[] cardIds = GetCardIds(deck.deckId);
+        return cardIds.Length;
     }
 }
