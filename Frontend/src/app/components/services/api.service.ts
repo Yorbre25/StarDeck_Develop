@@ -56,12 +56,11 @@ export class ApiService{
         return -1
     }
 
-    assignPlayerInitialCards(playerid:string|null){
-        let dir= this.url + "PlayerCard/GenerateCardsForNewPlayer"
+    assignPlayerInitialCards(playerid:string|null):Observable<any>{
+        let dir= this.url + "PlayerCard/GenerateCardsForNewPlayer/"+playerid
         console.log(dir)
         console.dir(playerid)
-        return this.http.post(dir,playerid)
-        
+        return this.http.post(dir,{})
     }
     
     registerAccount(player:AccountInt, countries:CountryInterface[]):Observable<any>{
