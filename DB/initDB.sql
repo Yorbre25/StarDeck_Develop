@@ -101,6 +101,8 @@ CREATE TABLE Deck_Card (
 CREATE TABLE Match_Player(
 	id VARCHAR(15) NOT NULL,
 	waiting_since VARCHAR(15) NOT NULL,
+	deckId VARCHAR(15) NOT NULL,
+	PRIMARY KEY (id)
 )
 
 -- CREATE TABLE Game_Planets(
@@ -225,6 +227,11 @@ ALTER TABLE Match_Player
 ADD CONSTRAINT fk_Player_Match
 FOREIGN KEY (id)
 REFERENCES Player(id);
+
+ALTER TABLE Match_Player
+ADD CONSTRAINT fk_Deck_Match
+FOREIGN KEY (deckId)
+REFERENCES Deck(id);
 
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_GameTable

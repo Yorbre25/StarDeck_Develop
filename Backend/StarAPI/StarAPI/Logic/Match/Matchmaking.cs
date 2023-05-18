@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Linq;
 using StarAPI.Logic.ModelHandling;
+using System.Diagnostics;
 
 namespace StarAPI.Logic.Match
 {
@@ -33,20 +34,24 @@ namespace StarAPI.Logic.Match
 
         }
 
-        public bool match(string id) 
+        public bool match(string id, string deckId) 
         {
             Match_Player  match_player = new Match_Player();
             match_player.id = id;
+            match_player.deckId = deckId;
             match_player.waiting_since = DateTime.Now;
             submit(match_player);
 
             var players = getMatchedPlayers(id);
-            while(players.Count < 2)
+            int min_player = 2;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (players.Count < min_player)
             {
                 Thread.Sleep(1000);
                 players = getMatchedPlayers(id);
 
-                if (cancel.terminate) 
+                if (cancel.terminate || stopwatch.Elapsed > TimeSpan.FromSeconds(20)) 
                 {
                     remove(id);
                     return false;
@@ -56,11 +61,19 @@ namespace StarAPI.Logic.Match
                     return true;
                 }
             }
-            var player = players.FirstOrDefault(p=> p.id != id);
 
-            AddGame(id, player.id);
+            var player = players.FirstOrDefault(p=> p.id != id);
+            SetUpValues sv = new SetUpValues();
+            sv.player1Id = id;
+            sv.player2Id = player.id;
+            sv.player1DeckId = deckId;
+            //sv.player2DeckId = _context.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
+
+            AddGame(sv);
+
             update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
+
             return true;
         }
 
@@ -90,14 +103,11 @@ namespace StarAPI.Logic.Match
             }
         }
 
-        protected bool AddGame(string player1, string player2)
+        public bool AddGame(SetUpValues sv)
         {
             try
             {
-                SetUpValues  sv = new SetUpValues();
-                sv.player1Id = player1;
-                sv.player2Id = player2;
-
+              
                 gameHandling.SetUpGame(sv);
                 return true;
             }

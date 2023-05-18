@@ -5,11 +5,12 @@ using StarAPI.Logic.Utils;
 using System.Net;
 using System.Threading;
 
+[Route("[controller]")]
+[ApiController]
 public class Match_PlayerController : ControllerBase
 {
     private CancelRequest cancel;
     private Matchmaking matchmaking;
-    private readonly StarDeckContext _context;
 
     public Match_PlayerController(StarDeckContext context)
     {
@@ -20,19 +21,17 @@ public class Match_PlayerController : ControllerBase
         
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> LongRunningMethod(string id)
+    [HttpGet("{id}/{deckId}")]
+    public async Task<IActionResult> LongRunningMethod(string id, string deckId)
     {
         cancel.start = true;
 
         
-        if(!matchmaking.match(id))
+        if(!matchmaking.match(id, deckId))
         {
 
             return StatusCode((int)HttpStatusCode.RequestTimeout, "Operation cancelled by user");
         }
-            
-       
         return Ok();
 
     }
