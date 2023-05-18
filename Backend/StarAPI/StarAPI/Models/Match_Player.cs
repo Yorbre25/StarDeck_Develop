@@ -8,6 +8,8 @@ namespace StarAPI.Models
         [Key]
         [ForeignKey("Player")]
         public string id { get; set; }
+        [ForeignKey("Deck")]
+        public string deckId { get; set; }
         public DateTime waiting_since { get; set; }
     }
 }
