@@ -17,7 +17,6 @@ namespace StarAPI.Controllers
         private NewPlayerCardGenerator _newPlayerCardGenerator;
         public PlayerCardController(StarDeckContext context)
         {
-            this._context = context;
             this._cardPackageGenerator = new CardPackageGenerator(context);
             this._playerCardHandling = new PlayerCardHandling(context);
             this._newPlayerCardGenerator = new NewPlayerCardGenerator(context);
@@ -30,38 +29,38 @@ namespace StarAPI.Controllers
         }
        
 
-        // [HttpPost("GenerateCardsForNewPlayer")]
-        // public ActionResult GenerateCardsForNewPlayer([FromBody] string playerId)
-        // {
-        //     try
-        //     {
-        //         _newPlayerCardGenerator.GenerateCardsForNewPlayer(playerId);
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(e.Message);
-        //     }
-        // }
+        [HttpPost("GenerateCardsForNewPlayer/{playerId}")]
+        public ActionResult GenerateCardsForNewPlayer(string playerId)
+        {
+            try
+            {
+                _newPlayerCardGenerator.GenerateCardsForNewPlayer(playerId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("GetPlayerCards/{playerId}")]
-        public IEnumerable<OutputCard> GetPlayerCards(string playerId) 
+        public List<OutputCard> GetPlayerCards(string playerId) 
         {
             return _playerCardHandling.GetPlayerCards(playerId);
         }
 
-        // [HttpGet("GetPackagesForNewPlayer")]
-        // public List<List<OutputCard>> GetPackagesForNewPlayer() 
-        // {
-        //     try
-        //     {
-        //         return this._cardPackageGenerator.GetPackagesForNewPlayer();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return new List<List<OutputCard>>();
-        //     }    
-        // }
+        [HttpGet("GetPackagesForNewPlayer")]
+        public List<List<OutputCard>> GetPackagesForNewPlayer() 
+        {
+            try
+            {
+                return this._cardPackageGenerator.GetPackagesForNewPlayer();
+            }
+            catch (Exception e)
+            {
+                return new List<List<OutputCard>>();
+            }    
+        }
         
 
         [HttpPost("AssignCardToPlayer/{playerId}/{cardId}")]
