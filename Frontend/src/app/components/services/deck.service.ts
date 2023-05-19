@@ -14,8 +14,8 @@ export class deckService{
 
     handleError(error: HttpErrorResponse) {
         console.log(error)
-        if(error.error=="Player username already exist"){
-            return throwError(()=>new Error('Planet name already exist.'));
+        if(error.error=="Deck name already exist"){
+            return throwError(()=>new Error('Deck name already exist.'));
         }else{
             return throwError(()=>new Error('Something bad happened on deck service please try again later.'));
         }
