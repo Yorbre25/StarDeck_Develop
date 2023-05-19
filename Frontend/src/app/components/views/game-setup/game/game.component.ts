@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
-import { ApiService } from 'src/app/components/services/api.service';
 import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
 import { DeckInterface } from 'src/app/components/interfaces/deck.interface';
 @Component({
@@ -25,7 +24,7 @@ export class GameComponent {
   currentUserPhoto!: string; 
 
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private http: HttpClient) {
     this.bet = 0;
     this.turn = 1;
     this.totalTurns = 8;

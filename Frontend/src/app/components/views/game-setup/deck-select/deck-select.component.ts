@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ApiService } from 'src/app/components/services/api.service';
 import { DeckInterface } from 'src/app/components/interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +14,7 @@ export class DeckSelectComponent {
 
   decks!: DeckInterface[];
 
-  constructor(private router: Router, private api: ApiService, private http: HttpClient, public dialog: MatDialog) {
+  constructor(private router: Router, private http: HttpClient, public dialog: MatDialog) {
 
     //console.log(this.cards)
   }

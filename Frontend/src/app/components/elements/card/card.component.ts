@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { CardInt } from '../../interfaces/card.interface';
-import { LoginService } from '../../services/login.service';
 import { selected_Card_S } from '../../services/selected_card.service';
 /**
  * @description
@@ -34,7 +31,7 @@ export class CardComponent {
   @Input() clickable: boolean = false;
 
 
-  constructor(private router: Router, private api: ApiService, private logins:LoginService, private Scard:selected_Card_S) {
+  constructor(private router: Router, private Scard:selected_Card_S) {
   }
 
 

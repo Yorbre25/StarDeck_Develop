@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { ApiService } from '../../services/api.service';
+import { CardService } from '../../services/Card.service';
 import { CardInt } from '../../interfaces/card.interface';
 import { LoginService } from '../../services/login.service';
 import { selected_Card_S } from '../../services/selected_card.service';
@@ -77,22 +77,22 @@ export class InitialCardChooserComponent implements OnInit{
 
 
 
-  constructor(private dialogRef: MatDialogRef<InitialCardChooserComponent>, private api: ApiService, private logins:LoginService,private Scard:selected_Card_S) {}
+  constructor(private dialogRef: MatDialogRef<InitialCardChooserComponent>, private cardService: CardService, private logins:LoginService,private Scard:selected_Card_S) {}
   
   ngOnInit(): void {
     this.Scard.setcard(this.emptycard)
-    this.api.getplayerCards(this.logins.getid()).subscribe(data => {
+    this.cardService.getplayerCards(this.logins.getid()).subscribe(data => {
       console.log("Player cards")
       console.log(data)
       this.cards = data 
     });
-    this.api.getchoosingcard().subscribe(data=>{
+    this.cardService.getchoosingcard().subscribe(data=>{
       console.log("Cards to choose")
       console.log(data)
       this.clickableCardsPack=data
       this.clickableCards=data[0]
     })
-    this.api.getAmCards(this.logins.getid()).subscribe(data=>{
+    this.cardService.getAmCards(this.logins.getid()).subscribe(data=>{
       this.cardsAmount=data
     })
     
@@ -106,11 +106,11 @@ export class InitialCardChooserComponent implements OnInit{
       if (this.cardsAmount==18){
         this.dialogRef.close();  
       }else{
-        this.api.playerchoseCard(this?.Scard.getcard(),this.logins.getid()).subscribe((response)=>{
+        this.cardService.playerchoseCard(this?.Scard.getcard(),this.logins.getid()).subscribe((response)=>{
           this.cardsAmount+=1
           console.log("The response:")
           console.log(response)
-          this.api.getplayerCards(this.logins.getid()).subscribe(data => {//Actualizo las cartas del jugador
+          this.cardService.getplayerCards(this.logins.getid()).subscribe(data => {//Actualizo las cartas del jugador
             console.log(data)
             this.cards = data 
             this.clickableCards=this.clickableCardsPack[this.cardsPack]
