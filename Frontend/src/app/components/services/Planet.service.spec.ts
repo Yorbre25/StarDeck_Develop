@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { selected_Card_S } from './selected_card.service';
+import { planetService } from './Planet.service';
 
-describe('selected_Card_S', () => {
-  let service: selected_Card_S;
-  
+describe('planetService', () => {
+  let service: planetService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(selected_Card_S);
+    service = TestBed.inject(planetService);
   });
   
 

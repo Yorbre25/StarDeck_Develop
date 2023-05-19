@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/components/services/api.service';
+import { CardService } from 'src/app/components/services/Card.service';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
 
@@ -23,13 +23,13 @@ import { HttpClient } from '@angular/common/http';
 export class CardMenuComponent implements OnInit {
   cards!: CardInt[];
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private cardService: CardService, private http: HttpClient) {
 
     //console.log(this.cards)
   }
 
   ngOnInit(): void {
-    this.api.getAllCards().subscribe(data => {
+    this.cardService.getAllCards().subscribe(data => {
       console.log(data)
      this.cards = data 
      });

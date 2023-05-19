@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { PlanetInterface } from '../../interfaces/planet.interface';
+import { FormsService } from '../../services/forms_info_services';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { planetService } from '../../services/Planet.service';
 import { TypeInterface } from '../../interfaces/type.interface';
 
 
@@ -28,7 +28,7 @@ export class CreatePlanetFormComponent {
   type = new FormControl('', [Validators.required]);
   image = new FormControl('', [Validators.required]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) { }
+  constructor(private router: Router, private _formBuilder: FormBuilder, private planetService: planetService, private formService:FormsService) { }
 
   //La idea es que este módul genera el mensaje de error
   getErrMessage(component: FormControl) {
@@ -57,7 +57,7 @@ export class CreatePlanetFormComponent {
         this.planet.description = this.description.value
         this.planet.type = this.type.value
         
-           this.api.addPlanet(this.planet,this.types).subscribe(//acá llama a la API
+           this.planetService.addPlanet(this.planet,this.types).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
             this.router.navigate(['/home']);
@@ -104,7 +104,7 @@ export class CreatePlanetFormComponent {
     }]
     
 
-    this.api.getTypes().subscribe((data)=>{
+    this.formService.getPlanetTypes().subscribe((data)=>{
       this.types=this.types.concat(data)
     })
     

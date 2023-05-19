@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import {CardInt} from '../../interfaces/card.interface';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -23,7 +21,7 @@ export class ClickableCardComponent {
     race: string|null;
   };
 
-  constructor(private router: Router, private api:ApiService, private logins:LoginService) {
+  constructor(private router: Router, private logins:LoginService) {
    
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/components/services/api.service';
+import { planetService } from 'src/app/components/services/Planet.service';
 import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
 import { HttpClient } from '@angular/common/http';
 @Component({
@@ -10,12 +10,12 @@ import { HttpClient } from '@angular/common/http';
 export class PlanetMenuComponent implements OnInit {
   planets!: PlanetInterface[];
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private planetService: planetService, private http: HttpClient) {
 
   }
 
   ngOnInit(): void {
-    this.api.getAllPlanets().subscribe(data => {
+    this.planetService.getAllPlanets().subscribe(data => {
       console.log(data)
       this.planets = data 
     });

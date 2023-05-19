@@ -1,10 +1,6 @@
 import { Component , Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginService } from '../../services/login.service';
-import { selected_Card_S } from '../../services/selected_card.service';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
-import { ApiService } from 'src/app/components/services/api.service';
 import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
 @Component({
   selector: 'app-planet-cards',
@@ -28,7 +24,7 @@ export class PlanetCardsComponent {
   currentUserName!: string;
 
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private http: HttpClient) {
 
     //console.log(this.cards)
   }
