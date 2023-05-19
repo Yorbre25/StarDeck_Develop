@@ -55,7 +55,7 @@ export class LoginService{
     }
 
 
-    getPlayerID(playermail:string|null,allPlayers:AccountInt[]){ 
+    searchPlayerID(playermail:string|null,allPlayers:AccountInt[]){ 
         for (var player of allPlayers){
             if(player.email==playermail){
                 return player.id
