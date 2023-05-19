@@ -43,14 +43,14 @@ export class CreateDeckFormComponent {
   totalCards!: number;
   name !: string[];
   fault!: boolean;
-  deckNameFault!:boolean;
+  deckNameFault!: boolean;
 
   deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
 
   // totalCards = new FormArray([]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService, private http: HttpClient, public dialog: MatDialog, private LoginS:LoginService, private SCard:selected_Card_S) {
+  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService, private http: HttpClient, public dialog: MatDialog, private LoginS: LoginService, private SCard: selected_Card_S) {
 
   }
 
@@ -74,49 +74,54 @@ export class CreateDeckFormComponent {
 
   ngOnInit() {
     this.SCard.initializeCardList()
-    this.SCard.cardList$.subscribe((value:string[])=>{
-      this.currentCards=value.length
-    }) 
+    this.SCard.cardList$.subscribe((value: string[]) => {
+      this.currentCards = value.length
+    })
     this.fault = false;
-    this.deckNameFault=false;
+    this.deckNameFault = false;
     this.totalCards = 18;
-    this.deck={
-      "id":"",
-      "name":""
+    this.deck = {
+      "id": "",
+      "name": ""
     }
-    /** 
+    
+    
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
       console.log(data);
       this.allCards = data
     });
-    */
+    
 
-    this.api.getplayerCards(this.LoginS.getid()).subscribe(data => {
+    /**
+     *  this.api.getplayerCards(this.LoginS.getid()).subscribe(data => {
       console.log(data)
-       this.allCards = data 
+      this.allCards = data 
     });
+     * 
+     */
+
 
   }
 
-    goToLobby() {
-      if (this.deckName.value != null) {
-        if (this.deckName.invalid) {
-          this.fault = true
-        }else{
-          console.log(this.SCard.getcardList())
-          if(this.currentCards==this.totalCards){
-            this.deck.name=this.deckName.value
-            this.api.addDeck(this.LoginS.getid(),this.deck.name,this.SCard.getcardList()).subscribe((response)=>{
-              this.router.navigate(['/decks']);
-            })
-          }
-          
-          
+  goToLobby() {
+    if (this.deckName.value != null) {
+      if (this.deckName.invalid) {
+        this.fault = true
+      } else {
+        console.log(this.SCard.getcardList())
+        if (this.currentCards == this.totalCards) {
+          this.deck.name = this.deckName.value
+          this.api.addDeck(this.LoginS.getid(), this.deck.name, this.SCard.getcardList()).subscribe((response) => {
+            this.router.navigate(['/decks']);
+          })
+        }
+
+
       }
     }
   }
 
-  
+
 
   openAllCards(cards: CardInt[]) {
     console.log(cards);
