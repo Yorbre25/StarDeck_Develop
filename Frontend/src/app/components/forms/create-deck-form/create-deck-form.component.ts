@@ -44,7 +44,7 @@ export class CreateDeckFormComponent {
   totalCards!: number;
   name !: string[];
   fault!: boolean;
-  deckNameFault!:boolean;
+  deckNameFault!: boolean;
 
   deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
@@ -75,27 +75,29 @@ export class CreateDeckFormComponent {
 
   ngOnInit() {
     this.SCard.initializeCardList()
-    this.SCard.cardList$.subscribe((value:string[])=>{
-      this.currentCards=value.length
-    }) 
+    this.SCard.cardList$.subscribe((value: string[]) => {
+      this.currentCards = value.length
+    })
     this.fault = false;
-    this.deckNameFault=false;
+    this.deckNameFault = false;
     this.totalCards = 18;
-    this.deck={
-      "id":"",
-      "name":""
+    this.deck = {
+      "id": "",
+      "name": ""
     }
-    /** 
+    
+    
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
       console.log(data);
       this.allCards = data
     });
-    */
+    
 
     this.cardService.getplayerCards(this.LoginS.getid()).subscribe(data => {
       console.log(data)
-       this.allCards = data 
+      this.allCards = data 
     });
+
 
   }
 
@@ -110,14 +112,12 @@ export class CreateDeckFormComponent {
             this.deckService.addDeck(this.LoginS.getid(),this.deck.name,this.SCard.getcardList()).subscribe((response)=>{
               this.router.navigate(['/decks']);
             })
-          }
-          
-          
+          }          
+         }
       }
-    }
   }
 
-  
+
 
   openAllCards(cards: CardInt[]) {
     console.log(cards);

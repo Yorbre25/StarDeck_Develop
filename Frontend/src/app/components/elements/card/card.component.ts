@@ -15,6 +15,8 @@ import { selected_Card_S } from '../../services/selected_card.service';
 })
 export class CardComponent {
 
+  isSelected!: boolean | null;
+
 
   @Input()
   element!: {
@@ -30,12 +32,12 @@ export class CardComponent {
 
   @Input() clickable: boolean = false;
 
-
   constructor(private router: Router, private Scard:selected_Card_S) {
+    this.isSelected = false;
   }
 
-
   onClick() {
+    this.toggleSelection();
     if (this.clickable) {
       if(this.element.id==''){
         console.log("Card not ready yet")
@@ -43,7 +45,9 @@ export class CardComponent {
         this.Scard.setcard(this.element)
       }
     }
+  }
 
-
+  toggleSelection() {
+    this.isSelected = !this.isSelected;
   }
 }
