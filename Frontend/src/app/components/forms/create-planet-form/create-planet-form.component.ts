@@ -60,7 +60,7 @@ export class CreatePlanetFormComponent {
            this.planetService.addPlanet(this.planet,this.types).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/planets']);
           }, (error) => {
             console.log(error)
             this.duplicatePlanetNameFault = true;

@@ -44,8 +44,10 @@ export class LoadingGameComponent {
     /**
      * 
      */
-     const uuid = uuidv4();
+    
+    const uuid = uuidv4();
     console.log(uuid);
-    this.router.navigate(['/match/choose_deck', uuid]);
+    this.router.navigate(['/match', uuid]);
+
   }
 }
