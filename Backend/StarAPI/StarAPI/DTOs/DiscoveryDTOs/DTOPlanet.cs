@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StarAPI.DTOs
+namespace StarAPI.DTO.Discovery
 {
     public class InputPlanet
     {

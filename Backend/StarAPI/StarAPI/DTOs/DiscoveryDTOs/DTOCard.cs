@@ -1,5 +1,5 @@
 
-namespace StarAPI.DTOs
+namespace StarAPI.DTO.Discovery
 {
     public class InputCard
     {

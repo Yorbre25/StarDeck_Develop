@@ -1,11 +1,12 @@
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.GameLogic;
+using StarAPI.Logic.Game;
 using StarAPI.Logic.Utils;
-using StarAPI.DTOs;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Mappers;
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Game;
 
 public class GameTableHandling
 {

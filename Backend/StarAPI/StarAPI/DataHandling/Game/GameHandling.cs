@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.DTOs;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
+using StarAPI.Models;
+using StarAPI.DTO.Game;
 using StarAPI.Logic.Utils;
 using StarAPI.Logic.Mappers;
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Game;
 
 public class GameHandling
 {
@@ -53,7 +56,7 @@ public class GameHandling
         string tableId = SetupTable();
         AddPlayersToGame(setupValues);
         
-        Game newGame = _gameMapper.FillNewGame(setupValues, gameId, tableId);
+        StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setupValues, gameId, tableId);
         AddGame(newGame);
         return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
     }
@@ -69,13 +72,13 @@ public class GameHandling
         _gamePlayerHandling.AddPlayer(player2Id, player2DeckId);
     }
 
-    private void AddGame(Game newGame)
+    private void AddGame(StarAPI.Models.Game newGame)
     {
         _context.Game.Add(newGame);
         _context.SaveChanges();
     }
 
-    private void DeleteGame(Game game)
+    private void DeleteGame(StarAPI.Models.Game game)
     {
         _context.Game.Remove(game);
     }
@@ -83,7 +86,7 @@ public class GameHandling
 
     public List<OutputPlanet> GetPlanets(string gameId)
     {
-        Game? game = GetGame(gameId);
+        StarAPI.Models.Game? game = GetGame(gameId);
         string gameTableId = game.gameTableId;
         List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameTableId);
         //*Provitional
@@ -97,7 +100,7 @@ public class GameHandling
         return planetsForNewGame;
     }
 
-    public Game GetGame(string gameId)
+    public StarAPI.Models.Game GetGame(string gameId)
     {
         try
         {
@@ -109,9 +112,9 @@ public class GameHandling
         }
     }
 
-    private Game GettingGame(string gameId)
+    private StarAPI.Models.Game GettingGame(string gameId)
     {
-        Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        StarAPI.Models.Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
         return game;
     }
 
@@ -129,7 +132,7 @@ public class GameHandling
 
     
     private bool IdAlreadyExists(string id){
-        Game? game;
+        StarAPI.Models.Game? game;
         game = _context.Game.FirstOrDefault(c => c.id == id);
         if(game == null){
             return false;
@@ -160,7 +163,7 @@ public class GameHandling
     internal void EndingGame(string gameId)
     // internal List<Hand_Card> EndingGame(string gameId)
     {
-        Game game = GetGame(gameId);
+        StarAPI.Models.Game game = GetGame(gameId);
         string gameTableId = game.gameTableId;
         string player1Id = game.player1Id;
         string player2Id = game.player2Id;

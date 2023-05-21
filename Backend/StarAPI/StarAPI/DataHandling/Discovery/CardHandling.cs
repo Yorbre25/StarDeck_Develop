@@ -1,10 +1,10 @@
 using StarAPI.Models;
-using StarAPI.DTOs;
+using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.Logic.Mappers;
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Discovery;
 
 
 public class CardHandling

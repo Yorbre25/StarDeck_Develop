@@ -1,8 +1,5 @@
-using System;
-using System.Security.Cryptography;
-using System.Text;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
 
 namespace StarAPI.Logic;

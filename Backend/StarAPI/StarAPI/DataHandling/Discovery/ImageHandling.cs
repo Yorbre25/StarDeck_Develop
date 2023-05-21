@@ -2,7 +2,7 @@ using StarAPI.Context;
 using StarAPI.Models;
 
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Discovery;
 
 
 public class ImageHandling

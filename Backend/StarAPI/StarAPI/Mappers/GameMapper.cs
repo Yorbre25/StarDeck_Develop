@@ -1,6 +1,7 @@
 using StarAPI.Context;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DTO.Game;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
 
@@ -28,7 +29,7 @@ public class GameMapper
         _deckHandling = new DeckHandling(_context);
     }
 
-    public OutputSetupValues FillOutputSetupValues(Game game, string deckId1, string deckId2)
+    public OutputSetupValues FillOutputSetupValues(StarAPI.Models.Game game, string deckId1, string deckId2)
     {
         OutputSetupValues outputSetupValues = new OutputSetupValues
         {
@@ -47,9 +48,9 @@ public class GameMapper
         return outputSetupValues;
     }
 
-    public Game FillNewGame(SetUpValues setUpValues, string gameId, string gameTableId)
+    public StarAPI.Models.Game FillNewGame(SetUpValues setUpValues, string gameId, string gameTableId)
     {
-        Game newGame = new Game
+        StarAPI.Models.Game newGame = new StarAPI.Models.Game
         {
             id = gameId,
             timeStarted = DateTime.Now,
