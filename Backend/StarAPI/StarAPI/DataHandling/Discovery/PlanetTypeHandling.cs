@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
-namespace StarAPI.Logic.ModelHandling;
+
+namespace StarAPI.DataHandling.Discovery;
 
 
 public class PlanetTypeHandling

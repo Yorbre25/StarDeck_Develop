@@ -1,10 +1,11 @@
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.GameLogic;
 using StarAPI.Logic.Utils;
-using StarAPI.DTOs;
+using StarAPI.DataHandling.Discovery;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Game;
 
 public class HandHandling
 {
@@ -116,9 +117,8 @@ public class HandHandling
 
     
     private bool IdAlreadyExists(string id){
-        Game? game;
-        game = _context.Game.FirstOrDefault(c => c.id == id);
-        if(game == null){
+        StarAPI.Models.Game? game = _context.Game.FirstOrDefault(c => c.id == id);
+        if (game == null){
             return false;
         }
         return true;

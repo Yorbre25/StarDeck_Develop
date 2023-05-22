@@ -1,8 +1,7 @@
 using StarAPI.Context;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
-using StarAPI.Logic.Utils;
+using StarAPI.DTO.Discovery;
 using StarAPI.Models;
+using StarAPI.DataHandling.Discovery;
 
 namespace StarAPI.Logic.Mappers
 {

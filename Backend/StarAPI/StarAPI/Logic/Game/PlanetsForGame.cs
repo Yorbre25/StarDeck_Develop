@@ -1,10 +1,10 @@
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.ModelHandling;
-using StarAPI.DTOs;
+using StarAPI.DataHandling.Discovery;
+using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 
-namespace StarAPI.Logic.GameLogic;
+namespace StarAPI.Logic.Game;
 
 public class PlanetsForGame
 {

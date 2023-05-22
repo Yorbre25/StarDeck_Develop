@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Logic.Utils;
+using StarAPI.DTO.Discovery;
 using StarAPI.Context;
-using StarAPI.Logic.ModelHandling;
-using StarAPI.DTOs;
+using StarAPI.DataHandling.Discovery;
 
 namespace StarAPI.Controllers
 {

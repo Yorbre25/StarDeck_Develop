@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
-using StarAPI.Models;
-using StarAPI.Logic.GameLogic;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DTO.Game;
+using StarAPI.DataHandling.Game;
 
 namespace StarAPI.Controllers
 {

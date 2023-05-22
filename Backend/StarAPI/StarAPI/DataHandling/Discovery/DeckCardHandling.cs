@@ -1,10 +1,9 @@
 using StarAPI.Models;
-using StarAPI.DTOs;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
-using StarAPI.DTOs;
+using StarAPI.DTO.Discovery;
 
-namespace StarAPI.Logic.ModelHandling;
+namespace StarAPI.DataHandling.Discovery;
 
 public class DeckCardHandling
 {
