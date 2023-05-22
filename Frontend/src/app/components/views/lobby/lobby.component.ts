@@ -31,6 +31,7 @@ export class LobbyComponent implements OnInit{
   showPopup=true;
   allplayers!:AccountInt[];
   Ammount ?:number;
+  InitAmountCards:number=18;
 
   options = this._formBuilder.group({
     bottom: 0,
@@ -59,14 +60,14 @@ export class LobbyComponent implements OnInit{
   findGame(){
     const uuid = uuidv4();
     console.log(uuid);
-    this.router.navigate(['/searching']);
+    this.router.navigate(['/match/choose_deck', uuid]);
   }
     
   ngOnInit(): void {
     this.cardService.getAmCards(this.logs.getid()).subscribe((data)=>{
       console.log("Card Amount")
       console.log(data)
-      if(data<18){
+      if(data<this.InitAmountCards){
         this.showPopup=true
         this.openDialog() 
       }

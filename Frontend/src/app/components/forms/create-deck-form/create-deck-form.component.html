@@ -7,7 +7,7 @@
             <input [formControl]="deckName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
                 placeholder="Nyan Cat" required>
             <br>
-            <mat-error *ngIf="deckName.invalid  && fault">{{getErrMessage(deckName)}}</mat-error>
+            <mat-error *ngIf="(deckName.invalid  && fault)|| deckNameFault">{{getErrMessage(deckName)}}</mat-error>
             <br>
         </div>
 

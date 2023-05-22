@@ -48,7 +48,7 @@ export class LoginFormComponent implements OnInit {
             let allPlayers=data
             if(this.playerPassword.value!=null && this.mail.value!=null){
               this.loginService.setcorreo(this.mail.value)
-              let ID=this.loginService.getPlayerID(this.mail.value,allPlayers)
+              let ID=this.loginService.searchPlayerID(this.mail.value,allPlayers)
               if(ID!=null){
                 this.loginService.setid(ID)
                 this.loginService.setloggedinpl("true")

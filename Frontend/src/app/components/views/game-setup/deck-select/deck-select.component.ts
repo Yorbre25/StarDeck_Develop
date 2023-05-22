@@ -3,6 +3,8 @@ import { DeckInterface } from 'src/app/components/interfaces/deck.interface';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { SingleDeckComponent } from 'src/app/components/views/single-deck/single-deck.component';
+import { LoginService } from 'src/app/components/services/login.service';
+import { deckService } from 'src/app/components/services/deck.service';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 @Component({
@@ -14,21 +16,20 @@ export class DeckSelectComponent {
 
   decks!: DeckInterface[];
 
-  constructor(private router: Router, private http: HttpClient, public dialog: MatDialog) {
-
-    //console.log(this.cards)
-  }
+  constructor(private router: Router, private http: HttpClient, public dialog: MatDialog, private deckService:deckService, private loginService:LoginService) {}
 
 
   ngOnInit(): void {
-    //  this.api.getAllCards().subscribe(data => {
-    //  console.log(data)
-    // this.cards = data 
-    // });
+    this.deckService.getAllDecks(this.loginService.getid()).subscribe(data => {
+      console.log(data)
+      this.decks = data 
+     });
+    /** 
     this.http.get('assets/samples/sampleDecks.json').subscribe((data: any) => {
       console.log(data);
       this.decks = data
     });
+    */
   }
 
   deckSelected(deck: DeckInterface){
@@ -45,8 +46,7 @@ export class DeckSelectComponent {
      */
 
     const uuid = uuidv4();
-    console.log(uuid);
-    this.router.navigate(['/match', uuid]);
-   
+    console.log(uuid); 
+    this.router.navigate(['/searching']);   
   }
 }

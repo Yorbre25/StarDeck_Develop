@@ -122,7 +122,7 @@ export class SignUpFormComponent implements OnInit {
             this.loginService.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
           }
           this.loginService.getAllPlayers().subscribe((data)=>{
-            this.user.id=this.loginService.getPlayerID(this.user.email,data)  
+            this.user.id=this.loginService.searchPlayerID(this.user.email,data)  
             this.cardService.assignPlayerInitialCards(this.user.id).subscribe((response)=>{
               console.log(response)
               if(this.user.id!=null){

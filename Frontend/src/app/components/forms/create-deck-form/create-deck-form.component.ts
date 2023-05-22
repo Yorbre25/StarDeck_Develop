@@ -64,8 +64,9 @@ export class CreateDeckFormComponent {
         return "No se cumple con el número mínimo de caracteres"
       } else if (component.hasError('maxlength')) {
         return "Se ha excedido el número de caracteres."
-      }
-      else {
+      } else if (this.deckNameFault){
+        return "Usted ya tiene un deck con este nombre"
+      }else {
         return ""
       }
     } else {
@@ -111,7 +112,10 @@ export class CreateDeckFormComponent {
             this.deck.name=this.deckName.value
             this.deckService.addDeck(this.LoginS.getid(),this.deck.name,this.SCard.getcardList()).subscribe((response)=>{
               this.router.navigate(['/decks']);
-            })
+            },(error)=>{
+              console.log(error)
+              this.deckNameFault=true
+            });
           }          
          }
       }
