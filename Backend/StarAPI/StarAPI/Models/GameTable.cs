@@ -6,9 +6,9 @@ namespace StarAPI.Models
     public class GameTable
     {
         [Key]
-        public string id { get; set; }
-        public string planet1Id { get; set; }
-        public string planet2Id { get; set; }
-        public string planet3Id { get; set; }
+        public string gameId { get; set; }
+        public string planetId { get; set; }
+        public string playerId { get; set; }
+        public string cardId { get; set; }
     }
 }

@@ -34,7 +34,6 @@ public class GameMapper
         OutputSetupValues outputSetupValues = new OutputSetupValues
         {
             id = game.id,
-            gameTableId = game.gameTableId,
             totalTurns = game.maxTurns,
             timePerTurn = game.timePerTurn,
             currentTurn = game.turn,
@@ -48,7 +47,7 @@ public class GameMapper
         return outputSetupValues;
     }
 
-    public StarAPI.Models.Game FillNewGame(SetUpValues setUpValues, string gameId, string gameTableId)
+    public StarAPI.Models.Game FillNewGame(SetUpValues setUpValues, string gameId)
     {
         StarAPI.Models.Game newGame = new StarAPI.Models.Game
         {
@@ -58,8 +57,7 @@ public class GameMapper
             player2Id = setUpValues.player2Id,
             maxTurns = s_maxTurns,
             timePerTurn = s_timePerTurn,
-            turn = 0,
-            gameTableId = gameTableId
+            turn = 0
         };
         return newGame;
     }

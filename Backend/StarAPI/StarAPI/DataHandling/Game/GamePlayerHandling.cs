@@ -24,13 +24,14 @@ public class GamePlayerHandling
         this._handHandling = new HandHandling(_context);
     }
 
-    public void AddPlayer(string playerId, string deckId)
+    public void SetupPlayer(string playerId, string deckId, string gameId)
     {   
         IsPlayerAvailable(playerId);
-        _gameDeckCardHandling.AddDeck(playerId, deckId);
+        _gameDeckCardHandling.SetupDeck(playerId, deckId, gameId);
         Game_Player newGamePlayer = new Game_Player();
         newGamePlayer.playerId = playerId;
         newGamePlayer.deckId = deckId;
+        newGamePlayer.gameId = gameId;
         _context.Game_Player.Add(newGamePlayer);
         _context.SaveChanges();
     }
@@ -43,19 +44,6 @@ public class GamePlayerHandling
             throw new ArgumentException("Player is currently in game");
         }
     }
-
-    private string GenerateId()
-    {
-        string id = "";
-        bool alreadyExists = true;
-        while (alreadyExists)
-        {
-            id = _idGenerator.GenerateId(s_idPrefix);
-            alreadyExists = IdAlreadyExists(id);
-        }
-        return id;
-    }
-
     private bool IdAlreadyExists(string id)
     {
         Game_Player? gamePlayer;
@@ -65,27 +53,6 @@ public class GamePlayerHandling
         }
         return true;
     }
-
-    internal void EndGame(string[] gamePlayerIds)
-    {
-        EndPlayers(gamePlayerIds);
-        // _gameDeckCardHandling.EndGame();
-    }
-
-    private void EndPlayers(string[] gamePlayerIds)
-    {
-        Game_Player gamePlayer = GetGamePlayer(gamePlayerIds[0]);
-
-        string deckId = gamePlayer.deckId;
-        _gameDeckCardHandling.EndGame(deckId);
-
-        gamePlayer = GetGamePlayer(gamePlayerIds[1]);
-        deckId = gamePlayer.deckId;
-        _gameDeckCardHandling.EndGame(deckId);
-        _context.SaveChanges();
-    }
-
-
 
     public Game_Player GetGamePlayer(string playerId)
     {
@@ -105,27 +72,34 @@ public class GamePlayerHandling
         return gamePlayer;
     }
 
-    internal void SetupHands(string gameId, string playerId)
+    internal void SetupHand(string gameId, string playerId)
     {
-       _handHandling.SetupHand(playerId);
+       _handHandling.SetupHand(gameId, playerId);
     }
 
-    internal void Delete(string playerId)
-    // internal List<Hand_Card> Delete(string playerId)
+    internal void EndGame(string gameId)
     {
-        Game_Player gamePlayer = GetGamePlayer(playerId);
-        DeleteGamePlayer(gamePlayer);
-        _handHandling.Delete(playerId);
-        _gameDeckCardHandling.Delete(gamePlayer.deckId);
+        DeleteGamePlayers(gameId);
+        _handHandling.EndGame(gameId);
+        _gameDeckCardHandling.EndGame(gameId);
     }
 
-    private void DeleteGamePlayer(Game_Player gamePlayer)
+    private void DeleteGamePlayers(string gameId)
     {
-        _context.Game_Player.Remove(gamePlayer);
+        _gameDeckCardHandling.EndGame(gameId);
+        List<Game_Player> gamePlayers = _context.Game_Player.Where(gp => gp.gameId == gameId).ToList();
+        _context.RemoveRange(gamePlayers);
+
+        _context.SaveChanges();
     }
 
     internal List<OutputCard> GetHandCards(string gameId, string playerId)
     {
         return _handHandling.GetHandCardsByPlayerId(playerId);
+    }
+
+    internal OutputCard DrawCard(string gameId, string playerId)
+    {
+        return _handHandling.DrawCard(gameId, playerId);
     }
 }

@@ -105,53 +105,47 @@ CREATE TABLE Match_Player(
 	PRIMARY KEY (id)
 )
 
--- CREATE TABLE Game_Planets(
--- 	gameId VARCHAR(15) NOT NULL,
--- 	planetId VARCHAR(15) NOT NULL,
--- )
-
 CREATE TABLE GameTable(
-	id VARCHAR(15),
-	planet1Id VARCHAR(15),
-	planet2Id VARCHAR(15),
-	planet3Id VARCHAR(15),
+	gameId VARCHAR(15),
+	planetId VARCHAR(15),
+	playerId VARCHAR(15),
+	cardId VARCHAR(15),
 	PRIMARY KEY (id)
+)
+
+CREATE TABLE Game_Planet(
+	gameId VARCHAR(15),
+	planetId VARCHAR(15),
+	show VARCHAR(15),
+	PRIMARY KEY (gameId, planetId)
 )
 
 CREATE TABLE Game_Player(
 	playerId VARCHAR(15) NOT NULL,
 	deckId VARCHAR(15) NULL,
-	-- handId VARCHAR(15) NULL,
+	gameId VARCHAR(15) NOT NULL,
 	PRIMARY KEY (playerId)
 )
 
 CREATE TABLE Game_Deck(
+	id int IDENTITY(1,1),
 	playerId VARCHAR(15) NOT NULL,
-	deckId VARCHAR(15) NOT NULL,
-	PRIMARY KEY (playerId, deckId)
-)
-
-CREATE Table Game_Deck_Card(
-	deckId VARCHAR(15) NOT NULL,
+	gameId VARCHAR(15) NOT NULL,
 	cardId VARCHAR(15) NOT NULL,
-	PRIMARY KEY (deckId, cardId)
-)
-
-CREATE Table Hand(
-	id VARCHAR(15) NOT NULL,
-	playerId  VARCHAR(15) NOT NULL,
 	PRIMARY KEY (id)
 )
 
-CREATE TABLE Hand_Card(
-	handId VARCHAR(15) NOT NULL,
+
+CREATE Table Hand(
+	id int IDENTITY(1,1),
+	playerId  VARCHAR(15) NOT NULL,
+	gameId VARCHAR(15) NOT NULL,
 	cardId VARCHAR(15) NOT NULL,
-	PRIMARY Key (handId, cardId)
+	-- PRIMARY KEY (playerId, cardId)
 )
 
 CREATE TABLE Game(
 	id VARCHAR(15) NOT NULL,
-	gameTableId VARCHAR(15) NOT NULL,
 	maxTurns INT NOT NULL,
 	timePerTurn int NOT NULL,
 	turn int NOT NULL,
@@ -253,30 +247,19 @@ ADD CONSTRAINT fk_Game_PlayerDeck
 FOREIGN KEY (DeckId)
 REFERENCES Deck(id);
 
-ALTER TABLE Game_Deck_Card
-ADD CONSTRAINT fk_Game_Deck_Card_Deck	
-FOREIGN KEY (deckId)
-REFERENCES Deck(id)
-
-ALTER TABLE Game_Deck_Card
-ADD CONSTRAINT fk_Game_Deck_Card
-FOREIGN KEY (cardId)
-REFERENCES Card(id)
-
 ALTER TABLE Hand
 ADD CONSTRAINT fk_Hand_Player
 FOREIGN KEY (playerId)
 REFERENCES Player(id)
 
-ALTER TABLE Hand_Card
-ADD CONSTRAINT fk_Hand_Card_Card
+ALTER TABLE Hand
+ADD CONSTRAINT fk_Hand_Card
 FOREIGN KEY (cardId)
 REFERENCES Card(id)
 
-ALTER TABLE Hand_Card
-ADD CONSTRAINT fk_Hand_Card_Hand
-FOREIGN KEY (handId)
-REFERENCES Hand(id)
+-- ALTER TABLE Hand
+-- ADD CONSTRAINT fk_Hand_Game
+-- FOREIGN KEY (gameId)
 
 ALTER TABLE Game_Deck
 ADD CONSTRAINT fk_Game_Deck_Player
@@ -284,27 +267,25 @@ FOREIGN KEY (playerId)
 REFERENCES Player(id)
 
 ALTER TABLE Game_Deck
-ADD CONSTRAINT fk_Game_Deck_Deck
-FOREIGN KEY (deckId)
-REFERENCES Deck(id)
+ADD CONSTRAINT fk_Game_Deck_Card
+FOREIGN KEY (cardId)
+REFERENCES Card(id)
 
--- ALTER TABLE Game_Planets
--- ADD CONSTRAINT fk_Game_Planet
+
+-- ALTER TABLE Game_Deck
+-- ADD CONSTRAINT fk_Game_Deck_Game
 -- FOREIGN KEY (gameId)
--- REFERENCES Game(id);
+-- REFERENCES Game(id)
 
--- ALTER TABLE Game_Planets
--- ADD CONSTRAINT fk_Planet_Game
--- FOREIGN KEY (planetId)
--- REFERENCES Planet(id);
+-- ALTER TABLE Game_Planet
+-- ADD CONSTRAINT fk_Game_Planet_Game
+-- FOREIGN KEY (gameId)
+-- REFERENCES Game(id)
 
--- ALTER TABLE Game
--- ADD CONSTRAINT fk_Player1_Game
--- FOREIGN KEY (player1Id)
--- REFERENCES Player(id);
+ALTER TABLE Game_Planet
+ADD CONSTRAINT fk_Game_Planet_Planet
+FOREIGN KEY (planetId)
+REFERENCES Planet(id)
 
--- ALTER TABLE Game
--- ADD CONSTRAINT fk_Player2_Game
--- FOREIGN KEY (player2Id)
--- REFERENCES Player(id);
+
 
