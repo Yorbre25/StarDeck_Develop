@@ -30,16 +30,16 @@ public class GameTableMapper
 
   
 
-    public GameTable FillNewGameTable(string[] planetsIds)
-    {
-        GameTable newGameTable = new GameTable
-        {
-            planet1Id = planetsIds[0],
-            planet2Id = planetsIds[1],
-            planet3Id = planetsIds[2]
-        };
-        return newGameTable;
-    }
+    // public GameTable FillNewGameTable(string[] planetsIds)
+    // {
+    //     GameTable newGameTable = new GameTable
+    //     {
+    //         planet1Id = planetsIds[0],
+    //         planet2Id = planetsIds[1],
+    //         planet3Id = planetsIds[2]
+    //     };
+    //     return newGameTable;
+    // }
 
 
 }
