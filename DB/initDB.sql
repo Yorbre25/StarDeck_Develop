@@ -38,7 +38,7 @@ CREATE TABLE Image(
 CREATE TABLE Card (
     id VARCHAR(15) NOT NULL,
     name VARCHAR(30) NOT NULL,
-    energy INT NOT NULL,
+    energy INT NOT NULL, --Esto debería ser battlePoints, no?
     cost INT NOT NULL,
     typeId INT NOT NULL,
     raceId INT NOT NULL,
@@ -106,11 +106,13 @@ CREATE TABLE Match_Player(
 )
 
 CREATE TABLE GameTable(
+	id int IDENTITY(1,1),
 	gameId VARCHAR(15),
 	planetId VARCHAR(15),
 	playerId VARCHAR(15),
 	cardId VARCHAR(15),
-	PRIMARY KEY (gameId, planetId, playerId, cardId)
+	battlePoints int,
+	PRIMARY KEY (id)
 )
 
 CREATE TABLE Game_Planet(
@@ -121,9 +123,11 @@ CREATE TABLE Game_Planet(
 )
 
 CREATE TABLE Game_Player(
+	gameId VARCHAR(15) NOT NULL,
 	playerId VARCHAR(15) NOT NULL,
 	deckId VARCHAR(15) NULL,
-	gameId VARCHAR(15) NOT NULL,
+	cardPoints int NOT NULL DEFAULT 5,
+	maxCardPoints int NOT NULL DEFAULT 5,
 	PRIMARY KEY (playerId)
 )
 
@@ -230,12 +234,12 @@ REFERENCES Deck(id);
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_Game_Player1
 FOREIGN KEY (player1Id)
-REFERENCES Game_Player(playerId);
+REFERENCES Player(id);
 
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_Game_Player2
 FOREIGN KEY (player2Id)
-REFERENCES Game_Player(playerId);
+REFERENCES Player(id);
 
 ALTER TABLE Game_Player
 ADD CONSTRAINT fk_Game_PlayerDeck

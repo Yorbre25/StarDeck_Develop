@@ -30,24 +30,11 @@ public class GameHandling
         this._gameMapper = new GameMapper(_context);
     }
 
-    public OutputSetupValues SetUpGame(SetUpValues setUpValues)
+    public OutputSetupValues SetUpGame(SetupValues setupValues)
     {
-        try
-        {
-            return SettingupGame(setUpValues);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-
-    }
-
-    public OutputSetupValues SettingupGame(SetUpValues setupValues)
-    {   
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
-        string gameId = _idGenerator.GenerateId(s_idPrefix);
+        string gameId = GenerateId();
         _gameTableHandling.SetupTable(gameId);
         SetupPlayers(setupValues, gameId);
         
@@ -57,7 +44,7 @@ public class GameHandling
     }
 
 
-    private void SetupPlayers(SetUpValues setupValues, string gameId)
+    private void SetupPlayers(SetupValues setupValues, string gameId)
     {
         string player1Id = setupValues.player1Id;
         string player1DeckId = setupValues.player1DeckId;
@@ -73,37 +60,15 @@ public class GameHandling
         _context.SaveChanges();
     }
 
+    public List<OutputPlanet> GetPlanets(string gameId)
+    {
+        return _gameTableHandling.GetGamePlanets(gameId);
+    }
+
     private void DeleteGame(StarAPI.Models.Game game)
     {
         _context.Game.Remove(game);
     }
-
-
-    public List<OutputPlanet> GetPlanets(string gameId)
-    {
-        List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameId);
-        return gamePlanets;
-    }
-
-
-    public StarAPI.Models.Game GetGame(string gameId)
-    {
-        try
-        {
-            return GettingGame(gameId);
-        }
-        catch (System.Exception e)
-        {
-            throw new ArgumentException(e.Message);
-        }
-    }
-
-    private StarAPI.Models.Game GettingGame(string gameId)
-    {
-        StarAPI.Models.Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        return game;
-    }
-
     private string GenerateId()
     {
         string id = "";
@@ -130,29 +95,16 @@ public class GameHandling
 
     public void EndGame(string gameId)
     {
-        try
-        {
-            EndingGame(gameId);
-        }
-        catch (System.Exception e)
-        {
-            throw new ArgumentException(e.Message);
-        }
-    }
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
 
-    internal void EndingGame(string gameId)
-    {
-        StarAPI.Models.Game game = GetGame(gameId);
-
-        DeleteGame(game);
+        _context.Game.Remove(game);
         _gameTableHandling.EndGame(gameId);
         _gamePlayerHandling.EndGame(gameId);
         _context.SaveChanges();
     }
-
     internal void SetupHands(string gameId)
     {
-        var game = GetGame(gameId);
+        var game = _context.Game.FirstOrDefault(g => g.id == gameId);
         string player1Id = game.player1Id;
         string player2Id = game.player2Id;
         _gamePlayerHandling.SetupHand(gameId, player1Id);
@@ -167,5 +119,13 @@ public class GameHandling
     internal OutputCard DrawCard(string gameId, string playerId)
     {
         return _gamePlayerHandling.DrawCard(gameId, playerId);
+    }
+
+    internal void PlaceCard(InputPlaceCard inputPlaceCard)
+    {
+        string playerId = inputPlaceCard.playerId;
+        string cardId = inputPlaceCard.cardId;
+        _gameTableHandling.PlaceCard(inputPlaceCard);
+        _gamePlayerHandling.RemoveCardFromHand(playerId, cardId);
     }
 }

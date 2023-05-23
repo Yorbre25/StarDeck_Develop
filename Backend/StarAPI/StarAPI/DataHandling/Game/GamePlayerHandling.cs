@@ -3,6 +3,7 @@ using StarAPI.Context;
 using StarAPI.Logic.Game;
 using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.DataHandling.Game;
 
@@ -10,6 +11,7 @@ public class GamePlayerHandling
 {
     private readonly StarDeckContext _context;
     private GameDeckCardHandling _gameDeckCardHandling;
+    private GamePlayerMapper _gamePlayerMapper;
 
     private HandHandling _handHandling;
     private IdGenerator _idGenerator = new IdGenerator();
@@ -22,16 +24,14 @@ public class GamePlayerHandling
         this._context = context;
         this._gameDeckCardHandling = new GameDeckCardHandling(_context);
         this._handHandling = new HandHandling(_context);
+        this._gamePlayerMapper = new GamePlayerMapper(_context);
     }
 
     public void SetupPlayer(string playerId, string deckId, string gameId)
     {   
         IsPlayerAvailable(playerId);
         _gameDeckCardHandling.SetupDeck(playerId, deckId, gameId);
-        Game_Player newGamePlayer = new Game_Player();
-        newGamePlayer.playerId = playerId;
-        newGamePlayer.deckId = deckId;
-        newGamePlayer.gameId = gameId;
+        Game_Player newGamePlayer = _gamePlayerMapper.FillNewGamePlayer(gameId, playerId, deckId);
         _context.Game_Player.Add(newGamePlayer);
         _context.SaveChanges();
     }
@@ -101,5 +101,10 @@ public class GamePlayerHandling
     internal OutputCard DrawCard(string gameId, string playerId)
     {
         return _handHandling.DrawCard(gameId, playerId);
+    }
+
+    internal void RemoveCardFromHand(string playerId, string cardId)
+    {
+        _handHandling.RemoveCardFromHand(playerId, cardId);
     }
 }

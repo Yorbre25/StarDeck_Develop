@@ -2,7 +2,7 @@
 namespace StarAPI.DTO.Game
 {
 
-    public class SetUpValues
+    public class SetupValues
     {
         public string player1Id { get; set; }
         public string player2Id { get; set; }

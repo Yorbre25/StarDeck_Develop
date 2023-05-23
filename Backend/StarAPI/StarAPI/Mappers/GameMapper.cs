@@ -47,7 +47,7 @@ public class GameMapper
         return outputSetupValues;
     }
 
-    public StarAPI.Models.Game FillNewGame(SetUpValues setUpValues, string gameId)
+    public StarAPI.Models.Game FillNewGame(SetupValues setUpValues, string gameId)
     {
         StarAPI.Models.Game newGame = new StarAPI.Models.Game
         {

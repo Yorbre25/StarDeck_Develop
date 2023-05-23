@@ -29,6 +29,11 @@ public class Const
     public const string BasicPlanetType = "Basico";
     public const string RarePlanetType = "Raro";
     public const int PlanetsPerGame = 3;
+    
+    //Game
+    public const int CardsPerPlanet = 5;
+    public const int InitialCardPoints = 5;
+    
 
-
+    
 }
