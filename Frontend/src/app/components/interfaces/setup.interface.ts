@@ -6,9 +6,8 @@ export interface SetUpInterface{
     currentTurn:number|null;
     player1Id:string|null;
     player2Id:string|null;
-    usernamePlayer1:string|null;
-    usernamePlayer2:string|null;
+    userNamePlayer1:string|null;
+    userNamePlayer2:string|null;
     deckNamePlayer1:string|null;
-    decknamePlayer2:string|null;
-    
+    deckNamePlayer2:string|null;
 }
