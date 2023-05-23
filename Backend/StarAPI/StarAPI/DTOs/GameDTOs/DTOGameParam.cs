@@ -14,7 +14,6 @@ namespace StarAPI.DTO.Game
     public class OutputSetupValues
     {
             public string id { get; set; }
-            public string gameTableId { get; set; }
             public int totalTurns { get; set; }
             public int timePerTurn { get; set; }
             public int currentTurn { get; set; }

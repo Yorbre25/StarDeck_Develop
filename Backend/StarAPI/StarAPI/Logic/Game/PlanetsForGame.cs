@@ -86,13 +86,6 @@ public class PlanetsForGame
         return randomPlanets;
     }
 
-    // *El show se debe almacenar en la DB, si no no se guarda
-    // private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
-    // {
-    //     _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
-    //     return planetsForNewGame;
-    // }
-
     private void EnoughtPlanets(int numPlanets)
     {
         if(numPlanets < s_numberOfPlanets)

@@ -110,13 +110,13 @@ CREATE TABLE GameTable(
 	planetId VARCHAR(15),
 	playerId VARCHAR(15),
 	cardId VARCHAR(15),
-	PRIMARY KEY (id)
+	PRIMARY KEY (gameId, planetId, playerId, cardId)
 )
 
 CREATE TABLE Game_Planet(
 	gameId VARCHAR(15),
 	planetId VARCHAR(15),
-	show VARCHAR(15),
+	show BIT NOT NULL DEFAULT 1,
 	PRIMARY KEY (gameId, planetId)
 )
 
@@ -226,11 +226,6 @@ ALTER TABLE Match_Player
 ADD CONSTRAINT fk_Deck_Match
 FOREIGN KEY (deckId)
 REFERENCES Deck(id);
-
-ALTER TABLE Game
-ADD CONSTRAINT fk_Game_GameTable
-FOREIGN KEY (gameTableId)
-REFERENCES GameTable(id);
 
 ALTER TABLE Game
 ADD CONSTRAINT fk_Game_Game_Player1

@@ -41,8 +41,10 @@ public class GameTableHandling
             planet.gameId = gameId;
             planet.planetId = planetsId[i];
             planet.show = true;
+            planets.Add(planet);
         }
         SetHiddenPlanet(planets);
+        _context.Game_Planet.AddRange(planets);
     }
 
     private void SetHiddenPlanet(List<Game_Planet> planets)
@@ -80,12 +82,15 @@ public class GameTableHandling
 
     private List<OutputPlanet> GettingGamePlanets(string gameId)
     {
-        string[] planetIds = _context.Game_Planet.Where(gp => gp.gameId == gameId).Select(gp => gp.planetId).ToArray();
+        List<Game_Planet> gamePlanets = _context.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
         List<OutputPlanet> listPlanets = new List<OutputPlanet>();
 
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[0]));
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[1]));
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[2]));
+        foreach (Game_Planet gamePlanet in gamePlanets)
+        {
+            OutputPlanet planet = _planetHandling.GetPlanet(gamePlanet.planetId);
+            planet.show = gamePlanet.show;
+            listPlanets.Add(planet);
+        }
 
         return listPlanets;
     }
