@@ -2,8 +2,9 @@
     <label class="title-text"> {{currentUserName}} vs {{opponentName}}: Apuesta: {{bet}} monedas, Turno: {{turn}}/{{totalTurns}}, Tiempo restante: {{timeRemaining}}s</label>
     <div class="flex-container">
         <app-multiple-planet-cards [planets]="planets"></app-multiple-planet-cards>
+        <label class="title-text">Using deck: {{deckname}}</label>
         <div class="flex">
-            <h4 class="deck-text"><p>Deck Name</p><p>{{remainingCards}} cartas</p>  </h4>
+            <h4 class="deck-text"><p>Sus cartas:</p><p>{{remainingCards}} cartas</p>  </h4>
             <app-multiple-cards class="cards" [clickable]="true" [cards]="cards"></app-multiple-cards>
             <div class="grid">
                 

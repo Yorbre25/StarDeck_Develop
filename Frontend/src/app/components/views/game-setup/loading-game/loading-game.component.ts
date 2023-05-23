@@ -4,6 +4,7 @@ import { MatchNotFoundComponent } from 'src/app/components/pop-ups/match-not-fou
 import { MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
+import { gameService } from 'src/app/components/services/Game.service';
 @Component({
   selector: 'app-loading-game',
   templateUrl: './loading-game.component.html',
@@ -15,7 +16,7 @@ export class LoadingGameComponent {
   timeExpired: boolean = false;
   showPopUp: boolean = false;
 
-  constructor(private router: Router, public dialog: MatDialog) {
+  constructor(private router: Router, public dialog: MatDialog,protected gameService:gameService) {
   }
 
   ngOnInit() {
@@ -23,7 +24,7 @@ export class LoadingGameComponent {
       this.remainingTime--;
       if (this.remainingTime == 0) {
         this.timeExpired = true;
-       // this.openPopup() // esto esta desactivado para poder hacer pruebas 
+        //this.openPopup() // esto esta desactivado para poder hacer pruebas 
       }
     }, 1000);
   }
@@ -45,9 +46,16 @@ export class LoadingGameComponent {
      * 
      */
     
+    console.log("Before")
+    this.gameService.setgameID("G-s2zty98u4088")
+    console.log("After")
+    this.gameService.SetUpHands().subscribe((data)=>{
+      
+    })
+
     const uuid = uuidv4();
     console.log(uuid);
     this.router.navigate(['/match', uuid]);
-
+  
   }
 }
