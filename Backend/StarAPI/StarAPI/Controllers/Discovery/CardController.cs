@@ -13,14 +13,12 @@ namespace StarAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        // private CardHandling _cardHandling;
-        private CardCrud _cardCrud;
+        private CardCRUD _cardCrud;
 
         public CardController(StarDeckContext context)
         {
             this._context = context;
-            // this._cardHandling = new CardHandling(_context);
-            this._cardCrud = new CardCrud(_context);
+            this._cardCrud = new CardCRUD(_context);
         }
 
 

@@ -80,7 +80,7 @@ public class CardHandling
         return true;
     }
 
-    public List<OutputCard> GetCardsWith(string cardTypeName)
+    public List<OutputCard> GetCardsByType(string cardTypeName)
     {
         List<OutputCard> allCards = GetAllCards();
         List<OutputCard> specificCards;

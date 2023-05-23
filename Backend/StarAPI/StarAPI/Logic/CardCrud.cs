@@ -9,12 +9,12 @@ using StarAPI.Constants;
 namespace StarAPI.Logic;
 
 
-public class CardCrud
+public class CardCRUD
 {
 
     private CardHandling _cardHandling;
 
-    public CardCrud(StarDeckContext context)
+    public CardCRUD(StarDeckContext context)
     {
         this._cardHandling = new CardHandling(context);
     }
@@ -40,6 +40,18 @@ public class CardCrud
         catch (System.Exception)
         {
             throw new ArgumentException("Invalid id");
+        }
+    }
+
+    public List<OutputCard> GetCardsByType(string cardType)
+    {
+        try
+        {
+            return _cardHandling.GetCardsByType(cardType);
+        }
+        catch (System.Exception)
+        {
+            throw new Exception("Error getting cards by type");
         }
     }
 

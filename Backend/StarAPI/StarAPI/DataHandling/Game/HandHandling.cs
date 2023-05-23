@@ -4,6 +4,8 @@ using StarAPI.Logic.Utils;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.DTO.Discovery;
 using StarAPI.Constants;
+using StarAPI.Logic;
+
 namespace StarAPI.DataHandling.Game;
 
 public class HandHandling
@@ -13,7 +15,7 @@ public class HandHandling
     private GameDeckCardHandling _gameDeckCardHandling;
     private IdGenerator _idGenerator = new IdGenerator();
     private DeckHandling _deckHandling;
-    private CardHandling _cardHandling;
+    private CardCRUD _cardCRUD;
     private const string IdPrefix = "H";
 
 
@@ -23,7 +25,7 @@ public class HandHandling
         this._deckCardHandling = new DeckCardHandling(_context);
         this._gameDeckCardHandling = new GameDeckCardHandling(_context);
         this._deckHandling = new DeckHandling(_context);
-        this._cardHandling = new CardHandling(_context);
+        this._cardCRUD = new CardCRUD(_context);
     }
 
     public void SetupHand(string gameId, string playerId)
@@ -102,7 +104,7 @@ public class HandHandling
         };
         _context.Hand.Add(newHandCard);
         _context.SaveChanges();
-        return _cardHandling.GetCard(cardId);
+        return _cardCRUD.GetCard(cardId);
     }
 
     internal void CreateHand(string gameId, string playerId)

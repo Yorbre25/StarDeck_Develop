@@ -5,13 +5,14 @@ using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Mappers;
+using StarAPI.Logic;
 
 namespace StarAPI.DataHandling.Game;
 
 public class GameTableHandling
 {
     private readonly StarDeckContext _context;
-    private PlanetHandling _planetHandling;
+    private PlanetCRUD _planetCRUD;
     private PlanetsForGame _planetsForGame;
     private IdGenerator _idGenerator = new IdGenerator();
     private GameTableMapper _gameTableMapper;
@@ -25,7 +26,7 @@ public class GameTableHandling
     {
         this._context = context;
         this._planetsForGame = new PlanetsForGame(_context);
-        this._planetHandling = new PlanetHandling(_context);
+        this._planetCRUD = new PlanetCRUD(_context);
         this._gameTableMapper = new GameTableMapper(_context);
     }
 
@@ -87,7 +88,7 @@ public class GameTableHandling
 
         foreach (Game_Planet gamePlanet in gamePlanets)
         {
-            OutputPlanet planet = _planetHandling.GetPlanet(gamePlanet.planetId);
+            OutputPlanet planet = _planetCRUD.GetPlanet(gamePlanet.planetId);
             planet.show = gamePlanet.show;
             listPlanets.Add(planet);
         }

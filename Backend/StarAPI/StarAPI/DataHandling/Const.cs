@@ -23,4 +23,12 @@ public class Const
     public const int MaxEnergyValue = 100;
     public const int MinBattleCost = 0;
     public const int MaxBattleCost = 100;
+
+    //Planet
+    public const string PopularPlanetType = "Popular";
+    public const string BasicPlanetType = "Basico";
+    public const string RarePlanetType = "Raro";
+    public const int PlanetsPerGame = 3;
+
+
 }
