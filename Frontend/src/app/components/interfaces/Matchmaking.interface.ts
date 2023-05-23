@@ -1,2 +1,1 @@
-export interface MatchInterface{
-}
+export interface MatchInterface{}
