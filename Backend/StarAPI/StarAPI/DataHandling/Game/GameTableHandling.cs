@@ -5,13 +5,14 @@ using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Mappers;
+using StarAPI.Logic;
 
 namespace StarAPI.DataHandling.Game;
 
 public class GameTableHandling
 {
     private readonly StarDeckContext _context;
-    private PlanetHandling _planetHandling;
+    private PlanetCRUD _planetCRUD;
     private PlanetsForGame _planetsForGame;
     private IdGenerator _idGenerator = new IdGenerator();
     private GameTableMapper _gameTableMapper;
@@ -25,47 +26,33 @@ public class GameTableHandling
     {
         this._context = context;
         this._planetsForGame = new PlanetsForGame(_context);
-        this._planetHandling = new PlanetHandling(_context);
+        this._planetCRUD = new PlanetCRUD(_context);
         this._gameTableMapper = new GameTableMapper(_context);
     }
 
     //Creates a new game table for the game
     // and returns the id of the game table
-    public string SetupTable()
+    public void SetupTable(string gameId)
     {
-        string id = GenerateId();
+        List<Game_Planet> planets = new List<Game_Planet>();
         string[] planetsId = SetupPlanets();
-        GameTable newGameTable = _gameTableMapper.FillNewGameTable(planetsId);
-        newGameTable.id = id;
-        AddGameTable(newGameTable);
-        return id;
-    }
-
-    private void AddGameTable(GameTable newGameTable)
-    {
-        _context.GameTable.Add(newGameTable);
-    }
-
-    private string GenerateId()
-    {
-        string id = "";
-        bool alreadyExists = true;
-        while (alreadyExists)
+        for (int i = 0; i < planetsId.Length; i++)
         {
-            id = _idGenerator.GenerateId(s_idPrefix);
-            alreadyExists = IdAlreadyExists(id);
+            Game_Planet planet = new Game_Planet();
+            planet.gameId = gameId;
+            planet.planetId = planetsId[i];
+            planet.show = true;
+            planets.Add(planet);
         }
-        return id;
+        SetHiddenPlanet(planets);
+        _context.Game_Planet.AddRange(planets);
     }
 
-    private bool IdAlreadyExists(string id)
+    private void SetHiddenPlanet(List<Game_Planet> planets)
     {
-        GameTable? gameTable = new GameTable();
-        gameTable = _context.GameTable.FirstOrDefault(c => c.id == id);
-        if(gameTable == null){
-            return false;
-        }
-        return true;
+        //get last planet
+        Game_Planet lastPlanet = planets[planets.Count() - 1];
+        lastPlanet.show = false;
     }
 
     // Generates planets for the game table
@@ -82,11 +69,11 @@ public class GameTableHandling
         return planetIds;
     }
 
-    public List<OutputPlanet> GetGamePlanets(string tableId)
+    public List<OutputPlanet> GetGamePlanets(string gameId)
     {
         try
         {
-            return GettingGamePlanets(tableId);
+            return GettingGamePlanets(gameId);
         }
         catch
         {
@@ -94,58 +81,34 @@ public class GameTableHandling
         }
     }
 
-    private List<OutputPlanet> GettingGamePlanets(string tableId)
+    private List<OutputPlanet> GettingGamePlanets(string gameId)
     {
-        string[] planetIds = new string[planetsPerGame];
+        List<Game_Planet> gamePlanets = _context.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
         List<OutputPlanet> listPlanets = new List<OutputPlanet>();
 
-        GameTable gameTable = GetGameTable(tableId);
-        planetIds[0] = gameTable.planet1Id;
-        planetIds[1] = gameTable.planet2Id;
-        planetIds[2] = gameTable.planet3Id;
-        
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[0]));
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[1]));
-        listPlanets.Add(_planetHandling.GetPlanet(planetIds[2]));
+        foreach (Game_Planet gamePlanet in gamePlanets)
+        {
+            OutputPlanet planet = _planetCRUD.GetPlanet(gamePlanet.planetId);
+            planet.show = gamePlanet.show;
+            listPlanets.Add(planet);
+        }
 
         return listPlanets;
     }
 
-    public GameTable GetGameTable(string tableId)
+    internal void EndGame(string gameId)
     {
-        try
-        {
-            return GettingGameTable(tableId);
-        }
-        catch
-        {
-            throw new Exception("Error getting game table");
-        }
+        DeleteCards(gameId);
+        List<Game_Planet> planets = _context.Game_Planet.Where(gt => gt.gameId == gameId).ToList();
+        _context.Game_Planet.RemoveRange(planets);
     }
 
-    private GameTable GettingGameTable(string tableId)
+    private void DeleteCards(string gameId)
     {
-        return _context.GameTable.FirstOrDefault(c => c.id == tableId);
-    }
-
-    private GameTable AddPlanetsToTable(string tableId, List<OutputPlanet> listPlanets)
-    {
-        string[] planetIds = new string[listPlanets.Count];
-        for (int i = 0; i < listPlanets.Count; i++)
+        List<GameTable> cards = _context.GameTable.Where(gt => gt.gameId == gameId).ToList();
+        if (cards.Count() > 0)
         {
-            planetIds[i] = listPlanets[i].id;
+            _context.GameTable.RemoveRange(cards);
         }
-        GameTable gameTable = GetGameTable(tableId);
-        gameTable.planet1Id = planetIds[0];
-        gameTable.planet2Id = planetIds[1];
-        gameTable.planet3Id = planetIds[2];
-        _context.SaveChanges();
-        return gameTable;
-    }
-
-    internal void Delete(string gameTableId)
-    {
-        GameTable gameTable = GetGameTable(gameTableId);
-        _context.GameTable.Remove(gameTable);
     }
 }

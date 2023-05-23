@@ -1,20 +1,22 @@
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
+using StarAPI.Logic.Utils;
 
 namespace StarAPI.Logic;
 
     public class NewPlayerCardGenerator
     {
-        private CardHandling _cardHandling;
+        private CardCRUD _cardCRUD;
         private PlayerHandling _playerHandling;
         private PlayerCardHandling _playerCardHandling;
+        private RandomTools _randomTools = new RandomTools();
         private static int s_numOfCardsToAssign = 15;
         private static string s_typeOfCardToAssign = "Básica";
 
     public NewPlayerCardGenerator(StarDeckContext _context)
     {
-        this._cardHandling = new CardHandling(_context);
+        this._cardCRUD = new CardCRUD(_context);
         this._playerHandling = new PlayerHandling(_context);
         this._playerCardHandling = new PlayerCardHandling(_context);
     }
@@ -37,7 +39,7 @@ namespace StarAPI.Logic;
 
     private List<OutputCard> GetBasicCards()
     {
-        List<OutputCard> basicCards = _cardHandling.GetCardsWith(s_typeOfCardToAssign);
+        List<OutputCard> basicCards = _cardCRUD.GetCardsByType(s_typeOfCardToAssign);
         return basicCards;
     }
 
@@ -56,18 +58,11 @@ namespace StarAPI.Logic;
         List<OutputCard> cardsToAssign = new List<OutputCard>();
         for(var i = 0; i < s_numOfCardsToAssign; i++)
         {
-            OutputCard card = GetRandomCard(basicCards);
+            OutputCard card = _randomTools.GetRandomElement<OutputCard>(basicCards);
             _playerCardHandling.AssignCard(playerId, card.id);
             basicCards.Remove(card);
         }
         return cardsToAssign;
-    }
-
-    public OutputCard GetRandomCard(List<OutputCard> cards)
-    {
-        Random random = new Random();
-        int index = random.Next(cards.Count);
-        return cards[index];
     }
 
 }

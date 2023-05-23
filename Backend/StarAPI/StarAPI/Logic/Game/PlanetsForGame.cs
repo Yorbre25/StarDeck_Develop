@@ -1,32 +1,23 @@
-using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.DataHandling.Discovery;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
+using StarAPI.Constants;
 
 namespace StarAPI.Logic.Game;
 
 public class PlanetsForGame
 {
     private readonly StarDeckContext _context;
-    private PlanetHandling _planetHandler;
+    private PlanetCRUD _planetCRUD;
 
     private RandomTools _randomTools = new RandomTools();
-
-    private static string s_popularPlanetType = "Popular";
-    private static string s_basicPlanetType = "Basico";
-    private static string s_rarePlanetType = "Raro";
-    private static int s_numberOfPlanets = 3;
-
-
 
     public PlanetsForGame(StarDeckContext context)
     {
         this._context = context;
-        this._planetHandler = new PlanetHandling(_context);
+        this._planetCRUD = new PlanetCRUD(_context);
     }
 
-    //Top function: try and catch
     public List<OutputPlanet> GetPlanetsForNewGame()
     {
         List<OutputPlanet> planetsForNewGame;
@@ -34,7 +25,6 @@ public class PlanetsForGame
         {
             planetsForNewGame = GenerateRandomPlanets();
             return planetsForNewGame;
-            // return SetHiddenPlanet(planetsForNewGame);
         }
         catch (System.Exception)
         {
@@ -44,16 +34,16 @@ public class PlanetsForGame
 
     public List<OutputPlanet> GenerateRandomPlanets()
     {
-        List<OutputPlanet> popularPlanets = _planetHandler.GetPlanetsByType(s_popularPlanetType);
-        List<OutputPlanet> basicPlanets = _planetHandler.GetPlanetsByType(s_basicPlanetType);
-        List<OutputPlanet> rarePlanets = _planetHandler.GetPlanetsByType(s_rarePlanetType);
+        List<OutputPlanet> popularPlanets = _planetCRUD.GetPlanetsByType(Const.PopularPlanetType);
+        List<OutputPlanet> basicPlanets = _planetCRUD.GetPlanetsByType(Const.BasicPlanetType);
+        List<OutputPlanet> rarePlanets = _planetCRUD.GetPlanetsByType(Const.RarePlanetType);
         List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
 
         int numPlanets = popularPlanets.Count() + basicPlanets.Count() + rarePlanets.Count();  
         EnoughtPlanets(numPlanets);
 
         List<OutputPlanet> planetsToAdd = new List<OutputPlanet>();
-        while(outputPlanets.Count() < s_numberOfPlanets)
+        while(outputPlanets.Count() < Const.PlanetsPerGame)
         {
             Random rand = new Random();
             int number = rand.Next(0, 100);
@@ -86,16 +76,9 @@ public class PlanetsForGame
         return randomPlanets;
     }
 
-    // *El show se debe almacenar en la DB, si no no se guarda
-    // private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
-    // {
-    //     _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
-    //     return planetsForNewGame;
-    // }
-
     private void EnoughtPlanets(int numPlanets)
     {
-        if(numPlanets < s_numberOfPlanets)
+        if(numPlanets < Const.PlanetsPerGame)
         {
             throw new Exception("Not enough planets in database");
         }

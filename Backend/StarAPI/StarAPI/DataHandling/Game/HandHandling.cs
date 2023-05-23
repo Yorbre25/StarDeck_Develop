@@ -3,7 +3,8 @@ using StarAPI.Context;
 using StarAPI.Logic.Utils;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.DTO.Discovery;
-using StarAPI.DataHandling.Discovery;
+using StarAPI.Constants;
+using StarAPI.Logic;
 
 namespace StarAPI.DataHandling.Game;
 
@@ -14,8 +15,8 @@ public class HandHandling
     private GameDeckCardHandling _gameDeckCardHandling;
     private IdGenerator _idGenerator = new IdGenerator();
     private DeckHandling _deckHandling;
+    private CardCRUD _cardCRUD;
     private const string IdPrefix = "H";
-    private const int IntialCardsPerHand = 7;
 
 
     public HandHandling(StarDeckContext context)
@@ -24,14 +25,14 @@ public class HandHandling
         this._deckCardHandling = new DeckCardHandling(_context);
         this._gameDeckCardHandling = new GameDeckCardHandling(_context);
         this._deckHandling = new DeckHandling(_context);
+        this._cardCRUD = new CardCRUD(_context);
     }
 
-    public void SetupHand(string playerId)
+    public void SetupHand(string gameId, string playerId)
     {
         try
         {
-            CreateHand(playerId);
-            GiveInitialCards(playerId);
+            CreateHand(gameId, playerId);
             _context.SaveChanges();
         }
         catch(Exception e)
@@ -42,19 +43,20 @@ public class HandHandling
 
 
 
-    private void GiveInitialCards(string playerId)
+    private void GiveInitialCards(string gameId, string playerId)
     {
-        string handId = GetHandId(playerId);
         string cardId;
         int handSize = SetHandSize(playerId);
         for (int i = 0; i < handSize; i++)
         {
-            cardId = DrawCard(playerId);
-            Hand_Card newHandCard = new Hand_Card();
-            newHandCard.handId = handId;
-            newHandCard.cardId = cardId;
-
-            _context.Hand_Card.Add(newHandCard);
+            cardId = PickRandomCard(playerId);
+            Hand newHandCard = new Hand()
+            {
+                gameId = gameId,
+                playerId = playerId,
+                cardId = cardId
+            };
+            _context.Hand.Add(newHandCard);
             _context.SaveChanges();
         }
     }
@@ -62,46 +64,60 @@ public class HandHandling
     private int SetHandSize(string playerId)
     {
         int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
-        if(numCardsInDeck < IntialCardsPerHand){
+        if(numCardsInDeck < Const.IntialCardsPerHand){
             return numCardsInDeck;
         }
-        return IntialCardsPerHand;
+        return Const.IntialCardsPerHand;
+    }
+
+    private int GetHandSize(string playerId)
+    {
+        return _context.Hand.Count(h => h.playerId == playerId);
     }
 
 
 
-    private string DrawCard(string playerId)
+    private string PickRandomCard(string playerId)
     {
         return _gameDeckCardHandling.DrawCard(playerId);
     }
 
-    private string GetHandId(string playerId)
+    public OutputCard DrawCard(string gameId, string playerId)
     {
-        Hand hand = _context.Hand.FirstOrDefault(d => d.playerId == playerId);
-        return hand.id;
+        int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
+        int handSize = GetHandSize(playerId);
+
+        if(numCardsInDeck == 0 || handSize == Const.MaxHandSize){
+            return null;
+        }
+        return DrawCardFromDeck(gameId, playerId);
     }
 
-    internal string CreateHand(string playerId)
+    private OutputCard DrawCardFromDeck(string gameId, string playerId)
+    {
+        string cardId = PickRandomCard(playerId);
+        Hand newHandCard = new Hand()
+        {
+            gameId = gameId,
+            playerId = playerId,
+            cardId = cardId
+        };
+        _context.Hand.Add(newHandCard);
+        _context.SaveChanges();
+        return _cardCRUD.GetCard(cardId);
+    }
+
+    internal void CreateHand(string gameId, string playerId)
 
     {
         bool alreadyExist = PlayerAlreadyHasHand(playerId);
         if(alreadyExist){
             throw new ArgumentException("Player already has a hand");
         }
-        return CreatingHand(playerId);
+        GiveInitialCards(gameId, playerId);
     }
 
-    private string CreatingHand(string playerId)
-    {
-        Hand newHand = new Hand();
-        string id = GenerateId();
-        newHand.id = id;
-        newHand.playerId = playerId;
-        
-        _context.Hand.Add(newHand);
-        _context.SaveChanges();
-        return id;
-    }
+ 
 
     private string GenerateId()
     {
@@ -134,45 +150,30 @@ public class HandHandling
         return alreadyHas;
     }
 
-    internal void Delete(string playerId)
-    // internal List<Hand_Card> Delete(string playerId)
+    internal void EndGame(string gameId)
     {
-        Hand hand = GetHand(playerId);
+        Hand hand = GetHandByGameId(gameId);
         if (hand == null)
         {
             return;
         }
-        string id = hand.id;
-        DeleteCardsFromHand(id);
-        DeleteHand(hand);   
+        DeleteHand(gameId);   
     }
 
-    private void DeleteCardsFromHand(string handId)
-    // private List<Hand_Card> DeleteCardsFromHand(string handId)
+    private Hand GetHandByGameId(string gameId)
     {
-        List<Hand_Card> handCards = GetHandCards(handId);
-        _context.Hand_Card.RemoveRange(handCards);
-        _context.SaveChanges();
-        // return handCards;
+        return _context.Hand.FirstOrDefault(d => d.gameId == gameId);
     }
 
     public List<OutputCard> GetHandCardsByPlayerId(string playerId)
     {
-        string handId = GetHandId(playerId);
-        var handCards = _context.Hand_Card.ToList();
-        var cardsIds = handCards.FindAll(d => d.handId == handId).Select(d => d.cardId).ToArray();
+        var cardsIds = _context.Hand.Where(d => d.playerId == playerId).Select(d => d.cardId).ToArray();
         return _deckCardHandling.GetCards(cardsIds);
     }
-
-    private List<Hand_Card> GetHandCards(string handId)
+    private void DeleteHand(string gameId)
     {
-        var handCards = _context.Hand_Card.ToList();
-        return handCards.FindAll(d => d.handId == handId);
-    }
-
-    private void DeleteHand(Hand hand)
-    {
-        _context.Hand.Remove(hand);
+        List<Hand> cards = _context.Hand.Where(h => h.gameId == gameId).ToList();
+        _context.Hand.RemoveRange(cards);
     }
 
     private Hand GetHand(string playerId)
@@ -181,18 +182,4 @@ public class HandHandling
     }
 
 
-
-
-
-    // public void AddHands(SetUpValues setUpValues)
-    // {
-    //     string[] gameDeckIds = new string[2];
-    //     string[] cardsFromDeck = GetCardIds(setUpValues.player1DeckId);
-    //     AddCardsToDeck(setUpValues.player1DeckId, cardsFromDeck);
-
-    //     string[] cardsFromDeck2 = GetCardIds(setUpValues.player2DeckId);
-    //     AddCardsToDeck(setUpValues.player2DeckId, cardsFromDeck2);
-
-
-    // }
 }

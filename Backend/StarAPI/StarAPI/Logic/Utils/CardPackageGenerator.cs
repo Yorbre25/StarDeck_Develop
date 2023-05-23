@@ -9,13 +9,12 @@ namespace StarAPI.Logic
 {
     public class CardPackageGenerator
     {
-        private CardHandling _cardHandling;
-
+        private CardCRUD _cardCRUD;
         private static int s_cardsPerPackage = 3;
         private static int s_packagedOfCards = 3;
         public CardPackageGenerator(StarDeckContext _context)
         {
-            this._cardHandling = new CardHandling(_context);
+            this._cardCRUD = new CardCRUD(_context);
         }
 
 
@@ -114,7 +113,7 @@ namespace StarAPI.Logic
 
         private List<OutputCard> GetCardsWith(string cardTypeName)
         {
-            List<OutputCard> allCards = _cardHandling.GetAllCards();
+            List<OutputCard> allCards = _cardCRUD.GetAllCards();
             List<OutputCard> specificCards;
             specificCards = allCards.Where(c => c.type == cardTypeName).ToList();
             return specificCards;

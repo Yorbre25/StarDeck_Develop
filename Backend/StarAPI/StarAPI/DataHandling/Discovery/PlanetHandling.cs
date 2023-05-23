@@ -32,107 +32,24 @@ public class PlanetHandling
 
     public List<OutputPlanet> GetAllPlanets()
     {
-        try
-        {
-            return GettingAllPlanets();
-        } 
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting planets");
-        }
-    }
-
-    public OutputPlanet GetPlanet(string id){
-        try
-        {
-            return GetOutputPlanet(id);
-        }
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting planet");
-        }
-    }
-
-    public List<OutputPlanet> GetPlanets(string[] ids)
-    {
-        try
-        {
-            return GettingPlanets(ids);
-        }
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting planets");
-        }
-    }
-
-    private List<OutputPlanet> GettingPlanets(string[] ids)
-    {
-        List<OutputPlanet> planets = new List<OutputPlanet>();
-        foreach(var id in ids)
-        {
-            planets.Add(GetPlanet(id));
-        }
-        return planets;
-    }
-
-    private OutputPlanet GetOutputPlanet(string id)
-    {
-        Planet? planet = _context.Planet.FirstOrDefault(p => p.id == id);
-        return _planetMapper.FillOutputPlanet(planet);
-    }
-
-    private List<OutputPlanet> GettingAllPlanets()
-    {
         List<Planet> planets = _context.Planet.ToList();
         return _planetMapper.FillOutputPlanet(planets);
     }
 
-    public List<OutputPlanet> GetPlanetsByType(string planetType)
-    {
-        try
-        {
-            return GettingPlanetsByType(planetType);
-        }
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting planets by type");
-        }
+
+    public OutputPlanet GetPlanet(string id){
+        Planet? planet = _context.Planet.FirstOrDefault(p => p.id == id);
+        return _planetMapper.FillOutputPlanet(planet);
     }
 
-    public List<OutputPlanet> GettingPlanetsByType(string planetType)
+    public List<OutputPlanet> GetPlanetsByType(string planetType)
     {
         List<OutputPlanet> allPlanets = GetAllPlanets();
         return allPlanets.Where(p => p.type == planetType).ToList();
     }
 
+
     public void AddPlanet(InputPlanet inputPlanet)
-    {
-        bool isValid = CheckInputValues(inputPlanet);
-        bool alreadyExist = NameAlreadyExists(inputPlanet.name);
-
-        if(!isValid){
-            throw new ArgumentException("Invalid Values");
-        }
-        if(alreadyExist){
-            throw new ArgumentException("Planet name already exist");
-        }
-        InsertCard(inputPlanet);
-
-    }
-
-     private bool CheckInputValues(InputPlanet planet){
-        bool isValid = true;
-        if(planet.name.Length < s_minPlanetNameLenght || planet.name.Length > s_maxPlanetNameLenght){
-            isValid = false;
-        }
-        else if(planet.description.Length > s_maxDescriptionLenght){
-            isValid = false;
-        }
-        return isValid;
-    }
-
-    
-    public void InsertCard(InputPlanet inputPlanet)
     {
         string id = _idGenerator.GenerateId(s_idPrefix);
         var newPlanet = _planetMapper.FillNewPlanet(inputPlanet, id);
@@ -140,9 +57,10 @@ public class PlanetHandling
         _context.SaveChanges();
     }
 
-    private bool NameAlreadyExists(string planetName)
+
+    public bool NameAlreadyExists(string planetName)
     {
-        var card = _context.Card.FirstOrDefault(r => r.name == planetName);
+        var card = _context.Planet.FirstOrDefault(r => r.name == planetName);
         if(card == null){
             return false;
         }

@@ -2,18 +2,19 @@ using StarAPI.Models;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
+using StarAPI.Logic;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class PlayerCardHandling
 {
     private readonly StarDeckContext _context;
-    private CardHandling _cardHandling;
+    private CardCRUD _cardCRUD;
 
     public PlayerCardHandling(StarDeckContext context)
     {
         this._context = context;
-        this._cardHandling = new CardHandling(_context);
+        this._cardCRUD = new CardCRUD(_context);
     }
 
     public List<OutputCard> GetPlayerCards(string playerId)
@@ -28,7 +29,7 @@ public class PlayerCardHandling
         List<OutputCard> cards = new List<OutputCard>();
         foreach(var cardId in cardsId)
         {
-            cards.Add(_cardHandling.GetCard(cardId));
+            cards.Add(_cardCRUD.GetCard(cardId));
         }
         _context.Player_Card.ToList();
         return cards;

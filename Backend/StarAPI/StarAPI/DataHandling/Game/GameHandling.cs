@@ -43,33 +43,28 @@ public class GameHandling
 
     }
 
-    public string SetupTable()
-    {
-        string gameTableId = _gameTableHandling.SetupTable();
-        return gameTableId;
-    }
     public OutputSetupValues SettingupGame(SetUpValues setupValues)
     {   
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
         string gameId = _idGenerator.GenerateId(s_idPrefix);
-        string tableId = SetupTable();
-        AddPlayersToGame(setupValues);
+        _gameTableHandling.SetupTable(gameId);
+        SetupPlayers(setupValues, gameId);
         
-        StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setupValues, gameId, tableId);
+        StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setupValues, gameId);
         AddGame(newGame);
         return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
     }
 
 
-    private void AddPlayersToGame(SetUpValues setupValues)
+    private void SetupPlayers(SetUpValues setupValues, string gameId)
     {
         string player1Id = setupValues.player1Id;
         string player1DeckId = setupValues.player1DeckId;
-        _gamePlayerHandling.AddPlayer(player1Id, player1DeckId);
+        _gamePlayerHandling.SetupPlayer(player1Id, player1DeckId, gameId);
         string player2Id = setupValues.player2Id;
         string player2DeckId = setupValues.player2DeckId;
-        _gamePlayerHandling.AddPlayer(player2Id, player2DeckId);
+        _gamePlayerHandling.SetupPlayer(player2Id, player2DeckId, gameId);
     }
 
     private void AddGame(StarAPI.Models.Game newGame)
@@ -86,19 +81,10 @@ public class GameHandling
 
     public List<OutputPlanet> GetPlanets(string gameId)
     {
-        StarAPI.Models.Game? game = GetGame(gameId);
-        string gameTableId = game.gameTableId;
-        List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameTableId);
-        //*Provitional
-        return SetHiddenPlanet(gamePlanets);
+        List<OutputPlanet> gamePlanets = _gameTableHandling.GetGamePlanets(gameId);
+        return gamePlanets;
     }
 
-    //*provitional function
-    private List<OutputPlanet> SetHiddenPlanet(List<OutputPlanet> planetsForNewGame)
-    {
-        _randomTools.GetRandomElement<OutputPlanet>(planetsForNewGame).show = true;
-        return planetsForNewGame;
-    }
 
     public StarAPI.Models.Game GetGame(string gameId)
     {
@@ -140,15 +126,9 @@ public class GameHandling
         return true;
     }
 
-    internal GameTable GetGameTable(string gameTableId)
-    {
-        return _gameTableHandling.GetGameTable(gameTableId);
-    }
-
 
 
     public void EndGame(string gameId)
-    // public List<Hand_Card> EndGame(string gameId)
     {
         try
         {
@@ -161,17 +141,12 @@ public class GameHandling
     }
 
     internal void EndingGame(string gameId)
-    // internal List<Hand_Card> EndingGame(string gameId)
     {
         StarAPI.Models.Game game = GetGame(gameId);
-        string gameTableId = game.gameTableId;
-        string player1Id = game.player1Id;
-        string player2Id = game.player2Id;
 
         DeleteGame(game);
-        _gameTableHandling.Delete(gameTableId);
-        _gamePlayerHandling.Delete(player1Id);
-        _gamePlayerHandling.Delete(player2Id);
+        _gameTableHandling.EndGame(gameId);
+        _gamePlayerHandling.EndGame(gameId);
         _context.SaveChanges();
     }
 
@@ -180,12 +155,17 @@ public class GameHandling
         var game = GetGame(gameId);
         string player1Id = game.player1Id;
         string player2Id = game.player2Id;
-        _gamePlayerHandling.SetupHands(gameId, player1Id);
-        _gamePlayerHandling.SetupHands(gameId, player2Id);
+        _gamePlayerHandling.SetupHand(gameId, player1Id);
+        _gamePlayerHandling.SetupHand(gameId, player2Id);
     }
 
     internal List<OutputCard> GetHandCards(string gameId, string playerId)
     {
         return _gamePlayerHandling.GetHandCards(gameId, playerId);
+    }
+
+    internal OutputCard DrawCard(string gameId, string playerId)
+    {
+        return _gamePlayerHandling.DrawCard(gameId, playerId);
     }
 }

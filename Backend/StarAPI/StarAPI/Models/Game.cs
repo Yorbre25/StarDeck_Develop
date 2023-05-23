@@ -7,7 +7,6 @@ namespace StarAPI.Models
     {
         [Key]
         public string id { get; set; }
-        public string gameTableId { get; set; }
         public int maxTurns { get; set; }
         public int timePerTurn { get; set; }
         public int turn { get; set; }
