@@ -97,7 +97,17 @@ public class GameTableHandling
 
     internal void EndGame(string gameId)
     {
+        DeleteCards(gameId);
         List<Game_Planet> planets = _context.Game_Planet.Where(gt => gt.gameId == gameId).ToList();
         _context.Game_Planet.RemoveRange(planets);
+    }
+
+    private void DeleteCards(string gameId)
+    {
+        List<GameTable> cards = _context.GameTable.Where(gt => gt.gameId == gameId).ToList();
+        if (cards.Count() > 0)
+        {
+            _context.GameTable.RemoveRange(cards);
+        }
     }
 }
