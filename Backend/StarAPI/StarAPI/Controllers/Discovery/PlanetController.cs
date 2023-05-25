@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StarAPI.Models;
-using StarAPI.Logic.ModelHandling;
-using StarAPI.DTOs;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -13,24 +13,23 @@ namespace StarAPI.Controllers
     public class PlanetController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private  PlanetHandling _planetHandling;
+        private PlanetCRUD _planetCRUD ;
 
         public PlanetController(StarDeckContext context)
         {
-            this._context = context;
-            this._planetHandling = new PlanetHandling(_context);
+            this._planetCRUD = new PlanetCRUD(context);
         }
 
         [HttpGet("GetAllPlanets")]
         public IEnumerable<OutputPlanet> GetAllPlanets()
         {
-            return _planetHandling.GetAllPlanets();
+            return _planetCRUD.GetAllPlanets();
         }
 
         [HttpGet("GetPlanet/{id}")]
         public OutputPlanet GetPlanet(string id)
         {
-            return _planetHandling.GetPlanet(id);
+            return _planetCRUD.GetPlanet(id);
         }
 
 
@@ -39,7 +38,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _planetHandling.AddPlanet(planet);
+                _planetCRUD.AddPlanet(planet);
                 return Ok();
             }
             catch (Exception e)

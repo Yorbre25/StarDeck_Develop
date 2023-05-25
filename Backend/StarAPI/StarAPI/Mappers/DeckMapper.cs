@@ -1,6 +1,6 @@
 using StarAPI.Context;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
 

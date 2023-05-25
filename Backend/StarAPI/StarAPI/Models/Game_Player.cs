@@ -7,8 +7,12 @@ namespace StarAPI.Models
     {
         // [Key]
         // public string id {get; set;}
+        [ForeignKey("Player")]
         public string playerId { get; set; }
-        public string deckId { get; set; } 
+        [ForeignKey("Deck")]
+        public string deckId { get; set; }
+        [ForeignKey("Game")] 
+        public string gameId { get; set; }
         // public string handId { get; set; }
     }
 }

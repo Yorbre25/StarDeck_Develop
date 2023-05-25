@@ -6,10 +6,13 @@ namespace StarAPI.Models
     public class Hand
     {
         [Key]
-        public string id { get; set; }
-        [Key]
+        public int id { get; set; }
+        [ForeignKey("Card")]
+        public string cardId { get; set; }
         [ForeignKey("Game_Player")]
         public string playerId { get; set; }
+        [ForeignKey("Game")]
+        public string gameId { get; set; }
         
     }
 }

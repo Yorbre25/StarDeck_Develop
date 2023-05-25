@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StarAPI.Models
 {
-    public class GameTable
+    public class Game_Planet
     {
-        [Key]
+        [ForeignKey("Game")]
         public string gameId { get; set; }
+        [ForeignKey("Planet")]
         public string planetId { get; set; }
-        public string playerId { get; set; }
-        public string cardId { get; set; }
+        public bool show { get; set; }
     }
 }

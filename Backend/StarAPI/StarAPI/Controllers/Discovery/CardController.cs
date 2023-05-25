@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Logic.ModelHandling;
-using StarAPI.DTOs;
+using StarAPI.DataHandling.Discovery;
+using StarAPI.DTO.Discovery;
 using StarAPI.Context;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -12,12 +13,12 @@ namespace StarAPI.Controllers
     public class CardController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private CardHandling _cardHandling;
+        private CardCRUD _cardCrud;
 
         public CardController(StarDeckContext context)
         {
             this._context = context;
-            this._cardHandling = new CardHandling(_context);
+            this._cardCrud = new CardCRUD(_context);
         }
 
 
@@ -26,7 +27,7 @@ namespace StarAPI.Controllers
         [HttpGet("GetAllCards")]
         public IEnumerable<OutputCard> GetAllCards()
         {
-            return _cardHandling.GetAllCards();
+            return _cardCrud.GetAllCards();
         }
 
 
@@ -34,7 +35,7 @@ namespace StarAPI.Controllers
         [HttpGet("GetCardById/{id}")]
         public OutputCard GetCard(string id)
         {
-            return _cardHandling.GetCard(id);
+            return _cardCrud.GetCard(id);
         }
 
 
@@ -43,7 +44,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _cardHandling.AddCard(card);
+                _cardCrud.AddCard(card);
                 return Ok();
             }
             catch (Exception e)
@@ -57,7 +58,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _cardHandling.DeleteCard(id);
+                _cardCrud.DeleteCard(id);
                 return Ok();
             }
             catch (Exception e)

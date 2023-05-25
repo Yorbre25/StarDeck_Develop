@@ -2,10 +2,8 @@
 using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Logic.Utils;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Linq;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Game;
+using StarAPI.DataHandling.Game;
 using System.Diagnostics;
 
 namespace StarAPI.Logic.Match
