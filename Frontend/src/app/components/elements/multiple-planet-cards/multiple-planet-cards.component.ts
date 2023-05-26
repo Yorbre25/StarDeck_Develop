@@ -9,6 +9,9 @@ import { ApiService } from 'src/app/components/services/api.service';
   styleUrls: ['./multiple-planet-cards.component.scss']
 })
 export class MultiplePlanetCardsComponent {
+
+  canBeSelected:boolean = true; 
+  
   @Input()
   planets!:PlanetInterface[];
 

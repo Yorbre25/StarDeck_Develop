@@ -14,24 +14,22 @@ export class GameComponent {
   cards!: CardInt[];
   deck!: DeckInterface;
   planets!: PlanetInterface[];
-  bet!:number;
-  turn!:number;
-  totalTurns!:number;
-  remainingCards!:number;
-  timeRemaining!:number;
   opponentName!: string;
   currentUserName!: string;
   opponentPhoto!: string;
   currentUserPhoto!: string; 
 
+  timeExpired: boolean = false;
+  bet: number = 0;
+  turn:number = 1;
+  totalTurns:number = 8;
+  remainingCards:number = 18;
+  remainingTime:number = 20;
+  unhideTurn:number = 3;
+
+
 
   constructor(private api: ApiService, private http: HttpClient) {
-    this.bet = 0;
-    this.turn = 1;
-    this.totalTurns = 8;
-    this.remainingCards = 18;
-    this.timeRemaining = 20;
-
     //console.log(this.cards)
   }
 
@@ -49,5 +47,26 @@ export class GameComponent {
       console.log(data2);
       this.planets = data2
     });
+
+    setInterval(() => {
+      this.remainingTime--;
+      if (this.remainingTime == 0) {
+        this.timeExpired = true;
+       this.onClickEndTurn()
+      }
+      if (this.turn >= this.unhideTurn) {
+        this.planets[2].show = true; // esto hay que mandarlo al api 
+      }
+      if (this.turn >= this.totalTurns) {
+        // this.openPopup() // esto esta desactivado para poder hacer pruebas 
+      }
+    }, 1000);
+}
+
+onClickEndTurn() {
+  this.turn = this.turn + 1;
+  this.remainingTime = 20; 
+  // mandar al api info :) 
+  
 }
 }

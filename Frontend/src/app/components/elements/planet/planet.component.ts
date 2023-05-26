@@ -17,6 +17,10 @@ import { selected_Card_S } from '../../services/selected_card.service';
   styleUrls: ['./planet.component.scss']
 })
 export class PlanetComponent {
+
+  
+  isSelected!: boolean | null;
+
   @Input()
   element!: {
     id: string | null;
@@ -27,11 +31,10 @@ export class PlanetComponent {
     show: boolean | null;
   };
 
-  @Input() clickable: boolean = false;
-
 
   constructor(private router: Router, private api: ApiService, private logins:LoginService, private Scard:selected_Card_S) {
   }
+
 
 }
 

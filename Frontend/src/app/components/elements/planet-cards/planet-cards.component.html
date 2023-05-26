@@ -1,7 +1,7 @@
 
 <label> {{opponentName}}: {{opponentPoints}} pts </label>
-<div class="form-container">    
-    <app-multiple-cards [cards]="cards"></app-multiple-cards>
+<div class="form-container" (click)="onClick()" [ngStyle]="{ 'border': isSelected ? '2px solid white' : 'none' }" >    
+    <app-multiple-cards [cards]="cards" [clickable]="false"></app-multiple-cards>
     <div *ngIf= "planet.show">
         <app-planet [element]="planet"></app-planet>
     </div>
@@ -9,6 +9,6 @@
         <app-planet [element]="hidden"></app-planet>
     </div>
     
-    <app-multiple-cards [cards]="cards"></app-multiple-cards>
+    <app-multiple-cards [cards]="cards" [clickable]="false"></app-multiple-cards>
 </div>
 <label class="label"> Me ({{currentUserName}}): {{currentUserPoints}} pts</label>

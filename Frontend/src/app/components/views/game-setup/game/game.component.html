@@ -1,5 +1,5 @@
 <div class="game">
-    <label class="title-text"> {{currentUserName}} vs {{opponentName}}: Apuesta: {{bet}} monedas, Turno: {{turn}}/{{totalTurns}}, Tiempo restante: {{timeRemaining}}s</label>
+    <label class="title-text"> {{currentUserName}} vs {{opponentName}}: Apuesta: {{bet}} monedas, Turno: {{turn}}/{{totalTurns}}, Tiempo restante: {{remainingTime}}s</label>
     <div class="flex-container">
         <app-multiple-planet-cards [planets]="planets"></app-multiple-planet-cards>
         <div class="flex">
@@ -8,7 +8,7 @@
             <div class="grid">
                 
                 <button class="button-text">Apostar 2 monedas</button>
-                <button class="button-text">Terminar turno</button>
+                <button (click)="onClickEndTurn()" class="button-text">Terminar turno</button>
                 <button class="button-text">Rendirse</button>
             </div>
         </div>
