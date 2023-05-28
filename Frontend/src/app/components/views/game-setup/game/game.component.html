@@ -1,7 +1,14 @@
 <div class="game">
     <label class="title-text"> {{currentUserName}} vs {{opponentName}}: Apuesta: {{bet}} monedas, Turno: {{turn}}/{{totalTurns}}, Tiempo restante: {{remainingTime}}s</label>
     <div class="flex-container">
-        <app-multiple-planet-cards [planets]="planets"></app-multiple-planet-cards>
+        <div class="multiple-planets">
+            <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
+            [index]="0" [planet]="planets[0]" [cards]="cardsPerPlanet[0]"></app-planet-cards>
+            <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
+            [index]="1" [planet]="planets[1]" [cards]="cardsPerPlanet[1]"></app-planet-cards>
+            <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
+            [index]="2" [planet]="planets[2]" [cards]="cardsPerPlanet[2]"></app-planet-cards>
+        </div>       
         <div class="flex">
             <h4 class="deck-text"><p>Deck Name</p><p>{{remainingCards}} cartas</p>  </h4>
             <app-multiple-cards class="cards" [clickable]="true" [cards]="cards"></app-multiple-cards>
