@@ -89,6 +89,7 @@ onClickEndTurn() {
 onPlanetClicked(planetIndex: number) {
   console.log('Clicked planet:', planetIndex);
  this.remainingTime = 40;
+// this.api.getCard(this.SCard.getCard()); 
 this.cardsPerPlanet[planetIndex].push(this.sampleSingleCard[0])
 
 }
