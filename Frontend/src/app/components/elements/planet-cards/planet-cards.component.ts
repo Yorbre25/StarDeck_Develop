@@ -1,7 +1,12 @@
-import { Component , Input } from '@angular/core';
+
+import { Component , Input, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { selected_Card_S } from '../../services/selected_card.service';
 import { CardInt } from 'src/app/components/interfaces/card.interface';
 import { HttpClient } from '@angular/common/http';
 import { PlanetInterface } from 'src/app/components/interfaces/planet.interface';
+
 @Component({
   selector: 'app-planet-cards',
   templateUrl: './planet-cards.component.html',
@@ -14,14 +19,30 @@ export class PlanetCardsComponent {
   //planet!: PlanetInterface;
 
   hidden!:PlanetInterface;
+  isSelected!: boolean | null;
 
   @Input()
   planet!:PlanetInterface;
+
+  @Input()
   cards!: CardInt[];
+  opponentCards: CardInt[] = [];
+
   currentUserPoints!: number;
   opponentPoints!: number;
   opponentName!: string;
   currentUserName!: string;
+  cardToAdd!: CardInt; 
+
+
+  @Input()
+  canSelect!: boolean | null; 
+
+  @Input()
+  index!: number; 
+
+  @Output() planetClicked: EventEmitter<number> = new EventEmitter<number>();
+
 
 
   constructor(private http: HttpClient) {
@@ -37,18 +58,36 @@ export class PlanetCardsComponent {
     this.opponentName = "Opponent";
     this.currentUserName = "Current User";
 
-    this.http.get('assets/samples/sampleCards2.json').subscribe((data: any) => {
-      console.log(data);
-      this.cards = []
-    });
-
-  
-
     this.http.get('assets/game/hiddenPlanet.json').subscribe((data3: any) => {
-      console.log(data3);
       this.hidden = data3
     });
 }
+
+onClick() {
+  this.toggleSelection();
+  
+  //if (this.clickable) {
+    //if(this.element.id==''){
+      //console.log("Card not ready yet")
+    //}else{
+      //this.Scard.setcard(this.element)
+    //}
+  //}
+  
+}
+
+toggleSelection() {
+  this.isSelected = !this.isSelected;
+}
+
+
+onPlanetClick() {
+  // Emit the planet index or any other relevant information
+  this.planetClicked.emit(this.index);
+  console.log("ayuda" + this.index);
+
+}
+
 }
 
 
