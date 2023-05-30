@@ -17,33 +17,34 @@ import { RouterTestingHarness } from '@angular/router/testing';
 })
 export class GameComponent {
 
-  private defaultinitialbet:number=0;
-  private defaultRemainingCards:number=18;
-  private GameValues:any;
-  private UserInfoValues!:UsersInfoGame;
+  private defaultinitialbet: number = 0;
+  private defaultRemainingCards: number = 18;
+  private GameValues: any;
+  private UserInfoValues!: UsersInfoGame;
   cards!: CardInt[];
   deck!: DeckInterface;
   planets!: PlanetInterface[];
-  bet!:number;
-  turn!:number|null;
-  totalTurns!:number|null;
-  remainingCards!:number|null;
-  remainingTime!:number|null;
-  opponentName!: string|null;
-  currentUserName!: string|null;
-  deckname!:string|null;
+  bet!: number;
+  turn!: number | null;
+  totalTurns!: number | null;
+  remainingCards!: number | null;
+  remainingTime!: number | null;
+  opponentName!: string | null;
+  currentUserName!: string | null;
+  deckname!: string | null;
   opponentPhoto!: string;
-  currentUserPhoto!: string; 
+  currentUserPhoto!: string;
   sampleSingleCard!: CardInt[];
-  cardsPerPlanet: CardInt[][] = [[],[],[]]; 
+  cardsPerPlanet: CardInt[][] = [[], [], []];
   timeExpired: boolean = false;
-  unhideTurn:number = 3;
+  unhideTurn: number = 3;
 
 
-  constructor(private http: HttpClient, private deckService:deckService, private gameService:gameService, private loginService:LoginService) {
+  constructor(private http: HttpClient, private deckService: deckService, private gameService: gameService,
+     private loginService: LoginService, private SCard: selected_Card_S) {
     this.bet = this.defaultinitialbet;
-    this.GameValues=this.gameService.getGameValues();
-    this.UserInfoValues=this.gameService.getplayerinfo(this.loginService.getid())
+    this.GameValues = this.gameService.getGameValues();
+    this.UserInfoValues = this.gameService.getplayerinfo(this.loginService.getid())
     this.turn = this.GameValues.currentTurn;
     this.totalTurns = this.GameValues.totalTurns;
     this.remainingCards = this.defaultRemainingCards;
@@ -55,7 +56,7 @@ export class GameComponent {
 
     this.opponentName = this.UserInfoValues.OpTag;
     this.currentUserName = this.UserInfoValues.Ptag;
-    this.deckname=this.UserInfoValues.PDeckN;
+    this.deckname = this.UserInfoValues.PDeckN;
 
     /** 
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
@@ -93,45 +94,48 @@ export class GameComponent {
 
     this.cardsPerPlanet = this.cardsPerPlanet
 
-    
-}
 
-onClickEndTurn() {
-  this.turn = this.turn + 1;
-  this.remainingTime = 20; 
-  console.log('Clicked planet:');
-  // mandar al api info :) 
-  
+  }
 
-    /**
-    this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
-      console.log("Hand:")
-      console.log(data)
-      this.cards = data;
-    }) */
-    
-    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
-      console.log("Planets:")
-      console.log(data2);
-      this.planets = data2
-    });
-    
-    /** 
-    this.gameService.GetGamePlanets().subscribe((data)=>{
-      console.log("Planets:")
-      console.log(data)
-      this.planets=data;
-    })
-    */
+  onClickEndTurn() {
+    if (this.turn != null) {
+      this.turn = this.turn + 1;
+      this.remainingTime = 20;
+      console.log('Clicked planet:');
+      // mandar al api info :) 
 
-}
 
-onPlanetClicked(planetIndex: number) {
-  console.log('Clicked planet:', planetIndex);
- this.remainingTime = 40;
-// this.api.getCard(this.SCard.getCard()); 
-this.cardsPerPlanet[planetIndex].push(this.sampleSingleCard[0])
+      /**
+      this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+        console.log("Hand:")
+        console.log(data)
+        this.cards = data;
+      }) */
 
-}
+      this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
+        console.log("Planets:")
+        console.log(data2);
+        this.planets = data2
+      });
+
+      /** 
+      this.gameService.GetGamePlanets().subscribe((data)=>{
+        console.log("Planets:")
+        console.log(data)
+        this.planets=data;
+      })
+      */
+    }
+
+
+  }
+
+  onPlanetClicked(planetIndex: number) {
+    console.log('Clicked planet:', planetIndex);
+    this.remainingTime = 40;
+    // this.api.getCard(this.SCard.getCard()); 
+    this.cardsPerPlanet[planetIndex].push(this.sampleSingleCard[0])
+
+  }
 
 }
