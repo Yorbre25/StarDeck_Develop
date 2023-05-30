@@ -247,13 +247,12 @@ VALUES
 INSERT INTO Game (
     id,
     maxTurns,
-    timePerTurn,
     turn,
     player1Id,
     player2Id,
     timeStarted)
 VALUES
-    ('G-000000000001',5,20,1,'U-01a1zjlg4aph','U-02a1zjlg4aph', '2019-01-01 00:00:00');
+    ('G-000000000001',5,1,'U-01a1zjlg4aph','U-02a1zjlg4aph', '2019-01-01 00:00:00');
 
 INSERT INTO Game_Planet(
     gameId,

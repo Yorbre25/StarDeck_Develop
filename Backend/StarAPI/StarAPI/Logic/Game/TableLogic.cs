@@ -33,20 +33,4 @@ public class TableLogic
             throw new Exception("Error getting planets");
         }
     }
-
-
-
-    internal void PlaceCard(InputPlaceCard inputPlaceCard)
-    {
-        try
-        {
-            _gameTableHandling.PlaceCard(inputPlaceCard);
-        }
-        catch(Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
-
-
 }

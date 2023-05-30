@@ -31,9 +31,11 @@ public class Const
     public const int PlanetsPerGame = 3;
     
     //Game
+    public const int TimePerTurn = 20;
     public const int CardsPerPlanet = 5;
-    public const int InitialCardPoints = 5;
-    
-
+    public const int InitialCardPoints = 10;
+    public const int ExtraCardPointsPerTurn = 2;
+    public const int XpGain = 1;
+    public const int EndTurnCounter = 2;
     
 }

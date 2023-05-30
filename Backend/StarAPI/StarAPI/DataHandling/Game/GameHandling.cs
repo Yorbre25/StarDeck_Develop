@@ -7,6 +7,8 @@ using StarAPI.Models;
 using StarAPI.DTO.Game;
 using StarAPI.Logic.Utils;
 using StarAPI.Logic.Mappers;
+using StarAPI.Logic;
+using StarAPI.Constants;
 
 namespace StarAPI.DataHandling.Game;
 
@@ -15,6 +17,7 @@ public class GameHandling
     private readonly StarDeckContext _context;
     private GameTableHandling _gameTableHandling;
     private GamePlayerHandling _gamePlayerHandling;
+    private PlayerCRUD _playerCRUD;
     private GameMapper _gameMapper;
     private RandomTools _randomTools = new RandomTools();
     private IdGenerator _idGenerator = new IdGenerator();
@@ -27,6 +30,7 @@ public class GameHandling
         this._context = context;
         this._gameTableHandling = new GameTableHandling(_context);
         this._gamePlayerHandling = new GamePlayerHandling(_context);
+        this._playerCRUD = new PlayerCRUD(_context);
         this._gameMapper = new GameMapper(_context);
     }
 
@@ -93,15 +97,30 @@ public class GameHandling
 
 
 
-    public void EndGame(string gameId)
+    public WinnerInfo EndGame(string gameId)
     {
         StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        string winnerId = DeclareWinner(game.player1Id, game.player2Id);
+        _playerCRUD.IncreaseWins(winnerId, game.xpGain);
 
+
+        //Delete
         _context.Game.Remove(game);
         _gameTableHandling.EndGame(gameId);
         _gamePlayerHandling.EndGame(gameId);
         _context.SaveChanges();
+
+        WinnerInfo winnerInfo = new WinnerInfo();
+        winnerInfo.winnerId = winnerId;
+        winnerInfo.xpGain = game.xpGain;
+        return winnerInfo; 
     }
+
+    private string DeclareWinner(string player1Id, string player2Id)
+    {
+       return _gameTableHandling.DeclareWinner(player1Id, player2Id);
+    }
+
     internal void SetupHands(string gameId)
     {
         var game = _context.Game.FirstOrDefault(g => g.id == gameId);
@@ -121,11 +140,72 @@ public class GameHandling
         return _gamePlayerHandling.DrawCard(gameId, playerId);
     }
 
-    internal void PlaceCard(InputPlaceCard inputPlaceCard)
+    internal void EndTurn(InputTableLayout tableLayout)
     {
-        string playerId = inputPlaceCard.playerId;
-        string cardId = inputPlaceCard.cardId;
-        _gameTableHandling.PlaceCard(inputPlaceCard);
-        _gamePlayerHandling.RemoveCardFromHand(playerId, cardId);
+        string gameId = tableLayout.gameId;
+        string[] playerIds = GetPlayersIds(gameId);
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        game.turn++;
+        _gamePlayerHandling.IncreaseCardPoints(playerIds[0]);
+        _gamePlayerHandling.IncreaseCardPoints(playerIds[1]);
+        _context.SaveChanges();
+
+    }
+
+    internal OutputTableLayout GetLayout(object gameId, string playerId)
+    {
+        string rivalId = GetRivalId(gameId, playerId);
+        return _gameTableHandling.GetLayout(playerId, rivalId);
+    }
+
+    private string[] GetPlayersIds(string gameId)
+    {
+        string[] playersIds = new string[2];
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        playersIds[0] = game.player1Id;
+        playersIds[1] = game.player2Id;
+        return playersIds;
+    }
+    private string GetRivalId(object gameId, string playerId)
+    {
+        string[] playersIds = new string[2];
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId.ToString());
+        string rivalId = playersIds.FirstOrDefault(p => p != playerId);
+        return rivalId;
+    }
+
+    internal TurnInfo GetTurnInfo(string gameId, string playerId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        TurnInfo turnInfo = new TurnInfo();
+        string rivalId = GetRivalId(gameId, playerId);
+
+        turnInfo.currentTurn = game.turn;   
+        turnInfo.playerMaxCardPoints = _gamePlayerHandling.GetMaxCardPoints(gameId);
+        turnInfo.playerPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(playerId);
+        turnInfo.rivalPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(rivalId);
+
+        return turnInfo;
+
+    }
+
+    internal int GetEndTurnCounter(string gameId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        return game.endTurnCounter;
+    }
+
+    internal void ResetEndTurnCounter(string gameId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        game.endTurnCounter = Const.EndTurnCounter;
+        _context.SaveChanges();
+    }
+
+    internal void DecreaseEndTurnCounter(string gameId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        game.endTurnCounter--;
+        _context.SaveChanges();
     }
 }

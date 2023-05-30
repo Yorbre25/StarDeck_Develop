@@ -39,29 +39,44 @@ namespace StarAPI.Controllers
             }
         }
 
-        [HttpPost("PlaceCard")]
-        public ActionResult PlaceCard([FromBody] InputPlaceCard inputPlaceCard)
+        [HttpPost("EndTurn")]
+        public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
+        {
+            try{
+                //Verficación de botones y no pasar el turno instantaneamente
+                //Si queda tiempo implmentarlo por tiempo
+                _gameLogic.EndTurn(tableLayout);
+                return Ok();
+            }
+            catch(Exception e){
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("GetLayout/{gameId}/{playerId}")]
+        public ActionResult GetLayout(string gameId, string playerId)
         {
             try
             {
-                this._tableLogic.PlaceCard(inputPlaceCard);
-                return Ok();
+                return Ok(_gameLogic.GetLayout(gameId, playerId));
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
 
-        [HttpPost("EndTurn")]
-        public ActionResult EndTurn()
+        [HttpPost("GetTurnInfo/{gameId}/{playerId}")]
+        public ActionResult GetTurnInfo(string gameId, string playerId)
         {
-            throw new NotImplementedException();
-            //Verficación de botones
-            //Aumentar puntos de colocar cartas
-            //Regenerar puntos de colocar cartas
-            //Mostrar Planeta Oculto en el turno 3
-            //Si queda tiempo implmentarlo por tiempo
+            try
+            {
+                return Ok(_gameLogic.GetTurnInfo(gameId, playerId));
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

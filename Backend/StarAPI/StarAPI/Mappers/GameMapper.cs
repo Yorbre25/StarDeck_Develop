@@ -1,9 +1,7 @@
 using StarAPI.Context;
-using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Discovery;
-using StarAPI.Logic.Utils;
-using StarAPI.Models;
+using StarAPI.Constants;
 
 namespace StarAPI.Logic.Mappers;
 
@@ -35,8 +33,10 @@ public class GameMapper
         {
             id = game.id,
             totalTurns = game.maxTurns,
-            timePerTurn = game.timePerTurn,
+            timePerTurn = Const.TimePerTurn,
             currentTurn = game.turn,
+            initialCardPoints = Const.InitialCardPoints,
+            cardsPerPlanet = Const.CardsPerPlanet,
             player1Id = game.player1Id,
             player2Id = game.player2Id,
             usernamePlayer1 = _playerHandling.GetUsername(game.player1Id),
@@ -56,8 +56,9 @@ public class GameMapper
             player1Id = setUpValues.player1Id,
             player2Id = setUpValues.player2Id,
             maxTurns = s_maxTurns,
-            timePerTurn = s_timePerTurn,
-            turn = 0
+            endTurnCounter = Const.EndTurnCounter,
+            xpGain = Const.XpGain,
+            turn = 1,
         };
         return newGame;
     }

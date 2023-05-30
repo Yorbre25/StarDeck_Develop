@@ -108,7 +108,6 @@ public class HandHandling
     }
 
     internal void CreateHand(string gameId, string playerId)
-
     {
         bool alreadyExist = PlayerAlreadyHasHand(playerId);
         if(alreadyExist){

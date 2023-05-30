@@ -1,9 +1,9 @@
 using StarAPI.Models;
 using StarAPI.Context;
-using StarAPI.Logic.Game;
 using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Mappers;
+using StarAPI.Constants;
 
 namespace StarAPI.DataHandling.Game;
 
@@ -106,5 +106,19 @@ public class GamePlayerHandling
     internal void RemoveCardFromHand(string playerId, string cardId)
     {
         _handHandling.RemoveCardFromHand(playerId, cardId);
+    }
+
+    internal void IncreaseCardPoints(string playerId)
+    {
+        Game_Player gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
+        gamePlayer.maxCardPoints += Const.ExtraCardPointsPerTurn;
+        gamePlayer.cardPoints = gamePlayer.maxCardPoints;
+        _context.SaveChanges();
+    }
+
+    internal int GetMaxCardPoints(string gameId)
+    {
+        Game_Player gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);
+        return gamePlayer.maxCardPoints;
     }
 }

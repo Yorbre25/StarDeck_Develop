@@ -33,18 +33,26 @@ public class GameTableMapper
 
   
 
-    public GameTable FillNewGameTable(InputPlaceCard inputPlaceCard)
+    public List<GameTable> FillNewGameTable(InputTableLayout tableLayout)
     {
-        GameTable newGameTable = new GameTable
-        {
-            gameId = inputPlaceCard.gameId,
-            playerId = inputPlaceCard.playerId,
-            planetId = inputPlaceCard.planetId,
-            cardId = inputPlaceCard.cardId,
-            battlePoints = _cardCRUD.GetCard(inputPlaceCard.cardId).energy
-        };
-        return newGameTable;
-    }
+        string gameId = tableLayout.gameId;
+        string playerId = tableLayout.playerId;
+        Dictionary<string, string> layout = tableLayout.layout;
 
+        List<GameTable> gameTables = new List<GameTable>();
+        foreach(KeyValuePair<string, string> entry in layout)
+        {
+            GameTable gameTable = new GameTable
+            {
+                gameId = gameId,
+                playerId = playerId,
+                planetId = entry.Key,
+                cardId = entry.Value,
+                battlePoints = _cardCRUD.GetCard(entry.Value).energy
+            };
+            gameTables.Add(gameTable);
+        }
+        return gameTables;
+    }
 
 }

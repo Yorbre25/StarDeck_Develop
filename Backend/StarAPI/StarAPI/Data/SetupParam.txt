@@ -5,11 +5,14 @@
   "player2DeckId": "D-000000000002"
 }
 
+Place Card
 {
   "gameId": "G-000000000001",
-  "planetId": "P-01a1zjlg4aph",
   "playerId": "U-01a1zjlg4aph",
-  "cardId": "C-000000000001"
+  "layout": {
+    "P-01a1zjlg4aph": "C-000000000002",
+    "P-02a1zjlg4aph": "C-000000000004"
+  }
 }
 
 C-000000000002
@@ -18,3 +21,4 @@ C-000000000004
 C-000000000005
 C-000000000006
 C-000000000007
+
