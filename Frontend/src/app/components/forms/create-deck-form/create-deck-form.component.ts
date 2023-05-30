@@ -46,7 +46,7 @@ export class CreateDeckFormComponent {
   fault!: boolean;
   deckNameFault!: boolean;
 
-  deckName = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
+  deckName = new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]);
   card = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30)]);
 
   // totalCards = new FormArray([]);
