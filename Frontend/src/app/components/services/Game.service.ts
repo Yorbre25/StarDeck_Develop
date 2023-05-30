@@ -94,4 +94,10 @@ export class gameService{
         }
         return gameValues
     }
+
+    drawcard(playerID:string):Observable<any>{
+        let dir =this.url +"DrawCard/"+this.getgameID()+"/"+playerID
+        console.log(this.drawcard)
+        return this.http.post(dir,{})
+    }
 }
