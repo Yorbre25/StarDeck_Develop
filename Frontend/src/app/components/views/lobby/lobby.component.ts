@@ -6,7 +6,7 @@ import {FormBuilder} from '@angular/forms';
 import { DialogConfig } from '@angular/cdk/dialog';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { CardService } from '../../services/Card.service';
 import { AccountInt } from '../../interfaces/account.interface';
 import { LoginService } from '../../services/login.service';
 
@@ -31,6 +31,7 @@ export class LobbyComponent implements OnInit{
   showPopup=true;
   allplayers!:AccountInt[];
   Ammount ?:number;
+  InitAmountCards:number=18;
 
   options = this._formBuilder.group({
     bottom: 0,
@@ -39,7 +40,7 @@ export class LobbyComponent implements OnInit{
   });
   
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog, private api:ApiService, private logs:LoginService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog, private cardService:CardService, private logs:LoginService) {}
 
   openDialog(){ // hacer que verifique que el usuario tenga 18 cartas para ver si ensena el popup o no 
     
@@ -59,14 +60,14 @@ export class LobbyComponent implements OnInit{
   findGame(){
     const uuid = uuidv4();
     console.log(uuid);
-    this.router.navigate(['/searching']);
+    this.router.navigate(['/match/choose_deck', uuid]);
   }
     
   ngOnInit(): void {
-    this.api.getAmCards(this.logs.getid()).subscribe((data)=>{
+    this.cardService.getAmCards(this.logs.getid()).subscribe((data)=>{
       console.log("Card Amount")
       console.log(data)
-      if(data<18){
+      if(data<this.InitAmountCards){
         this.showPopup=true
         this.openDialog() 
       }

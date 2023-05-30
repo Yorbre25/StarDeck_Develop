@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
 import { Router } from '@angular/router';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { deckService } from '../../services/deck.service';
+import { CardService } from '../../services/Card.service';
 import { LoginService } from '../../services/login.service';
 import { selected_Card_S } from '../../services/selected_card.service';
 import { DeckInterface } from '../../interfaces/deck.interface';
@@ -50,7 +51,7 @@ export class CreateDeckFormComponent {
 
   // totalCards = new FormArray([]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder,
+constructor(private router: Router, private _formBuilder: FormBuilder,
      private api: ApiService, private http: HttpClient, public dialog: MatDialog,
       private LoginS: LoginService, private SCard: selected_Card_S) {
 
@@ -65,8 +66,9 @@ export class CreateDeckFormComponent {
         return "No se cumple con el número mínimo de caracteres"
       } else if (component.hasError('maxlength')) {
         return "Se ha excedido el número de caracteres."
-      }
-      else {
+      } else if (this.deckNameFault){
+        return "Usted ya tiene un deck con este nombre"
+      }else {
         return ""
       }
     } else {
@@ -94,33 +96,31 @@ export class CreateDeckFormComponent {
     });
     
 
-    /**
-     *  this.api.getplayerCards(this.LoginS.getid()).subscribe(data => {
+    this.cardService.getplayerCards(this.LoginS.getid()).subscribe(data => {
       console.log(data)
       this.allCards = data 
     });
-     * 
-     */
 
 
   }
 
-  goToLobby() {
-    if (this.deckName.value != null) {
-      if (this.deckName.invalid) {
-        this.fault = true
-      } else {
-        console.log(this.SCard.getcardList())
-        if (this.currentCards == this.totalCards) {
-          this.deck.name = this.deckName.value
-          this.api.addDeck(this.LoginS.getid(), this.deck.name, this.SCard.getcardList()).subscribe((response) => {
-            this.router.navigate(['/decks']);
-          })
-        }
-
-
+    goToLobby() {
+      if (this.deckName.value != null) {
+        if (this.deckName.invalid) {
+          this.fault = true
+        }else{
+          console.log(this.SCard.getcardList())
+          if(this.currentCards==this.totalCards){
+            this.deck.name=this.deckName.value
+            this.deckService.addDeck(this.LoginS.getid(),this.deck.name,this.SCard.getcardList()).subscribe((response)=>{
+              this.router.navigate(['/decks']);
+            },(error)=>{
+              console.log(error)
+              this.deckNameFault=true
+            });
+          }          
+         }
       }
-    }
   }
 
 

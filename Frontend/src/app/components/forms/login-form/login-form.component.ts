@@ -1,9 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormControl} from '@angular/forms';
-import {FloatLabelType} from '@angular/material/form-field';
 import { LoginService } from '../../services/login.service';
-import { ApiService } from '../../services/api.service';
 import { Validators } from '@angular/forms';
 
 
@@ -30,7 +28,7 @@ export class LoginFormComponent implements OnInit {
   playerPassword = new FormControl('',[Validators.required,Validators.pattern(this.validPattern)]);
 
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private logins:LoginService, private api:ApiService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private loginService:LoginService) {}
   
   
   goToLobby(){
@@ -44,16 +42,16 @@ export class LoginFormComponent implements OnInit {
       this.validalphanumpassword=true
     }else{
       this.fault=false    
-      this.logins.Login(this.mail.value,this.playerPassword.value).subscribe(
+      this.loginService.Login(this.mail.value,this.playerPassword.value).subscribe(
         (response)=>{
-          this.api.getAllPlayers().subscribe((data)=>{
+          this.loginService.getAllPlayers().subscribe((data)=>{
             let allPlayers=data
             if(this.playerPassword.value!=null && this.mail.value!=null){
-              this.logins.setcorreo(this.mail.value)
-              let ID=this.api.getPlayerID(this.mail.value,allPlayers)
+              this.loginService.setcorreo(this.mail.value)
+              let ID=this.loginService.searchPlayerID(this.mail.value,allPlayers)
               if(ID!=null){
-                this.logins.setid(ID)
-                this.logins.setloggedinpl("true")
+                this.loginService.setid(ID)
+                this.loginService.setloggedinpl("true")
                 this.router.navigate(['/home']);    
               }
             }

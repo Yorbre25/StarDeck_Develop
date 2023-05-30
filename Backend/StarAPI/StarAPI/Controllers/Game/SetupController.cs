@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
-using StarAPI.Models;
-using StarAPI.Logic.GameLogic;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DTO.Game;
+using StarAPI.DataHandling.Game;
 
 namespace StarAPI.Controllers
 {
@@ -57,7 +56,7 @@ namespace StarAPI.Controllers
         }
 
         [HttpGet("GetHandCards/{gameId}/{playerId}")]
-        public ActionResult SetupHand(string gameId, string playerId)
+        public ActionResult GetHand(string gameId, string playerId)
         {
             try
             {
@@ -82,32 +81,5 @@ namespace StarAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        // [HttpGet("GetGame")]
-        // public ActionResult GetHand()
-        // {
-        //     try
-        //     {
-        //         return Ok(_gameHandling.End());
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(e.Message);
-        //     }
-        // }
-       
-
-
-        // Test
-        // [HttpPost("GetGameTable/{gameTableId}")]
-        // public GameTable NewGame(string gameTableId)
-        // {
-        //     return _gameHandling.GetGameTable(gameTableId);
-        // }
-
-
-        
-        
-        
     }
 }

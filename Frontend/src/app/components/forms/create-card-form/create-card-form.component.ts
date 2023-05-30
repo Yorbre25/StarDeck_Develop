@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
-import { RouterTestingHarness } from '@angular/router/testing';
+import { FormsService } from '../../services/forms_info_services';
+import { CardService } from '../../services/Card.service';
 import { RaceInterface} from '../../interfaces/race.interface';
 import { TypeInterface } from '../../interfaces/type.interface';
-import { ElementSchemaRegistry } from '@angular/compiler';
 /**
  * @description
  * This component acts as a user register form for card creation. The required fields are:
@@ -59,7 +58,7 @@ export class CreateCardFormComponent {
   type = new FormControl('', [Validators.required]);
   image = new FormControl('', [Validators.required]);
   
-  constructor(private router: Router, private _formBuilder: FormBuilder, private api: ApiService) { }
+  constructor(private router: Router, private _formBuilder: FormBuilder, private formService: FormsService,private cardService:CardService) { }
 
 
   ngOnInit() {
@@ -83,12 +82,12 @@ export class CreateCardFormComponent {
         id: '',
         typeName: ''}]
 
-    this.api.getRaces().subscribe(data=>{
+    this.formService.getRaces().subscribe(data=>{
       console.log(data)
       this.races=this.races.concat(data)
     })
 
-    this.api.getTypes().subscribe(data=>{
+    this.formService.getTypes().subscribe(data=>{
       this.types=this.types.concat(data)
     })
 
@@ -138,7 +137,7 @@ export class CreateCardFormComponent {
         this.card.type = this.type.value
       
 
-        this.api.addCard(this.card,this.types,this.races).subscribe(//acá llama a la API
+        this.cardService.addCard(this.card,this.types,this.races).subscribe(//acá llama a la API
           (response) => {
             console.log(response);
             this.router.navigate(['/cards']);

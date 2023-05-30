@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AccountInt } from '../../interfaces/account.interface';
 import { Router } from '@angular/router'; 
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import { ApiService } from '../../services/api.service';
-import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
+import { CardService } from '../../services/Card.service';
 import { LoginService } from '../../services/login.service';
+import { FormsService } from '../../services/forms_info_services';
 import { CountryInterface } from '../../interfaces/countryinterface';
-import { onErrorResumeNextWith } from 'rxjs';
 
 /**
  * @description
@@ -63,7 +62,7 @@ export class SignUpFormComponent implements OnInit {
 
   
   
-  constructor(private router: Router, private _formBuilder: FormBuilder,private api:ApiService, private logs:LoginService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private loginService:LoginService, private cardService:CardService, private formService:FormsService) {}
 
   //La idea es que este módulo genera el mensaje de error
   getErrMessage(component:FormControl){
@@ -117,17 +116,17 @@ export class SignUpFormComponent implements OnInit {
       this.user.country = this.playerNationality.value
       this.user.username = this.playerAlias.value
       this.user.pHash=this.playerPassword.value
-      this.api.registerAccount(this.user,this.nationalities).subscribe( //acá llama a la API
+      this.loginService.registerAccount(this.user,this.nationalities).subscribe( //acá llama a la API
         (response) => {
           if(this.user.email!=null){  
-            this.logs.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
+            this.loginService.setcorreo(this.user.email) //Guarda el correo del usuario que está actualmente loggeado
           }
-          this.api.getAllPlayers().subscribe((data)=>{
-            this.user.id=this.api.getPlayerID(this.user.email,data)  
-            this.api.assignPlayerInitialCards(this.user.id).subscribe((response)=>{
+          this.loginService.getAllPlayers().subscribe((data)=>{
+            this.user.id=this.loginService.searchPlayerID(this.user.email,data)  
+            this.cardService.assignPlayerInitialCards(this.user.id).subscribe((response)=>{
               console.log(response)
               if(this.user.id!=null){
-                this.logs.setid(this.user.id)
+                this.loginService.setid(this.user.id)
               }
               this.router.navigate(['/home']);
               })
@@ -168,7 +167,7 @@ export class SignUpFormComponent implements OnInit {
       id:"",
       countryName:""
     }]
-    this.api.getCountries().subscribe((data)=>{
+    this.formService.getCountries().subscribe((data)=>{
       this.nationalities=this.nationalities.concat(data)
     })
 
