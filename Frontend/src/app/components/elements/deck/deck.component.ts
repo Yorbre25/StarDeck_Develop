@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CardInt } from '../../interfaces/card.interface';
-import { ApiService } from '../../services/api.service';
 import { LoginService } from '../../services/login.service';
-import { DeckInterface } from '../../interfaces/deck.interface';
 
 @Component({
   selector: 'app-deck',
@@ -15,7 +13,7 @@ export class DeckComponent {
   cards!:CardInt[];
   
 
-  constructor(private api: ApiService, private logs:LoginService) {
+  constructor(private logs:LoginService) {
       
     //console.log(this.cards)
   }

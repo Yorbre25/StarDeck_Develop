@@ -1,6 +1,6 @@
 using StarAPI.Context;
-using StarAPI.DTOs;
-using StarAPI.Logic.ModelHandling;
+using StarAPI.DTO.Discovery;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
 
@@ -30,16 +30,16 @@ public class GameTableMapper
 
   
 
-    public GameTable FillNewGameTable(string[] planetsIds)
-    {
-        GameTable newGameTable = new GameTable
-        {
-            planet1Id = planetsIds[0],
-            planet2Id = planetsIds[1],
-            planet3Id = planetsIds[2]
-        };
-        return newGameTable;
-    }
+    // public GameTable FillNewGameTable(string[] planetsIds)
+    // {
+    //     GameTable newGameTable = new GameTable
+    //     {
+    //         planet1Id = planetsIds[0],
+    //         planet2Id = planetsIds[1],
+    //         planet3Id = planetsIds[2]
+    //     };
+    //     return newGameTable;
+    // }
 
 
 }

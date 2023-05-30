@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/components/services/api.service';
 import { CardInt } from '../../interfaces/card.interface';
 
+
 @Component({
   selector: 'app-multiple-planet-cards',
   templateUrl: './multiple-planet-cards.component.html',
@@ -15,13 +16,10 @@ export class MultiplePlanetCardsComponent {
 
   @Input()
   planets!:PlanetInterface[];
-
   @Input()
   cardsPerPlanet!:CardInt[][];
 
   constructor(private api: ApiService, private http: HttpClient) {
-
-    //console.log(this.cards)
   }
 
   ngOnInit(): void {

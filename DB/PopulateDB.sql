@@ -42,6 +42,7 @@ VALUES (1, 'Default Card Image'),
        (3, 'Default Profile Image');
 SET IDENTITY_INSERT dbo.Image OFF;
 
+-- DATA FOR TESTS
 
 INSERT INTO Card (
     id, 
@@ -242,3 +243,4 @@ VALUES
     ('D-000000000003', 'C-000000000016'),
     ('D-000000000003', 'C-000000000017'),
     ('D-000000000003', 'C-000000000018');
+
