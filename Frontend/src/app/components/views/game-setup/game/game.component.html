@@ -11,8 +11,10 @@
             [index]="2" [planet]="planets[2]" [cards]="cardsPerPlanet[2]"></app-planet-cards>
         </div>       
         <label class="title-text">Using deck: {{deckname}}</label>
+        
+        <mat-error class="title-text" *ngIf="EnergyFault"> Not enough energy</mat-error>
         <div class="flex">
-            <h4 class="deck-text"><p>Sus cartas:</p><p>{{remainingCards}} cartas</p>  </h4>
+            <h4 class="deck-text"><p>Sus energía:</p><p>{{energy}}</p>  </h4>
             <app-multiple-cards class="cards" [clickable]="true" [cards]="cards"></app-multiple-cards>
             <div class="grid">
                 
