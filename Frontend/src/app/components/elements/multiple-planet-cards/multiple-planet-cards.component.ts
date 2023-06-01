@@ -1,7 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { PlanetInterface } from '../../interfaces/planet.interface';
 import { HttpClient } from '@angular/common/http';
-import { ApiService } from 'src/app/components/services/api.service';
 import { CardInt } from '../../interfaces/card.interface';
 
 
@@ -19,7 +18,7 @@ export class MultiplePlanetCardsComponent {
   @Input()
   cardsPerPlanet!:CardInt[][];
 
-  constructor(private api: ApiService, private http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
   ngOnInit(): void {
