@@ -7,6 +7,8 @@ export interface PlanetInterface{
     name:string|null;
     image:string|null;
     description:string|null;
+    activated_planet:boolean|null;
     type:string|null;
     show:boolean|null;
 }
+

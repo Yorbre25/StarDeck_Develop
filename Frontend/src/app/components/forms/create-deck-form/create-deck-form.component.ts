@@ -51,7 +51,10 @@ export class CreateDeckFormComponent {
 
   // totalCards = new FormArray([]);
 
-  constructor(private router: Router, private _formBuilder: FormBuilder, private deckService: deckService, private http: HttpClient, public dialog: MatDialog, private LoginS:LoginService, private SCard:selected_Card_S, private cardService:CardService) {
+  constructor(private router: Router, private _formBuilder: FormBuilder,
+     private api: ApiService, private http: HttpClient, public dialog: MatDialog,
+      private LoginS: LoginService, private SCard: selected_Card_S) {
+
 
   }
 

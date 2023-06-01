@@ -48,6 +48,8 @@ export class CardComponent {
   }
 
   toggleSelection() {
+    if (this.clickable) {
     this.isSelected = !this.isSelected;
+    }
   }
 }
