@@ -56,25 +56,26 @@ export class GameComponent {
       console.log(data);
       this.cards = data
     });
-    */
+    
+    /**
+    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
+      console.log("Planets:")
+      console.log(data2);
+      this.planets = data2
+    });
+     */
+    
     this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
       console.log("Hand:")
       console.log(data)
       this.cards = data;
     })
     
-    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
-      console.log("Planets:")
-      console.log(data2);
-      this.planets = data2
-    });
-    
-    /** 
     this.gameService.GetGamePlanets().subscribe((data)=>{
       console.log("Planets:")
       console.log(data)
       this.planets=data;
     })
-    */
+    
 }
 }
