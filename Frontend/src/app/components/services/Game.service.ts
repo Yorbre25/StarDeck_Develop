@@ -15,17 +15,17 @@ export class gameService{
     url:string="https://localhost:7023/"
     
     private GameInfo:SetUpInterface={
-    id:"G-s2zty98u4088",
+    id:"G-oh7ikpwlscny",
     gameTableId:"GT-buj96mf0z1rx",
     totalTurns:10,
     timePerTurn:20,
     currentTurn:0,
-    player1Id:"U-2f4qp1hke60c",
-    player2Id:"U-7lgnnhc5yvkv",
+    player1Id:"U-b4kpgtixsogl",
+    player2Id:"U-loslo0q5cmbc",
     userNamePlayer1:"Blondie",
-    userNamePlayer2:"Sample",
+    userNamePlayer2:"Macho",
     deckNamePlayer1:"Migentelatino",
-    deckNamePlayer2: "SapleDeck"
+    deckNamePlayer2: "Marcelito"
     };
 
     constructor(private http:HttpClient){}
@@ -95,9 +95,9 @@ export class gameService{
         return gameValues
     }
 
-    drawcard(playerID:string):Observable<any>{
+    drawCard(playerID:string):Observable<any>{
         let dir =this.url +"DrawCard/"+this.getgameID()+"/"+playerID
-        console.log(this.drawcard)
+        console.log(dir)
         return this.http.post(dir,{})
     }
 }

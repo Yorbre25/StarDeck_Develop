@@ -47,7 +47,7 @@ export class LoadingGameComponent {
      */
     
     console.log("Before")
-    this.gameService.setgameID("G-s2zty98u4088")
+    this.gameService.setgameID("G-oh7ikpwlscny")
     console.log("After")
     this.gameService.SetUpHands().subscribe((data)=>{
       
