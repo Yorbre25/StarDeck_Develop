@@ -62,8 +62,7 @@ export class GameComponent {
     this.http.get('assets/samples/sampleCards.json').subscribe((data: any) => {
       console.log(data);
       this.cards = data
-    });
-    
+    });    
     **/
 
     // sample cartas para planetas
@@ -93,39 +92,43 @@ export class GameComponent {
     })
 
     this.cardsPerPlanet = this.cardsPerPlanet
+ 
+}
 
+onClickEndTurn() {
+  this.turn = this.turn + 1;
+  this.remainingTime = 20; 
+  console.log('Clicked planet:');
+  // mandar al api info :) 
+  
 
-  }
-
-  onClickEndTurn() {
-    if (this.turn != null) {
-      this.turn = this.turn + 1;
-      this.remainingTime = 20;
-      console.log('Clicked planet:');
-      // mandar al api info :) 
-
-
-      /**
-      this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
-        console.log("Hand:")
-        console.log(data)
-        this.cards = data;
-      }) */
-
-      this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
-        console.log("Planets:")
-        console.log(data2);
-        this.planets = data2
-      });
-
-      /** 
-      this.gameService.GetGamePlanets().subscribe((data)=>{
-        console.log("Planets:")
-        console.log(data)
-        this.planets=data;
-      })
-      */
-    }
+    /**
+    this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+      console.log("Hand:")
+      console.log(data)
+      this.cards = data;
+    }) */
+    
+    /**
+    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
+      console.log("Planets:")
+      console.log(data2);
+      this.planets = data2
+    });
+     */
+    
+    this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+      console.log("Hand:")
+      console.log(data)
+      this.cards = data;
+    })
+    
+    this.gameService.GetGamePlanets().subscribe((data)=>{
+      console.log("Planets:")
+      console.log(data)
+      this.planets=data;
+    })
+}
 
 
   }
