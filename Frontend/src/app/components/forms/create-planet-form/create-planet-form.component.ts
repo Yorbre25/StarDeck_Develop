@@ -61,7 +61,7 @@ export class CreatePlanetFormComponent {
           (response) => {
             console.log(response);
             this.router.navigate(['/planets']);
-          }, (error) => {
+          },(error) => {
             console.log(error)
             this.duplicatePlanetNameFault = true;
           });
