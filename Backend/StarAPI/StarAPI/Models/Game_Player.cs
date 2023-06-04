@@ -5,14 +5,13 @@ namespace StarAPI.Models
 {
     public class Game_Player
     {
-        // [Key]
-        // public string id {get; set;}
+        [ForeignKey("Game")] 
+        public string gameId { get; set; }
         [ForeignKey("Player")]
         public string playerId { get; set; }
         [ForeignKey("Deck")]
         public string deckId { get; set; }
-        [ForeignKey("Game")] 
-        public string gameId { get; set; }
-        // public string handId { get; set; }
+        public int cardPoints { get; set; }
+        public int maxCardPoints { get; set; }
     }
 }

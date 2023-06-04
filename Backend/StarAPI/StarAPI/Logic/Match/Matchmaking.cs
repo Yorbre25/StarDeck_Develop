@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Logic.Utils;
@@ -65,7 +65,7 @@ namespace StarAPI.Logic.Match
             }
 
             var player = players.FirstOrDefault(p=> p.id != id);
-            SetUpValues sv = new SetUpValues();
+            SetupValues sv = new SetupValues();
             sv.player1Id = id;
             sv.player2Id = player.id;
             sv.player1DeckId = deckId;
@@ -106,6 +106,7 @@ namespace StarAPI.Logic.Match
                 return false;
             }
         }
+
 
         public void AddGame(SetUpValues sv)
         {

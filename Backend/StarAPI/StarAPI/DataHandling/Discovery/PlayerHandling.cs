@@ -11,7 +11,7 @@ public class PlayerHandling
 {
     private readonly StarDeckContext _context;
     private PlayerMapper _playerMapper;
-    private IdGenerator _idGenerator;
+    private IdGenerator _idGenerator = new IdGenerator();
 
 
     private static int s_minPlayerUsernameLenght = 1;
@@ -28,114 +28,31 @@ public class PlayerHandling
     {
         this._context = context;
         this._playerMapper = new PlayerMapper(context);
-        this._idGenerator = new IdGenerator();
     }
 
 
     public List<OutputPlayer> GetAllPlayers()
     {
-        try
-        {
-            return GettingAllPlayers();
-        } 
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting players");
-        }
-    }
-
-    public string[] GetAllPlayersIds()
-    {
-        try
-        {
-            return GettingAllPlayersIds();
-        }
-        catch (System.Exception)
-        {
-            throw new Exception("Error getting players ids");
-        }
-    }
-
-    private string[] GettingAllPlayersIds()
-    {
-        //Get List of players ids from database
-        List<Player> players = _context.Player.ToList();
-        var result = from player in players select player.id;
-        return result.ToArray();
-
-    }
-
-    public void SetPlayerRanking(string id, int ranking)
-    {
-        try
-        {
-           SettingPlayerRanking(id, ranking);
-        }
-        catch (System.Exception)
-        {
-            throw new Exception("Error setting player ranking");
-        }
-    }
-
-    private void SettingPlayerRanking(string id, int ranking)
-    {
-        Player player = _context.Player.Find(id);
-        player.ranking = ranking;
-        _context.SaveChanges();
-    }
-
-
-    private List<OutputPlayer> GettingAllPlayers()
-    {
         List<Player> players = _context.Player.ToList();
         return _playerMapper.FillOutputPlayer(players);
     }
 
+
     public string GetUsername(string id)
     {
-        var player = GetPlayer(id);
+        var player = _context.Player.FirstOrDefault(p => p.id == id);
         return player.username;
     }
 
-    private Player GetPlayer(string id)
-    {
-        return _context.Player.FirstOrDefault(p => p.id == id);
-    }
 
     public void AddPlayer(InputPlayer inputPlayer)
     {
-        bool isValid = CheckInputValues(inputPlayer);
-        bool usernameAlreadyExist = UsernameAlreadyExists(inputPlayer.username);
-        bool emailAlreadyExist = EmailAlreadyExists(inputPlayer.email);
-
-        if(!isValid){
-            throw new ArgumentException("Invalid Values");
-        }
-        if(usernameAlreadyExist){
-            throw new ArgumentException("Player username already exist");
-        }
-        if(emailAlreadyExist){
-            throw new ArgumentException("Player email already exist");
-        }
-        AddingPlayer(inputPlayer);
-
-    }
-
-    public void AddVeteranPlayer(Player player)
-    {
-        _context.Player.Add(player);
-        _context.SaveChanges();
-    }
-
-
-
-    public void AddingPlayer(InputPlayer inputPlayer){
         string id = GenerateId();
         var newPlayer = _playerMapper.FillNewPlayer(inputPlayer, id);
         _context.Player.Add(newPlayer);
         _context.SaveChanges();
     }
-    
+   
     private string GenerateId()
     {
         string id = "";
@@ -148,18 +65,8 @@ public class PlayerHandling
         return id;
     }
 
-    private bool CheckInputValues(InputPlayer player)
-    {
-        bool isValid = true;
-        if(player.username.Length < s_minPlayerUsernameLenght || player.username.Length > s_maxPlayerUsernameLenght)
-        {
-            throw new ArgumentException("Invalid username lenght");
-        }
-        return isValid;
-    }
 
-
-    private bool UsernameAlreadyExists(string username)
+    public bool UsernameAlreadyExists(string username)
     {
         var player = _context.Player.FirstOrDefault(r => r.username == username);
         if(player == null){
@@ -168,7 +75,7 @@ public class PlayerHandling
         return true;
     }
 
-    private bool EmailAlreadyExists(string email)
+    public bool EmailAlreadyExists(string email)
     {
         var player = _context.Player.FirstOrDefault(r => r.email == email);
         if(player == null){
@@ -187,5 +94,10 @@ public class PlayerHandling
         return true;
     }
 
-    
+    internal void IncreaseWins(string winnerId, int xpGain)
+    {
+        Player player = _context.Player.FirstOrDefault(p => p.id == winnerId);
+        player.xp += xpGain;
+        _context.SaveChanges();
+    }
 }
