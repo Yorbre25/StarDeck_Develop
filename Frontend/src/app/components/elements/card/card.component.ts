@@ -31,6 +31,7 @@ export class CardComponent {
   };
 
   @Input() clickable: boolean = false;
+  @Input() onPlanet: boolean = false;
 
   constructor(private router: Router, private Scard:selected_Card_S) {
     this.isSelected = false;
@@ -38,7 +39,11 @@ export class CardComponent {
 
   onClick() {
     this.toggleSelection();
-    if (this.clickable) {
+    if (this.onPlanet){
+      console.log("CARD ON PLANET")
+      this.Scard.setcard(this.element)
+      this.Scard.initializeCardList()
+    }else if (this.clickable) {
       if(this.element.id==''){
         console.log("Card not ready yet")
       }else{
@@ -48,6 +53,8 @@ export class CardComponent {
   }
 
   toggleSelection() {
+    if (this.clickable) {
     this.isSelected = !this.isSelected;
+    }
   }
 }

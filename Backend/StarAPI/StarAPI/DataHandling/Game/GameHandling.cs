@@ -34,8 +34,8 @@ public class GameHandling
         this._gameMapper = new GameMapper(_context);
     }
 
-    public OutputSetupValues SetUpGame(SetupValues setupValues)
-    {
+    public OutputSetupValues SetUpGame(SetUpValues setupValues)
+    {   
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
         string gameId = GenerateId();

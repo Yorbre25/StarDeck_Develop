@@ -25,6 +25,7 @@ export class MultipleCardsComponent{
 
   @Input() close: boolean = false;
   @Input() clickable: boolean = false;
+  @Input() onPlanet: boolean = false;
 
 
 

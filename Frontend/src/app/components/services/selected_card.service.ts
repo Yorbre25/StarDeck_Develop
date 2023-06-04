@@ -38,6 +38,9 @@ export class selected_Card_S{
         this.cardList.next([])
     }
 
+    initializeSCard(){
+        localStorage.setItem("scard","")
+    }
     getcard(){
         return localStorage.getItem("scard")
     }

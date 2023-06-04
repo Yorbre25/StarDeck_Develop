@@ -1,6 +1,8 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { PlanetInterface } from '../../interfaces/planet.interface';
 import { HttpClient } from '@angular/common/http';
+import { CardInt } from '../../interfaces/card.interface';
+
 
 @Component({
   selector: 'app-multiple-planet-cards',
@@ -8,12 +10,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./multiple-planet-cards.component.scss']
 })
 export class MultiplePlanetCardsComponent {
+
+  canBeSelected:boolean = true; 
+
   @Input()
   planets!:PlanetInterface[];
+  @Input()
+  cardsPerPlanet!:CardInt[][];
 
   constructor(private http: HttpClient) {
-
-    //console.log(this.cards)
   }
 
   ngOnInit(): void {

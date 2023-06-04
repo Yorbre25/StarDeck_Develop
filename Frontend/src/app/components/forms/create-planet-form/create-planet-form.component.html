@@ -7,7 +7,7 @@
             <input [formControl]="planetName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
                 placeholder="Nyan Cat Planet" required>
             <br>
-            <mat-error *ngIf="planetName.invalid  && fault">{{getErrMessage(planetName)}}</mat-error>
+            <mat-error *ngIf="(planetName.invalid  && fault)|| duplicatePlanetNameFault">{{getErrMessage(planetName)}}</mat-error>
 
             <br>
 

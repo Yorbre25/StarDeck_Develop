@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
 using StarAPI.Models;
 using StarAPI.Logic.Utils;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using System.Xml;
 
 namespace StarAPI.Logic.Match
 {
@@ -35,12 +37,12 @@ namespace StarAPI.Logic.Match
 
         public bool match(string id, string deckId) 
         {
+            
             Match_Player  match_player = new Match_Player();
             match_player.id = id;
             match_player.deckId = deckId;
             match_player.waiting_since = DateTime.Now;
             submit(match_player);
-
             var players = getMatchedPlayers(id);
             int min_player = 2;
             Stopwatch stopwatch = new Stopwatch();
@@ -57,6 +59,7 @@ namespace StarAPI.Logic.Match
                 }
                 if (players.Count == 0) 
                 {
+                    remove(id);
                     return true;
                 }
             }
@@ -104,18 +107,13 @@ namespace StarAPI.Logic.Match
             }
         }
 
-        public bool AddGame(SetupValues sv)
+
+        public void AddGame(SetUpValues sv)
         {
-            try
-            {
-              
-                gameHandling.SetUpGame(sv);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            
+              gameHandling.SetUpGame(sv);
+
+           
         }
 
         // protected void update(string idPlayer1, string idPlayer2, bool state)

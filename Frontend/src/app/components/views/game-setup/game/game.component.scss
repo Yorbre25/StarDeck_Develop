@@ -52,9 +52,26 @@
     margin: 5px;
 }
 
+.button-text:hover {
+    margin: 5px;
+    background-color: #f0f0f0;
+}
+
 .title-text {
     font-size: 2.2rem;
     justify-content:right;
     justify-items: right;
     align-items:end;
 }
+
+.multiple-planets{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+    margin-bottom: 20px;
+    }
+  
+    .app-planet{
+     padding: 15px;
+    }
+   
