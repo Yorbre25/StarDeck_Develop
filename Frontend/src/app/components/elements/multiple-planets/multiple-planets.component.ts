@@ -11,7 +11,6 @@ export class MultiplePlanetsComponent {
   @Input()
   planets!:PlanetInterface[];
 
-    
   constructor() {
     
   }

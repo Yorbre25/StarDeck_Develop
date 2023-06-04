@@ -50,7 +50,7 @@ export class CardService{
     }
 
     getCard(cardId:string):Observable<CardInt>{
-        let dir = this.url + "GetCardById/"+cardId
+        let dir = this.url + "Card/GetCardById/"+cardId
         console.log(dir)
         return this.http.get<CardInt>(dir)
     }
