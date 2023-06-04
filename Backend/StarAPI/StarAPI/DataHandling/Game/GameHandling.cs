@@ -30,20 +30,8 @@ public class GameHandling
         this._gameMapper = new GameMapper(_context);
     }
 
-    public OutputSetupValues SetUpGame(SetUpValues setUpValues)
-    {
-        try
-        {
-            return SettingupGame(setUpValues);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
 
-    }
-
-    public OutputSetupValues SettingupGame(SetUpValues setupValues)
+    public OutputSetupValues SetUpGame(SetUpValues setupValues)
     {   
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
