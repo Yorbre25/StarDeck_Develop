@@ -27,6 +27,7 @@ namespace StarAPI.Controllers
         [HttpGet("GetAllCards")]
         public IEnumerable<OutputCard> GetAllCards()
         {
+            _context.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
             return _cardCrud.GetAllCards();
         }
 
@@ -45,6 +46,24 @@ namespace StarAPI.Controllers
             try
             {
                 _cardCrud.AddCard(card);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("AddCards")]
+        public ActionResult Post([FromBody] List<Card> cards)
+        {
+            try
+            {
+                foreach(var card in cards) 
+                {
+                    _context.Card.Add(card);
+                }
+                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception e)

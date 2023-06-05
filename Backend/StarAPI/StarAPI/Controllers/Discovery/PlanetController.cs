@@ -18,6 +18,7 @@ namespace StarAPI.Controllers
         public PlanetController(StarDeckContext context)
         {
             this._planetCRUD = new PlanetCRUD(context);
+            _context = context;
         }
 
         [HttpGet("GetAllPlanets")]
@@ -46,5 +47,6 @@ namespace StarAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

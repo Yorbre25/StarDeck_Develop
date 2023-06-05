@@ -108,7 +108,7 @@ namespace StarAPI.Logic.Match
         }
 
 
-        public void AddGame(SetUpValues sv)
+        public void AddGame(SetupValues sv)
         {
             
               gameHandling.SetUpGame(sv);

@@ -68,6 +68,25 @@ namespace StarAPI.Controllers
             
         }
 
+        [HttpPost("AddTypes")]
+        public ActionResult Post([FromBody] List<CardType> types) 
+        {
+            try 
+            {
+                foreach(var type in types) 
+                {
+                    _context.CardType.Add(type);
+                    
+                }
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch(Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         // This method is used to delete a card type from the CardType table.
         // DELETE api/<CardTypeController>/5
