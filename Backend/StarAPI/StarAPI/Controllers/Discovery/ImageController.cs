@@ -32,5 +32,18 @@ namespace StarAPI.Controllers
             context.SaveChanges();
             return Ok();
         }
+
+        [HttpPost("AddImages")]
+        public ActionResult AddImages([FromBody] List<Image> card_images)
+        {
+            foreach(var image in card_images)
+            {
+                context.Image.Add(image);
+                
+            }
+            context.SaveChanges();
+
+            return Ok();
+        }
     }
 }
