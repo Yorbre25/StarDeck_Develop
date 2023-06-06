@@ -31,7 +31,7 @@ public class Match_PlayerController : ControllerBase
         if(!matchmaking.match(id, deckId))
         {
 
-            return StatusCode((int)HttpStatusCode.RequestTimeout, "Operation cancelled by user");
+            return BadRequest("Something went wrong");
         }
         return Ok();
 
