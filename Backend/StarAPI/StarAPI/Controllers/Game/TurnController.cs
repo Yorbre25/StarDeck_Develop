@@ -43,8 +43,6 @@ namespace StarAPI.Controllers
         public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
         {
             try{
-                //Verficación de botones y no pasar el turno instantaneamente
-                //Si queda tiempo implmentarlo por tiempo
                 _gameLogic.EndTurn(tableLayout);
                 return Ok();
             }

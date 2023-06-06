@@ -72,12 +72,25 @@ public class GameLogic
     {
         try
         {
-            return _gameHandling.EndGame(gameId);
+            bool shouldEndGame = CheckIfBothPlayersEndGame(gameId);
+            return _gameHandling.EndGame(gameId, shouldEndGame);
         }
         catch (System.Exception e)
         {
             throw new ArgumentException(e.Message);
         }
+    }
+
+    private bool CheckIfBothPlayersEndGame(string gameId)
+    {
+       int counter = _gameHandling.GetEndGameCounter(gameId);
+       bool shouldEndGame = false;
+       if (counter == 1)
+       {
+           shouldEndGame = true;
+       }
+       _gameHandling.DecreaseEndGameCounter(gameId);
+        return shouldEndGame;
     }
 
     internal void EndTurn(InputTableLayout tableLayout)

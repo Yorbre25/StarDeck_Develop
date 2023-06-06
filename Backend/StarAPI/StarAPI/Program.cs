@@ -8,7 +8,8 @@ using StarAPI.Logic.Game;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlite("Data source = Context/StarDeck.db"));// builder.Services.AddDbContext<StarDe
+// builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlite("Data source = Context/StarDeck.db"));
+builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckDb")));
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

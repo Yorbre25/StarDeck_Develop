@@ -153,6 +153,7 @@ CREATE TABLE Game(
 	maxTurns INT NOT NULL,
 	turn int NOT NULL,
 	endTurnCounter INT NOT NULL DEFAULT 2,
+	endGameCounter INT NOT NULL DEFAULT 2,
 	player1Id VARCHAR(15) NULL,
 	player2Id VARCHAR(15) NULL,
 	timeStarted DATETIME,

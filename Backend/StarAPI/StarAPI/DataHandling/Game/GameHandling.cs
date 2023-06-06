@@ -97,23 +97,30 @@ public class GameHandling
 
 
 
-    public WinnerInfo EndGame(string gameId)
+    public WinnerInfo EndGame(string gameId, bool shouldEndGame)
     {
         StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
         string winnerId = DeclareWinner(game.player1Id, game.player2Id);
-        _playerCRUD.IncreaseWins(winnerId, game.xpGain);
 
-
-        //Delete
-        _context.Game.Remove(game);
-        _gameTableHandling.EndGame(gameId);
-        _gamePlayerHandling.EndGame(gameId);
-        _context.SaveChanges();
-
+        if (shouldEndGame)
+        {
+            _playerCRUD.IncreaseWins(winnerId, game.xpGain);
+            DeleteGame(gameId);
+        }
+        
         WinnerInfo winnerInfo = new WinnerInfo();
         winnerInfo.winnerId = winnerId;
         winnerInfo.xpGain = game.xpGain;
         return winnerInfo; 
+    }
+
+    public void DeleteGame(string gameId)
+    {
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        _context.Game.Remove(game);
+        _gameTableHandling.EndGame(gameId);
+        _gamePlayerHandling.EndGame(gameId);
+        _context.SaveChanges();
     }
 
     private string DeclareWinner(string player1Id, string player2Id)
@@ -205,7 +212,20 @@ public class GameHandling
     internal void DecreaseEndTurnCounter(string gameId)
     {
         Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        game.endTurnCounter--;
+        game.endGameCounter--;
+        _context.SaveChanges();
+    }
+
+       internal int GetEndGameCounter(string gameId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        return game.endGameCounter;
+    }
+
+    internal void DecreaseEndGameCounter(string gameId)
+    {
+        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        game.endGameCounter--;
         _context.SaveChanges();
     }
 }
