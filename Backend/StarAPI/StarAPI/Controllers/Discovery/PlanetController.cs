@@ -19,7 +19,11 @@ namespace StarAPI.Controllers
         public PlanetController(StarDeckContext context, ILogger<PlanetController> logger)
         {
             this._planetCRUD = new PlanetCRUD(context);
+
             this._logger = logger;
+
+            _context = context;
+
         }
 
         [HttpGet("GetAllPlanets")]
@@ -49,5 +53,6 @@ namespace StarAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

@@ -50,7 +50,7 @@ export class CreateCardFormComponent {
 
 
   //Objetos de input del frontend
-  characterName = new FormControl('', [Validators.required]);
+  characterName = new FormControl('', [Validators.required,Validators.minLength(5)]);
   description = new FormControl('', [Validators.required,Validators.maxLength(1000)]);
   race = new FormControl('', [Validators.required]);
   energy = new FormControl('', [Validators.required]);
@@ -102,6 +102,8 @@ export class CreateCardFormComponent {
     if(this.energy.value!=null && this.price.value!=null){
       if (component.hasError('required')) {//El usuario no escribió nada
         return "Este campo es obligatorio."
+      } else if (component.hasError('minlength')) {
+        return "El nombre debe tener mínimo 5 caracteres"
       } else if (component.hasError('maxlength')) {
         return "La descripción excede los 1000 caracteres posibles"
       } else if(this.duplicatecardnamefault){
