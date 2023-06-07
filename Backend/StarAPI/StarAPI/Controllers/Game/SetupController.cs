@@ -3,6 +3,7 @@ using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
+using StarAPI.Logic.Game;
 
 namespace StarAPI.Controllers
 {
@@ -10,24 +11,24 @@ namespace StarAPI.Controllers
     [ApiController]
     public class SetupController : ControllerBase
     {
-        private readonly StarDeckContext _context;
-        private GameHandling _gameHandling;
+        private GameLogic _gameLogic;
+        private TableLogic _tableLogic;
         private HandHandling _handHandling;
 
         public SetupController(StarDeckContext context)
         {
-            this._context = context;
-            this._gameHandling = new GameHandling(_context);
-            this._handHandling = new HandHandling(_context);
+            this._gameLogic = new GameLogic(context);
+            this._tableLogic = new TableLogic(context);
+            this._handHandling = new HandHandling(context);
         }
 
 
         [HttpPost("SetupParameters/")]
-        public ActionResult SetupParam([FromBody] SetUpValues setUpValues)
+        public ActionResult SetupParam([FromBody] SetupValues setupValues)
         {
             try
             {
-                return Ok(_gameHandling.SetUpGame(setUpValues));
+                return Ok(_gameLogic.SetUpGame(setupValues));
             }
             catch (Exception e)
             {
@@ -38,7 +39,7 @@ namespace StarAPI.Controllers
         [HttpPost("GetGamePlanets/{gameId}")]
         public List<OutputPlanet> GetGamePlanets(string gameId)
         {
-            return _gameHandling.GetPlanets(gameId);
+            return _tableLogic.GetGamePlanets(gameId);
         }
 
         [HttpPost("SetupHands/{gameId}")]
@@ -46,7 +47,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _gameHandling.SetupHands(gameId);
+                _gameLogic.SetupHands(gameId);
                 return Ok();
             }
             catch (Exception e)
@@ -56,25 +57,11 @@ namespace StarAPI.Controllers
         }
 
         [HttpGet("GetHandCards/{gameId}/{playerId}")]
-        public ActionResult GetHand(string gameId, string playerId)
+        public ActionResult GetHandCards(string gameId, string playerId)
         {
             try
             {
-                return Ok(_gameHandling.GetHandCards(gameId,playerId));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpDelete("EndGame/{gameId}")]
-        public ActionResult EndGame(string? gameId)
-        {
-            try
-            {
-                _gameHandling.EndGame(gameId);
-               return Ok();
+                return Ok(_gameLogic.GetHandCards(gameId,playerId));
             }
             catch (Exception e)
             {

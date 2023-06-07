@@ -4,6 +4,7 @@ using StarAPI.Models;
 using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -11,27 +12,17 @@ namespace StarAPI.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly StarDeckContext _context;
-        private PlayerHandling _playerHandling;
-
+        private PlayerCRUD _playerCRUD;
         public PlayerController(StarDeckContext context) 
         {
-            this._context = context;
-            this._playerHandling = new PlayerHandling(_context);
+            this._playerCRUD = new PlayerCRUD(context);
         }
         
         [HttpGet("GetAllPlayers")]
         public IEnumerable<OutputPlayer> GetAllPlayers()
         {
-            return _playerHandling.GetAllPlayers();
+            return _playerCRUD.GetAllPlayers();
         }
-
-
-        // [HttpGet("GetPlayerById/{id}")]
-        // public Player GetPlayerById(string id)
-        // {
-        //     return context.Player.FirstOrDefault(p => p.id == id || p.email == id);
-        // }
 
  
         [HttpPost("AddPlayer")]
@@ -39,7 +30,7 @@ namespace StarAPI.Controllers
         {
             try 
             {
-                _playerHandling.AddPlayer(player);
+                _playerCRUD.AddPlayer(player);
                 return Ok();
             }
             catch (Exception e)

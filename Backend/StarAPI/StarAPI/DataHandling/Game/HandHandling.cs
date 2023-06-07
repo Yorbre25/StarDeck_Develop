@@ -108,7 +108,6 @@ public class HandHandling
     }
 
     internal void CreateHand(string gameId, string playerId)
-
     {
         bool alreadyExist = PlayerAlreadyHasHand(playerId);
         if(alreadyExist){
@@ -181,5 +180,26 @@ public class HandHandling
         return _context.Hand.FirstOrDefault(d => d.playerId == playerId);
     }
 
+    internal void RemoveCardFromHand(string playerId, string cardId)
+    {
+        try 
+        {
+            RemovingCardFromHand(playerId, cardId);
+        }
+        catch(Exception e)
+        {
+            throw new Exception("Error deleting card from hand: ");
+        }
+    }
 
+    private void RemovingCardFromHand(string playerId, string cardId)
+    {
+        //El get lo debería hacer otra función
+        Hand hand = _context.Hand.FirstOrDefault(h => h.playerId == playerId && h.cardId == cardId);
+        if(hand == null){
+            throw new ArgumentException("Card not found in hand");
+        }
+        _context.Hand.Remove(hand);
+        _context.SaveChanges();
+    }
 }

@@ -40,5 +40,23 @@ namespace StarAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost("AddCountries")]
+        public ActionResult AddCountriess([FromBody] List<Country> countries)
+        {
+            try
+            {
+                foreach (Country country in countries) 
+                {
+                    context.Country.Add(country);
+                }
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

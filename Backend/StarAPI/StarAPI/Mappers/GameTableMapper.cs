@@ -3,6 +3,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
+using StarAPI.DTO.Game;
 
 namespace StarAPI.Logic.Mappers;
 
@@ -12,6 +13,7 @@ public class GameTableMapper
     private RaceHandling _raceHandling;
     private CardTypeHandling _cardTypeHandling;
     private PlayerHandling _playerHandling;
+    private CardCRUD _cardCRUD;
     private ImageHandling _imageHandling;
     private DeckHandling _deckHandling;
     private static int s_maxTurns = 10;
@@ -26,20 +28,31 @@ public class GameTableMapper
         _imageHandling = new ImageHandling(_context);
         _playerHandling = new PlayerHandling(_context);
         _deckHandling = new DeckHandling(_context);
+        _cardCRUD = new CardCRUD(_context);
     }
 
   
 
-    // public GameTable FillNewGameTable(string[] planetsIds)
-    // {
-    //     GameTable newGameTable = new GameTable
-    //     {
-    //         planet1Id = planetsIds[0],
-    //         planet2Id = planetsIds[1],
-    //         planet3Id = planetsIds[2]
-    //     };
-    //     return newGameTable;
-    // }
+    public List<GameTable> FillNewGameTable(InputTableLayout tableLayout)
+    {
+        string gameId = tableLayout.gameId;
+        string playerId = tableLayout.playerId;
+        Dictionary<string, string> layout = tableLayout.layout;
 
+        List<GameTable> gameTables = new List<GameTable>();
+        foreach(KeyValuePair<string, string> entry in layout)
+        {
+            GameTable gameTable = new GameTable
+            {
+                gameId = gameId,
+                playerId = playerId,
+                planetId = entry.Key,
+                cardId = entry.Value,
+                battlePoints = _cardCRUD.GetCard(entry.Value).energy
+            };
+            gameTables.Add(gameTable);
+        }
+        return gameTables;
+    }
 
 }

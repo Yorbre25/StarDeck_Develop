@@ -50,6 +50,25 @@ namespace StarAPI.Controllers
             
         }
 
+        [HttpPost("AddRaces")]
+        public ActionResult AddRaces([FromBody] List<Race> races) 
+        {
+            try 
+            {
+                foreach(var race in races) 
+                {
+                    _context.Race.Add(race);
+
+                }
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch(Exception e) 
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("DelteRace/{id}")]
         public ActionResult DeleteCardType(int id)
         {

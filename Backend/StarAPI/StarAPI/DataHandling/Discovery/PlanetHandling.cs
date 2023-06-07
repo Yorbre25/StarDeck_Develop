@@ -51,7 +51,7 @@ public class PlanetHandling
 
     public void AddPlanet(InputPlanet inputPlanet)
     {
-        string id = _idGenerator.GenerateId(s_idPrefix);
+        string id = GenerateId();
         var newPlanet = _planetMapper.FillNewPlanet(inputPlanet, id);
         _context.Planet.Add(newPlanet);
         _context.SaveChanges();

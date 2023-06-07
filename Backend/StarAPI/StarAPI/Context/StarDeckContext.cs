@@ -29,7 +29,7 @@ namespace StarAPI.Context
             modelBuilder.Entity<Planet>().HasKey(c => new { c.id });
             modelBuilder.Entity<Match_Player>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game>().HasKey(c => new { c.id });
-            modelBuilder.Entity<GameTable>().HasKey(c => new { c.gameId, c.planetId });
+            modelBuilder.Entity<GameTable>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game_Planet>().HasKey(c => new { c.gameId, c.planetId });
             modelBuilder.Entity<Game_Deck>().HasKey(c => new { c.id });
             modelBuilder.Entity<Game_Player>().HasKey(c => new { c.playerId });
