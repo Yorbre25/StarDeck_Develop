@@ -34,7 +34,7 @@ public class GameHandling
         this._gameMapper = new GameMapper(_context);
     }
 
-    public OutputSetupValues SetUpGame(SetUpValues setupValues)
+    public OutputSetupValues SetUpGame(SetupValues setupValues)
     {   
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
@@ -130,7 +130,7 @@ public class GameHandling
 
     internal void SetupHands(string gameId)
     {
-        var game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
         string player1Id = game.player1Id;
         string player2Id = game.player2Id;
         _gamePlayerHandling.SetupHand(gameId, player1Id);

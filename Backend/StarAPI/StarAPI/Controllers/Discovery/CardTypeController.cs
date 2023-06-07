@@ -17,22 +17,16 @@ namespace StarAPI.Controllers
 
         private CardTypeHandling _cardTypeHandling;
         private PlanetTypeHandling _planetTypeHandling;
+        private ILogger<TypeController> _logger;
 
-        /// <summary>
-        /// Constructor for TypeController.
-        /// </summary>
-        /// <param name="context"></param>
-        public TypeController(StarDeckContext context)
+        public TypeController(StarDeckContext context, ILogger<TypeController> logger)
         {
             this._context = context;
             _cardTypeHandling = new CardTypeHandling(_context);
             _planetTypeHandling = new PlanetTypeHandling(_context);
+            _logger = logger;
         }
 
-        /// <summary>
-        /// This method is used to get all card types from the CardType table.
-        /// </summary>
-        /// <returns> </returns>
         [HttpGet]
         [Route("GetAllCardTypes")]
         public IEnumerable<CardType> GetAllCardTypes()
@@ -40,11 +34,6 @@ namespace StarAPI.Controllers
            return _cardTypeHandling.GetAllCardTypes();
         }
 
-        /// <summary>
-        /// This method is used to get a card type from the CardType table.
-        /// </summary>
-        /// <param name="id"> Id of card type to be searched </param>
-        /// <returns>card type found</returns>
         [HttpGet("GetCardType/{id}")]
         public string GetCardType(int id)
         {
@@ -63,19 +52,13 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating card type from data base");
                 return BadRequest(e.Message);
             }
             
         }
 
 
-        // This method is used to delete a card type from the CardType table.
-        // DELETE api/<CardTypeController>/5
-        /// <summary>
-        /// Deteles a card type from the CardType table.
-        /// </summary>
-        /// <param name="id">Id of card type to be deleted</param>
-        /// <returns></returns>
         [HttpDelete("DeleteCardType/{id}")]
         public ActionResult DeleteCardType(int id)
         {
@@ -86,6 +69,7 @@ namespace StarAPI.Controllers
             }
             catch
             {
+                _logger.LogWarning("Error deleting card type from data base");
                 return BadRequest();
             }
         }
@@ -107,6 +91,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating planet type from data base");
                 return BadRequest(e.Message);
             }
             

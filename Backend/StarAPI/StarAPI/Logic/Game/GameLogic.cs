@@ -2,6 +2,7 @@ using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Game;
 using StarAPI.DTO.Game;
+using Microsoft.Extensions.Logging;
 
 namespace StarAPI.Logic.Game;
 
@@ -12,9 +13,9 @@ public class GameLogic
     private GameHandling _gameHandling;
     private GameTableHandling _tableHandling;
 
-
     public GameLogic(StarDeckContext context)
     {
+        _context = context;
         _gameHandling = new GameHandling(context);
         _tableHandling = new GameTableHandling(context);
     }
@@ -23,7 +24,8 @@ public class GameLogic
     {
         try
         {
-            return _gameHandling.SetUpGame(setUpValues);
+            OutputSetupValues outputSetupValues = _gameHandling.SetUpGame(setUpValues);
+            return outputSetupValues;
         }
         catch (Exception e)
         {

@@ -13,11 +13,13 @@ namespace StarAPI.Controllers
     public class PlanetController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private PlanetCRUD _planetCRUD ;
+        private PlanetCRUD _planetCRUD;
+        private ILogger<PlanetController> _logger;
 
-        public PlanetController(StarDeckContext context)
+        public PlanetController(StarDeckContext context, ILogger<PlanetController> logger)
         {
             this._planetCRUD = new PlanetCRUD(context);
+            this._logger = logger;
         }
 
         [HttpGet("GetAllPlanets")]
@@ -43,6 +45,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating planet from data base");
                 return BadRequest(e.Message);
             }
         }

@@ -14,10 +14,12 @@ namespace StarAPI.Controllers
         private GameLogic _gameLogic;
         private TableLogic _tableLogic;
         private HandHandling _handHandling;
+        private ILogger<EndGameController> _logger;
 
-        public EndGameController(StarDeckContext context)
+        public EndGameController(StarDeckContext context,ILogger<EndGameController> logger)
         {
             this._gameLogic = new GameLogic(context);
+            this._logger = logger;
         }
 
         [HttpDelete("EndGame/{gameId}")]
@@ -25,8 +27,9 @@ namespace StarAPI.Controllers
         {
             try
             {
-                //En caso de empate falta
-                return Ok(_gameLogic.EndGame(gameId));
+                var output = _gameLogic.EndGame(gameId);
+                this._logger.LogInformation("Game ended successfully at {time}", DateTime.Now.ToString("hh:mm:ss tt"));
+                return Ok(output);
             }
             catch (Exception e)
             {

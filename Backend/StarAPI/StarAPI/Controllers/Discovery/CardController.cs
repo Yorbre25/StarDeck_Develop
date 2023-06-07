@@ -14,11 +14,13 @@ namespace StarAPI.Controllers
     {
         private readonly StarDeckContext _context;
         private CardCRUD _cardCrud;
+        private ILogger<CardController> _logger;
 
-        public CardController(StarDeckContext context)
+        public CardController(StarDeckContext context, ILogger<CardController> logger)
         {
             this._context = context;
             this._cardCrud = new CardCRUD(_context);
+            this._logger = logger;
         }
 
 
@@ -49,6 +51,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating card from data base");
                 return BadRequest(e.Message);
             }
         }
@@ -63,6 +66,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error deleting card from data base");
                 return BadRequest(e.Message);
             }
         }
