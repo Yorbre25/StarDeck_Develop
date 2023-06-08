@@ -48,6 +48,7 @@ public class GameTableHandling
         }
         SetHiddenPlanet(planets);
         _context.Game_Planet.AddRange(planets);
+        _context.SaveChanges();
     }
 
     private void SetHiddenPlanet(List<Game_Planet> planets)

@@ -25,15 +25,20 @@ public class Match_PlayerController : ControllerBase
     }
 
     [HttpGet("{id}/{deckId}")]
-    public async Task<IActionResult> LongRunningMethod(string id, string deckId)
+    public async Task<ActionResult> LongRunningMethod(string id, string deckId)
     {
         cancel.start = true;
 
         
         if(!matchmaking.match(id, deckId))
         {
+
             
-            return StatusCode((int)HttpStatusCode.RequestTimeout, "Operation cancelled by user");
+            //return StatusCode((int)HttpStatusCode.RequestTimeout, "Operation cancelled by user");
+
+
+            return BadRequest("Something went wrong");
+
         }
         return Ok();
 
