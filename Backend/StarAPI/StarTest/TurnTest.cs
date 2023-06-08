@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using StarAPI.Context;
 using StarAPI.Controllers;
 using StarAPI.DTO.Discovery;
@@ -21,7 +22,7 @@ namespace StarTest
         private readonly DbContextOptions<StarDeckContext> _options;
         public TurnTest()
         {
-            _connection = new SqliteConnection("Data source = C:/Users/Nasser/Documents/Espe/Backend/StarAPI/StarTest/StarDeck.db");
+            _connection = new SqliteConnection("Data source = C:/Users/Nasser/Documents/Espe/Backend/StarAPI/StarAPI/Context/StarDeck.db");
             _connection.Open();
             _options = new DbContextOptionsBuilder<StarDeckContext>().UseSqlite(_connection).Options;
             using (var context = new StarDeckContext(_options)) { context.Database.EnsureCreated(); }
@@ -32,7 +33,9 @@ namespace StarTest
         {
             using (var context = new StarDeckContext(_options)) 
             {
-                TurnController turnController = new TurnController(context);
+                ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { });
+                ILogger<TurnController> logger = loggerFactory.CreateLogger<TurnController>();
+                TurnController turnController = new TurnController(context, logger);
                 Game game = context.Game.FirstOrDefault();
                 Assert.NotNull(game);
                 var result = turnController.DrawCard(game.id, game.player1Id);

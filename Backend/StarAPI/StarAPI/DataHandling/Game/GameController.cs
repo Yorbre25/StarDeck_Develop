@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StarAPI.Context;
 using StarAPI.Models;
 
@@ -20,9 +21,7 @@ namespace StarAPI.DataHandling.Game
         [HttpGet("GetGames")]
         public IEnumerable<Models.Game> GetGames()
         {
-            var dd = context.Set<Game_Planet>();
-            context.RemoveRange(dd);
-            context.SaveChanges();
+       
             return context.Game.ToList();
         }
 
