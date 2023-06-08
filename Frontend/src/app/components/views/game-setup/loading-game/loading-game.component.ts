@@ -19,7 +19,7 @@ export class LoadingGameComponent {
   showPopUp: boolean = false;
 
   constructor(private router: Router,private deckService:deckService, public dialog: MatDialog,protected gameService:gameService, private loginService:LoginService) {
-  }
+}
 
   ngOnInit() {
     setInterval(() => {
@@ -28,6 +28,7 @@ export class LoadingGameComponent {
       if (this.remainingTime == 0) {
         this.timeExpired = true;
         //this.gameService.CancelSearch()
+        console.info('Popup disabled.');
         //this.openPopup() // esto esta desactivado para poder hacer pruebas 
       }
     }, 1000);

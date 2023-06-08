@@ -2,6 +2,7 @@ using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Game;
 using StarAPI.DTO.Game;
+using Microsoft.Extensions.Logging;
 
 namespace StarAPI.Logic.Game;
 
@@ -12,9 +13,9 @@ public class GameLogic
     private GameHandling _gameHandling;
     private GameTableHandling _tableHandling;
 
-
     public GameLogic(StarDeckContext context)
     {
+        _context = context;
         _gameHandling = new GameHandling(context);
         _tableHandling = new GameTableHandling(context);
     }
@@ -23,7 +24,8 @@ public class GameLogic
     {
         try
         {
-            return _gameHandling.SetUpGame(setUpValues);
+            OutputSetupValues outputSetupValues = _gameHandling.SetUpGame(setUpValues);
+            return outputSetupValues;
         }
         catch (Exception e)
         {
@@ -72,12 +74,25 @@ public class GameLogic
     {
         try
         {
-            return _gameHandling.EndGame(gameId);
+            bool shouldEndGame = CheckIfBothPlayersEndGame(gameId);
+            return _gameHandling.EndGame(gameId, shouldEndGame);
         }
         catch (System.Exception e)
         {
             throw new ArgumentException(e.Message);
         }
+    }
+
+    private bool CheckIfBothPlayersEndGame(string gameId)
+    {
+       int counter = _gameHandling.GetEndGameCounter(gameId);
+       bool shouldEndGame = false;
+       if (counter == 1)
+       {
+           shouldEndGame = true;
+       }
+       _gameHandling.DecreaseEndGameCounter(gameId);
+        return shouldEndGame;
     }
 
     internal void EndTurn(InputTableLayout tableLayout)

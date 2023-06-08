@@ -14,8 +14,9 @@ namespace StarAPI.Controllers
     {
         private readonly StarDeckContext context;
         private CountryHandling _countryHandling;
+        private ILogger<CountryController> _logger;
 
-        public CountryController(StarDeckContext context) 
+        public CountryController(StarDeckContext context, ILogger<CountryController> logger) 
         {
             this.context = context;
             _countryHandling = new CountryHandling(context);
@@ -37,6 +38,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating country from data base");
                 return BadRequest(e.Message);
             }
         }

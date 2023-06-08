@@ -13,11 +13,13 @@ namespace StarAPI.Controllers
     {
         private readonly StarDeckContext _context;
         private  RaceHandling _raceHandling;
+        private ILogger<RaceController> _logger;
 
-        public RaceController(StarDeckContext context)
+        public RaceController(StarDeckContext context, ILogger<RaceController> logger)
         {
             this._context = context;
             _raceHandling = new RaceHandling(_context);
+            _logger = logger;
         }
 
         
@@ -45,6 +47,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error creating race from data base");
                 return BadRequest(e.Message);
             }
             
@@ -79,6 +82,7 @@ namespace StarAPI.Controllers
             }
             catch
             {
+                _logger.LogWarning("Error deleting race from data base");
                 return BadRequest();
             }
         }
