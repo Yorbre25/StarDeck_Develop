@@ -24,7 +24,7 @@ namespace StarTest
             using (var context = new StarDeckContext(_options)) { context.Database.EnsureCreated(); }
         }
 
-        
+        [Fact]
         public async Task IsBad()
         {
             _default();
