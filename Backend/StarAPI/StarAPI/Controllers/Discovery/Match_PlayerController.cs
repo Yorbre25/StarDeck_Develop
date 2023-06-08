@@ -12,11 +12,13 @@ public class Match_PlayerController : ControllerBase
 {
     private CancelRequest cancel;
     private Matchmaking matchmaking;
+    private ILogger<Match_PlayerController> _logger;
 
-    public Match_PlayerController(StarDeckContext context)
+    public Match_PlayerController(StarDeckContext context, ILogger<Match_PlayerController> logger)
     {
         cancel = CancelRequest.Instance;
         matchmaking = new Matchmaking(context);
+        logger = _logger;
 
 
         
@@ -31,7 +33,12 @@ public class Match_PlayerController : ControllerBase
         if(!matchmaking.match(id, deckId))
         {
 
+            
+            //return StatusCode((int)HttpStatusCode.RequestTimeout, "Operation cancelled by user");
+
+
             return BadRequest("Something went wrong");
+
         }
         return Ok();
 
@@ -44,6 +51,7 @@ public class Match_PlayerController : ControllerBase
         {
             cancel.terminate = true;
             cancel.start = false;
+            _logger.LogInformation("Matchmaking cancelled successfully");
             return Ok("Operation cancelled");
         }
 

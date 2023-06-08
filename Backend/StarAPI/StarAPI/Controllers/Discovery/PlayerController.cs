@@ -13,9 +13,11 @@ namespace StarAPI.Controllers
     public class PlayerController : ControllerBase
     {
         private PlayerCRUD _playerCRUD;
-        public PlayerController(StarDeckContext context) 
+        private ILogger<PlayerController> _logger;
+        public PlayerController(StarDeckContext context, ILogger<PlayerController> logger) 
         {
             this._playerCRUD = new PlayerCRUD(context);
+            this._logger = logger;
         }
         
         [HttpGet("GetAllPlayers")]
@@ -36,6 +38,7 @@ namespace StarAPI.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+                _logger.LogError("Error creating player from data base");
             }
         }
     }

@@ -14,8 +14,9 @@ namespace StarAPI.Controllers
         private readonly StarDeckContext _context;
         private DeckHandling _deckHandling;
         private DeckCardHandling _deckCardHandling;
+        private ILogger<DeckController> _logger;
 
-        public DeckController(StarDeckContext context)
+        public DeckController(StarDeckContext context, ILogger<DeckController> logger)
         {
             this._context = context;
             this._deckHandling = new DeckHandling(context);
@@ -46,6 +47,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating deck from data base");
                 return BadRequest(e.Message);
             }
         }

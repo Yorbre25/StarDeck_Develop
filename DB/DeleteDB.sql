@@ -1,4 +1,3 @@
-Delete Hand
 DELETE Game
 DELETE Game_Player
 DELETE Game_Planet
@@ -6,6 +5,7 @@ DELETE Game_Deck
 DELETE GameTable
 DELETE Deck_Card
 DELETE Deck
+DELETE Hand
 DELETE Match_Player
 DELETE Player_Card
 DELETE Planet
