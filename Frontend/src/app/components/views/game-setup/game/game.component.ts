@@ -46,6 +46,7 @@ export class GameComponent {
   energy:number=20;
   unhideTurn: number = 3;
   EnergyFault:boolean=false;
+  gameCurrentlyActive=true;
   gameStateWin:boolean=true; // true = win, false = loss
 
 
@@ -79,17 +80,21 @@ export class GameComponent {
     this.SCard.initializeSCard()
     this.cardsPerPlanet = this.cardsPerPlanet
 
-    if(this.turn != null && this.totalTurns != null && this.turn <= this.totalTurns){
+    
       setInterval(() => {
         if (this.remainingTime != null){
+          if(this.gameCurrentlyActive){
           this.remainingTime--;
+          }
           if (this.remainingTime == 0) {
             this.timeExpired = true;
+            if(this.gameCurrentlyActive){
              this.onClickEndTurn()
+            }
           }
         }
       }, 1000);
-    }
+    
     
  
 }
@@ -127,6 +132,8 @@ onClickEndTurn() {
 }
 
   endGame() : void {
+
+     this.gameCurrentlyActive = false;
 
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
