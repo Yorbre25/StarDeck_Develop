@@ -26,12 +26,17 @@ export class PlanetCardsComponent {
 
   @Input()
   cards!: CardInt[];
-  opponentCards: CardInt[] = [];
-
+  @Input()
+  opponentCards!: CardInt[];
+  @Input()
   currentUserPoints!: number;
+  @Input()
   opponentPoints!: number;
-  opponentName!: string;
-  currentUserName!: string;
+  @Input()
+  opponentName!: string|null;
+  @Input()
+  currentUserName!: string|null;
+
   cardToAdd!: CardInt; 
 
 
@@ -52,12 +57,6 @@ export class PlanetCardsComponent {
 
 
   ngOnInit(): void {
-
-    this.currentUserPoints = 0; 
-    this.opponentPoints = 0;
-    this.opponentName = "Opponent";
-    this.currentUserName = "Current User";
-
     this.http.get('assets/game/hiddenPlanet.json').subscribe((data3: any) => {
       this.hidden = data3
     });

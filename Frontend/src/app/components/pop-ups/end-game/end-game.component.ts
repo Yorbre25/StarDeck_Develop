@@ -15,6 +15,7 @@ export class EndGameComponent implements OnInit{
   WinOrLoseMessage!: string;
   opponentName!: string | null;
   currentUserName!: string | null;
+  
 
   constructor(private router: Router, private dialogRef: MatDialogRef<GameComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     //this.gameStatus = data.game_state

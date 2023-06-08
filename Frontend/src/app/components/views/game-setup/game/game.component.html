@@ -4,11 +4,17 @@
 
         <div class="multiple-planets">
             <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
-            [index]="0" [planet]="planets[0]" [cards]="cardsPerPlanet[0]"></app-planet-cards>
+            [index]="0" [planet]="planets[0]" [cards]="cardsPerPlanet[0]" [opponentCards]="oponentCardsPerPlanet[0]"
+            [currentUserName]="currentUserName" [opponentName]="opponentName" [currentUserPoints]="playerPointsPerPlanet[0]"
+            [opponentPoints]="oponentPointsPerPlaner[0]"></app-planet-cards>
             <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
-            [index]="1" [planet]="planets[1]" [cards]="cardsPerPlanet[1]"></app-planet-cards>
+            [index]="1" [planet]="planets[1]" [cards]="cardsPerPlanet[1]" [opponentCards]="oponentCardsPerPlanet[1]"
+            [currentUserName]="currentUserName" [opponentName]="opponentName" [currentUserPoints]="playerPointsPerPlanet[1]"
+            [opponentPoints]="oponentPointsPerPlaner[1]"></app-planet-cards>
             <app-planet-cards class="app-planet" (planetClicked)="onPlanetClicked($event)" 
-            [index]="2" [planet]="planets[2]" [cards]="cardsPerPlanet[2]"></app-planet-cards>
+            [index]="2" [planet]="planets[2]" [cards]="cardsPerPlanet[2]" [opponentCards]="oponentCardsPerPlanet[2]"
+            [currentUserName]="currentUserName" [opponentName]="opponentName" [currentUserPoints]="playerPointsPerPlanet[2]"
+            [opponentPoints]="oponentPointsPerPlaner[2]"></app-planet-cards>
         </div>       
         <label class="title-text">Using deck: {{deckname}}</label>
         

@@ -44,16 +44,20 @@ export class GameComponent {
   currentUserPhoto!: string;
   sampleSingleCard!: CardInt[];
   cardsPerPlanet: CardInt[][] = [[], [], []];
+  oponentCardsPerPlanet:CardInt[][]=[[],[],[]];
+  cardsCurrentlyPlayingPerPlanet: CardInt[][] = [[], [], []]
+  playerPointsPerPlanet:number[]=[0,0,0];
+  oponentPointsPerPlaner:number[]=[0,0,0];
   timeExpired: boolean = false;
   energy:number=20;
   unhideTurn: number = 3;
   EnergyFault:boolean=false;
   gameCurrentlyActive=true;
-  gameState:string="Empate";
+  gameState:string="Ganaste!!";
 
 
   constructor(private http: HttpClient, private deckService: deckService, private gameService: gameService,
-     private loginService: LoginService, private SCard: selected_Card_S, public dialog: MatDialog, private cardService:CardService) {
+    private loginService: LoginService, private SCard: selected_Card_S, public dialog: MatDialog, private cardService:CardService) {
     this.bet = this.defaultinitialbet;
     this.GameValues = this.gameService.getGameValues();
     this.UserInfoValues = this.gameService.getplayerinfo(this.loginService.getid())
@@ -86,7 +90,7 @@ export class GameComponent {
       setInterval(() => {
         if (this.remainingTime != null){
           if(this.gameCurrentlyActive){
-          this.remainingTime--;
+            this.remainingTime--;
           }
           if (this.remainingTime == 0) {
             this.timeExpired = true;
@@ -103,34 +107,37 @@ export class GameComponent {
 
 onClickEndTurn() {
   if(this.turn!=null){
-    this.turn = this.turn + 1;
     if(this.totalTurns != null && this.turn > this.totalTurns){
-      this.endGame()
-    } else {
-      this.remainingTime = 20; 
-      console.log('Clicked planet:');
-      this.gameService.drawCard(this.loginService.getid())
+      this.gameService.EndGame().subscribe((data)=>{
+        if(data.winnerId!=this.loginService.getid()){
+            this.gameState="Perdiste :("
+        }
+        this.endGame()
+      })
+      } else {
+      this.gameService.turnMatrixtoLayout(this.cardsCurrentlyPlayingPerPlanet,this.planets)
+      this.remainingTime = 20;
+      
+      this.gameService.endturn(this.loginService.getid(),this.cardsCurrentlyPlayingPerPlanet,this.planets).subscribe((data)=>{  
+        this.gameService.drawCard(this.loginService.getid()).subscribe((data=>{
+          this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+            this.cards=data
+            this.gameService.getGameBoard(this.loginService.getid()).subscribe((data)=>{
+              this.oponentCardsPerPlanet=this.gameService.turnLayouttoMatrix(data.rivalCards,this.planets)
+              this.gameService.getTurnInfo(this.loginService.getid()).subscribe((data)=>{
+                this.cardsCurrentlyPlayingPerPlanet=[[],[],[]]
+                this.energy=data.playerMaxCardPoints
+                this.playerPointsPerPlanet=this.gameService.turnpointstolist(data.playerPlanetPoints,this.planets)
+                this.oponentPointsPerPlaner=this.gameService.turnpointstolist(data.rivalPlanetPoints,this.planets)
+              })
+            })
+          })  
+        }))
+      })
     }
     
   }
 
-  // mandar al api info :) 
-  
-
-    /**
-    this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
-      console.log("Hand:")
-      console.log(data)
-      this.cards = data;
-    }) */
-    
-    /**
-    this.http.get('assets/samples/samplePlanets.json').subscribe((data2: any) => {
-      console.log("Planets:")
-      console.log(data2);
-      this.planets = data2
-    });
-     */
 }
 
   endGame() : void {
@@ -142,14 +149,14 @@ onClickEndTurn() {
       dialogConfig.maxHeight = 500;
       dialogConfig.maxWidth = 1100;
       dialogConfig.width = '800px'; // Set the width to 1000 pixels
-    dialogConfig.height = '350px'; // Set the height to 1000 pixels
-    dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
+      dialogConfig.height = '350px'; // Set the height to 1000 pixels
+      dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
       dialogConfig.data = {game_state: this.gameState}
 
-      if(this.gameState == "Win"){
+      if(this.gameState == "Ganaste!!"){
         this.dialog.open(EndGameComponent, dialogConfig);
       }
-      else if(this.gameState == "Lose"){
+      else if(this.gameState == "Perdiste :("){
         this.dialog.open(EndGameLoseComponent, dialogConfig);
       } else {
         this.dialog.open(EndGameTieComponent, dialogConfig);
@@ -170,6 +177,8 @@ onClickEndTurn() {
       }
       else if(Card.id==CardIDtodelete&&Card.energy!=undefined){//Card already inside planet
         const indexdeleteCard=this.cardsPerPlanet[planetIndex].indexOf(Card)
+        const indexdeleteCardplaying=this.cardsCurrentlyPlayingPerPlanet[planetIndex].indexOf(Card)
+        this.cardsCurrentlyPlayingPerPlanet[planetIndex].splice(indexdeleteCardplaying,1)
         this.cardsPerPlanet[planetIndex].splice(indexdeleteCard,1)
         this.cards.push(Card)//returns card to hand
         this.energy+=Card.energy
@@ -178,7 +187,6 @@ onClickEndTurn() {
       }
     }
     if(AddCards){
-      this.remainingTime = 40;
       let totalenergy=0
       let CardsClicked=this.SCard.getcardList();
       let energyonLimit=true;
@@ -205,6 +213,7 @@ onClickEndTurn() {
         for (var newCard of CardsClicked){
           this.cardService.getCard(newCard).subscribe((data)=>{
             this.cardsPerPlanet[planetIndex].push(data)
+            this.cardsCurrentlyPlayingPerPlanet[planetIndex].push(data)
             console.log(this.cards)  
             if(data.energy!=undefined){
               this.energy-=data.energy
