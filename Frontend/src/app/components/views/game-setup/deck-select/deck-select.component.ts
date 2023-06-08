@@ -22,7 +22,7 @@ export class DeckSelectComponent {
   ngOnInit(): void {
     this.deckService.getAllDecks(this.loginService.getid()).subscribe(data => {
       console.log(data)
-      this.decks = data 
+      this.decks = data
      });
     /** 
     this.http.get('assets/samples/sampleDecks.json').subscribe((data: any) => {
@@ -44,9 +44,11 @@ export class DeckSelectComponent {
 
     
      */
-
+    if(deck.id!=null){
+    this.deckService.setDeckID(deck.id)
     const uuid = uuidv4();
     console.log(uuid); 
-    this.router.navigate(['/searching']);   
+    this.router.navigate(['/searching']);     
+    }
   }
 }

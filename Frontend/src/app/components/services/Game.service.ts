@@ -15,22 +15,22 @@ export class gameService{
     url:string="https://localhost:7023/"
     
     private GameInfo:SetUpInterface={
-    id:"G-oh7ikpwlscny",
+    id:"G-60f13gfq43p8",
     gameTableId:"GT-buj96mf0z1rx",
     totalTurns:10,
     timePerTurn:20,
     currentTurn:0,
-    player1Id:"U-b4kpgtixsogl",
-    player2Id:"U-loslo0q5cmbc",
-    userNamePlayer1:"Blondie",
-    userNamePlayer2:"Macho",
-    deckNamePlayer1:"Migentelatino",
-    deckNamePlayer2: "Marcelito"
+    player1Id:"U-zfrda9xdw3mm",
+    player2Id:"U-yonv11ifotj8",
+    userNamePlayer1:"Sample",
+    userNamePlayer2:"Sample 2",
+    deckNamePlayer1:"Sample 2",
+    deckNamePlayer2: "Sample 2"
     };
 
     constructor(private http:HttpClient){}
    
-    SearchGame(playerID:string,deckID:string):Observable<MatchInterface>{
+    SearchGame(playerID:string|null,deckID:string|null):Observable<MatchInterface>{
         let dir = this.url+"Match_Player/"+playerID+"/"+deckID
         return this.http.get(dir)
     }
@@ -52,6 +52,7 @@ export class gameService{
 
     SetUpHands():Observable<any>{
         let dir = this.url+"SetupHands/"+this.getgameID()
+        console.log(dir)
         return this.http.post(dir,{})
     }
 

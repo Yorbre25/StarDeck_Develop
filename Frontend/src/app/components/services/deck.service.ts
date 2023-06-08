@@ -57,4 +57,12 @@ export class deckService{
         return this.http.get<CardInt[]>(dir)
     }
 
+    setDeckID(deckID:string){
+        console.log(deckID)
+        localStorage.setItem("DeckID",deckID)
+    }
+
+    getDeckID(){
+        return localStorage.getItem("DeckID")
+    }
 }

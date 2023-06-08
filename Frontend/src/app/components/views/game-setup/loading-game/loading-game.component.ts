@@ -5,6 +5,8 @@ import { MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { gameService } from 'src/app/components/services/Game.service';
+import { LoginService } from 'src/app/components/services/login.service';
+import { deckService } from 'src/app/components/services/deck.service';
 @Component({
   selector: 'app-loading-game',
   templateUrl: './loading-game.component.html',
@@ -12,18 +14,20 @@ import { gameService } from 'src/app/components/services/Game.service';
 })
 export class LoadingGameComponent {
 
-  remainingTime: number = 5;
+  remainingTime: number = 20;
   timeExpired: boolean = false;
   showPopUp: boolean = false;
 
-  constructor(private router: Router, public dialog: MatDialog,protected gameService:gameService) {
+  constructor(private router: Router,private deckService:deckService, public dialog: MatDialog,protected gameService:gameService, private loginService:LoginService) {
   }
 
   ngOnInit() {
     setInterval(() => {
       this.remainingTime--;
+      //this.gameService.SearchGame(this.loginService.getid(),this.deckService.getDeckID())
       if (this.remainingTime == 0) {
         this.timeExpired = true;
+        //this.gameService.CancelSearch()
         //this.openPopup() // esto esta desactivado para poder hacer pruebas 
       }
     }, 1000);
@@ -42,12 +46,9 @@ export class LoadingGameComponent {
   }
 
   findMatch() {
-    /**
-     * 
-     */
     
     console.log("Before")
-    this.gameService.setgameID("G-oh7ikpwlscny")
+    this.gameService.setgameID("G-60f13gfq43p8")
     console.log("After")
     this.gameService.SetUpHands().subscribe((data)=>{
       
