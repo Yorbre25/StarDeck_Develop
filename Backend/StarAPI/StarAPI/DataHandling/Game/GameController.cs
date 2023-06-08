@@ -21,7 +21,6 @@ namespace StarAPI.DataHandling.Game
         [HttpGet("GetGames")]
         public IEnumerable<Models.Game> GetGames()
         {
-       
             return context.Game.ToList();
         }
 

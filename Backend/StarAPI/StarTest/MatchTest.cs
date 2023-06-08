@@ -67,10 +67,10 @@ namespace StarTest
             using (var context = new StarDeckContext(_options)) 
             {
                 context.Database.ExecuteSqlRaw("DELETE FROM Match_Player");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game WHERE(Game.id != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Player WHERE(Game_Player.gameId != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Deck WHERE(Game_Deck.gameId != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Planet WHERE(Game_Planet.gameId != 'G-w0cptj6dwecv');");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Deck");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Planet");
                 context.SaveChanges();
             }
         }
