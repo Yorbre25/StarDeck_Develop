@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using StarAPI.Context;
 using StarAPI.Logic.Login;
@@ -29,7 +30,10 @@ namespace StarTest
             _default();
             using (var context = new StarDeckContext(_options)) 
             {
-                Match_PlayerController matchmaking = new Match_PlayerController(context);
+                ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>{});         
+                ILogger<Match_PlayerController> logger = loggerFactory.CreateLogger<Match_PlayerController>();
+
+                Match_PlayerController matchmaking = new Match_PlayerController(context, logger);
                 var mp1 = await matchmaking.LongRunningMethod("U-i1reg2ikofvz", "D-ums69tjm32d7");
           
                 Assert.IsType<BadRequestObjectResult>(mp1);
@@ -42,8 +46,10 @@ namespace StarTest
             _default();
             using (var context = new StarDeckContext(_options))
             {
-               
-                Match_PlayerController matchmaking = new Match_PlayerController(context);
+                ILoggerFactory loggerFactory = LoggerFactory.Create(builder => { });
+                ILogger<Match_PlayerController> logger = loggerFactory.CreateLogger<Match_PlayerController>();
+
+                Match_PlayerController matchmaking = new Match_PlayerController(context,logger);
                 var mp = new Match_Player();
                 mp.id = "U-i1reg2ikofvz";
                 mp.deckId = "D-ums69tjm32d7";
@@ -61,10 +67,10 @@ namespace StarTest
             using (var context = new StarDeckContext(_options)) 
             {
                 context.Database.ExecuteSqlRaw("DELETE FROM Match_Player");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game WHERE(Game.id != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Player WHERE(Game_Player.gameId != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Deck WHERE(Game_Deck.gameId != 'G-w0cptj6dwecv');");
-                context.Database.ExecuteSqlRaw("DELETE FROM Game_Planet WHERE(Game_Planet.gameId != 'G-w0cptj6dwecv');");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Deck");
+                context.Database.ExecuteSqlRaw("DELETE FROM Game_Planet");
                 context.SaveChanges();
             }
         }
