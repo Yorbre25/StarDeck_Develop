@@ -194,7 +194,6 @@ public class HandHandling
 
     private void RemovingCardFromHand(string playerId, string cardId)
     {
-        //El get lo debería hacer otra función
         Hand hand = _context.Hand.FirstOrDefault(h => h.playerId == playerId && h.cardId == cardId);
         if(hand == null){
             throw new ArgumentException("Card not found in hand");
