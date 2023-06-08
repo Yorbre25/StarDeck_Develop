@@ -176,7 +176,7 @@ public class GameHandling
     private string GetRivalId(object gameId, string playerId)
     {
         string[] playersIds = new string[2];
-        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId.ToString());
+        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
         string rivalId = playersIds.FirstOrDefault(p => p != playerId);
         return rivalId;
     }
@@ -212,7 +212,7 @@ public class GameHandling
     internal void DecreaseEndTurnCounter(string gameId)
     {
         Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        game.endGameCounter--;
+        game.endTurnCounter--;
         _context.SaveChanges();
     }
 

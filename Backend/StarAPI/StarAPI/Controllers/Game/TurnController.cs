@@ -40,6 +40,7 @@ namespace StarAPI.Controllers
                 _logger.LogError("Error drawing card for player in game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
+
         }
 
         [HttpPost("EndTurn")]

@@ -6,12 +6,21 @@
 }
 
 Place Card
+
 {
   "gameId": "G-000000000001",
   "playerId": "U-01a1zjlg4aph",
   "layout": {
     "P-01a1zjlg4aph": "C-000000000002",
     "P-02a1zjlg4aph": "C-000000000004"
+  }
+}
+
+{
+  "gameId": "G-000000000001",
+  "playerId": "U-02a1zjlg4aph",
+  "layout": {
+    "P-01a1zjlg4aph": "C-000000000022"
   }
 }
 

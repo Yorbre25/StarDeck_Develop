@@ -17,6 +17,7 @@ public class GameTableHandling
     private CardCRUD _cardCRUD;
     private PlanetsForGame _planetsForGame;
     private GameTableMapper _gameTableMapper;
+    private HandHandling _handHandling;
 
     private static string s_idPrefix = "GT";
 
@@ -29,6 +30,7 @@ public class GameTableHandling
         this._planetCRUD = new PlanetCRUD(_context);
         this._cardCRUD = new CardCRUD(_context);
         this._gameTableMapper = new GameTableMapper(_context);
+        this._handHandling = new HandHandling(_context);
     }
 
 
@@ -93,13 +95,24 @@ public class GameTableHandling
         EnoughPoints(playerId, cardsTotalCost);
         AddCardsToTable(tableLayout);
         UpdatePlayerCardPoints(playerId, cardsTotalCost);
-        this._context.SaveChanges();
+        RemoveCardsFromHand(playerId, layout);
+        _context.SaveChanges();
+    }
+
+    private void RemoveCardsFromHand(string playerId, Dictionary<string, string> layout)
+    {
+        foreach(KeyValuePair<string, string> entry in layout)
+        {
+            _handHandling.RemoveCardFromHand(playerId, entry.Value);
+        }
+
     }
 
     private void AddCardsToTable(InputTableLayout tableLayout)
     {
         List<GameTable> cards = _gameTableMapper.FillNewGameTable(tableLayout);
         _context.GameTable.AddRange(cards);
+        _context.SaveChanges();
 
     }         
     
