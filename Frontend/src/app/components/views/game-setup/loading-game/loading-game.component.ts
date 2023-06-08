@@ -12,7 +12,7 @@ import { gameService } from 'src/app/components/services/Game.service';
 })
 export class LoadingGameComponent {
 
-  remainingTime: number = 5;
+  remainingTime: number = 20;
   timeExpired: boolean = false;
   showPopUp: boolean = false;
 
@@ -24,6 +24,7 @@ export class LoadingGameComponent {
       this.remainingTime--;
       if (this.remainingTime == 0) {
         this.timeExpired = true;
+        console.info('Popup disabled.');
         //this.openPopup() // esto esta desactivado para poder hacer pruebas 
       }
     }, 1000);

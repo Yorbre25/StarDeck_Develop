@@ -14,6 +14,8 @@ import { ignoreElements } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { EndGameComponent } from 'src/app/components/pop-ups/end-game/end-game.component';
+import { EndGameLoseComponent } from 'src/app/components/pop-ups/end-game-lose/end-game-lose.component';
+import { EndGameTieComponent } from 'src/app/components/pop-ups/end-game-tie/end-game-tie.component';
 
 @Component({
   selector: 'app-game',
@@ -47,7 +49,7 @@ export class GameComponent {
   unhideTurn: number = 3;
   EnergyFault:boolean=false;
   gameCurrentlyActive=true;
-  gameStateWin:boolean=true; // true = win, false = loss
+  gameState:string="Empate";
 
 
   constructor(private http: HttpClient, private deckService: deckService, private gameService: gameService,
@@ -133,8 +135,7 @@ onClickEndTurn() {
 
   endGame() : void {
 
-     this.gameCurrentlyActive = false;
-
+      this.gameCurrentlyActive = false;
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
@@ -143,9 +144,17 @@ onClickEndTurn() {
       dialogConfig.width = '800px'; // Set the width to 1000 pixels
     dialogConfig.height = '350px'; // Set the height to 1000 pixels
     dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
-      dialogConfig.data = {game_state: this.gameStateWin}
-  
-      this.dialog.open(EndGameComponent, dialogConfig);
+      dialogConfig.data = {game_state: this.gameState}
+
+      if(this.gameState == "Win"){
+        this.dialog.open(EndGameComponent, dialogConfig);
+      }
+      else if(this.gameState == "Lose"){
+        this.dialog.open(EndGameLoseComponent, dialogConfig);
+      } else {
+        this.dialog.open(EndGameTieComponent, dialogConfig);
+      }
+      
   
   }
   

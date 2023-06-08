@@ -4,12 +4,12 @@ import { LoadingGameComponent } from '../../views/game-setup/loading-game/loadin
 import { Router } from '@angular/router';
 import { GameComponent } from '../../views/game-setup/game/game.component';
 @Component({
-  selector: 'app-end-game',
-  templateUrl: './end-game.component.html',
-  styleUrls: ['./end-game.component.scss']
+  selector: 'app-end-game-lose',
+  templateUrl: './end-game-lose.component.html',
+  styleUrls: ['./end-game-lose.component.scss']
 })
 
-export class EndGameComponent implements OnInit{
+export class EndGameLoseComponent implements OnInit{
 
   gameStatus: boolean = true;
   WinOrLoseMessage!: string;
