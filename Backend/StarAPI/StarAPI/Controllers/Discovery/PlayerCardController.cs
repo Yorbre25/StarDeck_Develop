@@ -14,11 +14,13 @@ namespace StarAPI.Controllers
         private PlayerCardHandling _playerCardHandling;
         private CardPackageGenerator _cardPackageGenerator;
         private NewPlayerCardGenerator _newPlayerCardGenerator;
-        public PlayerCardController(StarDeckContext context)
+        private ILogger<PlayerCardController> _logger;
+        public PlayerCardController(StarDeckContext context, ILogger<PlayerCardController> logger)
         {
             this._cardPackageGenerator = new CardPackageGenerator(context);
             this._playerCardHandling = new PlayerCardHandling(context);
             this._newPlayerCardGenerator = new NewPlayerCardGenerator(context);
+            this._logger = logger;
         }
 
         [HttpGet("CardCount/{playerId}")]
@@ -38,6 +40,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("Error assigning cards to new player");
                 return BadRequest(e.Message);
             }
         }
@@ -57,6 +60,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error getting packages for new player");
                 return new List<List<OutputCard>>();
             }    
         }
@@ -72,6 +76,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error assigning card to player");
                 return BadRequest();
             }
         }

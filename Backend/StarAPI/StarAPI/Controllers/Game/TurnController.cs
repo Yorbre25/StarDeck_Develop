@@ -13,11 +13,13 @@ namespace StarAPI.Controllers
     {
         private GameLogic _gameLogic;
         private TableLogic _tableLogic;
+        private ILogger<TurnController> _logger;
 
-        public TurnController(StarDeckContext context)
+        public TurnController(StarDeckContext context, ILogger<TurnController> logger)
         {
             this._gameLogic = new GameLogic(context);
             this._tableLogic = new TableLogic(context);
+            this._logger = logger;
         }
 
 
@@ -35,6 +37,7 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError("Error drawing card for player in game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
         }
@@ -43,12 +46,13 @@ namespace StarAPI.Controllers
         public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
         {
             try{
-                //Verficación de botones y no pasar el turno instantaneamente
-                //Si queda tiempo implmentarlo por tiempo
                 _gameLogic.EndTurn(tableLayout);
+                _logger.LogInformation("Request to end turn successful");
                 return Ok();
             }
             catch(Exception e){
+
+                _logger.LogError("Error ending turn");
                 return BadRequest(e.Message);
             }
         }
@@ -62,6 +66,7 @@ namespace StarAPI.Controllers
             }
             catch (System.Exception e)
             {
+                _logger.LogError("Error getting layout");
                 return BadRequest(e.Message);
             }
         }
@@ -75,6 +80,7 @@ namespace StarAPI.Controllers
             }
             catch (System.Exception e)
             {
+                _logger.LogError("Error getting turn info");
                 return BadRequest(e.Message);
             }
         }

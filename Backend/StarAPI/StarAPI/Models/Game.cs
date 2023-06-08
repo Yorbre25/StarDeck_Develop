@@ -9,6 +9,7 @@ namespace StarAPI.Models
         public string id { get; set; }
         public int maxTurns { get; set; }
         public int endTurnCounter { get; set; }
+        public int endGameCounter { get; set; }
         public int xpGain { get; set; } 
         public int turn { get; set; }
         public DateTime timeStarted { get; set; }
