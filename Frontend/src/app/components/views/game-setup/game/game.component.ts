@@ -11,6 +11,9 @@ import { CardService } from 'src/app/components/services/Card.service';
 import { UsersInfoGame } from 'src/app/components/interfaces/GameUsersInfo.interface';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { ignoreElements } from 'rxjs';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { EndGameComponent } from 'src/app/components/pop-ups/end-game/end-game.component';
 
 @Component({
   selector: 'app-game',
@@ -43,10 +46,11 @@ export class GameComponent {
   energy:number=20;
   unhideTurn: number = 3;
   EnergyFault:boolean=false;
+  gameStateWin:boolean=true; // true = win, false = loss
 
 
   constructor(private http: HttpClient, private deckService: deckService, private gameService: gameService,
-     private loginService: LoginService, private SCard: selected_Card_S, private cardService:CardService) {
+     private loginService: LoginService, private SCard: selected_Card_S, public dialog: MatDialog, private cardService:CardService) {
     this.bet = this.defaultinitialbet;
     this.GameValues = this.gameService.getGameValues();
     this.UserInfoValues = this.gameService.getplayerinfo(this.loginService.getid())
@@ -74,15 +78,33 @@ export class GameComponent {
     this.SCard.initializeCardList()
     this.SCard.initializeSCard()
     this.cardsPerPlanet = this.cardsPerPlanet
+
+    if(this.turn != null && this.totalTurns != null && this.turn <= this.totalTurns){
+      setInterval(() => {
+        if (this.remainingTime != null){
+          this.remainingTime--;
+          if (this.remainingTime == 0) {
+            this.timeExpired = true;
+             this.onClickEndTurn()
+          }
+        }
+      }, 1000);
+    }
+    
  
 }
 
 onClickEndTurn() {
   if(this.turn!=null){
     this.turn = this.turn + 1;
-    this.remainingTime = 20; 
-    console.log('Clicked planet:');
-    this.gameService.drawCard(this.loginService.getid())
+    if(this.totalTurns != null && this.turn > this.totalTurns){
+      this.endGame()
+    } else {
+      this.remainingTime = 20; 
+      console.log('Clicked planet:');
+      this.gameService.drawCard(this.loginService.getid())
+    }
+    
   }
 
   // mandar al api info :) 
@@ -103,6 +125,22 @@ onClickEndTurn() {
     });
      */
 }
+
+  endGame() : void {
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.maxHeight = 500;
+      dialogConfig.maxWidth = 1100;
+      dialogConfig.width = '800px'; // Set the width to 1000 pixels
+    dialogConfig.height = '350px'; // Set the height to 1000 pixels
+    dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
+      dialogConfig.data = {game_state: this.gameStateWin}
+  
+      this.dialog.open(EndGameComponent, dialogConfig);
+  
+  }
   
 
   onPlanetClicked(planetIndex: number) {

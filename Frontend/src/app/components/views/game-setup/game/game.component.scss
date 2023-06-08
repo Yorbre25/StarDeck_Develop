@@ -8,6 +8,13 @@
     align-content: center;
 }
 
+.dialog-container {
+    padding: 20px;
+    background-color: #846192;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+  }
+
 .cards{
     padding: 0px;
     margin: 0px;

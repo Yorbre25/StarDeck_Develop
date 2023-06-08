@@ -16,7 +16,7 @@ export class LoadingGameComponent {
   timeExpired: boolean = false;
   showPopUp: boolean = false;
 
-  constructor(private router: Router, public dialog: MatDialog,protected gameService:gameService) {
+  constructor(private router: Router, public dialog: MatDialog, protected gameService:gameService) {
   }
 
   ngOnInit() {
