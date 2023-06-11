@@ -30,42 +30,42 @@ public class HandHandling
 
 
 
-    private int GetHandSize(string playerId)
-    {
-        return _context.Hand.Count(h => h.playerId == playerId);
-    }
+    // private int GetHandSize(string playerId)
+    // {
+    //     return _context.Hand.Count(h => h.playerId == playerId);
+    // }
 
 
 
-    private string PickRandomCard(string playerId)
-    {
-        return _gameDeckCardHandling.DrawCard(playerId);
-    }
+    // private string PickRandomCard(string playerId)
+    // {
+    //     return _gameDeckCardHandling.DrawCard(playerId);
+    // }
 
-    public OutputCard DrawCard(string gameId, string playerId)
-    {
-        int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
-        int handSize = GetHandSize(playerId);
+    // public OutputCard DrawCard(string gameId, string playerId)
+    // {
+        // int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
+        // int handSize = GetHandSize(playerId);
 
-        if(numCardsInDeck == 0 || handSize == Const.MaxHandSize){
-            return null;
-        }
-        return DrawCardFromDeck(gameId, playerId);
-    }
+        // if(numCardsInDeck == 0 || handSize == Const.MaxHandSize){
+        //     return null;
+        // }
+        // return DrawCardFromDeck(gameId, playerId);
+    // }
 
-    private OutputCard DrawCardFromDeck(string gameId, string playerId)
-    {
-        string cardId = PickRandomCard(playerId);
-        Hand newHandCard = new Hand()
-        {
-            gameId = gameId,
-            playerId = playerId,
-            cardId = cardId
-        };
-        _context.Hand.Add(newHandCard);
-        _context.SaveChanges();
-        return _cardCRUD.GetCard(cardId);
-    }
+    // private OutputCard DrawCardFromDeck(string gameId, string playerId)
+    // {
+    //     string cardId = PickRandomCard(playerId);
+    //     Hand newHandCard = new Hand()
+    //     {
+    //         gameId = gameId,
+    //         playerId = playerId,
+    //         cardId = cardId
+    //     };
+    //     _context.Hand.Add(newHandCard);
+    //     _context.SaveChanges();
+    //     return _cardCRUD.GetCard(cardId);
+    // }
 
 
     private Hand GetHandByGameId(string gameId)

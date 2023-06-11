@@ -50,10 +50,10 @@ public class GamePlayerHandling
         return _handHandling.GetHandCardsByPlayerId(playerId);
     }
 
-    internal OutputCard DrawCard(string gameId, string playerId)
-    {
-        return _handHandling.DrawCard(gameId, playerId);
-    }
+    // internal OutputCard DrawCard(string gameId, string playerId)
+    // {
+    //     return _handHandling.DrawCard(gameId, playerId);
+    // }
 
     internal void RemoveCardFromHand(string playerId, string cardId)
     {

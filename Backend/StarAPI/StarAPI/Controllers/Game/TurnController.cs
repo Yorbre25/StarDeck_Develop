@@ -4,6 +4,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -11,11 +12,13 @@ namespace StarAPI.Controllers
     [ApiController]
     public class TurnController : ControllerBase
     {
+        private StarDeckContext _context;
         private GameLogic _gameLogic;
         private ILogger<TurnController> _logger;
 
         public TurnController(StarDeckContext context, ILogger<TurnController> logger)
         {
+            this._context = context;
             this._gameLogic = new GameLogic(context);
             this._logger = logger;
         }
@@ -26,12 +29,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                OutputCard outputCard = _gameLogic.DrawCard(gameId, playerId);
-                if (outputCard == null)
-                {
-                    return Ok();
-                }
-                return Ok(outputCard);
+                DrawCard drawCard = new DrawCard(_context);
+                return Ok(drawCard.Draw(gameId, playerId));
             }
             catch (Exception e)
             {

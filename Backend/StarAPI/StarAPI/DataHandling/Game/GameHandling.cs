@@ -38,10 +38,10 @@ public class GameHandling
     }
 
 
-    internal OutputCard DrawCard(string gameId, string playerId)
-    {
-        return _gamePlayerHandling.DrawCard(gameId, playerId);
-    }
+    // internal OutputCard DrawCard(string gameId, string playerId)
+    // {
+    //     return _gamePlayerHandling.DrawCard(gameId, playerId);
+    // }
 
     internal void EndTurn(InputTableLayout tableLayout)
     {

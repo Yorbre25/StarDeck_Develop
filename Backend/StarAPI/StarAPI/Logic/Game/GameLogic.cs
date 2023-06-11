@@ -19,17 +19,17 @@ public class GameLogic
         _gameHandling = new GameHandling(context);
         _tableHandling = new GameTableHandling(context);
     }
-    internal OutputCard DrawCard(string gameId, string playerId)
-    {
-        try
-        {
-            return _gameHandling.DrawCard(gameId, playerId);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
+    // internal OutputCard DrawCard(string gameId, string playerId)
+    // {
+    //     try
+    //     {
+    //         return _gameHandling.DrawCard(gameId, playerId);
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         throw new Exception(e.Message);
+    //     }
+    // }
 
 
     internal void EndTurn(InputTableLayout tableLayout)
