@@ -20,19 +20,6 @@ public class GameLogic
         _tableHandling = new GameTableHandling(context);
     }
 
-    public OutputSetupValues SetUpGame(SetupValues setUpValues)
-    {
-        try
-        {
-            OutputSetupValues outputSetupValues = _gameHandling.SetUpGame(setUpValues);
-            return outputSetupValues;
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-
-    }
 
     internal void SetupHands(string gameId)
     {

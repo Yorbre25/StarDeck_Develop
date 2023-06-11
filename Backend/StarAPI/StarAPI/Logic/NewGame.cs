@@ -1,6 +1,7 @@
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.DTO.Game;
+using StarAPI.Logic.Mappers;
 
 namespace StarAPI.Logic;
 
@@ -11,11 +12,13 @@ public class NewGame
 
     private static string s_idPrefix = "G";
     private IdGenerator _idGenerator = new IdGenerator();
+    private GameMapper _gameMapper;
 
 
     public NewGame(StarDeckContext context)
     {
         _context = context;
+        this._gameMapper = new GameMapper(_context);
     }
 
     internal OutputSetupValues SetupNewGame(SetupValues setupValues)
@@ -38,8 +41,13 @@ public class NewGame
         SetupPlayers(setUpValues, gameId);
         SetupGameDeck(setUpValues, gameId);
         
-        OutputSetupValues outputSetupValues = new OutputSetupValues();
-        return outputSetupValues;
+        StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setUpValues, gameId);
+        _context.Game.Add(newGame);
+        _context.SaveChanges();
+
+        string deckId1 = setUpValues.player1DeckId;
+        string deckId2 = setUpValues.player2DeckId;
+        return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
         
     }
 

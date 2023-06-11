@@ -18,11 +18,9 @@ public class GameHandling
     private GameTableHandling _gameTableHandling;
     private GamePlayerHandling _gamePlayerHandling;
     private PlayerCRUD _playerCRUD;
-    private GameMapper _gameMapper;
     private RandomTools _randomTools = new RandomTools();
     private IdGenerator _idGenerator = new IdGenerator();
 
-    private static string s_idPrefix = "G";
 
 
     public GameHandling(StarDeckContext context)
@@ -31,27 +29,8 @@ public class GameHandling
         this._gameTableHandling = new GameTableHandling(_context);
         this._gamePlayerHandling = new GamePlayerHandling(_context);
         this._playerCRUD = new PlayerCRUD(_context);
-        this._gameMapper = new GameMapper(_context);
     }
 
-    public OutputSetupValues SetUpGame(SetupValues setupValues)
-    {   
-        string deckId1 = setupValues.player1DeckId;
-        string deckId2 = setupValues.player2DeckId;
-        string gameId = GenerateId();
-        // _gameTableHandling.SetupTable(gameId);
-        // SetupPlayers(setupValues, gameId);
-        
-        StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setupValues, gameId);
-        AddGame(newGame);
-        return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
-    }
-
-    private void AddGame(StarAPI.Models.Game newGame)
-    {
-        _context.Game.Add(newGame);
-        _context.SaveChanges();
-    }
 
     public List<OutputPlanet> GetPlanets(string gameId)
     {
@@ -61,27 +40,6 @@ public class GameHandling
     private void DeleteGame(StarAPI.Models.Game game)
     {
         _context.Game.Remove(game);
-    }
-    private string GenerateId()
-    {
-        string id = "";
-        bool alreadyExists = true;
-        while (alreadyExists)
-        {
-            id = _idGenerator.GenerateId(s_idPrefix);
-            alreadyExists = IdAlreadyExists(id);
-        }
-        return id;
-    }
-
-    
-    private bool IdAlreadyExists(string id){
-        StarAPI.Models.Game? game;
-        game = _context.Game.FirstOrDefault(c => c.id == id);
-        if(game == null){
-            return false;
-        }
-        return true;
     }
 
 

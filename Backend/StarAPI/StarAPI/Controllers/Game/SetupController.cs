@@ -32,7 +32,6 @@ namespace StarAPI.Controllers
             try
             {
                 NewGame newGame = new NewGame(_context);
-                // var output = _gameLogic.SetUpGame(setupValues);
                 var output = newGame.SetupNewGame(setupValues);
                 return Ok(output);
             }

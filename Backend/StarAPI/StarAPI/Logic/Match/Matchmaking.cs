@@ -14,13 +14,14 @@ namespace StarAPI.Logic.Match
     {
         private readonly StarDeckContext _context;
         private CancelRequest cancel;
-        private GameHandling gameHandling;
+        // private GameHandling gameHandling;
         // private PlayerHandling playerHandling;
+        private NewGame _newGame;
         public Matchmaking (StarDeckContext context) 
         {
             this._context = context;
             this.cancel = CancelRequest.Instance;
-            this.gameHandling = new GameHandling(_context);
+            this._newGame = new NewGame(_context);
         }
       
         private List<Player> getMatchedPlayers(string id) 
@@ -111,7 +112,7 @@ namespace StarAPI.Logic.Match
         public void AddGame(SetupValues sv)
         {
             
-              gameHandling.SetUpGame(sv);
+            _newGame.SetupNewGame(sv);
 
            
         }

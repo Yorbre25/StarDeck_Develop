@@ -59,6 +59,7 @@ public class NewGameDeck
             gameDeck.cardId = cardId;
             _context.Game_Deck.Add(gameDeck);
         }
+        _context.SaveChanges();
     }
 
     private void AreDecksValid(SetupValues setupValues)
