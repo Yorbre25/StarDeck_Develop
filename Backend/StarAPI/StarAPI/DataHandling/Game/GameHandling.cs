@@ -39,23 +39,12 @@ public class GameHandling
         string deckId1 = setupValues.player1DeckId;
         string deckId2 = setupValues.player2DeckId;
         string gameId = GenerateId();
-        _gameTableHandling.SetupTable(gameId);
-        SetupPlayers(setupValues, gameId);
+        // _gameTableHandling.SetupTable(gameId);
+        // SetupPlayers(setupValues, gameId);
         
         StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setupValues, gameId);
         AddGame(newGame);
         return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
-    }
-
-
-    private void SetupPlayers(SetupValues setupValues, string gameId)
-    {
-        string player1Id = setupValues.player1Id;
-        string player1DeckId = setupValues.player1DeckId;
-        _gamePlayerHandling.SetupPlayer(player1Id, player1DeckId, gameId);
-        string player2Id = setupValues.player2Id;
-        string player2DeckId = setupValues.player2DeckId;
-        _gamePlayerHandling.SetupPlayer(player2Id, player2DeckId, gameId);
     }
 
     private void AddGame(StarAPI.Models.Game newGame)

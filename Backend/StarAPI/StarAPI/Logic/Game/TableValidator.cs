@@ -12,11 +12,11 @@ using StarAPI.Constants;
 
 namespace StarAPI.DataHandling.Game;
 
-public class TableLogic
+public class TableValidator
 {
     private GameTableHandling _gameTableHandling;
 
-    public TableLogic(StarDeckContext context)
+    public TableValidator(StarDeckContext context)
     {
         this._gameTableHandling = new GameTableHandling(context);
     }

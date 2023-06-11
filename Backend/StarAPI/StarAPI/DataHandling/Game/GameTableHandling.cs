@@ -33,42 +33,6 @@ public class GameTableHandling
         this._handHandling = new HandHandling(_context);
     }
 
-
-    public void SetupTable(string gameId)
-    {
-        List<Game_Planet> planets = new List<Game_Planet>();
-        string[] planetsId = SetupPlanets();
-        for (int i = 0; i < planetsId.Length; i++)
-        {
-            Game_Planet planet = new Game_Planet();
-            planet.gameId = gameId;
-            planet.planetId = planetsId[i];
-            planet.show = true;
-            planets.Add(planet);
-        }
-        SetHiddenPlanet(planets);
-        _context.Game_Planet.AddRange(planets);
-        _context.SaveChanges();
-    }
-
-    private void SetHiddenPlanet(List<Game_Planet> planets)
-    {
-        Game_Planet lastPlanet = planets[planets.Count() - 1];
-        lastPlanet.show = false;
-    }
-
-    public string[] SetupPlanets()
-    {
-        List<OutputPlanet> listPlanets = _planetsForGame.GetPlanetsForNewGame();
-        string[] planetIds = new string[listPlanets.Count];
-
-        for (int i = 0; i < listPlanets.Count; i++)
-        {
-            planetIds[i] = listPlanets[i].id;
-        }
-        return planetIds;
-    }
-
     public List<OutputPlanet> GetGamePlanets(string gameId)
     {
         List<Game_Planet> gamePlanets = _context.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
@@ -80,7 +44,6 @@ public class GameTableHandling
             planet.show = gamePlanet.show;
             listPlanets.Add(planet);
         }
-
         return listPlanets;
     }
 

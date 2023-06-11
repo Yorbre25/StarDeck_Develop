@@ -17,8 +17,7 @@ builder.Host.ConfigureLogging(logging =>
 
 
 // Add services to the container.
-builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlite("Data source = Context/StarDeck.db"));
-//builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckDb")));
+builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckDb")));
 builder.Services.AddControllers();
 
 

@@ -12,13 +12,11 @@ namespace StarAPI.Controllers
     public class TurnController : ControllerBase
     {
         private GameLogic _gameLogic;
-        private TableLogic _tableLogic;
         private ILogger<TurnController> _logger;
 
         public TurnController(StarDeckContext context, ILogger<TurnController> logger)
         {
             this._gameLogic = new GameLogic(context);
-            this._tableLogic = new TableLogic(context);
             this._logger = logger;
         }
 

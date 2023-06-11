@@ -12,7 +12,6 @@ namespace StarAPI.Controllers
     public class EndGameController : ControllerBase
     {
         private GameLogic _gameLogic;
-        private TableLogic _tableLogic;
         private HandHandling _handHandling;
         private ILogger<EndGameController> _logger;
 
