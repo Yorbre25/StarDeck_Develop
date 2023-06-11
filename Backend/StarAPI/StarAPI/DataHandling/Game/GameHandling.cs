@@ -37,43 +37,7 @@ public class GameHandling
         return _gameTableHandling.GetGamePlanets(gameId);
     }
 
-    private void DeleteGame(StarAPI.Models.Game game)
-    {
-        _context.Game.Remove(game);
-    }
 
-
-
-    public WinnerInfo EndGame(string gameId, bool shouldEndGame)
-    {
-        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        string winnerId = DeclareWinner(game.player1Id, game.player2Id);
-
-        if (shouldEndGame)
-        {
-            _playerCRUD.IncreaseWins(winnerId, game.xpGain);
-            DeleteGame(gameId);
-        }
-        
-        WinnerInfo winnerInfo = new WinnerInfo();
-        winnerInfo.winnerId = winnerId;
-        winnerInfo.xpGain = game.xpGain;
-        return winnerInfo; 
-    }
-
-    public void DeleteGame(string gameId)
-    {
-        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        _context.Game.Remove(game);
-        _gameTableHandling.EndGame(gameId);
-        _gamePlayerHandling.EndGame(gameId);
-        _context.SaveChanges();
-    }
-
-    private string DeclareWinner(string player1Id, string player2Id)
-    {
-       return _gameTableHandling.DeclareWinner(player1Id, player2Id);
-    }
     internal OutputCard DrawCard(string gameId, string playerId)
     {
         return _gamePlayerHandling.DrawCard(gameId, playerId);
@@ -148,16 +112,4 @@ public class GameHandling
         _context.SaveChanges();
     }
 
-       internal int GetEndGameCounter(string gameId)
-    {
-        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        return game.endGameCounter;
-    }
-
-    internal void DecreaseEndGameCounter(string gameId)
-    {
-        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        game.endGameCounter--;
-        _context.SaveChanges();
-    }
 }

@@ -68,28 +68,11 @@ public class HandHandling
     }
 
 
-
-    internal void EndGame(string gameId)
-    {
-        Hand hand = GetHandByGameId(gameId);
-        if (hand == null)
-        {
-            return;
-        }
-        DeleteHand(gameId);   
-    }
-
     private Hand GetHandByGameId(string gameId)
     {
         return _context.Hand.FirstOrDefault(d => d.gameId == gameId);
     }
 
- 
-    private void DeleteHand(string gameId)
-    {
-        List<Hand> cards = _context.Hand.Where(h => h.gameId == gameId).ToList();
-        _context.Hand.RemoveRange(cards);
-    }
 
     private Hand GetHand(string playerId)
     {

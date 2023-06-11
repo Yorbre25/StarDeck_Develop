@@ -47,8 +47,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                TableValidator tableValidator = new TableValidator(_context);
-                return Ok(tableValidator.GetGamePlanets(gameId));
+                GameTableHandling gameTableHandling = new GameTableHandling(_context);
+                return Ok(gameTableHandling.GetGamePlanets(gameId));
             }
             catch (Exception e)
             {

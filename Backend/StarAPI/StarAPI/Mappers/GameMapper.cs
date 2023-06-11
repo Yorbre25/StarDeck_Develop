@@ -57,6 +57,7 @@ public class GameMapper
             player2Id = setUpValues.player2Id,
             maxTurns = s_maxTurns,
             endTurnCounter = Const.EndTurnCounter,
+            endGameCounter = Const.EndGameCounter,
             xpGain = Const.XpGain,
             turn = 1,
         };

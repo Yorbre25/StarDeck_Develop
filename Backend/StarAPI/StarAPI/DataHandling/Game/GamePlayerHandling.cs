@@ -44,21 +44,6 @@ public class GamePlayerHandling
         Game_Player? gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
         return gamePlayer;
     }
-    internal void EndGame(string gameId)
-    {
-        DeleteGamePlayers(gameId);
-        _handHandling.EndGame(gameId);
-        _gameDeckCardHandling.EndGame(gameId);
-    }
-
-    private void DeleteGamePlayers(string gameId)
-    {
-        _gameDeckCardHandling.EndGame(gameId);
-        List<Game_Player> gamePlayers = _context.Game_Player.Where(gp => gp.gameId == gameId).ToList();
-        _context.RemoveRange(gamePlayers);
-
-        _context.SaveChanges();
-    }
 
     internal List<OutputCard> GetHandCards(string gameId, string playerId)
     {

@@ -35,6 +35,19 @@ public class GameTableHandling
 
     public List<OutputPlanet> GetGamePlanets(string gameId)
     {
+        try
+        {
+            return GetPlanets(gameId);
+        }
+        catch
+        {
+            throw new Exception("Error getting planets");
+        }
+    }
+
+
+    public List<OutputPlanet> GetPlanets(string gameId)
+    {
         List<Game_Planet> gamePlanets = _context.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
         List<OutputPlanet> listPlanets = new List<OutputPlanet>();
 
@@ -117,21 +130,6 @@ public class GameTableHandling
         player.cardPoints -= cardsTotalCost;
     }
 
-    internal void EndGame(string gameId)
-    {
-        DeleteCards(gameId);
-        List<Game_Planet> planets = _context.Game_Planet.Where(gt => gt.gameId == gameId).ToList();
-        _context.Game_Planet.RemoveRange(planets);
-    }
-
-    private void DeleteCards(string gameId)
-    {
-        List<GameTable> cards = _context.GameTable.Where(gt => gt.gameId == gameId).ToList();
-        if (cards.Count() > 0)
-        {
-            _context.GameTable.RemoveRange(cards);
-        }
-    }
 
     internal void SetTableLayout(InputTableLayout tableLayout)
     {
