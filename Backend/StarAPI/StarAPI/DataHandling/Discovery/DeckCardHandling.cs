@@ -38,7 +38,7 @@ public class DeckCardHandling
         return GetCards(cardsId);
     }
 
-    //DEBERIA ESTAR EN OTRA CLASE
+    //!DEBERIA ESTAR EN OTRA CLASE
     public List<OutputCard> GetCards(string[] cardsId)
     {
         List<OutputCard> outputCards = new List<OutputCard>();

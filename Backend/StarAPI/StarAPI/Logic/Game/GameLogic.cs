@@ -19,45 +19,6 @@ public class GameLogic
         _gameHandling = new GameHandling(context);
         _tableHandling = new GameTableHandling(context);
     }
-
-    public OutputSetupValues SetUpGame(SetupValues setUpValues)
-    {
-        try
-        {
-            OutputSetupValues outputSetupValues = _gameHandling.SetUpGame(setUpValues);
-            return outputSetupValues;
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-
-    }
-
-    internal void SetupHands(string gameId)
-    {
-        try
-        {
-            _gameHandling.SetupHands(gameId);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
-
-    internal List<OutputCard> GetHandCards(string gameId, string playerId)
-    {
-        try
-        {
-            return _gameHandling.GetHandCards(gameId, playerId);
-        }
-        catch (Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
-
     internal OutputCard DrawCard(string gameId, string playerId)
     {
         try

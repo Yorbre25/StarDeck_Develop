@@ -28,47 +28,7 @@ public class HandHandling
         this._cardCRUD = new CardCRUD(_context);
     }
 
-    public void SetupHand(string gameId, string playerId)
-    {
-        try
-        {
-            CreateHand(gameId, playerId);
-            _context.SaveChanges();
-        }
-        catch(Exception e)
-        {
-            throw new Exception(e.Message);
-        }
-    }
 
-
-
-    private void GiveInitialCards(string gameId, string playerId)
-    {
-        string cardId;
-        int handSize = SetHandSize(playerId);
-        for (int i = 0; i < handSize; i++)
-        {
-            cardId = PickRandomCard(playerId);
-            Hand newHandCard = new Hand()
-            {
-                gameId = gameId,
-                playerId = playerId,
-                cardId = cardId
-            };
-            _context.Hand.Add(newHandCard);
-            _context.SaveChanges();
-        }
-    }
-
-    private int SetHandSize(string playerId)
-    {
-        int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
-        if(numCardsInDeck < Const.IntialCardsPerHand){
-            return numCardsInDeck;
-        }
-        return Const.IntialCardsPerHand;
-    }
 
     private int GetHandSize(string playerId)
     {
@@ -107,47 +67,7 @@ public class HandHandling
         return _cardCRUD.GetCard(cardId);
     }
 
-    internal void CreateHand(string gameId, string playerId)
-    {
-        bool alreadyExist = PlayerAlreadyHasHand(playerId);
-        if(alreadyExist){
-            throw new ArgumentException("Player already has a hand");
-        }
-        GiveInitialCards(gameId, playerId);
-    }
 
- 
-
-    private string GenerateId()
-    {
-        string id = "";
-        bool alreadyExists = true;
-        while (alreadyExists)
-        {
-            id = _idGenerator.GenerateId(IdPrefix);
-            alreadyExists = IdAlreadyExists(id);
-        }
-        return id;
-    }
-
-    
-    private bool IdAlreadyExists(string id){
-        StarAPI.Models.Game? game = _context.Game.FirstOrDefault(c => c.id == id);
-        if (game == null){
-            return false;
-        }
-        return true;
-    }
-
-    private bool PlayerAlreadyHasHand(string playerId)
-    {
-        var hand = _context.Hand.FirstOrDefault(d => d.playerId == playerId);
-        bool alreadyHas = false;
-        if(hand != null){
-            alreadyHas = true;
-        }
-        return alreadyHas;
-    }
 
     internal void EndGame(string gameId)
     {
@@ -164,11 +84,7 @@ public class HandHandling
         return _context.Hand.FirstOrDefault(d => d.gameId == gameId);
     }
 
-    public List<OutputCard> GetHandCardsByPlayerId(string playerId)
-    {
-        var cardsIds = _context.Hand.Where(d => d.playerId == playerId).Select(d => d.cardId).ToArray();
-        return _deckCardHandling.GetCards(cardsIds);
-    }
+ 
     private void DeleteHand(string gameId)
     {
         List<Hand> cards = _context.Hand.Where(h => h.gameId == gameId).ToList();
@@ -200,5 +116,23 @@ public class HandHandling
         }
         _context.Hand.Remove(hand);
         _context.SaveChanges();
+    }
+
+    internal List<OutputCard> GetHandCards(string gameId, string playerId)
+    {
+        try
+        {
+            return GetHandCardsByPlayerId(playerId);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Error getting hand cards: " + e.Message);
+        }
+    }
+
+       public List<OutputCard> GetHandCardsByPlayerId(string playerId)
+    {
+        var cardsIds = _context.Hand.Where(d => d.playerId == playerId).Select(d => d.cardId).ToArray();
+        return _deckCardHandling.GetCards(cardsIds);
     }
 }

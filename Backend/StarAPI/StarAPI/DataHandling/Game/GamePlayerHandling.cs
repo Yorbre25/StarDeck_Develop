@@ -27,33 +27,6 @@ public class GamePlayerHandling
         this._gamePlayerMapper = new GamePlayerMapper(_context);
     }
 
-    public void SetupPlayer(string playerId, string deckId, string gameId)
-    {   
-        IsPlayerAvailable(playerId);
-        _gameDeckCardHandling.SetupDeck(playerId, deckId, gameId);
-        Game_Player newGamePlayer = _gamePlayerMapper.FillNewGamePlayer(gameId, playerId, deckId);
-        _context.Game_Player.Add(newGamePlayer);
-        _context.SaveChanges();
-    }
-
-    private void IsPlayerAvailable(string playerId)
-    {
-        var gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
-        if (gamePlayer != null)
-        {
-            throw new ArgumentException("Player is currently in game");
-        }
-    }
-    private bool IdAlreadyExists(string id)
-    {
-        Game_Player? gamePlayer;
-        gamePlayer = _context.Game_Player.FirstOrDefault(c => c.playerId == id);
-        if(gamePlayer == null){
-            return false;
-        }
-        return true;
-    }
-
     public Game_Player GetGamePlayer(string playerId)
     {
         try
@@ -71,12 +44,6 @@ public class GamePlayerHandling
         Game_Player? gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
         return gamePlayer;
     }
-
-    internal void SetupHand(string gameId, string playerId)
-    {
-       _handHandling.SetupHand(gameId, playerId);
-    }
-
     internal void EndGame(string gameId)
     {
         DeleteGamePlayers(gameId);

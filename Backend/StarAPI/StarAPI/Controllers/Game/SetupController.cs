@@ -4,6 +4,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -11,15 +12,15 @@ namespace StarAPI.Controllers
     [ApiController]
     public class SetupController : ControllerBase
     {
+        private readonly StarDeckContext _context;
         private GameLogic _gameLogic;
-        private TableLogic _tableLogic;
         private HandHandling _handHandling;
         private ILogger<SetupController> _logger;
 
         public SetupController(StarDeckContext context, ILogger<SetupController> logger)
         {
+            this._context = context;
             this._gameLogic = new GameLogic(context);
-            this._tableLogic = new TableLogic(context);
             this._handHandling = new HandHandling(context);
             this._logger = logger;
         }
@@ -30,8 +31,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                var output = _gameLogic.SetUpGame(setupValues);
-                _logger.LogInformation("Game Setup successful at {time}", DateTime.Now.ToString("hh:mm:ss tt"));
+                NewGame newGame = new NewGame(_context);
+                var output = newGame.SetupNewGame(setupValues);
                 return Ok(output);
             }
             catch (Exception e)
@@ -46,7 +47,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                return Ok(_tableLogic.GetGamePlanets(gameId));
+                TableValidator tableValidator = new TableValidator(_context);
+                return Ok(tableValidator.GetGamePlanets(gameId));
             }
             catch (Exception e)
             {
@@ -60,7 +62,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _gameLogic.SetupHands(gameId);
+                SetupHands setupHands = new SetupHands(_context);
+                setupHands.SetupHand(gameId);
                 return Ok();
             }
             catch (Exception e)
@@ -75,7 +78,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                var output = _gameLogic.GetHandCards(gameId,playerId);
+                HandHandling handHandling = new HandHandling(_context);
+                var output = handHandling.GetHandCards(gameId,playerId);
                 return Ok(output);
             }
             catch (Exception e)
