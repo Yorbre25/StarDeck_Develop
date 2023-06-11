@@ -78,7 +78,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                var output = _gameLogic.GetHandCards(gameId,playerId);
+                HandHandling handHandling = new HandHandling(_context);
+                var output = handHandling.GetHandCards(gameId,playerId);
                 return Ok(output);
             }
             catch (Exception e)

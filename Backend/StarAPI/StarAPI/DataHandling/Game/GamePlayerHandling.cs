@@ -44,12 +44,6 @@ public class GamePlayerHandling
         Game_Player? gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
         return gamePlayer;
     }
-
-    internal void SetupHand(string gameId, string playerId)
-    {
-       _handHandling.SetupHand(gameId, playerId);
-    }
-
     internal void EndGame(string gameId)
     {
         DeleteGamePlayers(gameId);

@@ -74,21 +74,6 @@ public class GameHandling
     {
        return _gameTableHandling.DeclareWinner(player1Id, player2Id);
     }
-
-    internal void SetupHands(string gameId)
-    {
-        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        string player1Id = game.player1Id;
-        string player2Id = game.player2Id;
-        _gamePlayerHandling.SetupHand(gameId, player1Id);
-        _gamePlayerHandling.SetupHand(gameId, player2Id);
-    }
-
-    internal List<OutputCard> GetHandCards(string gameId, string playerId)
-    {
-        return _gamePlayerHandling.GetHandCards(gameId, playerId);
-    }
-
     internal OutputCard DrawCard(string gameId, string playerId)
     {
         return _gamePlayerHandling.DrawCard(gameId, playerId);
