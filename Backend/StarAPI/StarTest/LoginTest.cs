@@ -27,7 +27,7 @@ namespace StarTest
             using (var context = new StarDeckContext(_options))
             {
                 var login = new Login(context);
-                var result = login.Get("ye@donda.com","taylor12");
+                var result = login.Get("ye@donda.com","donda123");
                 Assert.IsType<OkResult>(result);
             }
         }
@@ -37,8 +37,9 @@ namespace StarTest
         {
             using (var context = new StarDeckContext(_options))
             {
+          
                 var login = new Login(context);
-                var result = login.Get("ye@donda.com", "taylor2");
+                var result = login.Get("ye@donda.com", "donda12");
                 Assert.IsType<BadRequestResult>(result);
             }
         }

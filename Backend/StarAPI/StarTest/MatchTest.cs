@@ -24,7 +24,7 @@ namespace StarTest
             using (var context = new StarDeckContext(_options)) { context.Database.EnsureCreated(); }
         }
 
-        
+        [Fact]
         public async Task IsBad()
         {
             _default();
@@ -34,7 +34,7 @@ namespace StarTest
                 ILogger<Match_PlayerController> logger = loggerFactory.CreateLogger<Match_PlayerController>();
 
                 Match_PlayerController matchmaking = new Match_PlayerController(context, logger);
-                var mp1 = await matchmaking.LongRunningMethod("U-i1reg2ikofvz", "D-ums69tjm32d7");
+                var mp1 = await matchmaking.LongRunningMethod("U-xsonq9gzc0co", "D-c4n1gggv3mzs");
           
                 Assert.IsType<BadRequestObjectResult>(mp1);
             }
@@ -51,11 +51,11 @@ namespace StarTest
 
                 Match_PlayerController matchmaking = new Match_PlayerController(context,logger);
                 var mp = new Match_Player();
-                mp.id = "U-i1reg2ikofvz";
-                mp.deckId = "D-ums69tjm32d7";
+                mp.id = "U-xsonq9gzc0co";
+                mp.deckId = "D-c4n1gggv3mzs";
                 mp.waiting_since = DateTime.Now;
                 context.Match_Player.Add(mp);
-                var mp1 = await matchmaking.LongRunningMethod("U-71r3cqn5d7ks", "D-9ip894944xrk");
+                var mp1 = await matchmaking.LongRunningMethod("U-fvkc2dq9yza4", "D-uhdo33yy14v5");
                 
                 Assert.IsType<OkResult>(mp1);
             }
