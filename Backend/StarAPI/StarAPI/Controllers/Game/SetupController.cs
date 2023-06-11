@@ -62,7 +62,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                _gameLogic.SetupHands(gameId);
+                SetupHands setupHands = new SetupHands(_context);
+                setupHands.SetupHand(gameId);
                 return Ok();
             }
             catch (Exception e)

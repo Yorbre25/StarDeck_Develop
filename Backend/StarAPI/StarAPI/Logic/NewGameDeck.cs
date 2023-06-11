@@ -41,6 +41,7 @@ public class NewGameDeck
         {
             AddCardsToDeck(gameId, players[i], decks[i]);
         }
+        _context.SaveChanges();
     }
 
     private void AddCardsToDeck(string gameId, string playerId, string deckId)
@@ -59,7 +60,6 @@ public class NewGameDeck
             gameDeck.cardId = cardId;
             _context.Game_Deck.Add(gameDeck);
         }
-        _context.SaveChanges();
     }
 
     private void AreDecksValid(SetupValues setupValues)
