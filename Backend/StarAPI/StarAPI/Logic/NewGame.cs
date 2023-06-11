@@ -36,16 +36,17 @@ public class NewGame
         string gameId = GenerateId();
         SetupTable(gameId);
         SetupPlayers(setUpValues, gameId);
-        // SetupGameDeck(gameId);
+        SetupGameDeck(setUpValues, gameId);
         
         OutputSetupValues outputSetupValues = new OutputSetupValues();
         return outputSetupValues;
         
     }
 
-    private void SetupGameDeck(string gameId)
+    private void SetupGameDeck(SetupValues setupValues, string gameId)
     {
-        
+        NewGameDeck newGameDeck = new NewGameDeck(_context);
+        newGameDeck.SetupNewGameDeck(setupValues, gameId);
     }
 
     private void SetupPlayers(SetupValues setUpValues, string gameId)

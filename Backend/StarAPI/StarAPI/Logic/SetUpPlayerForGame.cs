@@ -56,7 +56,7 @@ public class SetUpPlayerForGame
     private void AddPlayer(string playerId, string deckId, string gameId)
     {
         IsPlayerAvailable(playerId);
-        _gameDeckCardHandling.SetupDeck(playerId, deckId, gameId); // temp
+        // _gameDeckCardHandling.SetupDeck(playerId, deckId, gameId); // temp
         Game_Player newGamePlayer = _gamePlayerMapper.FillNewGamePlayer(gameId, playerId, deckId);
         _context.Game_Player.Add(newGamePlayer);
     }
