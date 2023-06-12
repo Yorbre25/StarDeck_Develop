@@ -32,26 +32,26 @@ public class GameLogic
     // }
 
 
-    internal void EndTurn(InputTableLayout tableLayout)
-    {
-        bool shouldEndTurn = CheckIfBothPlayersPassed(tableLayout.gameId);
-        _tableHandling.SetTableLayout(tableLayout);
-        if (shouldEndTurn)
-            _gameHandling.EndTurn(tableLayout);
-    }
+    // internal void EndTurn(InputTableLayout tableLayout)
+    // {
+    //     // bool shouldEndTurn = CheckIfBothPlayersPassed(tableLayout.gameId);
+    //     _tableHandling.SetTableLayout(tableLayout);
+    //     if (shouldEndTurn)
+    //         _gameHandling.EndTurn(tableLayout);
+    // }
 
-    private bool CheckIfBothPlayersPassed(string gameId)
-    {
-        int counter = _gameHandling.GetEndTurnCounter(gameId);
-        bool shouldEndTurn = false;
-        if (counter == 1)
-        {
-            _gameHandling.ResetEndTurnCounter(gameId);
-            shouldEndTurn = true;
-        }
-        _gameHandling.DecreaseEndTurnCounter(gameId);
-        return shouldEndTurn;
-    }
+    // private bool CheckIfBothPlayersPassed(string gameId)
+    // {
+    //     int counter = _gameHandling.GetEndTurnCounter(gameId);
+    //     bool shouldEndTurn = false;
+    //     if (counter == 1)
+    //     {
+    //         _gameHandling.ResetEndTurnCounter(gameId);
+    //         shouldEndTurn = true;
+    //     }
+    //     _gameHandling.DecreaseEndTurnCounter(gameId);
+    //     return shouldEndTurn;
+    // }
 
     internal OutputTableLayout GetLayout(string gameId, string playerId)
     {

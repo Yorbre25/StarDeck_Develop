@@ -45,29 +45,6 @@ public class GamePlayerHandling
         return gamePlayer;
     }
 
-    internal List<OutputCard> GetHandCards(string gameId, string playerId)
-    {
-        return _handHandling.GetHandCardsByPlayerId(playerId);
-    }
-
-    // internal OutputCard DrawCard(string gameId, string playerId)
-    // {
-    //     return _handHandling.DrawCard(gameId, playerId);
-    // }
-
-    internal void RemoveCardFromHand(string playerId, string cardId)
-    {
-        _handHandling.RemoveCardFromHand(playerId, cardId);
-    }
-
-    internal void IncreaseCardPoints(string playerId)
-    {
-        Game_Player gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
-        gamePlayer.maxCardPoints += Const.ExtraCardPointsPerTurn;
-        gamePlayer.cardPoints = gamePlayer.maxCardPoints;
-        _context.SaveChanges();
-    }
-
     internal int GetMaxCardPoints(string gameId)
     {
         Game_Player gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);

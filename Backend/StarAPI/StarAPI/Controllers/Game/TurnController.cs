@@ -34,7 +34,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Error drawing card for player in game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
 
@@ -44,13 +43,12 @@ namespace StarAPI.Controllers
         public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
         {
             try{
-                _gameLogic.EndTurn(tableLayout);
-                _logger.LogInformation("Request to end turn successful");
+                EndTurn endTurn = new EndTurn(_context);
+                endTurn.End(tableLayout);
                 return Ok();
             }
             catch(Exception e){
 
-                _logger.LogError("Error ending turn");
                 return BadRequest(e.Message);
             }
         }
