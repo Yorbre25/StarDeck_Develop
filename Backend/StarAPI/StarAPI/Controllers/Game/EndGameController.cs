@@ -14,13 +14,11 @@ namespace StarAPI.Controllers
     {
 
         private readonly StarDeckContext _context;
-        private GameLogic _gameLogic;
         private ILogger<EndGameController> _logger;
 
         public EndGameController(StarDeckContext context,ILogger<EndGameController> logger)
         {
             _context = context;
-            this._gameLogic = new GameLogic(context);
             this._logger = logger;
         }
 

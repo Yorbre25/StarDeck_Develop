@@ -13,13 +13,11 @@ namespace StarAPI.Controllers
     public class TurnController : ControllerBase
     {
         private StarDeckContext _context;
-        private GameLogic _gameLogic;
         private ILogger<TurnController> _logger;
 
         public TurnController(StarDeckContext context, ILogger<TurnController> logger)
         {
             this._context = context;
-            this._gameLogic = new GameLogic(context);
             this._logger = logger;
         }
 
@@ -60,7 +58,6 @@ namespace StarAPI.Controllers
             {
                 TableLayout tableLayout = new TableLayout(_context);
                 return Ok(tableLayout.GetLayout(gameId, playerId));
-                // return Ok(_gameLogic.GetLayout(gameId, playerId));
             }
             catch (System.Exception e)
             {
@@ -74,7 +71,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                return Ok(_gameLogic.GetTurnInfo(gameId, playerId));
+                Turn turn = new Turn(_context);
+                return Ok(turn.GetTurnInfo(gameId, playerId));
             }
             catch (System.Exception e)
             {

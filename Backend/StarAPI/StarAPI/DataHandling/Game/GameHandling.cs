@@ -15,32 +15,13 @@ namespace StarAPI.DataHandling.Game;
 public class GameHandling
 {
     private readonly StarDeckContext _context;
-    private GameTableHandling _gameTableHandling;
-    private GamePlayerHandling _gamePlayerHandling;
-    private PlayerCRUD _playerCRUD;
-    private RandomTools _randomTools = new RandomTools();
-    private IdGenerator _idGenerator = new IdGenerator();
 
 
 
     public GameHandling(StarDeckContext context)
     {
         this._context = context;
-        this._gameTableHandling = new GameTableHandling(_context);
-        this._gamePlayerHandling = new GamePlayerHandling(_context);
-        this._playerCRUD = new PlayerCRUD(_context);
     }
-
-
-    public List<OutputPlanet> GetPlanets(string gameId)
-    {
-        return _gameTableHandling.GetGamePlanets(gameId);
-    }
-    // internal OutputTableLayout GetLayout(object gameId, string playerId)
-    // {
-    //     string rivalId = GetRivalId(gameId, playerId);
-    //     return _gameTableHandling.GetLayout(playerId, rivalId);
-    // }
 
     public string GetRivalId(object gameId, string playerId)
     {
@@ -49,19 +30,47 @@ public class GameHandling
         return idRival;
     }
 
-    internal TurnInfo GetTurnInfo(string gameId, string playerId)
+    // internal TurnInfo GetTurnInfo(string gameId, string playerId)
+    // {
+    //     Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+    //     TurnInfo turnInfo = new TurnInfo();
+    //     string rivalId = GetRivalId(gameId, playerId);
+
+    //     turnInfo.currentTurn = game.turn;   
+    //     turnInfo.playerMaxCardPoints = _gamePlayerHandling.GetMaxCardPoints(gameId);
+    //     turnInfo.playerPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(playerId);
+    //     turnInfo.rivalPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(rivalId);
+
+    //     return turnInfo;
+
+    // }
+
+    public string[] GetGamePlanets(string gameId)
     {
-        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        TurnInfo turnInfo = new TurnInfo();
-        string rivalId = GetRivalId(gameId, playerId);
+        GameTableHandling gameTableHandling = new GameTableHandling(_context);
+        List<OutputPlanet> planets = gameTableHandling.GetGamePlanets(gameId);
+        string[] planetsIds = new string[planets.Count];
+        for (int i = 0; i < planets.Count; i++)
+        {
+            planetsIds[i] = planets[i].id;
+        }
+        return planetsIds;
+    }
 
-        turnInfo.currentTurn = game.turn;   
-        turnInfo.playerMaxCardPoints = _gamePlayerHandling.GetMaxCardPoints(gameId);
-        turnInfo.playerPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(playerId);
-        turnInfo.rivalPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(rivalId);
+    public Dictionary<string, int> GetBattlePointsPerPlanet(string[] planetsIds, string playerId)
+    {
+        Dictionary<string, int> pointsPerPlanet = new Dictionary<string, int>();
+        foreach (string planetId in planetsIds)
+        {
+            pointsPerPlanet.Add(planetId, 0);
+        }
 
-        return turnInfo;
-
+        List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
+        foreach (GameTable card in cards)
+        {
+            pointsPerPlanet[card.planetId] += card.battlePoints;
+        }
+        return pointsPerPlanet;
     }
 
 }

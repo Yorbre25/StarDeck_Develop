@@ -13,13 +13,11 @@ namespace StarAPI.Controllers
     public class SetupController : ControllerBase
     {
         private readonly StarDeckContext _context;
-        private GameLogic _gameLogic;
         private ILogger<SetupController> _logger;
 
         public SetupController(StarDeckContext context, ILogger<SetupController> logger)
         {
             this._context = context;
-            this._gameLogic = new GameLogic(context);
             this._logger = logger;
         }
 
@@ -35,7 +33,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Game Setup failed at {time}", DateTime.Now.ToString("hh:mm:ss tt"));
                 return BadRequest(e.Message);
             }
         }
@@ -50,7 +47,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Error getting game planets for game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
         }
@@ -66,7 +62,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Hand Setup failed for game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
         }
@@ -82,7 +77,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError("Error getting hand cards for player in game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
         }

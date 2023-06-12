@@ -13,6 +13,7 @@ public class WinnerDeclaration
 {
 
     private readonly StarDeckContext _context;
+    GameHandling _gameHandling;
     private int player1 = 0;
     private int player2 = 1;
     private int numPlayers = 2;
@@ -21,6 +22,7 @@ public class WinnerDeclaration
     public WinnerDeclaration(StarDeckContext context)
     {
         _context = context;
+        _gameHandling = new GameHandling(_context);
     }
 
     public string GetWinner(string gameId)
@@ -39,32 +41,15 @@ public class WinnerDeclaration
     internal string DeclareWinner(string gameId)
     {
         string [] playersIds = GetGamePlayers(gameId);
-        string[] planetsIds = GetGamePlanets(gameId);
+        string[] planetsIds = _gameHandling.GetGamePlanets(gameId);
 
-
-        Dictionary<string, int> pointsPerPlanetPlayer1 = GetBattlePointsPerPlanet(planetsIds, playersIds[player1]);
-        Dictionary<string, int> pointsPerPlanetPlayer2 = GetBattlePointsPerPlanet(planetsIds, playersIds[player2]);
+        
+        Dictionary<string, int> pointsPerPlanetPlayer1 = _gameHandling.GetBattlePointsPerPlanet(planetsIds, playersIds[player1]);
+        Dictionary<string, int> pointsPerPlanetPlayer2 = _gameHandling.GetBattlePointsPerPlanet(planetsIds, playersIds[player2]);
 
         string winner = ComparePoints(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
         return winner;   
     }
-
-    private Dictionary<string, int> GetBattlePointsPerPlanet(string[] planetsIds, string playerId)
-    {
-        Dictionary<string, int> pointsPerPlanet = new Dictionary<string, int>();
-        foreach (string planetId in planetsIds)
-        {
-            pointsPerPlanet.Add(planetId, 0);
-        }
-
-        List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
-        foreach (GameTable card in cards)
-        {
-            pointsPerPlanet[card.planetId] += card.battlePoints;
-        }
-        return pointsPerPlanet;
-    }
-
 
 
     private string ComparePoints(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
@@ -81,8 +66,8 @@ public class WinnerDeclaration
 
     private Dictionary<string, int> PlanetsConquered(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
     {
-        string IdPlayer1 = playersIds[0];
-        string IdPlayer2 = playersIds[1];
+        string IdPlayer1 = playersIds[player1];
+        string IdPlayer2 = playersIds[player2];
         Dictionary<string, int> planetsConqueredPerPlayer = new Dictionary<string, int>
         {
             {IdPlayer1, 0},
@@ -156,10 +141,6 @@ public class WinnerDeclaration
         }
     }
 
-
-
-
-
     private string[] GetGamePlayers(string gameId)
     {
         string[] playersIds = new string[numPlayers];
@@ -170,16 +151,5 @@ public class WinnerDeclaration
         return playersIds;
     }
 
-    private string[] GetGamePlanets(string gameId)
-    {
-        GameTableHandling gameTableHandling = new GameTableHandling(_context);
-        List<OutputPlanet> planets = gameTableHandling.GetGamePlanets(gameId);
-        string[] planetsIds = new string[planets.Count];
-        for (int i = 0; i < planets.Count; i++)
-        {
-            planetsIds[i] = planets[i].id;
-        }
-        return planetsIds;
-    }
 
 }
