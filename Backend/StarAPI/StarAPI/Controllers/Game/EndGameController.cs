@@ -15,7 +15,6 @@ namespace StarAPI.Controllers
 
         private readonly StarDeckContext _context;
         private GameLogic _gameLogic;
-        private HandHandling _handHandling;
         private ILogger<EndGameController> _logger;
 
         public EndGameController(StarDeckContext context,ILogger<EndGameController> logger)

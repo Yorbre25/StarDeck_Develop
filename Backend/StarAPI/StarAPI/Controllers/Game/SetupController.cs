@@ -14,14 +14,12 @@ namespace StarAPI.Controllers
     {
         private readonly StarDeckContext _context;
         private GameLogic _gameLogic;
-        private HandHandling _handHandling;
         private ILogger<SetupController> _logger;
 
         public SetupController(StarDeckContext context, ILogger<SetupController> logger)
         {
             this._context = context;
             this._gameLogic = new GameLogic(context);
-            this._handHandling = new HandHandling(context);
             this._logger = logger;
         }
 
@@ -78,7 +76,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                HandHandling handHandling = new HandHandling(_context);
+                HandCard handHandling = new HandCard(_context);
                 var output = handHandling.GetHandCards(gameId,playerId);
                 return Ok(output);
             }

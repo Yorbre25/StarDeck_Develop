@@ -7,7 +7,7 @@ using StarAPI.DataHandling.Discovery;
 
 namespace StarAPI.DataHandling.Game;
 
-public class GameDeckCardHandling
+public class GameDeckHandling
 {
     private readonly StarDeckContext _context;
     private DeckCardHandling _deckCardHandling;
@@ -15,7 +15,7 @@ public class GameDeckCardHandling
     private RandomTools _randomTools = new RandomTools();
 
 
-    public GameDeckCardHandling(StarDeckContext context)
+    public GameDeckHandling(StarDeckContext context)
     {
         this._context = context;
         this._deckCardHandling = new DeckCardHandling(_context);
@@ -39,6 +39,12 @@ public class GameDeckCardHandling
             
             throw new Exception("Error getting deck by player");
         }
+    }
+
+    public void RemoveCardFromDeck(string playerId, string cardId)
+    {
+       Game_Deck? card = _context.Game_Deck.Where(c => c.playerId == playerId && c.cardId == cardId).FirstOrDefault();
+        _context.Game_Deck.Remove(card);
     }
 
 }

@@ -5,6 +5,7 @@ using StarAPI.Logic.Mappers;
 using StarAPI.DataHandling.Game;
 using StarAPI.DTO.Discovery;
 using StarAPI.Models;
+using StarAPI.Constants;
 
 namespace StarAPI.Logic;
 
@@ -12,7 +13,9 @@ public class WinnerDeclaration
 {
 
     private readonly StarDeckContext _context;
-    private string _tie = "Tie";
+    private int player1 = 0;
+    private int player2 = 1;
+    private int numPlayers = 2;
 
 
     public WinnerDeclaration(StarDeckContext context)
@@ -20,11 +23,11 @@ public class WinnerDeclaration
         _context = context;
     }
 
-    public string Winner(string gameId)
+    public string GetWinner(string gameId)
     {
         try
         {
-            return GetWinner(gameId);
+            return DeclareWinner(gameId);
         }
         catch (Exception e)
         {
@@ -33,15 +36,16 @@ public class WinnerDeclaration
 
     }
 
-    internal string GetWinner(string gameId)
+    internal string DeclareWinner(string gameId)
     {
         string [] playersIds = GetGamePlayers(gameId);
         string[] planetsIds = GetGamePlanets(gameId);
-        Dictionary<string, int> pointsPerPlanetPlayer1 = GetBattlePointsPerPlanet(planetsIds, playersIds[0]);
-        Dictionary<string, int> pointsPerPlanetPlayer2 = GetBattlePointsPerPlanet(planetsIds, playersIds[1]);
 
-        // string winner = DeclareWinner(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
-        string winner = DeclareWinner(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
+
+        Dictionary<string, int> pointsPerPlanetPlayer1 = GetBattlePointsPerPlanet(planetsIds, playersIds[player1]);
+        Dictionary<string, int> pointsPerPlanetPlayer2 = GetBattlePointsPerPlanet(planetsIds, playersIds[player2]);
+
+        string winner = ComparePoints(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
         return winner;   
     }
 
@@ -63,11 +67,11 @@ public class WinnerDeclaration
 
 
 
-    private string DeclareWinner(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
+    private string ComparePoints(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
     {
-        Dictionary<string, int> planetsConquered = PlanetsConquered(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
-        string winner = PlayerWithMostPlanetsConquered(playersIds, planetsConquered);
-        bool tie = winner == this._tie;
+        Dictionary<string, int> planetsConqueredPerPlayer = PlanetsConquered(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
+        string winner = PlayerWithMostPlanetsConquered(playersIds, planetsConqueredPerPlayer);
+        bool tie = winner == Const.Tie;
         if (tie)
         {
             winner = TieBreaker(playersIds, pointsPerPlanetPlayer1, pointsPerPlanetPlayer2);
@@ -77,49 +81,49 @@ public class WinnerDeclaration
 
     private Dictionary<string, int> PlanetsConquered(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
     {
-        string player1Id = playersIds[0];
-        string player2Id = playersIds[1];
-        Dictionary<string, int> planetsConquered = new Dictionary<string, int>
+        string IdPlayer1 = playersIds[0];
+        string IdPlayer2 = playersIds[1];
+        Dictionary<string, int> planetsConqueredPerPlayer = new Dictionary<string, int>
         {
-            {player1Id, 0},
-            {player2Id, 0}
+            {IdPlayer1, 0},
+            {IdPlayer2, 0}
         };
 
-        foreach (KeyValuePair<string, int> planet in pointsPerPlanetPlayer1)
+        foreach (KeyValuePair<string, int> planetPoints in pointsPerPlanetPlayer1)
         {
-            string planetId = planet.Key;
-            int pointsPlayer1 = planet.Value;
+            string planetId = planetPoints.Key;
+            int pointsPlayer1 = planetPoints.Value;
             int pointsPlayer2 = pointsPerPlanetPlayer2[planetId];
             if(pointsPlayer1 > pointsPlayer2)
             {
-                planetsConquered[player1Id] += 1;
+                planetsConqueredPerPlayer[IdPlayer1] += 1;
             }
             else if(pointsPlayer1 < pointsPlayer2)
             {
-                planetsConquered[player2Id] += 1;
+                planetsConqueredPerPlayer[IdPlayer2] += 1;
             }
         }
-        return planetsConquered;
+        return planetsConqueredPerPlayer;
     }
 
     private string TieBreaker(string[] playersIds, Dictionary<string, int> pointsPerPlanetPlayer1, Dictionary<string, int> pointsPerPlanetPlayer2)
     {
-        string player1Id = playersIds[0];
-        string player2Id = playersIds[1];
+        string IdPlayer1 = playersIds[player1];
+        string IdPlayer2 = playersIds[player2];
 
         int totalPointsPlayer1 = GetTotalPoints(pointsPerPlanetPlayer1);
         int totalPointsPlayer2 = GetTotalPoints(pointsPerPlanetPlayer2);
         if(totalPointsPlayer1 > totalPointsPlayer2)
         {
-            return player1Id;
+            return IdPlayer1;
         }
         else if(totalPointsPlayer1 < totalPointsPlayer2)
         {
-            return player2Id;
+            return IdPlayer2;
         }
         else
         {
-            return _tie;
+            return Const.Tie;
         }
     }
 
@@ -133,22 +137,22 @@ public class WinnerDeclaration
         return totalPoints;
     }
 
-    private string PlayerWithMostPlanetsConquered(string[] playersIds, Dictionary<string, int> planetsConquered)
+    private string PlayerWithMostPlanetsConquered(string[] playersIds, Dictionary<string, int> planetsConqueredPerPlayer)
     {
-        string player1Id = playersIds[0];
-        string player2Id = playersIds[1];
+        string IdPlayer1 = playersIds[player1];
+        string IdPlayer2 = playersIds[player2];
         
-        if(planetsConquered[player1Id] > planetsConquered[player2Id])
+        if(planetsConqueredPerPlayer[IdPlayer1] > planetsConqueredPerPlayer[IdPlayer2])
         {
-            return player1Id;
+            return IdPlayer1;
         }
-        else if(planetsConquered[player1Id] < planetsConquered[player2Id])
+        else if(planetsConqueredPerPlayer[IdPlayer1] < planetsConqueredPerPlayer[IdPlayer2])
         {
-            return player2Id;
+            return IdPlayer2;
         }
         else
         {
-            return _tie;
+            return Const.Tie;
         }
     }
 
@@ -158,12 +162,11 @@ public class WinnerDeclaration
 
     private string[] GetGamePlayers(string gameId)
     {
-        int numPlayers = 2;
         string[] playersIds = new string[numPlayers];
 
-        Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        playersIds[0] = game.player1Id;
-        playersIds[1] = game.player2Id;
+        Models.Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        playersIds[player1] = game.player1Id;
+        playersIds[player2] = game.player2Id;
         return playersIds;
     }
 

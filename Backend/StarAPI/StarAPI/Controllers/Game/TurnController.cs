@@ -58,7 +58,9 @@ namespace StarAPI.Controllers
         {
             try
             {
-                return Ok(_gameLogic.GetLayout(gameId, playerId));
+                TableLayout tableLayout = new TableLayout(_context);
+                return Ok(tableLayout.GetLayout(gameId, playerId));
+                // return Ok(_gameLogic.GetLayout(gameId, playerId));
             }
             catch (System.Exception e)
             {

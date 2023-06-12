@@ -16,15 +16,12 @@ public class SetUpPlayerForGame
 
     private readonly StarDeckContext _context;
     private GamePlayerMapper _gamePlayerMapper;
-    private GameDeckCardHandling _gameDeckCardHandling;
 
     public SetUpPlayerForGame(StarDeckContext context)
     {
         _context = context;
         _gamePlayerMapper = new GamePlayerMapper(_context);
 
-        //temp
-        _gameDeckCardHandling = new GameDeckCardHandling(_context);
     }
 
     internal void SetupPlayer(SetupValues setupValues, string gameId)

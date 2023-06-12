@@ -17,9 +17,7 @@ public class GameTableHandling
     private CardCRUD _cardCRUD;
     private PlanetsForGame _planetsForGame;
     private GameTableMapper _gameTableMapper;
-    private HandHandling _handHandling;
 
-    private static string s_idPrefix = "GT";
 
 
 
@@ -30,7 +28,6 @@ public class GameTableHandling
         this._planetCRUD = new PlanetCRUD(_context);
         this._cardCRUD = new CardCRUD(_context);
         this._gameTableMapper = new GameTableMapper(_context);
-        this._handHandling = new HandHandling(_context);
     }
 
     public List<OutputPlanet> GetGamePlanets(string gameId)
@@ -73,25 +70,25 @@ public class GameTableHandling
     
 
 
-    internal OutputTableLayout GetLayout(string playerId, string rivalId)
-    {
-        OutputTableLayout outputTableLayout = new OutputTableLayout();
-        outputTableLayout.playerCards = GetLayout(playerId);
-        outputTableLayout.rivalCards = GetLayout(rivalId);
-        return outputTableLayout;
-    }
+    // internal OutputTableLayout GetLayout(string playerId, string rivalId)
+    // {
+    //     OutputTableLayout outputTableLayout = new OutputTableLayout();
+    //     outputTableLayout.playerCards = GetLayout(playerId);
+    //     outputTableLayout.rivalCards = GetLayout(rivalId);
+    //     return outputTableLayout;
+    // }
 
-    private Dictionary<string, OutputCard> GetLayout(string playerId)
-    {
-        List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
-        Dictionary<string, OutputCard> layout = new Dictionary<string, OutputCard>();
-        foreach (GameTable card in cards)
-        {
-            OutputCard outputCard = _cardCRUD.GetCard(card.cardId);
-            layout.Add(card.planetId, outputCard);
-        }
-        return layout;
-    }
+    // private Dictionary<string, OutputCard> GetLayout(string playerId)
+    // {
+    //     List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
+    //     Dictionary<string, OutputCard> layout = new Dictionary<string, OutputCard>();
+    //     foreach (GameTable card in cards)
+    //     {
+    //         OutputCard outputCard = _cardCRUD.GetCard(card.cardId);
+    //         layout.Add(card.planetId, outputCard);
+    //     }
+    //     return layout;
+    // }
 
     internal Dictionary<string, int> GetBattlePointsPerPlanet(string playerId)
     {

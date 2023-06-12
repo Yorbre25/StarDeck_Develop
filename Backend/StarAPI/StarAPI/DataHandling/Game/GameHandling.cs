@@ -36,18 +36,17 @@ public class GameHandling
     {
         return _gameTableHandling.GetGamePlanets(gameId);
     }
-    internal OutputTableLayout GetLayout(object gameId, string playerId)
-    {
-        string rivalId = GetRivalId(gameId, playerId);
-        return _gameTableHandling.GetLayout(playerId, rivalId);
-    }
+    // internal OutputTableLayout GetLayout(object gameId, string playerId)
+    // {
+    //     string rivalId = GetRivalId(gameId, playerId);
+    //     return _gameTableHandling.GetLayout(playerId, rivalId);
+    // }
 
-    private string GetRivalId(object gameId, string playerId)
+    public string GetRivalId(object gameId, string playerId)
     {
-        string[] playersIds = new string[2];
         StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-        string rivalId = playersIds.FirstOrDefault(p => p != playerId);
-        return rivalId;
+        string idRival = game.player1Id == playerId ? game.player2Id : game.player1Id;
+        return idRival;
     }
 
     internal TurnInfo GetTurnInfo(string gameId, string playerId)

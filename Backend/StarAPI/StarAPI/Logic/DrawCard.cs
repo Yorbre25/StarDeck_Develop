@@ -24,7 +24,7 @@ public class DrawCard
     {
         try
         {
-            return Drawing(gameId, playerId);
+            return GetCard(gameId, playerId);
         }
         catch (Exception e)
         {
@@ -33,7 +33,7 @@ public class DrawCard
 
     }
 
-    private OutputCard Drawing(string gameId, string playerId)
+    private OutputCard GetCard(string gameId, string playerId)
     {
         int numCardsInDeck = GetNumCardsInDeck(playerId);
         int handSize = GetHandSize(playerId);
@@ -92,8 +92,8 @@ public class DrawCard
     }
     private void RemoveCardFromDeck(string playerId, string cardId)
     {
-       Game_Deck? card = _context.Game_Deck.Where(c => c.playerId == playerId && c.cardId == cardId).FirstOrDefault();
-        _context.Game_Deck.Remove(card);
+        GameDeckHandling gameDeckHandling = new GameDeckHandling(_context);
+        gameDeckHandling.RemoveCardFromDeck(playerId, cardId);
     }
 
 

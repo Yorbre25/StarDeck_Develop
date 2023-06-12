@@ -10,10 +10,9 @@ namespace StarAPI.DataHandling.Game;
 public class GamePlayerHandling
 {
     private readonly StarDeckContext _context;
-    private GameDeckCardHandling _gameDeckCardHandling;
+    private GameDeckHandling _gameDeckCardHandling;
     private GamePlayerMapper _gamePlayerMapper;
 
-    private HandHandling _handHandling;
     private IdGenerator _idGenerator = new IdGenerator();
         private static string s_idPrefix = "GP";
 
@@ -22,8 +21,7 @@ public class GamePlayerHandling
     public GamePlayerHandling(StarDeckContext context)
     {
         this._context = context;
-        this._gameDeckCardHandling = new GameDeckCardHandling(_context);
-        this._handHandling = new HandHandling(_context);
+        this._gameDeckCardHandling = new GameDeckHandling(_context);
         this._gamePlayerMapper = new GamePlayerMapper(_context);
     }
 

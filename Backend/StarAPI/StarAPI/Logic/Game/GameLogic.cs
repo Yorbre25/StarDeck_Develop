@@ -19,44 +19,11 @@ public class GameLogic
         _gameHandling = new GameHandling(context);
         _tableHandling = new GameTableHandling(context);
     }
-    // internal OutputCard DrawCard(string gameId, string playerId)
+
+    // internal OutputTableLayout GetLayout(string gameId, string playerId)
     // {
-    //     try
-    //     {
-    //         return _gameHandling.DrawCard(gameId, playerId);
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         throw new Exception(e.Message);
-    //     }
+    //     return _gameHandling.GetLayout(gameId, playerId);
     // }
-
-
-    // internal void EndTurn(InputTableLayout tableLayout)
-    // {
-    //     // bool shouldEndTurn = CheckIfBothPlayersPassed(tableLayout.gameId);
-    //     _tableHandling.SetTableLayout(tableLayout);
-    //     if (shouldEndTurn)
-    //         _gameHandling.EndTurn(tableLayout);
-    // }
-
-    // private bool CheckIfBothPlayersPassed(string gameId)
-    // {
-    //     int counter = _gameHandling.GetEndTurnCounter(gameId);
-    //     bool shouldEndTurn = false;
-    //     if (counter == 1)
-    //     {
-    //         _gameHandling.ResetEndTurnCounter(gameId);
-    //         shouldEndTurn = true;
-    //     }
-    //     _gameHandling.DecreaseEndTurnCounter(gameId);
-    //     return shouldEndTurn;
-    // }
-
-    internal OutputTableLayout GetLayout(string gameId, string playerId)
-    {
-        return _gameHandling.GetLayout(gameId, playerId);
-    }
 
     internal TurnInfo GetTurnInfo(string gameId, string playerId)
     {

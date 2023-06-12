@@ -70,7 +70,7 @@ public class EndGame
     private string Winner(string gameId)
     {
         WinnerDeclaration winnerDeclaration = new WinnerDeclaration(_context);
-        return winnerDeclaration.Winner(gameId);
+        return winnerDeclaration.GetWinner(gameId);
     }
 
     private bool CheckIfBothPlayersEndGame(string gameId)

@@ -15,13 +15,11 @@ public class SetupHands
 
     private DrawCard _drawCard;
 
-    private GameDeckCardHandling _gameDeckCardHandling;
 
 
     public SetupHands(StarDeckContext context)
     {
         _context = context;
-        _gameDeckCardHandling = new GameDeckCardHandling(_context);
         _drawCard = new DrawCard(_context);
     }
 

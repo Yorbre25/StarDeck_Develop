@@ -5,6 +5,7 @@ using StarAPI.Logic.Mappers;
 using StarAPI.DTO.Discovery;
 using StarAPI.Models;
 using StarAPI.Constants;
+using StarAPI.DataHandling.Game;
 
 namespace StarAPI.Logic;
 
@@ -38,27 +39,26 @@ public class PlaceCard
 
     private void SetTableLayout(InputTableLayout tableLayout)
     {
-        Dictionary<string, string> layout = tableLayout.layout;
+        Dictionary<string, string> cardsPerPlanet = tableLayout.layout;
         string gameId = tableLayout.gameId;
         string playerId = tableLayout.playerId;
         
-        int cardsTotalCost = GetCardTotalCost(layout);
+        int cardsTotalCost = GetCardTotalCost(cardsPerPlanet);
         bool enoughPoints = EnoughPoints(playerId, cardsTotalCost);
         if (enoughPoints)
         {
             AddCardsToTable(tableLayout);
             UpdatePlayerCardPoints(playerId, cardsTotalCost);
-            RemoveCardsFromHand(playerId, layout);
+            RemoveCardsFromHand(playerId, cardsPerPlanet);
         }
         _context.SaveChanges();
     }
 
-    private int GetCardTotalCost(Dictionary<string, string> layout)
+    private int GetCardTotalCost(Dictionary<string, string> cardsPerPlanet)
     {
-        Dictionary<string, string>.ValueCollection values = layout.Values;
         int cardsTotalCost = 0;
 
-        foreach(string cardId in values)
+        foreach(string cardId in cardsPerPlanet.Values)
         {
             OutputCard card = _cardCRUD.GetCard(cardId);
             cardsTotalCost += card.cost;    
@@ -92,27 +92,17 @@ public class PlaceCard
         player.cardPoints -= cardsTotalCost;
     }
 
-    private void RemoveCardsFromHand(string playerId, Dictionary<string, string> layout)
+    private void RemoveCardsFromHand(string playerId, Dictionary<string, string> cardsPerPlanet)
     {
-        foreach(KeyValuePair<string, string> entry in layout)
+        HandCard handCard = new HandCard(_context);
+        foreach(KeyValuePair<string, string> entry in cardsPerPlanet)
         {
-            Hand? hand = _context.Hand.FirstOrDefault(h => h.playerId == playerId && h.cardId == entry.Value);
-            _context.Hand.Remove(hand);
+            string cardId = entry.Value;
+            handCard.RemoveCardsFromHand(playerId, entry.Value);
         }
 
     }
 
-    //!Falta verificar
-    private void RooomForCard(string gameId, string planetId, string playerId)
-    {
-        List<GameTable> gameCards = _context.GameTable.Where(gt => gt.gameId == gameId).ToList();
-        List<GameTable> planetCards = gameCards.Where(gt => gt.planetId == planetId).ToList();
-        List<GameTable> planetCardsOfPlayer = planetCards.Where(gt => gt.playerId == playerId).ToList();   
-        if (planetCardsOfPlayer.Count() >= Const.CardsPerPlanet)
-        {
-            throw new Exception("No room for more cards");
-        }
-    }
 
     
 
