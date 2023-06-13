@@ -4,6 +4,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -11,13 +12,13 @@ namespace StarAPI.Controllers
     [ApiController]
     public class EndGameController : ControllerBase
     {
-        private GameLogic _gameLogic;
-        private HandHandling _handHandling;
+
+        private readonly StarDeckContext _context;
         private ILogger<EndGameController> _logger;
 
         public EndGameController(StarDeckContext context,ILogger<EndGameController> logger)
         {
-            this._gameLogic = new GameLogic(context);
+            _context = context;
             this._logger = logger;
         }
 
@@ -26,8 +27,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                var output = _gameLogic.EndGame(gameId);
-                this._logger.LogInformation("Game ended successfully at {time}", DateTime.Now.ToString("hh:mm:ss tt"));
+                EndGame endGame = new EndGame(_context);
+                var output = endGame.endGame(gameId);
                 return Ok(output);
             }
             catch (Exception e)

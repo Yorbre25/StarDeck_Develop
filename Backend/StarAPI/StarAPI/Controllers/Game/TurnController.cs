@@ -4,6 +4,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
+using StarAPI.Logic;
 
 namespace StarAPI.Controllers
 {
@@ -11,12 +12,12 @@ namespace StarAPI.Controllers
     [ApiController]
     public class TurnController : ControllerBase
     {
-        private GameLogic _gameLogic;
+        private StarDeckContext _context;
         private ILogger<TurnController> _logger;
 
         public TurnController(StarDeckContext context, ILogger<TurnController> logger)
         {
-            this._gameLogic = new GameLogic(context);
+            this._context = context;
             this._logger = logger;
         }
 
@@ -26,16 +27,11 @@ namespace StarAPI.Controllers
         {
             try
             {
-                OutputCard outputCard = _gameLogic.DrawCard(gameId, playerId);
-                if (outputCard == null)
-                {
-                    return Ok();
-                }
-                return Ok(outputCard);
+                DrawCard drawCard = new DrawCard(_context);
+                return Ok(drawCard.Draw(gameId, playerId));
             }
             catch (Exception e)
             {
-                _logger.LogError("Error drawing card for player in game {gameId}", gameId);
                 return BadRequest(e.Message);
             }
 
@@ -45,13 +41,12 @@ namespace StarAPI.Controllers
         public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
         {
             try{
-                _gameLogic.EndTurn(tableLayout);
-                _logger.LogInformation("Request to end turn successful");
+                EndTurn endTurn = new EndTurn(_context);
+                endTurn.End(tableLayout);
                 return Ok();
             }
             catch(Exception e){
 
-                _logger.LogError("Error ending turn");
                 return BadRequest(e.Message);
             }
         }
@@ -61,7 +56,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                return Ok(_gameLogic.GetLayout(gameId, playerId));
+                TableLayout tableLayout = new TableLayout(_context);
+                return Ok(tableLayout.GetLayout(gameId, playerId));
             }
             catch (System.Exception e)
             {
@@ -75,7 +71,8 @@ namespace StarAPI.Controllers
         {
             try
             {
-                return Ok(_gameLogic.GetTurnInfo(gameId, playerId));
+                Turn turn = new Turn(_context);
+                return Ok(turn.GetTurnInfo(gameId, playerId));
             }
             catch (System.Exception e)
             {

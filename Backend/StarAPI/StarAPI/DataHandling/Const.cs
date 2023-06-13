@@ -37,5 +37,7 @@ public class Const
     public const int ExtraCardPointsPerTurn = 2;
     public const int XpGain = 1;
     public const int EndTurnCounter = 2;
+    public const int EndGameCounter = 2;
+    public const string Tie = "Tie";
     
 }

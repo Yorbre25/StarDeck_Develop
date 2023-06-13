@@ -13,13 +13,14 @@ public class SetupHands
 
     private readonly StarDeckContext _context;
 
-    private GameDeckCardHandling _gameDeckCardHandling;
+    private DrawCard _drawCard;
+
 
 
     public SetupHands(StarDeckContext context)
     {
         _context = context;
-        _gameDeckCardHandling = new GameDeckCardHandling(_context);
+        _drawCard = new DrawCard(_context);
     }
 
     internal void SetupHand(string gameId)
@@ -68,20 +69,13 @@ public class SetupHands
         int handSize = SetHandSize(playerId);
         for (int i = 0; i < handSize; i++)
         {
-            cardId = _gameDeckCardHandling.DrawCard(playerId);
-            Hand newHandCard = new Hand()
-            {
-                gameId = gameId,
-                playerId = playerId,
-                cardId = cardId
-            };
-            _context.Hand.Add(newHandCard);
+            _drawCard.Draw(gameId, playerId);
         }
     }
 
     private int SetHandSize(string playerId)
     {
-        int numCardsInDeck = _gameDeckCardHandling.NumCardsInDeck(playerId);
+        int numCardsInDeck = _context.Game_Deck.Where(c => c.playerId == playerId).ToList().Count;
         if(numCardsInDeck < Const.IntialCardsPerHand){
             return numCardsInDeck;
         }
