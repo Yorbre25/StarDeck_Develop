@@ -3,17 +3,18 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
+using Contracts;
 
 namespace StarAPI.Logic.Mappers
 {
     public class PlanetMapper
     {
-        private StarDeckContext _context;
+        private IRepositoryWrapper _context;
         private PlanetTypeHandling _planetTypeHandling;
         private ImageHandling _imageHandling;
         private bool s_defaultActivationState = true;
 
-        public PlanetMapper(StarDeckContext context)
+        public PlanetMapper(IRepositoryWrapper context)
         {
             _context = context;
             _planetTypeHandling = new PlanetTypeHandling(_context);

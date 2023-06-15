@@ -5,6 +5,7 @@ using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -13,10 +14,10 @@ namespace StarAPI.Controllers
     public class EndGameController : ControllerBase
     {
 
-        private readonly StarDeckContext _context;
+        private readonly IRepositoryWrapper _context;
         private ILogger<EndGameController> _logger;
 
-        public EndGameController(StarDeckContext context,ILogger<EndGameController> logger)
+        public EndGameController(IRepositoryWrapper context,ILogger<EndGameController> logger)
         {
             _context = context;
             this._logger = logger;

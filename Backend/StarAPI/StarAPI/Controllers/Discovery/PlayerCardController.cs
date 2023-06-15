@@ -3,6 +3,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.Logic;
 using StarAPI.DataHandling.Discovery;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -10,17 +11,16 @@ namespace StarAPI.Controllers
     [ApiController]
     public class PlayerCardController : ControllerBase
     {
-        private readonly StarDeckContext _context;
+        private readonly IRepositoryWrapper _context;
         private PlayerCardHandling _playerCardHandling;
         private CardPackageGenerator _cardPackageGenerator;
         private NewPlayerCardGenerator _newPlayerCardGenerator;
         private ILogger<PlayerCardController> _logger;
-        public PlayerCardController(StarDeckContext context, ILogger<PlayerCardController> logger)
+        public PlayerCardController(IRepositoryWrapper repository)
         {
-            this._cardPackageGenerator = new CardPackageGenerator(context);
-            this._playerCardHandling = new PlayerCardHandling(context);
-            this._newPlayerCardGenerator = new NewPlayerCardGenerator(context);
-            this._logger = logger;
+            this._cardPackageGenerator = new CardPackageGenerator(repository);
+            this._playerCardHandling = new PlayerCardHandling(repository);
+            this._newPlayerCardGenerator = new NewPlayerCardGenerator(repository);
         }
 
         [HttpGet("CardCount/{playerId}")]

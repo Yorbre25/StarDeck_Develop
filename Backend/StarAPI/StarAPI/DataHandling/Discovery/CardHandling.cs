@@ -3,13 +3,14 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.Logic.Mappers;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 
 public class CardHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
     private IdGenerator _idGenerator = new IdGenerator();
     private RaceHandling _raceHandling;
@@ -18,21 +19,23 @@ public class CardHandling
     private static string s_idPrefix = "C";
 
 
-    public CardHandling(StarDeckContext context)
+    public CardHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._cardMapper = new CardMapper(_context);
+        this._repository = repository;
+        this._cardMapper = new CardMapper(_repository);
     }
 
 
     public List<OutputCard> GetAllCards()
     {
-        List<Card> cards = _context.Card.ToList();
+        // List<Card> cards = _repository.Card.ToList();
+        List<Card> cards = _repository.Card.GetAll();
         return _cardMapper.FillOutputCard(cards);
     }
 
     public OutputCard GetCard(string id){
-        Card? card = _context.Card.FirstOrDefault(r => r.id == id);
+        // Card? card = _repository.Card.FirstOrDefault(r => r.id == id);
+        Card? card = _repository.Card.Get(id);
         return _cardMapper.FillOutputCard(card);
     }
 
@@ -40,8 +43,10 @@ public class CardHandling
     {
         string id = GenerateId();
         var newCard = _cardMapper.FillNewCard(inputCard, id);
-        _context.Card.Add(newCard);
-        _context.SaveChanges();
+        // _repository.Card.Add(newCard);
+        // _repository.SaveChanges();
+        _repository.Card.Add(newCard);
+        _repository.Save();
     }
 
     private string GenerateId()
@@ -57,14 +62,19 @@ public class CardHandling
     }
 
     public void DeleteCard(string id){
-        Card? card = _context.Card.FirstOrDefault(r => r.id == id);
-        _context.Card.Remove(card);
-        _context.SaveChanges();
+        // Card? card = _repository.Card.FirstOrDefault(r => r.id == id);
+        // _repository.Card.Remove(card);
+        // _repository.SaveChanges();
+        Card? card = _repository.Card.Get(id);
+        _repository.Card.Delete(card);
+        _repository.Save();
     }
 
     public bool NameAlreadyExists(string cardName)
     {
-        var card = _context.Card.FirstOrDefault(r => r.name == cardName);
+        // var card = _repository.Card.FirstOrDefault(r => r.name == cardName);
+        var cards = _repository.Card.GetAll();
+        var card = cards.FirstOrDefault(r => r.name == cardName);
         if(card == null){
             return false;
         }
@@ -73,7 +83,8 @@ public class CardHandling
 
 
     private bool IdAlreadyExists(string id){
-        Card? card = _context.Card.FirstOrDefault(c => c.id == id);
+        // Card? card = _repository.Card.FirstOrDefault(c => c.id == id);
+        Card? card = _repository.Card.Get(id);
         if(card == null){
             return false;
         }

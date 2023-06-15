@@ -9,45 +9,32 @@ using StarAPI.Logic.Utils;
 using StarAPI.Logic.Mappers;
 using StarAPI.Logic;
 using StarAPI.Constants;
+using Contracts;
 
 namespace StarAPI.DataHandling.Game;
 
 public class GameHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
 
 
-    public GameHandling(StarDeckContext context)
+    public GameHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
+        this._repository = repository;
     }
 
-    public string GetRivalId(object gameId, string playerId)
+    public string GetRivalId(string gameId, string playerId)
     {
-        StarAPI.Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        // StarAPI.Models.Game game = _repository.Game.FirstOrDefault(g => g.id == gameId);
+        Models.Game game = GetGame(gameId);
         string idRival = game.player1Id == playerId ? game.player2Id : game.player1Id;
         return idRival;
     }
-
-    // internal TurnInfo GetTurnInfo(string gameId, string playerId)
-    // {
-    //     Models.Game game = _context.Game.FirstOrDefault(g => g.id == gameId);
-    //     TurnInfo turnInfo = new TurnInfo();
-    //     string rivalId = GetRivalId(gameId, playerId);
-
-    //     turnInfo.currentTurn = game.turn;   
-    //     turnInfo.playerMaxCardPoints = _gamePlayerHandling.GetMaxCardPoints(gameId);
-    //     turnInfo.playerPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(playerId);
-    //     turnInfo.rivalPlanetPoints = _gameTableHandling.GetBattlePointsPerPlanet(rivalId);
-
-    //     return turnInfo;
-
-    // }
-
+    
     public string[] GetGamePlanets(string gameId)
     {
-        GameTableHandling gameTableHandling = new GameTableHandling(_context);
+        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
         List<OutputPlanet> planets = gameTableHandling.GetGamePlanets(gameId);
         string[] planetsIds = new string[planets.Count];
         for (int i = 0; i < planets.Count; i++)
@@ -65,12 +52,25 @@ public class GameHandling
             pointsPerPlanet.Add(planetId, 0);
         }
 
-        List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
+        // List<GameTable> cards = _repository.GameTable.Where(gt => gt.playerId == playerId).ToList();
+        List<GameTable> cards = GetPlayerCardsInTable(playerId);
         foreach (GameTable card in cards)
         {
             pointsPerPlanet[card.planetId] += card.battlePoints;
         }
         return pointsPerPlanet;
+    }
+
+    private List<GameTable> GetPlayerCardsInTable(string playerId)
+    {
+        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        return gameTableHandling.GetPlayerCardsInTable(playerId);
+    }
+
+    public Models.Game GetGame(string gameId)
+    {
+        List<Models.Game> games = _repository.Game.GetAll();
+        return games.FirstOrDefault(g => g.id == gameId);
     }
 
 }

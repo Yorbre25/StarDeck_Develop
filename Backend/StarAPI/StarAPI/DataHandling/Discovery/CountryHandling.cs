@@ -1,21 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class CountryHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
-    public CountryHandling(StarDeckContext context)
+    public CountryHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
+        this._repository = repository;
     }
 
     public List<Country> GetAllCountries()
     {
-        return _context.Country.ToList();
+        // return _repository.Country.ToList();
+        return _repository.Country.GetAll();
     }
 
 
@@ -36,8 +38,10 @@ public class CountryHandling
 
     public void AddingCountry(string countryName){
         var country = new Country {countryName = countryName};
-        _context.Country.Add(country);
-        _context.SaveChanges();
+        // _repository.Country.Add(country);
+        // _repository.SaveChanges();
+        _repository.Country.Add(country);
+        _repository.Save();
     }
 
     public string GetCountry(int id)
@@ -57,7 +61,8 @@ public class CountryHandling
     }
 
     private bool AlreadyExists(string countryName){
-        var race = _context.Country.FirstOrDefault(r => r.countryName == countryName);
+        var races = _repository.Race.GetAll();
+        var race = races.FirstOrDefault(r => r.name == countryName);
         if(race == null){
             return false;
         }
@@ -66,7 +71,7 @@ public class CountryHandling
 
     private bool AlreadyExists(int id){
         Country? race = new Country();
-        race = _context.Country.FirstOrDefault(r => r.id == id);
+        race = _repository.Country.Get(id);
         if(race == null){
             return false;
         }
@@ -76,7 +81,8 @@ public class CountryHandling
 
     public string GetCountryName(int id)
     {
-        Country? country = _context.Country.FirstOrDefault(r => r.id == id);
+        // Country? country = _repository.Country.FirstOrDefault(r => r.id == id);
+        Country? country = _repository.Country.Get(id);
         if (country == null)
         {
             throw new ArgumentException("Race does not exist");

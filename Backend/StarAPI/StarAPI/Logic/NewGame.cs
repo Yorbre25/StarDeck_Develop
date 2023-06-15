@@ -2,23 +2,23 @@ using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.DTO.Game;
 using StarAPI.Logic.Mappers;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class NewGame
 {
 
-    private readonly StarDeckContext _context;
-
+    private readonly IRepositoryWrapper _repository;
     private static string s_idPrefix = "G";
     private IdGenerator _idGenerator = new IdGenerator();
     private GameMapper _gameMapper;
 
 
-    public NewGame(StarDeckContext context)
+    public NewGame(IRepositoryWrapper repository)
     {
-        _context = context;
-        this._gameMapper = new GameMapper(_context);
+        _repository = repository;
+        this._gameMapper = new GameMapper(repository);
     }
 
     internal OutputSetupValues SetupNewGame(SetupValues setupValues)
@@ -42,8 +42,11 @@ public class NewGame
         SetupGameDeck(setUpValues, gameId);
         
         StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setUpValues, gameId);
-        _context.Game.Add(newGame);
-        _context.SaveChanges();
+        _repository.Game.Add(newGame);
+        _repository.Save();
+        // _context.Game.Add(newGame);
+        
+        // _context.SaveChanges();
 
         string deckId1 = setUpValues.player1DeckId;
         string deckId2 = setUpValues.player2DeckId;
@@ -53,19 +56,19 @@ public class NewGame
 
     private void SetupGameDeck(SetupValues setupValues, string gameId)
     {
-        NewGameDeck newGameDeck = new NewGameDeck(_context);
+        NewGameDeck newGameDeck = new NewGameDeck(_repository);
         newGameDeck.SetupNewGameDeck(setupValues, gameId);
     }
 
     private void SetupPlayers(SetupValues setUpValues, string gameId)
     {
-        SetUpPlayerForGame setUpPlayerForGame = new SetUpPlayerForGame(_context);
+        SetUpPlayerForGame setUpPlayerForGame = new SetUpPlayerForGame(_repository);
         setUpPlayerForGame.SetupPlayer(setUpValues, gameId);
     }
 
     private void SetupTable(string gameId)
     {
-        NewTable newTable = new NewTable(_context);
+        NewTable newTable = new NewTable(_repository);
         newTable.SetupTable(gameId);
     }
 
@@ -83,7 +86,8 @@ public class NewGame
 
     private bool IdAlreadyExists(string id){
         StarAPI.Models.Game? game;
-        game = _context.Game.FirstOrDefault(c => c.id == id);
+        game = _repository.Game.Get(id);
+        // game = _context.Game.FirstOrDefault(c => c.id == id);
         if(game == null){
             return false;
         }

@@ -5,6 +5,8 @@ using System.Reflection;
 using StarAPI.Context;
 using StarAPI.Logic.Game;
 using Microsoft.Extensions.Logging;
+using Repository;
+using Contracts;
 
 var builder = WebApplication.CreateBuilder();
 builder.Host.ConfigureLogging(logging =>
@@ -17,8 +19,12 @@ builder.Host.ConfigureLogging(logging =>
 
 
 // Add services to the container.
-builder.Services.AddDbContext<StarDeckContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckDb")));
+builder.Services.AddDbContext<StarDeckContext>(options => 
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StarDeckContext")));
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
 builder.Services.AddControllers();
+
 
 
 

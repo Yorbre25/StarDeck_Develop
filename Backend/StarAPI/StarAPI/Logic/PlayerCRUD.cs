@@ -8,6 +8,7 @@ using StarAPI.Constants;
 
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
+using Contracts;
 
 namespace StarAPI.Logic;
 
@@ -24,7 +25,7 @@ public class PlayerCRUD
     private static string s_idPrefix = "U";
 
 
-    public PlayerCRUD(StarDeckContext context)
+    public PlayerCRUD(IRepositoryWrapper context)
     {
         this._playerHandling = new PlayerHandling(context);
     }

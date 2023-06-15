@@ -4,12 +4,13 @@ using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Mappers;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class PlanetHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private PlanetMapper _planetMapper;
     private static int s_minPlanetNameLenght = 5;
     private static int s_maxPlanetNameLenght = 30;
@@ -22,23 +23,25 @@ public class PlanetHandling
 
 
 
-    public PlanetHandling(StarDeckContext context)
+    public PlanetHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._planetTypeHandling = new PlanetTypeHandling(_context);
-        this._planetMapper = new PlanetMapper(_context);
+        this._repository = repository;
+        this._planetTypeHandling = new PlanetTypeHandling(repository);
+        this._planetMapper = new PlanetMapper(repository);
     }
 
 
     public List<OutputPlanet> GetAllPlanets()
     {
-        List<Planet> planets = _context.Planet.ToList();
+        // List<Planet> planets = _repository.Planet.ToList();
+        List<Planet> planets = _repository.Planet.GetAll();
         return _planetMapper.FillOutputPlanet(planets);
     }
 
 
     public OutputPlanet GetPlanet(string id){
-        Planet? planet = _context.Planet.FirstOrDefault(p => p.id == id);
+        // Planet? planet = _repository.Planet.FirstOrDefault(p => p.id == id);
+        Planet? planet = _repository.Planet.Get(id);
         return _planetMapper.FillOutputPlanet(planet);
     }
 
@@ -53,23 +56,28 @@ public class PlanetHandling
     {
         string id = GenerateId();
         var newPlanet = _planetMapper.FillNewPlanet(inputPlanet, id);
-        _context.Planet.Add(newPlanet);
-        _context.SaveChanges();
+        // _repository.Planet.Add(newPlanet);
+        // _repository.SaveChanges();
+        _repository.Planet.Add(newPlanet);
+        _repository.Save();
     }
 
 
     public bool NameAlreadyExists(string planetName)
     {
-        var card = _context.Planet.FirstOrDefault(r => r.name == planetName);
-        if(card == null){
+        // var planet = _repository.Planet.FirstOrDefault(r => r.name == planetName);
+        var planets = _repository.Planet.GetAll();
+        var planet = planets.Find(r => r.name == planetName);
+        if(planet == null){
             return false;
         }
         return true;
     }
 
     private bool IdAlreadyExists(string id){
-        Planet? planet = new Planet();
-        planet = _context.Planet.FirstOrDefault(c => c.id == id);
+        // Planet? planet = new Planet();
+        // planet = _repository.Planet.FirstOrDefault(c => c.id == id);
+        Planet? planet = _repository.Planet.Get(id);
         if(planet == null){
             return false;
         }

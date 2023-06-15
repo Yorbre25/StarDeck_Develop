@@ -7,28 +7,32 @@ using StarAPI.DataHandling.Game;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using System.Xml;
+using Contracts;
 
 namespace StarAPI.Logic.Match
 {
     public class Matchmaking
     {
-        private readonly StarDeckContext _context;
+        private readonly IRepositoryWrapper _repository;
         private CancelRequest cancel;
         // private GameHandling gameHandling;
         // private PlayerHandling playerHandling;
         private NewGame _newGame;
-        public Matchmaking (StarDeckContext context) 
+        public Matchmaking (IRepositoryWrapper context) 
         {
-            this._context = context;
+            this._repository = context;
             this.cancel = CancelRequest.Instance;
-            this._newGame = new NewGame(_context);
+            this._newGame = new NewGame(_repository);
         }
       
         private List<Player> getMatchedPlayers(string id) 
         {
-            int rank = _context.Player.FirstOrDefault(p => p.id == id).ranking;
-            var playersWaiting = _context.Match_Player.OrderBy(p => p.waiting_since).ToList();
-            var playersMatched = _context.Player.ToList();
+            // int rank = _repository.Player.FirstOrDefault(p => p.id == id).ranking;
+            // var playersWaiting = _repository.Match_Player.OrderBy(p => p.waiting_since).ToList();
+            // var playersMatched = _repository.Player.ToList();
+            int rank = _repository.Player.Get(id).ranking;
+            var playersWaiting = _repository.MatchPlayer.GetAll().OrderBy(p => p.waiting_since).ToList();
+            var playersMatched = _repository.Player.GetAll().ToList();
             List<Player> intersec = playersMatched.Where(pm => playersWaiting.Any(pw => pw.id == pm.id)).ToList();
             intersec = intersec.FindAll(i => i.ranking == rank);
 
@@ -70,10 +74,12 @@ namespace StarAPI.Logic.Match
             sv.player1Id = id;
             sv.player2Id = player.id;
             sv.player1DeckId = deckId;
-            sv.player2DeckId = _context.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
+            // sv.player2DeckId = _repository.Match_Player.FirstOrDefault(p=>p.id == player.id).deckId;
+            sv.player2DeckId = _repository.MatchPlayer.Get(player.id).deckId;
 
             AddGame(sv);
-            _context.SaveChanges();
+            // _repository.SaveChanges();
+            _repository.Save();
 
             // update(player, players.FirstOrDefault(p1 => p1.id == id),true);
             remove(id, player.id);
@@ -83,14 +89,21 @@ namespace StarAPI.Logic.Match
 
         protected void remove(string player1, string player2) 
         {
-            var p1 = _context.Match_Player.FirstOrDefault(p => p.id == player1);
-            var p2 = _context.Match_Player.FirstOrDefault(p => p.id == player2);
+            // var p1 = _repository.Match_Player.FirstOrDefault(p => p.id == player1);
+            // var p2 = _repository.Match_Player.FirstOrDefault(p => p.id == player2);
+            var p1 = _repository.MatchPlayer.Get(player1);
+            var p2 = _repository.MatchPlayer.Get(player2);
             if (p1 != null && p2 != null)
             {
-                _context.Match_Player.Remove(p1);
-                _context.SaveChanges();
-                _context.Match_Player.Remove(p2);
-                _context.SaveChanges();
+                // _repository.Match_Player.Remove(p1);
+                // _repository.SaveChanges();
+                // _repository.Match_Player.Remove(p2);
+                // _repository.SaveChanges();
+
+                _repository.MatchPlayer.Delete(p1);
+                _repository.Save();
+                _repository.MatchPlayer.Delete(p2);
+                _repository.Save();
             }
         }
 
@@ -98,8 +111,10 @@ namespace StarAPI.Logic.Match
         {
             try
             {
-                _context.Match_Player.Add(match_player);
-                _context.SaveChanges();
+                // _repository.Match_Player.Add(match_player);
+                // _repository.SaveChanges();
+                _repository.MatchPlayer.Add(match_player);
+                _repository.Save();
                 return true;
             }
             catch (Exception e)
@@ -122,19 +137,22 @@ namespace StarAPI.Logic.Match
             
         //     player1.inGame = state;
         //     player2.inGame = state;
-        //     _context.Entry(player1).State = EntityState.Modified;
-        //     _context.Entry(player2).State = EntityState.Modified;
-        //     _context.SaveChanges();
+        //     _repository.Entry(player1).State = EntityState.Modified;
+        //     _repository.Entry(player2).State = EntityState.Modified;
+        //     _repository.SaveChanges();
 
         // }
 
         protected void remove(string id)
         {
-            var player = _context.Match_Player.FirstOrDefault(p => p.id == id);
+            // var player = _repository.Match_Player.FirstOrDefault(p => p.id == id);
+            var player = _repository.MatchPlayer.Get(id);
             if (player != null)
             {
-                _context.Match_Player.Remove(player);
-                _context.SaveChanges();
+                // _repository.Match_Player.Remove(player);
+                // _repository.SaveChanges();
+                _repository.MatchPlayer.Delete(player);
+                _repository.Save();
             }
         }
 

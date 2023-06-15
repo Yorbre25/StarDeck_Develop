@@ -3,23 +3,25 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class PlayerCardHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private CardCRUD _cardCRUD;
 
-    public PlayerCardHandling(StarDeckContext context)
+    public PlayerCardHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._cardCRUD = new CardCRUD(_context);
+        this._repository = repository;
+        this._cardCRUD = new CardCRUD(_repository);
     }
 
     public List<OutputCard> GetPlayerCards(string playerId)
     {
-        var playerCards = _context.Player_Card.ToList();
+        // var playerCards = _repository.Player_Card.ToList();
+        var playerCards = _repository.PlayerCard.GetAll();
         string [] cardsId = playerCards.FindAll(pc => pc.playerId == playerId).Select(pc => pc.cardId).ToArray();
         return GetCards(cardsId);
     }
@@ -31,7 +33,8 @@ public class PlayerCardHandling
         {
             cards.Add(_cardCRUD.GetCard(cardId));
         }
-        _context.Player_Card.ToList();
+        // _repository.Player_Card.ToList();
+        _repository.PlayerCard.GetAll();
         return cards;
     }
 
@@ -49,7 +52,8 @@ public class PlayerCardHandling
 
     private int GettingCardCount(string playerId)
     {
-        var playerCards = _context.Player_Card.ToList();
+        // var playerCards = _repository.Player_Card.ToList();
+        var playerCards = _repository.PlayerCard.GetAll();
         playerCards = playerCards.FindAll(pc => pc.playerId == playerId);
         return playerCards.Count;
     }
@@ -70,8 +74,10 @@ public class PlayerCardHandling
         Player_Card playerCard = new Player_Card();
         playerCard.playerId = playerId;
         playerCard.cardId = cardId;
-        _context.Player_Card.Add(playerCard);
-        _context.SaveChanges();
+        // _repository.Player_Card.Add(playerCard);
+        // _repository.SaveChanges();
+        _repository.PlayerCard.Add(playerCard);
+        _repository.Save();
     }
  
     internal bool PlayerAlreadyHasCards(string playerId)

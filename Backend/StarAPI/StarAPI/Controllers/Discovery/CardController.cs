@@ -5,6 +5,7 @@ using StarAPI.DataHandling.Discovery;
 using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -12,15 +13,13 @@ namespace StarAPI.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly StarDeckContext _context;
+        private readonly IRepositoryWrapper _reposiory;
         private CardCRUD _cardCrud;
-        private ILogger<CardController> _logger;
 
-        public CardController(StarDeckContext context, ILogger<CardController> logger)
+        public CardController(IRepositoryWrapper repository)
         {
-            this._context = context;
-            this._cardCrud = new CardCRUD(_context);
-            this._logger = logger;
+            this._reposiory = repository;
+            this._cardCrud = new CardCRUD(_reposiory);
         }
 
 
@@ -29,7 +28,7 @@ namespace StarAPI.Controllers
         [HttpGet("GetAllCards")]
         public IEnumerable<OutputCard> GetAllCards()
         {
-            _context.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
+            // _reposiory.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
             return _cardCrud.GetAllCards();
         }
 
@@ -52,7 +51,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Error crating card from data base");
                 return BadRequest(e.Message);
             }
         }
@@ -64,9 +62,8 @@ namespace StarAPI.Controllers
             {
                 foreach(var card in cards) 
                 {
-                    _context.Card.Add(card);
+                    _reposiory.Card.Add(card);
                 }
-                _context.SaveChanges();
                 return Ok();
             }
             catch (Exception e)
@@ -85,7 +82,6 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Error deleting card from data base");
                 return BadRequest(e.Message);
             }
         }

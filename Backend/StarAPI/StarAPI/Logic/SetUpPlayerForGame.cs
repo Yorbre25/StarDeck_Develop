@@ -8,19 +8,20 @@ using StarAPI.Constants;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class SetUpPlayerForGame
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private GamePlayerMapper _gamePlayerMapper;
 
-    public SetUpPlayerForGame(StarDeckContext context)
+    public SetUpPlayerForGame(IRepositoryWrapper repository)
     {
-        _context = context;
-        _gamePlayerMapper = new GamePlayerMapper(_context);
+        _repository = repository;
+        _gamePlayerMapper = new GamePlayerMapper();
 
     }
 
@@ -47,19 +48,24 @@ public class SetUpPlayerForGame
             string deckId = decks[i];
             AddPlayer(playerId, deckId, gameId);
         }
-        _context.SaveChanges();
+        // _repository.SaveChanges();
+        //_repository.Save();
     }
 
     private void AddPlayer(string playerId, string deckId, string gameId)
     {
         IsPlayerAvailable(playerId);
         Game_Player newGamePlayer = _gamePlayerMapper.FillNewGamePlayer(gameId, playerId, deckId);
-        _context.Game_Player.Add(newGamePlayer);
+        // _repository.Game_Player.Add(newGamePlayer);
+        _repository.GamePlayer.Add(newGamePlayer);
+        //_repository.Save();
     }
 
     private void IsPlayerAvailable(string playerId)
     {
-        var gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
+        // var gamePlayer = _repository.Game_Player.FirstOrDefault(g => g.playerId == playerId);
+        var gamePlayers = _repository.GamePlayer.GetAll();
+        var gamePlayer = gamePlayers.FirstOrDefault(g => g.playerId == playerId);
         if (gamePlayer != null)
         {
             throw new ArgumentException("Player is currently in game");

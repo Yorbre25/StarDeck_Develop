@@ -5,6 +5,7 @@ using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -12,13 +13,11 @@ namespace StarAPI.Controllers
     [ApiController]
     public class SetupController : ControllerBase
     {
-        private readonly StarDeckContext _context;
-        private ILogger<SetupController> _logger;
+        private readonly IRepositoryWrapper _repository;
 
-        public SetupController(StarDeckContext context, ILogger<SetupController> logger)
+        public SetupController(IRepositoryWrapper repository)
         {
-            this._context = context;
-            this._logger = logger;
+            this._repository = repository;
         }
 
 
@@ -27,7 +26,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                NewGame newGame = new NewGame(_context);
+                NewGame newGame = new NewGame(_repository);
                 var output = newGame.SetupNewGame(setupValues);
                 return Ok(output);
             }
@@ -42,7 +41,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                GameTableHandling gameTableHandling = new GameTableHandling(_context);
+                GameTableHandling gameTableHandling = new GameTableHandling(_repository);
                 return Ok(gameTableHandling.GetGamePlanets(gameId));
             }
             catch (Exception e)
@@ -56,7 +55,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                SetupHands setupHands = new SetupHands(_context);
+                SetupHands setupHands = new SetupHands(_repository);
                 setupHands.SetupHand(gameId);
                 return Ok();
             }
@@ -71,7 +70,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                HandCard handHandling = new HandCard(_context);
+                HandCard handHandling = new HandCard(_repository);
                 var output = handHandling.GetHandCards(gameId,playerId);
                 return Ok(output);
             }

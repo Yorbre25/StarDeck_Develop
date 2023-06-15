@@ -5,6 +5,7 @@ using StarAPI.DTO.Game;
 using StarAPI.DataHandling.Game;
 using StarAPI.Logic.Game;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -12,13 +13,11 @@ namespace StarAPI.Controllers
     [ApiController]
     public class TurnController : ControllerBase
     {
-        private StarDeckContext _context;
-        private ILogger<TurnController> _logger;
+        private IRepositoryWrapper _repository;
 
-        public TurnController(StarDeckContext context, ILogger<TurnController> logger)
+        public TurnController(IRepositoryWrapper repository)
         {
-            this._context = context;
-            this._logger = logger;
+            this._repository = repository;
         }
 
 
@@ -27,7 +26,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                DrawCard drawCard = new DrawCard(_context);
+                DrawCard drawCard = new DrawCard(_repository);
                 return Ok(drawCard.Draw(gameId, playerId));
             }
             catch (Exception e)
@@ -41,7 +40,7 @@ namespace StarAPI.Controllers
         public ActionResult EndTurn([FromBody] InputTableLayout tableLayout)
         {
             try{
-                EndTurn endTurn = new EndTurn(_context);
+                EndTurn endTurn = new EndTurn(_repository);
                 endTurn.End(tableLayout);
                 return Ok();
             }
@@ -56,12 +55,11 @@ namespace StarAPI.Controllers
         {
             try
             {
-                TableLayout tableLayout = new TableLayout(_context);
+                TableLayout tableLayout = new TableLayout(_repository);
                 return Ok(tableLayout.GetLayout(gameId, playerId));
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error getting layout");
                 return BadRequest(e.Message);
             }
         }
@@ -71,12 +69,11 @@ namespace StarAPI.Controllers
         {
             try
             {
-                Turn turn = new Turn(_context);
+                Turn turn = new Turn(_repository);
                 return Ok(turn.GetTurnInfo(gameId, playerId));
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error getting turn info");
                 return BadRequest(e.Message);
             }
         }
