@@ -4,28 +4,27 @@ using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Mappers;
 using StarAPI.Constants;
+using Contracts;
 
 namespace StarAPI.DataHandling.Game;
 
 public class GamePlayerHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private GameDeckHandling _gameDeckCardHandling;
-    private GamePlayerMapper _gamePlayerMapper;
 
     private IdGenerator _idGenerator = new IdGenerator();
         private static string s_idPrefix = "GP";
 
 
 
-    public GamePlayerHandling(StarDeckContext context)
+    public GamePlayerHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._gameDeckCardHandling = new GameDeckHandling(_context);
-        this._gamePlayerMapper = new GamePlayerMapper(_context);
+        this._repository = repository;
+        this._gameDeckCardHandling = new GameDeckHandling(_repository);
     }
 
-    public Game_Player GetGamePlayer(string playerId)
+    public Game_Player GetGamePlayerById(string playerId)
     {
         try
         {
@@ -37,15 +36,31 @@ public class GamePlayerHandling
         }
     }
 
+    public Game_Player GetGamePlayerByGameId(string gameId)
+    {
+        List<Game_Player> gamePlayers = _repository.GamePlayer.GetAll();
+        return gamePlayers.FirstOrDefault(gp => gp.gameId == gameId);
+    }
+    public List<Game_Player> GetGamePlayersByGameId(string gameId)
+    {
+        List<Game_Player> gamePlayers = _repository.GamePlayer.GetAll();
+        List<Game_Player> playersInGame = gamePlayers.Where(gp => gp.gameId == gameId).ToList();
+        return playersInGame;
+
+    }
+
     private Game_Player GettingGamePlayer(string playerId)
     {
-        Game_Player? gamePlayer = _context.Game_Player.FirstOrDefault(g => g.playerId == playerId);
-        return gamePlayer;
+        List<Game_Player> gamePlayers = _repository.GamePlayer.GetAll();
+        return gamePlayers.FirstOrDefault(gp => gp.playerId == playerId);
     }
 
     internal int GetMaxCardPoints(string gameId)
     {
-        Game_Player gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);
+        // Game_Player gamePlayer = _repository.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);
+        GameHandling gameHandling = new GameHandling(_repository);
+        Models.Game game = gameHandling.GetGame(gameId);
+        Game_Player gamePlayer = GetGamePlayerById(game.player1Id);
         return gamePlayer.maxCardPoints;
     }
 }

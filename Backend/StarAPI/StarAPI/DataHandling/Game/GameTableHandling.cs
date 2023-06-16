@@ -8,20 +8,22 @@ using StarAPI.Logic.Mappers;
 using StarAPI.Logic;
 using StarAPI.DTO.Game;
 using StarAPI.Constants;
+using Contracts;
+
 namespace StarAPI.DataHandling.Game;
 
 public class GameTableHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private PlanetCRUD _planetCRUD;
 
 
 
 
-    public GameTableHandling(StarDeckContext context)
+    public GameTableHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._planetCRUD = new PlanetCRUD(_context);
+        this._repository = repository;
+        this._planetCRUD = new PlanetCRUD(_repository);
     }
 
     public List<OutputPlanet> GetGamePlanets(string gameId)
@@ -39,7 +41,8 @@ public class GameTableHandling
 
     public List<OutputPlanet> GetPlanets(string gameId)
     {
-        List<Game_Planet> gamePlanets = _context.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
+        // List<Game_Planet> gamePlanets = _repository.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
+        List<Game_Planet> gamePlanets = GetGamePlanetsByGameId(gameId);
         List<OutputPlanet> listPlanets = new List<OutputPlanet>();
 
         foreach (Game_Planet gamePlanet in gamePlanets)
@@ -54,36 +57,25 @@ public class GameTableHandling
 
 
 
-    // private void AddCardsToTable(InputTableLayout tableLayout)
-    // {
-    //     List<GameTable> cards = _gameTableMapper.FillNewGameTable(tableLayout);
-    //     _context.GameTable.AddRange(cards);
-    //     _context.SaveChanges();
 
-    // }         
+    public List<GameTable> GetPlayerCardsInTable(string playerId)
+    {
+        List<GameTable> cards = _repository.GameTable.GetAll();
+        List<GameTable> playerCards = cards.FindAll(c => c.playerId == playerId);
+        return playerCards;
+
+    }      
+
+    public List<Game_Planet> GetGamePlanetsByGameId(string gameId)   
+    {
+        // List<Game_Planet> gamePlanets = _repository.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
+        List<Game_Planet> gamePlanets = _repository.GamePlanet.GetAll();
+        return gamePlanets.FindAll(gp => gp.gameId == gameId);
+    }
     
 
 
-    // internal OutputTableLayout GetLayout(string playerId, string rivalId)
-    // {
-    //     OutputTableLayout outputTableLayout = new OutputTableLayout();
-    //     outputTableLayout.playerCards = GetLayout(playerId);
-    //     outputTableLayout.rivalCards = GetLayout(rivalId);
-    //     return outputTableLayout;
-    // }
-
-    // private Dictionary<string, OutputCard> GetLayout(string playerId)
-    // {
-    //     List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
-    //     Dictionary<string, OutputCard> layout = new Dictionary<string, OutputCard>();
-    //     foreach (GameTable card in cards)
-    //     {
-    //         OutputCard outputCard = _cardCRUD.GetCard(card.cardId);
-    //         layout.Add(card.planetId, outputCard);
-    //     }
-    //     return layout;
-    // }
-
+    
 
 
 

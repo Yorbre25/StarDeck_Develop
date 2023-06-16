@@ -1,24 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
+using System.Linq.Expressions;
+using Contracts;
+
 namespace StarAPI.DataHandling.Discovery;
 
 public class CardTypeHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
-    public CardTypeHandling(StarDeckContext context)
+    public CardTypeHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
+        this._repository = repository;
     }
 
     public List<CardType> GetAllCardTypes()
     {
-        return _context.CardType.ToList();
+        return _repository.CardType.GetAll();
     }
 
 
-    public string GetCardType(int id)
+    public string Get(int id)
     {
         try
         {
@@ -26,49 +29,39 @@ public class CardTypeHandling
         }
         catch (System.Exception)
         {
-            throw new ArgumentException("Invalid id");
+            throw new ArgumentException("Invalid CardType id");
         }
     }
 
     public string GetCardTypeName(int id)
     {
-        CardType? cardType = _context.CardType.FirstOrDefault(r => r.id == id);
-        if (cardType == null)
-        {
-            throw new ArgumentException("CardType does not exist");
-        }
+
+        CardType cardType = _repository.CardType.Get(id);
         return cardType.typeName;
     }
 
 
-    public void AddCardType(string raceName)
+    public void AddCardType(string typeName)
     {
-        bool isNameValid = CheckInputName(raceName);
-        bool alreadyExist = AlreadyExists(raceName);
-
-        if(!isNameValid){
-            throw new ArgumentException("Invalid name");
-        }
+        bool alreadyExist = AlreadyExists(typeName);
         if(alreadyExist){
             throw new ArgumentException("CardType already exist");
         }
-        InsertCardType(raceName);
+        InsertCardType(typeName);
 
     }
 
-    public void InsertCardType(string raceName){
-        var cardType = new CardType {typeName = raceName};
-        _context.CardType.Add(cardType);
-        _context.SaveChanges();
+    public void InsertCardType(string typeName){
+        var cardType = new CardType {typeName = typeName};
+        _repository.CardType.Add(cardType);
+        _repository.Save();
     }
 
-    private bool CheckInputName(string raceName){
-        return true;
-    }
 
 
     private bool AlreadyExists(string typeName){
-        var cardType = _context.CardType.FirstOrDefault(r => r.typeName == typeName);
+        var cardTypes = _repository.CardType.GetAll();
+        var cardType = cardTypes.FirstOrDefault(c => c.typeName == typeName);
         if(cardType == null){
             return false;
         }
@@ -77,7 +70,7 @@ public class CardTypeHandling
 
     private bool AlreadyExists(int id){
         CardType? cardType = new CardType();
-        cardType = _context.CardType.FirstOrDefault(r => r.id == id);
+        cardType = _repository.CardType.Get(id);
         if(cardType == null){
             return false;
         }
@@ -89,7 +82,7 @@ public class CardTypeHandling
         bool alreadyExists = AlreadyExists(id);
         if(!alreadyExists)
         {
-            throw new ArgumentNullException("CardType does not exist");
+            throw new ArgumentException("Invalid CardType id");
         }
         else
         {
@@ -99,9 +92,9 @@ public class CardTypeHandling
 
     private void DeletingCardType(int id)
     {
-        var cardType = _context.CardType.FirstOrDefault(r => r.id == id);
-        _context.CardType.Remove(cardType);
-        _context.SaveChanges();
+        CardType cardType = _repository.CardType.Get(id);
+        _repository.CardType.Delete(cardType);
+        _repository.Save();
     }
 
 }

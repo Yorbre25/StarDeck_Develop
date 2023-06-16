@@ -2,8 +2,7 @@
 using StarAPI.Models;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
-
-
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -11,15 +10,12 @@ namespace StarAPI.Controllers
     [ApiController]
     public class RaceController : ControllerBase
     {
-        private readonly StarDeckContext _context;
         private  RaceHandling _raceHandling;
         private ILogger<RaceController> _logger;
 
-        public RaceController(StarDeckContext context, ILogger<RaceController> logger)
+        public RaceController(IRepositoryWrapper context)
         {
-            this._context = context;
-            _raceHandling = new RaceHandling(_context);
-            _logger = logger;
+            _raceHandling = new RaceHandling(context);
         }
 
         
@@ -53,24 +49,24 @@ namespace StarAPI.Controllers
             
         }
 
-        [HttpPost("AddRaces")]
-        public ActionResult AddRaces([FromBody] List<Race> races) 
-        {
-            try 
-            {
-                foreach(var race in races) 
-                {
-                    _context.Race.Add(race);
+        // [HttpPost("AddRaces")]
+        // public ActionResult AddRaces([FromBody] List<Race> races) 
+        // {
+        //     try 
+        //     {
+        //         foreach(var race in races) 
+        //         {
+        //             _context.Race.Add(race);
 
-                }
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch(Exception e) 
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        //         }
+        //         _context.SaveChanges();
+        //         return Ok();
+        //     }
+        //     catch(Exception e) 
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
 
         [HttpDelete("DelteRace/{id}")]
         public ActionResult DeleteCardType(int id)

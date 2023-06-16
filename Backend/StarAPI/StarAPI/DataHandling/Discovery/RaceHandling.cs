@@ -1,21 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class RaceHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _context;
 
-    public RaceHandling(StarDeckContext context)
+    public RaceHandling(IRepositoryWrapper context)
     {
         this._context = context;
     }
 
     public List<Race> GetAllRaces()
     {
-        return _context.Race.ToList();
+        // return _context.Race.ToList();
+        return _context.Race.GetAll();
     }
 
 
@@ -32,7 +34,8 @@ public class RaceHandling
 
     public string GetRaceName(int id)
     {
-        Race? race = _context.Race.FirstOrDefault(r => r.id == id);
+        // Race? race = _context.Race.Get(r => r.id == id);
+        Race? race = _context.Race.Get(id);
         if (race == null)
         {
             throw new ArgumentException("Race does not exist");
@@ -58,8 +61,10 @@ public class RaceHandling
 
     public void InsertRace(string raceName){
         var race = new Race {name = raceName};
+        // _context.Race.Add(race);
+        // _context.SaveChanges();
         _context.Race.Add(race);
-        _context.SaveChanges();
+        _context.Save();
     }
 
     private bool CheckInputName(string raceName){
@@ -67,7 +72,8 @@ public class RaceHandling
     }
 
     private bool AlreadyExists(string raceName){
-        var race = _context.Race.FirstOrDefault(r => r.name == raceName);
+        var races = _context.Race.GetAll();
+        var race = races.FirstOrDefault(r => r.name == raceName);
         if(race == null){
             return false;
         }
@@ -76,7 +82,8 @@ public class RaceHandling
 
     private bool AlreadyExists(int id){
         Race? race = new Race();
-        race = _context.Race.FirstOrDefault(r => r.id == id);
+        // race = _context.Race.FirstOrDefault(r => r.id == id);
+        race = _context.Race.Get(id);
         if(race == null){
             return false;
         }
@@ -98,9 +105,12 @@ public class RaceHandling
 
     private void RemoveRace(int id)
     {
-        var race = _context.Race.FirstOrDefault(r => r.id == id);
-        _context.Race.Remove(race);
-        _context.SaveChanges();
+        // var race = _context.Race.FirstOrDefault(r => r.id == id);
+        // _context.Race.Remove(race);
+        // _context.SaveChanges();
+        var race = _context.Race.Get(id);
+        _context.Race.Delete(race);
+        _context.Save();
     }
 
 }

@@ -4,6 +4,7 @@ using StarAPI.Models;
 using StarAPI.Logic.Utils;
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
+using Contracts;
 
 namespace StarAPI.Controllers
 { 
@@ -12,20 +13,18 @@ namespace StarAPI.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly StarDeckContext context;
         private CountryHandling _countryHandling;
         private ILogger<CountryController> _logger;
 
-        public CountryController(StarDeckContext context, ILogger<CountryController> logger) 
+        public CountryController(IRepositoryWrapper repository) 
         {
-            this.context = context;
-            _countryHandling = new CountryHandling(context);
+            _countryHandling = new CountryHandling(repository);
         }
 
         [HttpGet("GetAllCountries")]   
         public IEnumerable<Country> GetAllCountries()
         {
-            return context.Country.ToList();
+            return _countryHandling.GetAllCountries();
         }
 
         [HttpPost("AddCountry")]
@@ -43,22 +42,22 @@ namespace StarAPI.Controllers
             }
         }
 
-        [HttpPost("AddCountries")]
-        public ActionResult AddCountriess([FromBody] List<Country> countries)
-        {
-            try
-            {
-                foreach (Country country in countries) 
-                {
-                    context.Country.Add(country);
-                }
-                context.SaveChanges();
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        // [HttpPost("AddCountries")]
+        // public ActionResult AddCountriess([FromBody] List<Country> countries)
+        // {
+        //     try
+        //     {
+        //         foreach (Country country in countries) 
+        //         {
+        //             repository.Country.Add(country);
+        //         }
+        //         repository.SaveChanges();
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
     }
 }

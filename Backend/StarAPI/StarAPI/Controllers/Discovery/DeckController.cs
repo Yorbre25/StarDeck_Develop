@@ -2,6 +2,7 @@
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
 using StarAPI.DTO.Discovery;
+using Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,14 +12,12 @@ namespace StarAPI.Controllers
     [ApiController]
     public class DeckController : ControllerBase
     {
-        private readonly StarDeckContext _context;
         private DeckHandling _deckHandling;
         private DeckCardHandling _deckCardHandling;
         private ILogger<DeckController> _logger;
 
-        public DeckController(StarDeckContext context, ILogger<DeckController> logger)
+        public DeckController(IRepositoryWrapper context, ILogger<DeckController> logger)
         {
-            this._context = context;
             this._deckHandling = new DeckHandling(context);
             this._deckCardHandling = new DeckCardHandling(context);
         }

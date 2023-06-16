@@ -1,3 +1,4 @@
+using Contracts;
 using StarAPI.Context;
 using StarAPI.Models;
 
@@ -7,19 +8,20 @@ namespace StarAPI.DataHandling.Discovery;
 
 public class ImageHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
 
-    public ImageHandling(StarDeckContext context)
+    public ImageHandling(IRepositoryWrapper context)
     {
-        this._context = context;
+        this._repository = context;
     }
 
     public int GetImageId(string image)
     {
-        bool alreadyExists = _context.Image.Any(r => r.imageString == image);
-        if(alreadyExists){
-            return _context.Image.Where(r => r.imageString == image).FirstOrDefault().id;
+        var images = _repository.Image.GetAll();
+        var imageEntity = images.Find(r => r.imageString == image);
+        if(imageEntity != null){
+            return imageEntity.id;
         }
         AddImage(image);
         return GetImageId(image);
@@ -27,26 +29,17 @@ public class ImageHandling
 
     public string GetImage(int id)
     {
-        return _context.Image.Where(r => r.id == id).FirstOrDefault().imageString;
+        // return _repository.Image.Where(r => r.id == id).FirstOrDefault().imageString;
+        var image = _repository.Image.Get(id);
+        return image.imageString;
     }
-
-    public void AddImage(string image)
-    {
-        try
-        {
-            AddingImage(image);
-        }
-        catch
-        {
-            throw new Exception("Error adding image");
-        }
-    }
-
-    private void AddingImage(string image)
+    private void AddImage(string image)
     {
         Image newImage = new Image();
         newImage.imageString = image;
-        _context.Image.Add(newImage);
-        _context.SaveChanges();
+        // _repository.Image.Add(newImage);
+        // _repository.SaveChanges();
+        _repository.Image.Add(newImage);
+        _repository.Save();
     }
 }

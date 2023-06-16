@@ -3,28 +3,26 @@ using StarAPI.Logic.Utils;
 using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.Logic.Mappers;
+using Contracts;
+using System.Linq.Expressions;
+using StarAPI.Constants;
 
 namespace StarAPI.DataHandling.Discovery;
 
 
 public class DeckHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
     private IdGenerator _idGenerator = new IdGenerator();
     private DeckMapper _deckMapper;
 
-    private static int s_minDeckNameLength = 5;
-    private static int s_maxDeckNameLength = 30;
-
-    private static int s_cardsPerDeck =18;
-
     private static string s_idPrefix = "D";
 
-    public DeckHandling(StarDeckContext context)
+    public DeckHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._deckMapper = new DeckMapper(_context);
+        this._repository = repository;
+        this._deckMapper = new DeckMapper(_repository);
     }
 
     public void AddDeck(InputDeck inputDeck)
@@ -46,16 +44,17 @@ public class DeckHandling
     {
         string id = GenerateId();
         Deck newDeck = _deckMapper.FillNewDeck(inputDeck, id);
-        _context.Deck.Add(newDeck);
+        _repository.Deck.Add(newDeck);
+        // AddCardsToDeck(newDeck.id, inputDeck.cardIds);
         AddCardsToDeck(newDeck.id, inputDeck.cardIds);
-        _context.SaveChanges();
+        _repository.Save();
     }
 
 
 
     private void AddCardsToDeck(string id, string[] cardIds)
     {
-        if(cardIds.Count() != s_cardsPerDeck){
+        if(cardIds.Count() != Const.CardsPerDeck){
            throw new ArgumentException("Invalid number of cards");
         }
         try
@@ -76,13 +75,15 @@ public class DeckHandling
             Deck_Card deckCard = new Deck_Card();
             deckCard.deckId = id;
             deckCard.cardId = cardId;
-            _context.Deck_Card.Add(deckCard);
+            // _repository.Deck_Card.Add(deckCard);
+            _repository.DeckCard.Add(deckCard);
         }
     }
 
     private bool NameAlreadyExists(string playerId, string name)
     {
-        var decks = _context.Deck.Where(d => d.playerId == playerId);
+        // var decks = _repository.Deck.Where(d => d.playerId == playerId);
+        var decks = GetDeckByPlayerId(playerId);
         bool alreadyExists = false;
         foreach (var deck in decks)
         {
@@ -108,7 +109,8 @@ public class DeckHandling
 
     private bool IdAlreadyExists(string id){
     Deck? deck = new Deck();
-    deck = _context.Deck.FirstOrDefault(c => c.id == id);
+    // deck = _repository.Deck.FirstOrDefault(c => c.id == id);
+    deck = _repository.Deck.Get(id);
     if(deck == null){
         return false;
     }
@@ -119,7 +121,7 @@ public class DeckHandling
     {
         bool isValid = true;
         string deckName = inputDeck.name;
-        if(deckName.Length < s_minDeckNameLength || deckName.Length > s_maxDeckNameLength)
+        if(deckName.Length < Const.MinDeckNameLength || deckName.Length > Const.MaxDeckNameLength)
         {
             isValid = false;
         }
@@ -142,13 +144,24 @@ public class DeckHandling
     private List<OutputDeck> GettingDecksFromPlayer(string playerId)
     {
         List<OutputDeck> outputDecks = new List<OutputDeck>();
-        var decks = _context.Deck.Where(d => d.playerId == playerId);
+        // var decks = _repository.Deck.Where(d => d.playerId == playerId);
+        var decks = GetDeckByPlayerId(playerId);
         foreach (var deck in decks)
         {
             OutputDeck outputDeck = _deckMapper.FillOutputDeck(deck);
             outputDecks.Add(outputDeck);
         }
         return outputDecks;
+    }
+
+    List<Deck> GetDeckByPlayerId(string playerId)
+    {
+        ParameterExpression parameter = Expression.Parameter(typeof(Deck), "t");
+        Expression property = Expression.Property(parameter, "playerId");
+        ConstantExpression idValue = Expression.Constant(playerId, typeof(string));
+        Expression condition = Expression.Equal(property, idValue);
+        Expression<Func<Deck, bool>> lambdaExpression = Expression.Lambda<Func<Deck, bool>>(condition, parameter);
+        return _repository.Deck.FindByCondition(lambdaExpression);
     }
 
     internal string GetDeckName(string id)
@@ -159,6 +172,6 @@ public class DeckHandling
 
     private Deck GetDeck(string id)
     {
-        return _context.Deck.FirstOrDefault(p => p.id == id);
+        return _repository.Deck.Get(id);
     }
 }

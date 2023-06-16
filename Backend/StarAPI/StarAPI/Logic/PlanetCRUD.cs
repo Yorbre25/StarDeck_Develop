@@ -6,6 +6,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Mappers;
 using StarAPI.Constants;
 using StarAPI.DataHandling.Discovery;
+using Contracts;
 
 namespace StarAPI.Logic;
 
@@ -13,9 +14,9 @@ public class PlanetCRUD
 {
     private PlanetHandling _planetHandling;
 
-    public PlanetCRUD(StarDeckContext context)
+    public PlanetCRUD(IRepositoryWrapper repository)
     {
-        this._planetHandling = new PlanetHandling(context);
+        this._planetHandling = new PlanetHandling(repository);
     }
 
 

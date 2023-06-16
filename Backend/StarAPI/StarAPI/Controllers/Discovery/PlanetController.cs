@@ -4,6 +4,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -12,17 +13,12 @@ namespace StarAPI.Controllers
     [ApiController]
     public class PlanetController : ControllerBase
     {
-        private readonly StarDeckContext _context;
         private PlanetCRUD _planetCRUD;
         private ILogger<PlanetController> _logger;
 
-        public PlanetController(StarDeckContext context, ILogger<PlanetController> logger)
+        public PlanetController(IRepositoryWrapper context)
         {
             this._planetCRUD = new PlanetCRUD(context);
-
-            this._logger = logger;
-
-            _context = context;
 
         }
 

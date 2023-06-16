@@ -7,14 +7,11 @@ namespace StarAPI.Logic.Mappers
 {
     public class GamePlayerMapper
     {
-        private StarDeckContext _context;
 
-        public GamePlayerMapper(StarDeckContext context)
+        public GamePlayerMapper()
         {
-            this._context = context;
         }
         
-        // public Game_Player FillNewGamePlayer(InputGamePlayer inputGamePlayer)
         public Game_Player FillNewGamePlayer(string gameId, string playerId, string deckId)
         {
             Game_Player player = new Game_Player()

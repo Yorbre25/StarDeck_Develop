@@ -1,20 +1,20 @@
-using StarAPI.Models;
-using StarAPI.Logic.Utils;
-using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic;
+using Contracts;
+using System.Linq.Expressions;
+using StarAPI.Models;
 
 namespace StarAPI.DataHandling.Discovery;
 
 public class DeckCardHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private CardCRUD _cardCRUD;
 
-    public DeckCardHandling(StarDeckContext context)
+    public DeckCardHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._cardCRUD = new CardCRUD(_context);
+        this._repository = repository;
+        this._cardCRUD = new CardCRUD(_repository);
     }
 
 
@@ -33,7 +33,8 @@ public class DeckCardHandling
 
     private List<OutputCard> GettingCardsFromDeck(string deckId)
     {
-        var deckCards = _context.Deck_Card.ToList();
+        // var deckCards = _repository.Deck_Card.ToList();
+        var deckCards = _repository.DeckCard.GetAll();
         string [] cardsId = deckCards.FindAll(dc => dc.deckId == deckId).Select(dc => dc.cardId).ToArray();
         return GetCards(cardsId);
     }
@@ -64,7 +65,9 @@ public class DeckCardHandling
 
     public string[] GettingCardIdsFromDeck(string deckId)
     {
-        var deckCards = _context.Deck_Card.Where(dc => dc.deckId == deckId);
+        // var deckCards = _repository.Deck_Card.Where(dc => dc.deckId == deckId);
+        var deckCards = GetDeckCards(deckId);
+
         string[] cardIds = new string[deckCards.Count()];
         int i = 0;
         foreach (var deckCard in deckCards)
@@ -73,5 +76,12 @@ public class DeckCardHandling
             i++;
         }
         return cardIds;
+    }
+
+    private List<Deck_Card> GetDeckCards(string deckId)
+    {
+        List<Deck_Card> deckCards = _repository.DeckCard.GetAll();
+        List<Deck_Card> deckCardsFiltered = deckCards.FindAll(dc => dc.deckId == deckId);
+        return deckCardsFiltered;
     }
 }
