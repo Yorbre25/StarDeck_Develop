@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SignUpFormComponent } from './sign-up-form.component';
+import { SideMenuComponent } from '../../../../components/elements/side-menu/side-menu.component';
 
-describe('SignUpFormComponent', () => {
-  let component: SignUpFormComponent;
-  let fixture: ComponentFixture<SignUpFormComponent>;
+describe('SideMenuComponent', () => {
+  let component: SideMenuComponent;
+  let fixture: ComponentFixture<SideMenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SignUpFormComponent ]
+      declarations: [ SideMenuComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SignUpFormComponent);
+    fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

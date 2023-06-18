@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatchNotFoundComponent } from './match-not-found.component';
+import { MatchNotFoundComponent } from '../../../../components/pop-ups/match-not-found/match-not-found.component';
 
 describe('MatchNotFoundComponent', () => {
   let component: MatchNotFoundComponent;

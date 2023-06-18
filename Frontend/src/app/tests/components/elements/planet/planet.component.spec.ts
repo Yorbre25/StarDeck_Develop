@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateDeckFormComponent } from './create-deck-form.component';
+import { PlanetComponent } from '../../../../components/elements/planet/planet.component';
 
-describe('CreateDeckFormComponent', () => {
-  let component: CreateDeckFormComponent;
-  let fixture: ComponentFixture<CreateDeckFormComponent>;
+describe('PlanetComponent', () => {
+  let component: PlanetComponent;
+  let fixture: ComponentFixture<PlanetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateDeckFormComponent ]
+      declarations: [ PlanetComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateDeckFormComponent);
+    fixture = TestBed.createComponent(PlanetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

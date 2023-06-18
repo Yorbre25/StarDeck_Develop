@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MultiplePlanetCardsComponent } from './multiple-planet-cards.component';
+import { MultiplePlanetCardsComponent } from '../../../../components/elements/multiple-planet-cards/multiple-planet-cards.component';
 
 describe('MultiplePlanetCardsComponent', () => {
   let component: MultiplePlanetCardsComponent;
