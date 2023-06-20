@@ -57,4 +57,17 @@ export class deckService{
         return this.http.get<CardInt[]>(dir)
     }
 
+    setDeck(deckId:string|null){
+        if(deckId!=null){
+            localStorage.setItem("DeckID",deckId)
+        }else{
+            console.log("Unable to save deck: Null statement")
+        }
+    }
+
+    getDeck(){
+        return localStorage.getItem("DeckID")
+    }
+
+
 }

@@ -47,6 +47,7 @@ export class DeckSelectComponent {
 
     const uuid = uuidv4();
     console.log(uuid); 
+    this.deckService.setDeck(deck.id)
     this.router.navigate(['/searching']);   
   }
 }
