@@ -54,6 +54,7 @@ import { MultiplePlanetCardsComponent } from './components/elements/multiple-pla
 import { EndGameComponent } from './components/pop-ups/end-game/end-game.component';
 import { EndGameLoseComponent } from './components/pop-ups/end-game-lose/end-game-lose.component';
 import { EndGameTieComponent } from './components/pop-ups/end-game-tie/end-game-tie.component';
+import { PendingMatchComponent } from './components/pop-ups/pending-match/pending-match.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +92,8 @@ import { EndGameTieComponent } from './components/pop-ups/end-game-tie/end-game-
     MultiplePlanetCardsComponent,
     EndGameComponent,
     EndGameLoseComponent,
-    EndGameTieComponent
+    EndGameTieComponent,
+    PendingMatchComponent
   ],
   imports: [
     MatFormFieldModule,
