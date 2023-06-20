@@ -6,21 +6,22 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Constants;
 using StarAPI.Models;
 using StarAPI.DataHandling.Game;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class TableLayout
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private CardCRUD _cardCRUD;
     private GameHandling _gameHandling;
 
-    public TableLayout(StarDeckContext context)
+    public TableLayout(IRepositoryWrapper repository)
     {
-        _context = context;
-        _cardCRUD = new CardCRUD(_context);
-        _gameHandling = new GameHandling(_context);
+        _repository = repository;
+        _cardCRUD = new CardCRUD(_repository);
+        _gameHandling = new GameHandling(_repository);
     }
 
     internal OutputTableLayout GetLayout(string gameId, string playerId)
@@ -48,7 +49,8 @@ public class TableLayout
 
     private Dictionary<string, OutputCard> GetCardsPerPlanet(string playerId)
     {
-        List<GameTable> cards = _context.GameTable.Where(gt => gt.playerId == playerId).ToList();
+        // List<GameTable> cards = _repository.GameTable.Where(gt => gt.playerId == playerId).ToList();
+        List<GameTable> cards = GetPlayerCardsInTable(playerId);
         Dictionary<string, OutputCard> layout = new Dictionary<string, OutputCard>();
         foreach (GameTable card in cards)
         {
@@ -58,8 +60,15 @@ public class TableLayout
         return layout;
     }
 
-    private string GetRivalId(object gameId, string playerId)
+    private string GetRivalId(string gameId, string playerId)
     {
         return _gameHandling.GetRivalId(gameId, playerId);
     }
+
+    public List<GameTable> GetPlayerCardsInTable(string playerId)
+    {
+        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        return gameTableHandling.GetPlayerCardsInTable(playerId);
+
+    }      
 }

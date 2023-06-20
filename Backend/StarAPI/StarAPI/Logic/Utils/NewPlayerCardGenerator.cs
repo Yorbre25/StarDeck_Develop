@@ -2,6 +2,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
 using StarAPI.Logic.Utils;
+using Contracts;
 
 namespace StarAPI.Logic;
 
@@ -14,11 +15,11 @@ namespace StarAPI.Logic;
         private static int s_numOfCardsToAssign = 15;
         private static string s_typeOfCardToAssign = "Básica";
 
-    public NewPlayerCardGenerator(StarDeckContext _context)
+    public NewPlayerCardGenerator(IRepositoryWrapper repository)
     {
-        this._cardCRUD = new CardCRUD(_context);
-        this._playerHandling = new PlayerHandling(_context);
-        this._playerCardHandling = new PlayerCardHandling(_context);
+        this._cardCRUD = new CardCRUD(repository);
+        this._playerHandling = new PlayerHandling(repository);
+        this._playerCardHandling = new PlayerCardHandling(repository);
     }
     public void GenerateCardsForNewPlayer(string playerId)
     {

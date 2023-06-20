@@ -1,21 +1,21 @@
-using StarAPI.Context;
 using StarAPI.DTO.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Constants;
+using Contracts;
 
 namespace StarAPI.Logic.Game;
 
 public class PlanetsForGame
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private PlanetCRUD _planetCRUD;
 
     private RandomTools _randomTools = new RandomTools();
 
-    public PlanetsForGame(StarDeckContext context)
+    public PlanetsForGame(IRepositoryWrapper repository)
     {
-        this._context = context;
-        this._planetCRUD = new PlanetCRUD(_context);
+        this._repository = repository;
+        this._planetCRUD = new PlanetCRUD(_repository);
     }
 
     public List<OutputPlanet> GetPlanetsForNewGame()

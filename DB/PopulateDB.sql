@@ -65,7 +65,7 @@ VALUES  ('C-000000000001', 'Carta A', 10, 2, 1, 1, 'Descripción A', 1),
         ('C-000000000010', 'Carta J', 10, 1, 1, 1, 'Description J', 1),
         ('C-000000000011', 'Carta K', 10, 7, 1, 1, 'Description K', 1),
         ('C-000000000012', 'Carta M', 10, 2, 1, 1, 'Description L', 1),
-        ('C-000000000013', 'Carta M', 10, 2, 1, 1, 'Description M', 1),
+        ('C-000000000013', 'Carta M2', 10, 2, 1, 1, 'Description M', 1),
         ('C-000000000014', 'Carta N', 10, 9, 1, 1, 'Description N', 1),
         ('C-000000000015', 'Carta O', 10, 3, 1, 1, 'Description O', 1),
         ('C-000000000016', 'Carta P', 10, 5, 1, 1, 'Description P', 1),
@@ -114,13 +114,13 @@ INSERT INTO Player (
     coins,
     avatarId)
 VALUES
-    ('U-01a1zjlg4aph','yraulbr25@gmail.com', 'Yordi', 'Brenes', 'sadKaladin', '123ABC', 0, 0, 0, 1, 1, 0, 1),
-    ('U-02a1zjlg4aph','adriana@gmail.com', 'Adriana', 'Calderon', 'quadriante', '123ABC', 0, 0, 0, 1, 1, 0, 1),
-    ('U-03a1zjlg4aph','nasser@gmail,com', 'Nasser', 'Nasser', 'bigNass', '123ABC', 0, 0, 0, 1, 1, 0, 1),
-    ('U-04a1zjlg4aph','marcelo@gmail.com', 'Marcelo', 'Truque', 'Marce', '123ABC', 0, 0, 0, 1, 1, 0, 1),
-    ('U-05a1zjlg4aph','nuevo1@gmail.com', 'Nuevo', 'Nuevo', 'nuevo1', '123ABC', 0, 0, 0, 1, 1,0, 1),
-    ('U-06a1zjlg4aph','nuevo2@gmail.com', 'Nuevo', 'Nuevo', 'nuevo2', '123ABC', 0, 0, 0, 1, 1, 0, 1),
-    ('U-07a1zjlg4aph','nuevo3@gmail.com', 'Nuevo', 'Nuevo', 'nuevo3', '123ABC', 0, 0, 0, 1, 1, 0, 1);
+    ('U-01a1zjlg4aph','yraulbr25@gmail.com', 'Yordi', 'Brenes', 'sadKaladin', '123ABCDE', 0, 0, 0, 1, 1, 0, 1),
+    ('U-02a1zjlg4aph','adriana@gmail.com', 'Adriana', 'Calderon', 'quadriante', '123ABCDE', 0, 0, 0, 1, 1, 0, 1),
+    ('U-03a1zjlg4aph','nasser@gmail,com', 'Nasser', 'Nasser', 'bigNass', '123ABCDE', 0, 0, 0, 1, 1, 0, 1),
+    ('U-04a1zjlg4aph','marcelo@gmail.com', 'Marcelo', 'Truque', 'Marce', '123ABCDE', 0, 0, 0, 1, 1, 0, 1),
+    ('U-05a1zjlg4aph','nuevo1@gmail.com', 'Nuevo', 'Nuevo', 'nuevo1', '123ABCDE', 0, 0, 0, 1, 1,0, 1),
+    ('U-06a1zjlg4aph','nuevo2@gmail.com', 'Nuevo', 'Nuevo', 'nuevo2', '123ABCDE', 0, 0, 0, 1, 1, 0, 1),
+    ('U-07a1zjlg4aph','nuevo3@gmail.com', 'Nuevo', 'Nuevo', 'nuevo3', '123ABCDE', 0, 0, 0, 1, 1, 0, 1);
 
 INSERT INTO Player_Card (
     playerId, 

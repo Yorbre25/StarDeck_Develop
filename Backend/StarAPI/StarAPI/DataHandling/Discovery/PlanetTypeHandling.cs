@@ -1,23 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
+using Contracts;
 
 namespace StarAPI.DataHandling.Discovery;
 
 
 public class PlanetTypeHandling
 {
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
 
-    public PlanetTypeHandling(StarDeckContext context)
+    public PlanetTypeHandling(IRepositoryWrapper repository)
     {
-        this._context = context;
+        this._repository = repository;
     }
 
 
     public List<PlanetType> GetAllPlanetTypes()
     {
-        return _context.PlanetType.ToList();
+        // return _repository.PlanetType.ToList();
+        return _repository.PlanetType.GetAll();
     }
 
 
@@ -35,7 +37,8 @@ public class PlanetTypeHandling
 
     public string GetPlanetTypeName(int id)
     {
-        PlanetType? planetType = _context.PlanetType.FirstOrDefault(r => r.id == id);
+        // PlanetType? planetType = _repository.PlanetType.FirstOrDefault(r => r.id == id);
+        PlanetType? planetType = _repository.PlanetType.Get(id);
         if (planetType == null)
         {
             throw new ArgumentException("PlanetType does not exist");
@@ -61,16 +64,19 @@ public class PlanetTypeHandling
 
     public void InsertPlanetType(string raceName){
         var PlanetType = new PlanetType {typeName = raceName};
-        _context.PlanetType.Add(PlanetType);
-        _context.SaveChanges();
+        // _repository.PlanetType.Add(PlanetType);
+        // _repository.SaveChanges();
+        _repository.PlanetType.Add(PlanetType);
+        _repository.Save();
     }
 
     private bool CheckInputName(string raceName){
         return true;
     }
     private bool AlreadyExists(string typeName){
-        var PlanetType = _context.PlanetType.FirstOrDefault(r => r.typeName == typeName);
-        if(PlanetType == null){
+        var planetTypes = _repository.PlanetType.GetAll();
+        var planetType = planetTypes.FirstOrDefault(r => r.typeName == typeName);
+        if(planetType == null){
             return false;
         }
         return true;
@@ -78,7 +84,8 @@ public class PlanetTypeHandling
 
     private bool AlreadyExists(int id){
         PlanetType? planetType = new PlanetType();
-        planetType = _context.PlanetType.FirstOrDefault(r => r.id == id);
+        // planetType = _repository.PlanetType.FirstOrDefault(r => r.id == id);
+        planetType = _repository.PlanetType.Get(id);
         if(planetType == null){
             return false;
         }
@@ -100,8 +107,11 @@ public class PlanetTypeHandling
 
     private void DeletingCardType(int id)
     {
-        var planetType = _context.PlanetType.FirstOrDefault(r => r.id == id);
-        _context.PlanetType.Remove(planetType);
-        _context.SaveChanges();
+        // var planetType = _repository.PlanetType.FirstOrDefault(r => r.id == id);
+        // _repository.PlanetType.Remove(planetType);
+        // _repository.SaveChanges();
+        var planetType = _repository.PlanetType.Get(id);
+        _repository.PlanetType.Delete(planetType);
+        _repository.Save();
     }
 }

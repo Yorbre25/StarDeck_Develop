@@ -6,22 +6,23 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Models;
 using StarAPI.Constants;
 using StarAPI.DataHandling.Game;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class PlaceCard
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     CardCRUD _cardCRUD;
     private GameTableMapper _gameTableMapper;
 
 
-    public PlaceCard(StarDeckContext context)
+    public PlaceCard(IRepositoryWrapper context)
     {
-        _context = context;
-        _gameTableMapper = new GameTableMapper(_context);
-        _cardCRUD = new CardCRUD(_context);
+        _repository = context;
+        _gameTableMapper = new GameTableMapper(_repository);
+        _cardCRUD = new CardCRUD(_repository);
     }
 
     internal void Place(InputTableLayout tableLayout)
@@ -51,7 +52,8 @@ public class PlaceCard
             UpdatePlayerCardPoints(playerId, cardsTotalCost);
             RemoveCardsFromHand(playerId, cardsPerPlanet);
         }
-        _context.SaveChanges();
+        // _repository.SaveChanges();
+        _repository.Save();
     }
 
     private int GetCardTotalCost(Dictionary<string, string> cardsPerPlanet)
@@ -67,7 +69,8 @@ public class PlaceCard
     }
     private bool EnoughPoints(string playerId, int cardsTotalCost)
     {
-        Game_Player? player = _context.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
+        // Game_Player? player = _repository.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
+        Game_Player player = GetGamePlayer(playerId);
         bool enoughPoints = false;
         if(player.cardPoints >= cardsTotalCost)
         {
@@ -83,24 +86,33 @@ public class PlaceCard
     private void AddCardsToTable(InputTableLayout tableLayout)
     {
         List<GameTable> cards = _gameTableMapper.FillNewGameTable(tableLayout);
-        _context.GameTable.AddRange(cards);
+        // _repository.GameTable.AddRange(cards);
+        _repository.GameTable.Add(cards);
     }
 
     private void UpdatePlayerCardPoints(string playerId, int cardsTotalCost)
     {
-        Game_Player player = _context.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
+        // Game_Player player = _repository.Game_Player.FirstOrDefault(gp => gp.playerId == playerId);
+        Game_Player player = GetGamePlayer(playerId);
         player.cardPoints -= cardsTotalCost;
     }
 
     private void RemoveCardsFromHand(string playerId, Dictionary<string, string> cardsPerPlanet)
     {
-        HandCard handCard = new HandCard(_context);
+        HandCard handCard = new HandCard(_repository);
         foreach(KeyValuePair<string, string> entry in cardsPerPlanet)
         {
             string cardId = entry.Value;
             handCard.RemoveCardsFromHand(playerId, entry.Value);
         }
 
+    }
+
+    private Game_Player GetGamePlayer(string playerId)
+    {
+        GamePlayerHandling gamePlayerHandling = new GamePlayerHandling(_repository);
+        Game_Player gamePlayer = gamePlayerHandling.GetGamePlayerById(playerId);
+        return gamePlayer;
     }
 
 

@@ -1,24 +1,18 @@
-using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
-using StarAPI.Logic.Utils;
-using StarAPI.Context;
 using StarAPI.DTO.Discovery;
-using StarAPI.Logic.Mappers;
-using StarAPI.Constants;
-using StarAPI.DataHandling.Discovery;
-using StarAPI.DTO.Game;
 using StarAPI.Logic.Game;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class NewTable
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     private PlanetsForGame _planetsForGame;
-    public NewTable(StarDeckContext context)
+    public NewTable(IRepositoryWrapper repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     internal void SetupTable(string gameId)
@@ -35,15 +29,18 @@ public class NewTable
 
     private void Setup(string gameId)
     {
-        _planetsForGame = new PlanetsForGame(_context);
+        _planetsForGame = new PlanetsForGame(_repository);
         List<OutputPlanet> planets = _planetsForGame.GetPlanetsForNewGame();
         List<Game_Planet> gamePlanetEntities = SetGamePlanetValues(gameId, planets);
         SetHiddenPlanet(gamePlanetEntities);
-        _context.Game_Planet.AddRange(gamePlanetEntities);
-        _context.SaveChanges();
+        // _repository.Game_Planet.AddRange(gamePlanetEntities);
+        // _repository.SaveChanges();
+        _repository.GamePlanet.Add(gamePlanetEntities);
+        _repository.Save();
+
     }
 
-    private List<Game_Planet> SetGamePlanetValues(string gameId, List<OutputPlanet> planets)
+    public List<Game_Planet> SetGamePlanetValues(string gameId, List<OutputPlanet> planets)
     {
         List<Game_Planet> gamePlanetEntities = new List<Game_Planet>();
         foreach(var planet in planets)

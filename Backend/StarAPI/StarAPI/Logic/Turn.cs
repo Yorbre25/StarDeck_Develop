@@ -4,20 +4,21 @@ using StarAPI.DTO.Game;
 using StarAPI.Logic.Mappers;
 using StarAPI.Models;
 using StarAPI.DataHandling.Game;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class Turn
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     GameHandling _gameHandling;
 
 
-    public Turn(StarDeckContext context)
+    public Turn(IRepositoryWrapper repository)
     {
-        _context = context;
-        _gameHandling = new GameHandling(_context);
+        _repository = repository;
+        _gameHandling = new GameHandling(_repository);
     }
 
     internal TurnInfo GetTurnInfo(string gameId, string playerId)
@@ -35,7 +36,8 @@ public class Turn
 
     private TurnInfo GetInfo(string gameId, string playerId)
     {
-        Models.Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        // Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
+        Models.Game game = GetGame(gameId);
         string rivalId = _gameHandling.GetRivalId(gameId, playerId);
         string[] planetsIds = _gameHandling.GetGamePlanets(gameId);
 
@@ -49,10 +51,22 @@ public class Turn
         return turnInfo;
     }
 
+    private Models.Game GetGame(string gameId)
+    {
+        GameHandling gameHandling = new GameHandling(_repository);
+        return gameHandling.GetGame(gameId);
+    }
+
     internal int GetMaxCardPoints(string gameId)
     {
-        Game_Player? gamePlayer = _context.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);
+        // Game_Player? gamePlayer = _repository.Game_Player.FirstOrDefault(gp => gp.gameId == gameId);
+        Game_Player gamePlayer = GetGamePlayer(gameId);
         return gamePlayer.maxCardPoints;
     }
-    
+
+    private Game_Player GetGamePlayer(string gameId)
+    {
+        GamePlayerHandling gamePlayerHandling = new GamePlayerHandling(_repository);
+        return gamePlayerHandling.GetGamePlayerByGameId(gameId);
+    }
 }

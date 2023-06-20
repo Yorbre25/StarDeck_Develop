@@ -4,6 +4,7 @@ using System.Text;
 using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
+using Contracts;
 
 namespace StarAPI.Logic
 {
@@ -12,7 +13,7 @@ namespace StarAPI.Logic
         private CardCRUD _cardCRUD;
         private static int s_cardsPerPackage = 3;
         private static int s_packagedOfCards = 3;
-        public CardPackageGenerator(StarDeckContext _context)
+        public CardPackageGenerator(IRepositoryWrapper _context)
         {
             this._cardCRUD = new CardCRUD(_context);
         }

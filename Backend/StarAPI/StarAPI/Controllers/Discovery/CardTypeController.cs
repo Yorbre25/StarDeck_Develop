@@ -3,41 +3,47 @@ using Microsoft.EntityFrameworkCore;
 using StarAPI.Models;
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
-    /// <summary>
-    /// This class is used to handle all requests to the CardType table.
-    /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class TypeController : ControllerBase
+    public class CardTypeController : ControllerBase
     {
-        private readonly StarDeckContext _context;
 
         private CardTypeHandling _cardTypeHandling;
         private PlanetTypeHandling _planetTypeHandling;
-        private ILogger<TypeController> _logger;
 
-        public TypeController(StarDeckContext context, ILogger<TypeController> logger)
+        public CardTypeController(IRepositoryWrapper repository)
         {
-            this._context = context;
-            _cardTypeHandling = new CardTypeHandling(_context);
-            _planetTypeHandling = new PlanetTypeHandling(_context);
-            _logger = logger;
+            _cardTypeHandling = new CardTypeHandling(repository);
         }
 
         [HttpGet]
         [Route("GetAllCardTypes")]
-        public IEnumerable<CardType> GetAllCardTypes()
+        public IActionResult GetAllCardTypes()
         {
-           return _cardTypeHandling.GetAllCardTypes();
+            try{
+                return Ok(_cardTypeHandling.GetAllCardTypes());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("GetCardType/{id}")]
-        public string GetCardType(int id)
+        public IActionResult GetCardType(int id)
         {
-            return _cardTypeHandling.GetCardType(id);
+            try
+            {
+                return Ok(_cardTypeHandling.GetCardTypeName(id));
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
 
@@ -52,29 +58,9 @@ namespace StarAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Error crating card type from data base");
                 return BadRequest(e.Message);
             }
             
-        }
-
-        [HttpPost("AddTypes")]
-        public ActionResult Post([FromBody] List<CardType> types) 
-        {
-            try 
-            {
-                foreach(var type in types) 
-                {
-                    _context.CardType.Add(type);
-                    
-                }
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch(Exception e) 
-            {
-                return BadRequest(e.Message);
-            }
         }
 
 
@@ -88,48 +74,47 @@ namespace StarAPI.Controllers
             }
             catch
             {
-                _logger.LogWarning("Error deleting card type from data base");
-                return BadRequest();
+                return NotFound();
             }
         }
 
-        [HttpGet]
-        [Route("GetAllPlanetTypes")]
-        public IEnumerable<PlanetType> GetAllPlanetTypes()
-        {
-           return _planetTypeHandling.GetAllPlanetTypes();
-        }
+    //     [HttpGet]
+    //     [Route("GetAllPlanetTypes")]
+    //     public IEnumerable<PlanetType> GetAllPlanetTypes()
+    //     {
+    //        return _planetTypeHandling.GetAllPlanetTypes();
+    //     }
 
-        [HttpPost("AddPlanetType/{planetTypeName}")]
-        public ActionResult AddPlanetType(string planetTypeName)
-        {
-            try
-            {
-                _planetTypeHandling.AddPlanetType(planetTypeName);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogWarning("Error crating planet type from data base");
-                return BadRequest(e.Message);
-            }
+    //     [HttpPost("AddPlanetType/{planetTypeName}")]
+    //     public ActionResult AddPlanetType(string planetTypeName)
+    //     {
+    //         try
+    //         {
+    //             _planetTypeHandling.AddPlanetType(planetTypeName);
+    //             return Ok();
+    //         }
+    //         catch (Exception e)
+    //         {
+    //             _logger.LogWarning("Error crating planet type from data base");
+    //             return BadRequest(e.Message);
+    //         }
             
-        }
+    //     }
 
 
-        [HttpDelete("DeletePlanetType/{id}")]
-        public ActionResult DeletePlanetType(int id)
-        {
-            try
-            {
-                _planetTypeHandling.DeletePlanetType(id);
-                return Ok();
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+    //     [HttpDelete("DeletePlanetType/{id}")]
+    //     public ActionResult DeletePlanetType(int id)
+    //     {
+    //         try
+    //         {
+    //             _planetTypeHandling.DeletePlanetType(id);
+    //             return Ok();
+    //         }
+    //         catch
+    //         {
+    //             return BadRequest();
+    //         }
+    //     }
 
     }
 }

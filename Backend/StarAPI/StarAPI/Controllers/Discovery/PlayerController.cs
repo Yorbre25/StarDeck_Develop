@@ -5,6 +5,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
@@ -13,11 +14,9 @@ namespace StarAPI.Controllers
     public class PlayerController : ControllerBase
     {
         private PlayerCRUD _playerCRUD;
-        private ILogger<PlayerController> _logger;
-        public PlayerController(StarDeckContext context, ILogger<PlayerController> logger) 
+        public PlayerController(IRepositoryWrapper context) 
         {
             this._playerCRUD = new PlayerCRUD(context);
-            this._logger = logger;
         }
         
         [HttpGet("GetAllPlayers")]
@@ -38,7 +37,6 @@ namespace StarAPI.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
-                _logger.LogError("Error creating player from data base");
             }
         }
     }

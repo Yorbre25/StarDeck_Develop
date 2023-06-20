@@ -1,3 +1,4 @@
+using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using StarAPI.Context;
 using StarAPI.Logic.Match;
@@ -12,13 +13,11 @@ public class Match_PlayerController : ControllerBase
 {
     private CancelRequest cancel;
     private Matchmaking matchmaking;
-    private ILogger<Match_PlayerController> _logger;
 
-    public Match_PlayerController(StarDeckContext context, ILogger<Match_PlayerController> logger)
+    public Match_PlayerController(IRepositoryWrapper repository)
     {
         cancel = CancelRequest.Instance;
-        matchmaking = new Matchmaking(context);
-        logger = _logger;
+        matchmaking = new Matchmaking(repository);
 
 
         
@@ -51,7 +50,6 @@ public class Match_PlayerController : ControllerBase
         {
             cancel.terminate = true;
             cancel.start = false;
-            _logger.LogInformation("Matchmaking cancelled successfully");
             return Ok("Operation cancelled");
         }
 

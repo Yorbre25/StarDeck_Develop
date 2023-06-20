@@ -3,21 +3,21 @@ using StarAPI.DTO.Discovery;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
+using Contracts;
 
 namespace StarAPI.Logic.Mappers
 {
     public class DeckMapper
     {
-        private StarDeckContext _context;
+        private IRepositoryWrapper _repository;
         private RaceHandling _raceHandling;
         private CardTypeHandling _cardTypeHandling;
         private bool s_defaultActivationState = true;
 
-        public DeckMapper(StarDeckContext context)
+        public DeckMapper(IRepositoryWrapper repository)
         {
-            _context = context;
-            _raceHandling = new RaceHandling(_context);
-            _cardTypeHandling = new CardTypeHandling(_context);
+            _repository = repository;
+            _raceHandling = new RaceHandling(_repository);
         }
         
         public Deck FillNewDeck(InputDeck inputDeck, string id)

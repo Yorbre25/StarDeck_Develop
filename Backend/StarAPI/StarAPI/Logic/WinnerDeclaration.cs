@@ -6,23 +6,24 @@ using StarAPI.DataHandling.Game;
 using StarAPI.DTO.Discovery;
 using StarAPI.Models;
 using StarAPI.Constants;
+using Contracts;
 
 namespace StarAPI.Logic;
 
 public class WinnerDeclaration
 {
 
-    private readonly StarDeckContext _context;
+    private readonly IRepositoryWrapper _repository;
     GameHandling _gameHandling;
     private int player1 = 0;
     private int player2 = 1;
     private int numPlayers = 2;
 
 
-    public WinnerDeclaration(StarDeckContext context)
+    public WinnerDeclaration(IRepositoryWrapper context)
     {
-        _context = context;
-        _gameHandling = new GameHandling(_context);
+        _repository = context;
+        _gameHandling = new GameHandling(_repository);
     }
 
     public string GetWinner(string gameId)
@@ -145,7 +146,8 @@ public class WinnerDeclaration
     {
         string[] playersIds = new string[numPlayers];
 
-        Models.Game? game = _context.Game.FirstOrDefault(g => g.id == gameId);
+        // Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
+        Models.Game game = _repository.Game.Get(gameId);
         playersIds[player1] = game.player1Id;
         playersIds[player2] = game.player2Id;
         return playersIds;

@@ -2,6 +2,7 @@ using StarAPI.DTO.Discovery;
 using StarAPI.Context;
 using StarAPI.DataHandling.Discovery;
 using StarAPI.Constants;
+using Contracts;
 
 namespace StarAPI.Logic;
 
@@ -11,7 +12,7 @@ public class CardCRUD
 
     private CardHandling _cardHandling;
 
-    public CardCRUD(StarDeckContext context)
+    public CardCRUD(IRepositoryWrapper context)
     {
         this._cardHandling = new CardHandling(context);
     }
@@ -49,6 +50,14 @@ public class CardCRUD
         catch (System.Exception)
         {
             throw new Exception("Error getting cards by type");
+        }
+    }
+
+    public void AddCards(List<InputCard> cards)
+    {
+        foreach (var card in cards)
+        {
+            AddCard(card);
         }
     }
 
