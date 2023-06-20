@@ -77,7 +77,6 @@ export class GameComponent {
 
   ngOnInit(): void {
     this.loginService.getAllPlayers().subscribe((data)=>{
-      console.log(this.UserInfoValues)
       for (var player of data){
         if(player.id==this.UserInfoValues.OpTag){
           this.opponentName=player.username
@@ -85,23 +84,16 @@ export class GameComponent {
           this.currentUserName=player.username
         }
       }
-      console.log(this.UserInfoValues.OpTag)
-      console.log(this.opponentName)
-      console.log(this.UserInfoValues.Ptag)
-      console.log(this.currentUserName)  
     })
     this.deckService.getAllDecks(this.loginService.getid()).subscribe((data)=>{
       for (var deck of data){
         if(this.deckid==deck.id){
           this.deckname=deck.name
-          console.log(this.deckid)
-          console.log(this.deckname)
         }
       }
     })
     
     this.gameService.GetGamePlanets().subscribe((data)=>{
-      console.log(data)
       this.planets=data
     })
     
