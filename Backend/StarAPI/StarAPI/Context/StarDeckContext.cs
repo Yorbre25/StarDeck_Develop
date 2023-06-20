@@ -18,6 +18,7 @@ namespace StarAPI.Context
         // This method is used to create the database tables for the StarDeck database.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TurnPlayer>().HasKey(c => new { c.playerId });
             modelBuilder.Entity<Player>().HasKey(c => new {c.id });
             modelBuilder.Entity<Country>().HasKey(c => new { c.id });
             modelBuilder.Entity<Card>().HasKey(c => new { c.id });
@@ -36,6 +37,7 @@ namespace StarAPI.Context
             modelBuilder.Entity<SetupParam>().HasKey(c => new { c.id });
             modelBuilder.Entity<Hand>().HasKey(c => new { c.id });
             modelBuilder.Entity<Player_Card>().HasKey(c => new { c.playerId, c.cardId });
+            
 
         }
 
@@ -58,6 +60,8 @@ namespace StarAPI.Context
         public DbSet<Hand> Hand { get; set; }
         public DbSet<Player_Card> Player_Card { get; set; }
         public DbSet<Game_Planet> Game_Planet { get; set; }
+
+        public DbSet<TurnPlayer> TurnPlayer { get; set; }
     }
 
    
