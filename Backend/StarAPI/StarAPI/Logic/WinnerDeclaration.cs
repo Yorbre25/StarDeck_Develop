@@ -146,7 +146,6 @@ public class WinnerDeclaration
     {
         string[] playersIds = new string[numPlayers];
 
-        // Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
         Models.Game game = _repository.Game.Get(gameId);
         playersIds[player1] = game.player1Id;
         playersIds[player2] = game.player2Id;

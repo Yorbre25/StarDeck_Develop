@@ -12,7 +12,7 @@ using Contracts;
 
 namespace StarAPI.DataHandling.Game;
 
-public class GameTableHandling
+public class GameBoardHandling
 {
     private readonly IRepositoryWrapper _repository;
     private PlanetCRUD _planetCRUD;
@@ -20,7 +20,7 @@ public class GameTableHandling
 
 
 
-    public GameTableHandling(IRepositoryWrapper repository)
+    public GameBoardHandling(IRepositoryWrapper repository)
     {
         this._repository = repository;
         this._planetCRUD = new PlanetCRUD(_repository);
@@ -41,7 +41,6 @@ public class GameTableHandling
 
     public List<OutputPlanet> GetPlanets(string gameId)
     {
-        // List<Game_Planet> gamePlanets = _repository.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
         List<Game_Planet> gamePlanets = GetGamePlanetsByGameId(gameId);
         List<OutputPlanet> listPlanets = new List<OutputPlanet>();
 
@@ -68,7 +67,6 @@ public class GameTableHandling
 
     public List<Game_Planet> GetGamePlanetsByGameId(string gameId)   
     {
-        // List<Game_Planet> gamePlanets = _repository.Game_Planet.Where(gp => gp.gameId == gameId).ToList();
         List<Game_Planet> gamePlanets = _repository.GamePlanet.GetAll();
         return gamePlanets.FindAll(gp => gp.gameId == gameId);
     }

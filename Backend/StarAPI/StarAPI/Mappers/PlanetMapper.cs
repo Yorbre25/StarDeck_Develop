@@ -4,6 +4,7 @@ using StarAPI.DataHandling.Discovery;
 using StarAPI.Logic.Utils;
 using StarAPI.Models;
 using Contracts;
+using StarAPI.Constants;
 
 namespace StarAPI.Logic.Mappers
 {
@@ -12,7 +13,6 @@ namespace StarAPI.Logic.Mappers
         private IRepositoryWrapper _context;
         private PlanetTypeHandling _planetTypeHandling;
         private ImageHandling _imageHandling;
-        private bool s_defaultActivationState = true;
 
         public PlanetMapper(IRepositoryWrapper context)
         {
@@ -50,7 +50,7 @@ namespace StarAPI.Logic.Mappers
             planet.id = id;
             planet.name = newPlanet.name;
             planet.typeId = newPlanet.typeId;
-            planet.activatedPlanet = s_defaultActivationState;
+            planet.activatedPlanet = Const.DefaultActivationState;
             planet.description = newPlanet.description;
             planet.imageId = _imageHandling.GetImageId(newPlanet.image);
             return planet;

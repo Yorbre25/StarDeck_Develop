@@ -18,7 +18,6 @@ public class PlanetTypeHandling
 
     public List<PlanetType> GetAllPlanetTypes()
     {
-        // return _repository.PlanetType.ToList();
         return _repository.PlanetType.GetAll();
     }
 
@@ -37,7 +36,6 @@ public class PlanetTypeHandling
 
     public string GetPlanetTypeName(int id)
     {
-        // PlanetType? planetType = _repository.PlanetType.FirstOrDefault(r => r.id == id);
         PlanetType? planetType = _repository.PlanetType.Get(id);
         if (planetType == null)
         {

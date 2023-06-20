@@ -42,6 +42,8 @@ public class Const
     public const string BasicPlanetType = "Basico";
     public const string RarePlanetType = "Raro";
     public const int PlanetsPerGame = 3;
+    public const int PopularPlanetChance = 50;
+    public const int BasicPlanetChance = 25;
     
     //Game
     public const int MaxTurns = 5;
