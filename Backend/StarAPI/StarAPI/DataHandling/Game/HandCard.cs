@@ -27,7 +27,7 @@ public class HandCard
         this._cardCRUD = new CardCRUD(_repository);
     }
 
-    internal List<OutputCard> GetHandCards(string gameId, string playerId)
+    public List<OutputCard> GetHandCards(string gameId, string playerId)
     {
         try
         {
@@ -41,7 +41,6 @@ public class HandCard
 
     public List<OutputCard> GetHandCardsByPlayerId(string playerId)
     {
-        // var cardsIds = _repository.Hand.Where(d => d.playerId == playerId).Select(d => d.cardId).ToArray();
         var cardsIds = GetHandByPlayerId(playerId).Select(d => d.cardId).ToArray();
         return _deckCardHandling.GetCards(cardsIds);
     }

@@ -33,8 +33,6 @@ public class NewTable
         List<OutputPlanet> planets = _planetsForGame.GetPlanetsForNewGame();
         List<Game_Planet> gamePlanetEntities = SetGamePlanetValues(gameId, planets);
         SetHiddenPlanet(gamePlanetEntities);
-        // _repository.Game_Planet.AddRange(gamePlanetEntities);
-        // _repository.SaveChanges();
         _repository.GamePlanet.Add(gamePlanetEntities);
         _repository.Save();
 

@@ -44,9 +44,6 @@ public class NewGame
         StarAPI.Models.Game newGame = _gameMapper.FillNewGame(setUpValues, gameId);
         _repository.Game.Add(newGame);
         _repository.Save();
-        // _context.Game.Add(newGame);
-        
-        // _context.SaveChanges();
 
         string deckId1 = setUpValues.player1DeckId;
         string deckId2 = setUpValues.player2DeckId;
@@ -87,7 +84,6 @@ public class NewGame
     private bool IdAlreadyExists(string id){
         StarAPI.Models.Game? game;
         game = _repository.Game.Get(id);
-        // game = _context.Game.FirstOrDefault(c => c.id == id);
         if(game == null){
             return false;
         }

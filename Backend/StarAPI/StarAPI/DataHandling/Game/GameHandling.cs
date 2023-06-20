@@ -26,7 +26,6 @@ public class GameHandling
 
     public string GetRivalId(string gameId, string playerId)
     {
-        // StarAPI.Models.Game game = _repository.Game.FirstOrDefault(g => g.id == gameId);
         Models.Game game = GetGame(gameId);
         string idRival = game.player1Id == playerId ? game.player2Id : game.player1Id;
         return idRival;
@@ -34,7 +33,7 @@ public class GameHandling
     
     public string[] GetGamePlanets(string gameId)
     {
-        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
         List<OutputPlanet> planets = gameTableHandling.GetGamePlanets(gameId);
         string[] planetsIds = new string[planets.Count];
         for (int i = 0; i < planets.Count; i++)
@@ -52,7 +51,6 @@ public class GameHandling
             pointsPerPlanet.Add(planetId, 0);
         }
 
-        // List<GameTable> cards = _repository.GameTable.Where(gt => gt.playerId == playerId).ToList();
         List<GameTable> cards = GetPlayerCardsInTable(playerId);
         foreach (GameTable card in cards)
         {
@@ -63,7 +61,7 @@ public class GameHandling
 
     private List<GameTable> GetPlayerCardsInTable(string playerId)
     {
-        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
         return gameTableHandling.GetPlayerCardsInTable(playerId);
     }
 

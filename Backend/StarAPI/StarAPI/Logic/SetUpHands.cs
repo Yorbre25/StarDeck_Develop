@@ -39,11 +39,9 @@ public class SetupHands
 
     private void Setup(string gameId)
     {
-        // StarAPI.Models.Game game = _repository.Game.FirstOrDefault(g => g.id == gameId);
         Models.Game game = _repository.Game.Get(gameId);
         CreateHand(gameId, game.player1Id);
         CreateHand(gameId, game.player2Id);
-        // _repository.SaveChanges();
         _repository.Save();
     }
 
@@ -58,7 +56,6 @@ public class SetupHands
 
     private bool PlayerAlreadyHasHand(string playerId)
     {
-        // var hand = _repository.Hand.FirstOrDefault(d => d.playerId == playerId);
         var hand = GetHandByPlayerId(playerId);
         bool alreadyHas = false;
         if(hand.Count != 0){
@@ -78,7 +75,6 @@ public class SetupHands
 
     private int SetHandSize(string playerId)
     {
-        // int numCardsInDeck = _repository.Game_Deck.Where(c => c.playerId == playerId).ToList().Count;
         int numCardsInDeck = GetGameDeckByPlayerId(playerId).Count;
         if(numCardsInDeck < Const.IntialCardsPerHand){
             return numCardsInDeck;

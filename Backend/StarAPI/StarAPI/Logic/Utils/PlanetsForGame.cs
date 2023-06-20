@@ -7,15 +7,23 @@ namespace StarAPI.Logic.Game;
 
 public class PlanetsForGame
 {
-    private readonly IRepositoryWrapper _repository;
+    public List<OutputPlanet> popularPlanets;
+    public List<OutputPlanet> basicPlanets;
+    public List<OutputPlanet> rarePlanets;
+    private List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
+    private int _popularPlanetChance = Const.PopularPlanetChance;
+    private int _BasicPlanetChance = Const.PopularPlanetChance + Const.BasicPlanetChance;
+
+    
+
+
     private PlanetCRUD _planetCRUD;
 
     private RandomTools _randomTools = new RandomTools();
 
     public PlanetsForGame(IRepositoryWrapper repository)
     {
-        this._repository = repository;
-        this._planetCRUD = new PlanetCRUD(_repository);
+        this._planetCRUD = new PlanetCRUD(repository);
     }
 
     public List<OutputPlanet> GetPlanetsForNewGame()
@@ -34,24 +42,38 @@ public class PlanetsForGame
 
     public List<OutputPlanet> GenerateRandomPlanets()
     {
-        List<OutputPlanet> popularPlanets = _planetCRUD.GetPlanetsByType(Const.PopularPlanetType);
-        List<OutputPlanet> basicPlanets = _planetCRUD.GetPlanetsByType(Const.BasicPlanetType);
-        List<OutputPlanet> rarePlanets = _planetCRUD.GetPlanetsByType(Const.RarePlanetType);
-        List<OutputPlanet> outputPlanets = new List<OutputPlanet>();
-
+        GetAvaiblePlanets();
         int numPlanets = popularPlanets.Count() + basicPlanets.Count() + rarePlanets.Count();  
-        EnoughtPlanets(numPlanets);
+        if (EnoughtPlanets(numPlanets))
+        {
+            outputPlanets = GeneratePlanets();
+        }
+        else
+        {
+            throw new Exception("Not enought planets");
+        }
+        return outputPlanets;
+    }
 
-        List<OutputPlanet> planetsToAdd = new List<OutputPlanet>();
+    public void GetAvaiblePlanets()
+    {
+        popularPlanets = _planetCRUD.GetPlanetsByType(Const.PopularPlanetType);
+        basicPlanets = _planetCRUD.GetPlanetsByType(Const.BasicPlanetType);
+        rarePlanets = _planetCRUD.GetPlanetsByType(Const.RarePlanetType);
+    }
+
+    public List<OutputPlanet> GeneratePlanets()
+    {
         while(outputPlanets.Count() < Const.PlanetsPerGame)
         {
+            List<OutputPlanet> planetsToAdd = new List<OutputPlanet>();
             Random rand = new Random();
             int number = rand.Next(0, 100);
-            if(number <= 50)
+            if(number <= _popularPlanetChance)
             {
                 planetsToAdd = popularPlanets;
             }
-            else if(number <= 85)
+            else if(number <= _BasicPlanetChance)
             {
                 planetsToAdd = basicPlanets;
             }
@@ -76,12 +98,14 @@ public class PlanetsForGame
         return randomPlanets;
     }
 
-    private void EnoughtPlanets(int numPlanets)
+    public bool EnoughtPlanets(int numPlanets)
     {
-        if(numPlanets < Const.PlanetsPerGame)
+        bool enoughtPlanets = false;
+        if(numPlanets > Const.PlanetsPerGame)
         {
-            throw new Exception("Not enough planets in database");
+            enoughtPlanets = true;
         }
+        return enoughtPlanets;
     }
 }
 

@@ -12,10 +12,6 @@ namespace Repository
         {
             RepositoryContext = repositoryContext;
         }
-        // public PlanetType GetByName(string name)
-        // {
-        //     return RepositoryContext.PlanetType.FirstOrDefault(ct => ct.typeName == name);
-        // }
 
     }
 }
