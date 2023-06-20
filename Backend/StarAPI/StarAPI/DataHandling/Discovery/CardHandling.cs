@@ -28,13 +28,11 @@ public class CardHandling
 
     public List<OutputCard> GetAllCards()
     {
-        // List<Card> cards = _repository.Card.ToList();
         List<Card> cards = _repository.Card.GetAll();
         return _cardMapper.FillOutputCard(cards);
     }
 
     public OutputCard GetCard(string id){
-        // Card? card = _repository.Card.FirstOrDefault(r => r.id == id);
         Card? card = _repository.Card.Get(id);
         return _cardMapper.FillOutputCard(card);
     }
@@ -43,8 +41,6 @@ public class CardHandling
     {
         string id = GenerateId();
         var newCard = _cardMapper.FillNewCard(inputCard, id);
-        // _repository.Card.Add(newCard);
-        // _repository.SaveChanges();
         _repository.Card.Add(newCard);
         _repository.Save();
     }
@@ -62,9 +58,6 @@ public class CardHandling
     }
 
     public void DeleteCard(string id){
-        // Card? card = _repository.Card.FirstOrDefault(r => r.id == id);
-        // _repository.Card.Remove(card);
-        // _repository.SaveChanges();
         Card? card = _repository.Card.Get(id);
         _repository.Card.Delete(card);
         _repository.Save();
@@ -72,7 +65,6 @@ public class CardHandling
 
     public bool NameAlreadyExists(string cardName)
     {
-        // var card = _repository.Card.FirstOrDefault(r => r.name == cardName);
         var cards = _repository.Card.GetAll();
         var card = cards.FirstOrDefault(r => r.name == cardName);
         if(card == null){
@@ -83,7 +75,6 @@ public class CardHandling
 
 
     private bool IdAlreadyExists(string id){
-        // Card? card = _repository.Card.FirstOrDefault(c => c.id == id);
         Card? card = _repository.Card.Get(id);
         if(card == null){
             return false;

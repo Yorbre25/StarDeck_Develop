@@ -161,8 +161,27 @@ CREATE TABLE Game(
 	PRIMARY KEY (id)
 )
 
+CREATE TABLE TurnPlayer
+(
+	 playerId VARCHAR(15) NOT NULL,
+	 gameId VARCHAR(15) NOT NULL,
+	 inTurn BIT NOT NULL,
+	 PRIMARY KEY(playerId)
+
+)
 
 -- CREATE FOREIGN KEYS
+
+ALTER TABLE TurnPlayer
+ADD CONSTRAINT fk_player_turn
+FOREIGN KEY (playerId)
+REFERENCES Player(id);
+
+ALTER TABLE TurnPlayer
+ADD CONSTRAINT fk_game_turn
+FOREIGN KEY (gameId)
+REFERENCES Game(id);
+
 ALTER TABLE Card
 ADD CONSTRAINT fk_Card_Race
 FOREIGN KEY (raceId)

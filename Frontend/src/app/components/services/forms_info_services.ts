@@ -67,12 +67,12 @@ export class FormsService{
     }
 
     getTypes():Observable<TypeInterface[]>{
-        let dir = this.url + "Type/GetAllCardTypes"
+        let dir = this.url + "CardType/GetAllCardTypes"
         return this.http.get<TypeInterface[]>(dir)
     }
 
     getPlanetTypes():Observable<TypeInterface[]>{
-        let dir = this.url + "Type/GetAllPlanetTypes"
+        let dir = this.url + "CardType/GetAllPlanetTypes"
         return this.http.get<TypeInterface[]>(dir)
     }
 

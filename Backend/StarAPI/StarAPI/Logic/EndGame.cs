@@ -44,15 +44,23 @@ public class EndGame
 
         WinnerInfo winnerInfo = new WinnerInfo();
         winnerInfo.winnerId = winner;
-        winnerInfo.xpGain = 0;
+        winnerInfo.xpGain = setXPGain(winner);
         return winnerInfo; 
+    }
+
+    private int setXPGain(string winner)
+    {
+        if (winner == Const.Tie)
+        {
+            return 0;
+        }
+        return Const.XpGain;
     }
 
     private void IncreaseWins(string winner, string gameId)
     {
         if (winner != Const.Tie)
         {
-            // Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
             Models.Game game = GetGame(gameId);
             new PlayerCRUD(_repository).IncreaseWins(winner, game.xpGain);
         }
@@ -66,8 +74,6 @@ public class EndGame
 
     private void RemoveGame(string gameId)
     {
-        // StarAPI.Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
-        // _repository.Game.Remove(game);
         Models.Game game = GetGame(gameId);
         _repository.Game.Delete(game);
         RemoveCardsInTable(gameId);
@@ -76,7 +82,6 @@ public class EndGame
         RemoveHand(gameId);
         RemoveDeck(gameId);
 
-        // _repository.SaveChanges();
         _repository.Save();
     }
 
@@ -102,22 +107,17 @@ public class EndGame
 
     private void DecreaseEndGameCounter(string gameId)
     {
-        // Models.Game? game = _repository.Game.FirstOrDefault(g => g.id == gameId);
         Models.Game? game = _repository.Game.Get(gameId);
         game.endGameCounter--;
-        // _repository.SaveChanges();
         _repository.Save();
     }
 
     private int GetEndGameCounter(string gameId)
     {
-        // return _repository.Game.FirstOrDefault(g => g.id == gameId).endGameCounter;
         return _repository.Game.Get(gameId).endGameCounter;
     }
         private void RemoveDeck(string gameId)
     {
-        // List<Game_Deck> cards = _repository.Game_Deck.Where(c => c.gameId == gameId).ToList();
-        // _repository.Game_Deck.RemoveRange(cards);
         GameDeckHandling gameDeckHandling = new GameDeckHandling(_repository);
         List<Game_Deck> cardsInDeck = gameDeckHandling.GetGameDeckByGameId(gameId);
         _repository.GameDeck.Delete(cardsInDeck);
@@ -125,8 +125,6 @@ public class EndGame
 
     private void RemoveHand(string gameId)
     {
-        // List<Hand> cards = _repository.Hand.Where(h => h.gameId == gameId).ToList();
-        // _repository.Hand.RemoveRange(cards);
         HandCard handHandling = new HandCard(_repository);
         List<Hand> cardsInDeck = handHandling.GetHandByGameId(gameId);
         _repository.Hand.Delete(cardsInDeck);
@@ -134,8 +132,6 @@ public class EndGame
 
     private void RemoveGamePlayers(string gameId)
     {
-        // List<Game_Player> gamePlayers = _repository.Game_Player.Where(gp => gp.gameId == gameId).ToList();
-        // _repository.RemoveRange(gamePlayers);
         GamePlayerHandling gamePlayerHandling = new GamePlayerHandling(_repository);
         List<Game_Player> gamePlayer = gamePlayerHandling.GetGamePlayersByGameId(gameId);
         _repository.GamePlayer.Delete(gamePlayer);
@@ -144,16 +140,14 @@ public class EndGame
 
     private void RemoveCardsInTable(string gameId)
     {
-        // List<GameTable> cards = _repository.GameTable.Where(gt => gt.gameId == gameId).ToList();
-        // _repository.GameTable.RemoveRange(cards);
-        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
         List<GameTable> cardsInDeck = gameTableHandling.GetPlayerCardsInTable(gameId);
         _repository.GameTable.Delete(cardsInDeck);
     }
 
     private void RemovePlanets(string gameId)
     {
-        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
         List<Game_Planet> planets = gameTableHandling.GetGamePlanetsByGameId(gameId);
         _repository.GamePlanet.Delete(planets);
     }

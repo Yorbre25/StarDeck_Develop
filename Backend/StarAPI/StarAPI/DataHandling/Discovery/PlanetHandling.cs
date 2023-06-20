@@ -33,14 +33,12 @@ public class PlanetHandling
 
     public List<OutputPlanet> GetAllPlanets()
     {
-        // List<Planet> planets = _repository.Planet.ToList();
         List<Planet> planets = _repository.Planet.GetAll();
         return _planetMapper.FillOutputPlanet(planets);
     }
 
 
     public OutputPlanet GetPlanet(string id){
-        // Planet? planet = _repository.Planet.FirstOrDefault(p => p.id == id);
         Planet? planet = _repository.Planet.Get(id);
         return _planetMapper.FillOutputPlanet(planet);
     }
@@ -56,8 +54,6 @@ public class PlanetHandling
     {
         string id = GenerateId();
         var newPlanet = _planetMapper.FillNewPlanet(inputPlanet, id);
-        // _repository.Planet.Add(newPlanet);
-        // _repository.SaveChanges();
         _repository.Planet.Add(newPlanet);
         _repository.Save();
     }
@@ -65,7 +61,6 @@ public class PlanetHandling
 
     public bool NameAlreadyExists(string planetName)
     {
-        // var planet = _repository.Planet.FirstOrDefault(r => r.name == planetName);
         var planets = _repository.Planet.GetAll();
         var planet = planets.Find(r => r.name == planetName);
         if(planet == null){
@@ -75,8 +70,6 @@ public class PlanetHandling
     }
 
     private bool IdAlreadyExists(string id){
-        // Planet? planet = new Planet();
-        // planet = _repository.Planet.FirstOrDefault(c => c.id == id);
         Planet? planet = _repository.Planet.Get(id);
         if(planet == null){
             return false;

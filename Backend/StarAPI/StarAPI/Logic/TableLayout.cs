@@ -67,7 +67,7 @@ public class TableLayout
 
     public List<GameTable> GetPlayerCardsInTable(string playerId)
     {
-        GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+        GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
         return gameTableHandling.GetPlayerCardsInTable(playerId);
 
     }      

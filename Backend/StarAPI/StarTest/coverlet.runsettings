@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>json</Format>     
+          <ExcludeByFile>**/Contracts/*.cs,**/Controllers/*.cs,**/DataHandling/**/*.cs,**/DTOs/**/*.cs,**/Repository/**/*.cs,**/Models/**/*.cs, </ExcludeByFile>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

@@ -21,17 +21,17 @@ internal class MockICardTypeRepository
             },
             new CardType()
             {
-                id = 1,
+                id = 3,
                 typeName = "Rara",
             },
             new CardType()
             {
-                id = 1,
+                id = 4,
                 typeName = "Muy Rara",
             },
             new CardType()
             {
-                id = 1,
+                id = 5,
                 typeName = "Ultra Rara",
             }
         };

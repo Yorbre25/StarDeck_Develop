@@ -41,7 +41,7 @@ namespace StarAPI.Controllers
         {
             try
             {
-                GameTableHandling gameTableHandling = new GameTableHandling(_repository);
+                GameBoardHandling gameTableHandling = new GameBoardHandling(_repository);
                 return Ok(gameTableHandling.GetGamePlanets(gameId));
             }
             catch (Exception e)

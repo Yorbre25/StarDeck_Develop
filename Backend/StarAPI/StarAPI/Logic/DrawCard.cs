@@ -22,7 +22,7 @@ public class DrawCard
         _repository = context;
     }
 
-    internal OutputCard Draw(string gameId, string playerId)
+    public OutputCard Draw(string gameId, string playerId)
     {
         try
         {
@@ -45,7 +45,6 @@ public class DrawCard
         if (shouldDraw)
         {
             card = AddCardToHand(gameId, playerId);
-            // _repository.SaveChanges();
             _repository.Save();
         }
         return card;
@@ -59,7 +58,6 @@ public class DrawCard
     }
     private int GetHandSize(string playerId)
     {
-        // return _repository.Hand.Count(h => h.playerId == playerId);
         HandCard handHandling = new HandCard(_repository);
         var cards = handHandling. GetHandByPlayerId(playerId);
         return cards.Count;
