@@ -6,6 +6,11 @@
     "mssql1": {
       "type": "mssql",
       "connectionId": "StarDeckDB"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:StarDeckContext",
+      "dynamicId": null
     }
   }
 }

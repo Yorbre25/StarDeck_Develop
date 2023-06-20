@@ -3,6 +3,7 @@ using StarAPI.Context;
 using StarAPI.DTO.Game;
 using StarAPI.Logic.Mappers;
 using Contracts;
+using StarAPI.Models;
 
 namespace StarAPI.Logic;
 
@@ -50,6 +51,9 @@ public class NewGame
 
         string deckId1 = setUpValues.player1DeckId;
         string deckId2 = setUpValues.player2DeckId;
+        
+        
+       
         return _gameMapper.FillOutputSetupValues(newGame, deckId1, deckId2);
         
     }
