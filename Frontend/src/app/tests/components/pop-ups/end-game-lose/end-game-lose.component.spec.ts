@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EndGameLoseComponent } from './end-game-lose.component';
+import { EndGameLoseComponent } from '../../../../components/pop-ups/end-game-lose/end-game-lose.component';
 
 describe('EndGameLoseComponent', () => {
   let component: EndGameLoseComponent;

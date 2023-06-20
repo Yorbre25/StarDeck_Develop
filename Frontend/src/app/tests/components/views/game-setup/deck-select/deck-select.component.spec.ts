@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeckSelectComponent } from './deck-select.component';
+import { DeckSelectComponent } from '../../../../../components/views/game-setup/deck-select/deck-select.component';
 
 describe('DeckSelectComponent', () => {
   let component: DeckSelectComponent;

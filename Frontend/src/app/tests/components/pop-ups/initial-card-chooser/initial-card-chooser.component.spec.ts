@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InitialCardChooserComponent } from './initial-card-chooser.component';
+import { InitialCardChooserComponent } from '../../../../components/pop-ups/initial-card-chooser/initial-card-chooser.component';
 
 describe('InitialCardChooserComponent', () => {
   let component: InitialCardChooserComponent;

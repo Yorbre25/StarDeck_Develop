@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanetMenuComponent } from './planet-menu.component';
+import { PlanetMenuComponent } from '../../../../../components/views/menu/planet-menu/planet-menu.component';
 
 describe('PlanetMenuComponent', () => {
   let component: PlanetMenuComponent;

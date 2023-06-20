@@ -5,6 +5,7 @@ import { MatchNotFoundComponent } from '../../../../components/pop-ups/match-not
 describe('MatchNotFoundComponent', () => {
   let component: MatchNotFoundComponent;
   let fixture: ComponentFixture<MatchNotFoundComponent>;
+  let compiled: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,9 +16,16 @@ describe('MatchNotFoundComponent', () => {
     fixture = TestBed.createComponent(MatchNotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    compiled = fixture.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  
+
+  it('match with snapshot', () => {
+    expect(compiled).toMatchSnapshot();
   });
 });

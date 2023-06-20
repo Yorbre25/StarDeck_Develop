@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LobbyComponent } from './lobby.component';
+import { LobbyComponent } from '../../../../components/views/lobby/lobby.component';
 
 describe('LobbyComponent', () => {
   let component: LobbyComponent;

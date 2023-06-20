@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadingGameComponent } from './loading-game.component';
+import { LoadingGameComponent } from '../../../../../components/views/game-setup/loading-game/loading-game.component';
 
 describe('LoadingGameComponent', () => {
   let component: LoadingGameComponent;

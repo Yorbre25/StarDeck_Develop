@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePlanetComponent } from './create-planet.component';
+import { CreatePlanetComponent } from '../../../../../components/views/create/create-planet/create-planet.component';
 
 describe('CreatePlanetComponent', () => {
   let component: CreatePlanetComponent;

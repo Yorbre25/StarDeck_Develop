@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeckMenuComponent } from './deck-menu.component';
+import { DeckMenuComponent } from '../../../../../components/views/menu/deck-menu/deck-menu.component';
 
 describe('DeckMenuComponent', () => {
   let component: DeckMenuComponent;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EndGameTieComponent } from './end-game-tie.component';
+import { EndGameTieComponent } from '../../../../components/pop-ups/end-game-tie/end-game-tie.component';
 
 describe('EndGameTieComponent', () => {
   let component: EndGameTieComponent;

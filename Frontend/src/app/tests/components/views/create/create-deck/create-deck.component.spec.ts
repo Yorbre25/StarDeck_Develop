@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateDeckComponent } from './create-deck.component';
+import { CreateDeckComponent } from '../../../../../components/views/create/create-deck/create-deck.component';
 
 describe('CreateDeckComponent', () => {
   let component: CreateDeckComponent;

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardMenuComponent } from './card-menu.component';
+import { CardMenuComponent } from '../../../../../components/views/menu/card-menu/card-menu.component';
 
 describe('CardMenuComponent', () => {
   let component: CardMenuComponent;

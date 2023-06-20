@@ -5,6 +5,7 @@ import { BackButtonComponent } from '../../../../components/elements/back-button
 describe('BackButtonComponent', () => {
   let component: BackButtonComponent;
   let fixture: ComponentFixture<BackButtonComponent>;
+  let compiled: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,9 +16,14 @@ describe('BackButtonComponent', () => {
     fixture = TestBed.createComponent(BackButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    compiled = fixture.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('match with snapshot', () => {
+    expect(compiled).toMatchSnapshot();
   });
 });
