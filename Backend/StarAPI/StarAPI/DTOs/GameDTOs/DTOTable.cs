@@ -14,8 +14,8 @@ namespace StarAPI.DTO.Game
 
     public class OutputTableLayout
     {
-        public Dictionary<string, OutputCard> playerCards { get; set; }
-        public Dictionary<string, OutputCard> rivalCards { get; set; }
+        public Dictionary<string, List<OutputCard>> playerCards { get; set; }
+        public Dictionary<string, List<OutputCard>> rivalCards { get; set; }
 
     }
 

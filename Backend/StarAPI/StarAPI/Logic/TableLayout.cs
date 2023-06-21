@@ -47,15 +47,26 @@ public class TableLayout
        
     }
 
-    private Dictionary<string, OutputCard> GetCardsPerPlanet(string playerId)
+    private Dictionary<string, List<OutputCard>> GetCardsPerPlanet(string playerId)
     {
-        // List<GameTable> cards = _repository.GameTable.Where(gt => gt.playerId == playerId).ToList();
         List<GameTable> cards = GetPlayerCardsInTable(playerId);
-        Dictionary<string, OutputCard> layout = new Dictionary<string, OutputCard>();
+        Dictionary<string, List<OutputCard>> layout = new Dictionary<string, List<OutputCard>>();
         foreach (GameTable card in cards)
         {
             OutputCard outputCard = _cardCRUD.GetCard(card.cardId);
-            layout.Add(card.planetId, outputCard);
+            //If the planet is not in the dictionary, add it
+            if (!layout.ContainsKey(card.planetId))
+            {
+                List<OutputCard> list = new List<OutputCard>();
+                list.Add(outputCard);
+                layout.Add(card.planetId, list);
+            }
+            else
+            {
+                layout[card.planetId].Add(outputCard);
+                
+            }
+            // layout.Add(card.planetId, outputCard);
         }
         return layout;
     }

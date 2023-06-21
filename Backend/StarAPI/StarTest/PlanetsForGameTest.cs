@@ -12,20 +12,6 @@ namespace StarTest;
 public class PlanetsForGameTest
 {
 
-    // [Fact]    
-    // public void GetAvailbePlanets_ReturnAllCardType()
-    // {
-    //     // Arrange
-    //     var repositoryWrapperMock = MockRepositoryWrapper.GetMock();
-    //     PlanetsForGame planetsForGame = new PlanetsForGame(repositoryWrapperMock.Object);
-
-    //     // Act
-    //     planetsForGame.GetAvaiblePlanets();
-
-    //     // Assert
-    //     repositoryWrapperMock.Verify(m => m.Planet.GetAll(), Times.Once());
-    // }
-
     [Theory]    
     [InlineData(0, false)]
     [InlineData(2, false)]
