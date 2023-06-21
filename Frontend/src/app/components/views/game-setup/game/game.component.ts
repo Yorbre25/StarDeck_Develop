@@ -99,6 +99,7 @@ export class GameComponent {
     
 
     this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+      console.log(data)
       this.cards=data
     })
 

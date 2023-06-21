@@ -17,9 +17,9 @@ export class gameService{
     
     public GameInfo:SetUpInterface={
     id:"G-4qxupc239iqp",
-    totalTurns:10,
+    totalTurns:5,
     timePerTurn:20,
-    currentTurn:0,
+    currentTurn:1,
     player1Id:"U-9bgk7mcknhjq",
     player2Id:"U-3896g2e7muv4",
     userNamePlayer1:"Sample 1",
