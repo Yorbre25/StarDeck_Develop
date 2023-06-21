@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { MatchInterface } from "../interfaces/Matchmaking.interface";
 import { SetUpInterface } from "../interfaces/setup.interface";
+import { CardInt } from "../interfaces/card.interface";
+import { PlanetInterface } from "../interfaces/planet.interface";
 import { UsersInfoGame } from "../interfaces/GameUsersInfo.interface";
 import { GameSetupInit } from "../interfaces/gamesetupinit";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
@@ -120,5 +122,77 @@ export class gameService{
         let dir =this.url +"DrawCard/"+this.getgameID()+"/"+playerID
         console.log(dir)
         return this.http.post(dir,{}).pipe(catchError(this.handleError))
+    }
+
+    getTurnInfo(playerID:string|null):Observable<any>{
+        let dir = this.url+"GetTurnInfo/"+this.getgameID()+"/"+playerID
+        return this.http.post(dir,{})
+    }
+
+    getGameBoard(playerID:string|null):Observable<any>{
+        let dir = this.url+"GetLayout/"+this.getgameID()+"/"+playerID
+        return this.http.post(dir,{})
+    }
+
+    endturn(playerID:string|null,PlanetsCardsMatrix:CardInt[][],Planets:PlanetInterface[]):Observable<any>{
+        let dir = this.url + "EndTurn"
+        let layoutvalue = this.turnMatrixtoLayout(PlanetsCardsMatrix,Planets)
+        console.log(layoutvalue)
+        let endturnObject={
+            gameId:this.getgameID(),
+            playerId:playerID,
+            layout:layoutvalue}
+        console.log(endturnObject)
+        console.log(dir)
+        return this.http.post(dir,endturnObject)
+    }
+    
+
+    turnpointstolist(points:{ [key: string]: number},planets:PlanetInterface[]){
+        var List:number[]=[0,0,0]
+        for(let key in points){
+            if(key==planets[0].id){
+                List[0]=points[key]
+            }else if(key==planets[1].id){
+                List[1]=points[key]
+            }else if(key==planets[2].id){
+                List[2]=points[key]
+            }else{
+                console.log("NOT SUPPOSED TO HAPPEN")
+            }
+        }
+        return List
+    }
+
+    turnLayouttoMatrix(layout:{ [key: string]: CardInt },planets:PlanetInterface[]){
+        var Matrix:CardInt[][]=[[],[],[]]
+        for(let key in layout){
+            if(key==planets[0].id){
+                Matrix[0].push(layout[key])
+            }else if(key==planets[1].id){
+                Matrix[1].push(layout[key])
+            }else if(key==planets[2].id){
+                Matrix[2].push(layout[key])
+            }else{
+                console.log("NOT SUPPOSED TO HAPPEN")
+            }
+        }
+        console.log(Matrix)
+        return Matrix
+    }
+
+    turnMatrixtoLayout(PlanetsCardsMatrix:CardInt[][], planets:PlanetInterface[]){
+        console.log(PlanetsCardsMatrix)
+        console.log(planets)
+        let layout:{ [key: string]: string } = {};
+        for (let i =0;i<PlanetsCardsMatrix.length;i++){
+            for(var Card of PlanetsCardsMatrix[i]){
+                if(planets[i].id != null && Card.id!=null){
+                    layout[planets[i].id as string]= Card.id
+                }
+            }
+        }
+        console.log(layout)
+        return layout
     }
 }

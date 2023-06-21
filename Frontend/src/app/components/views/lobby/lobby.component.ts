@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
+import { PendingMatchComponent } from '../../pop-ups/pending-match/pending-match.component';
 import {FormBuilder} from '@angular/forms';
 import { DialogConfig } from '@angular/cdk/dialog';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
@@ -84,11 +85,15 @@ export class LobbyComponent implements OnInit{
         if(gameID!=undefined && gameID!=""){
           console.log("Player already in match")
           this.gameService.setgameID(gameID)
-          this.gameService.SetUpHands().subscribe((data)=>{})
-          const uuid = uuidv4();
-          console.log(uuid);
-          this.router.navigate(['/match', uuid]);
-        }
+          const dialogConfig = new MatDialogConfig();
+
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          dialogConfig.maxHeight = 500;
+          dialogConfig.maxWidth = 1100;
+  
+          this.dialog.open(PendingMatchComponent, dialogConfig);
+    }
       })
     })
   }

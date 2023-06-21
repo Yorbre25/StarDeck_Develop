@@ -42,8 +42,9 @@ export class LoadingGameComponent {
                 console.log(this.gameService.GameInfo)         
             }
           }
-          if(gameID!=undefined && gameID!=""){
+          if(gameID!=null && gameID!=""){
             this.gameService.setgameID(gameID)
+            this.gameService.SetUpHands().subscribe((data)=>{})
             const uuid = uuidv4();
             console.log(uuid);
             clearInterval(nInterval);
