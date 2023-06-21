@@ -40,6 +40,7 @@ export class GameComponent {
   opponentName!: string | null;
   currentUserName!: string | null;
   deckname!: string | null;
+  deckid!:string|null;
   opponentPhoto!: string;
   currentUserPhoto!: string;
   sampleSingleCard!: CardInt[];
@@ -53,8 +54,18 @@ export class GameComponent {
 
 
   constructor(private http: HttpClient, private deckService: deckService, private gameService: gameService,
-     private loginService: LoginService, private SCard: selected_Card_S, public dialog: MatDialog, private cardService:CardService) {
+    private loginService: LoginService, private SCard: selected_Card_S, public dialog: MatDialog, private cardService:CardService) {
     this.bet = this.defaultinitialbet;
+    this.gameService.GetGamePlayers().subscribe((data)=>{
+      for (var Game of data){
+          if(Game.gameId==gameService.GameInfo.id){
+              if(Game.playerId==this.loginService.getid()){
+                  this.deckid=Game.deckId
+                  break
+              }
+          }
+      }
+    })
     this.GameValues = this.gameService.getGameValues();
     this.UserInfoValues = this.gameService.getplayerinfo(this.loginService.getid())
     this.turn = this.GameValues.currentTurn;
@@ -65,14 +76,27 @@ export class GameComponent {
   }
 
   ngOnInit(): void {
-
-    this.opponentName = this.UserInfoValues.OpTag;
-    this.currentUserName = this.UserInfoValues.Ptag;
-    this.deckname = this.UserInfoValues.PDeckN;
-
+    this.loginService.getAllPlayers().subscribe((data)=>{
+      for (var player of data){
+        if(player.id==this.UserInfoValues.OpTag){
+          this.opponentName=player.username
+        }else if(player.id==this.UserInfoValues.Ptag){
+          this.currentUserName=player.username
+        }
+      }
+    })
+    this.deckService.getAllDecks(this.loginService.getid()).subscribe((data)=>{
+      for (var deck of data){
+        if(this.deckid==deck.id){
+          this.deckname=deck.name
+        }
+      }
+    })
+    
     this.gameService.GetGamePlanets().subscribe((data)=>{
       this.planets=data
     })
+    
 
     this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
       this.cards=data
@@ -80,7 +104,6 @@ export class GameComponent {
 
     this.SCard.initializeCardList()
     this.SCard.initializeSCard()
-    this.cardsPerPlanet = this.cardsPerPlanet
 
     
       setInterval(() => {
@@ -91,7 +114,7 @@ export class GameComponent {
           if (this.remainingTime == 0) {
             this.timeExpired = true;
             if(this.gameCurrentlyActive){
-             this.onClickEndTurn()
+             //this.onClickEndTurn()
             }
           }
         }
@@ -142,8 +165,8 @@ onClickEndTurn() {
       dialogConfig.maxHeight = 500;
       dialogConfig.maxWidth = 1100;
       dialogConfig.width = '800px'; // Set the width to 1000 pixels
-    dialogConfig.height = '350px'; // Set the height to 1000 pixels
-    dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
+      dialogConfig.height = '350px'; // Set the height to 1000 pixels
+      dialogConfig.panelClass = 'dialog-container'; // Apply custom styles to the dialog container
       dialogConfig.data = {game_state: this.gameState}
 
       if(this.gameState == "Win"){
