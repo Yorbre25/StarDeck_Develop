@@ -45,6 +45,10 @@ export class GameComponent {
   currentUserPhoto!: string;
   sampleSingleCard!: CardInt[];
   cardsPerPlanet: CardInt[][] = [[], [], []];
+  oponentCardsPerPlanet:CardInt[][]=[[],[],[]];
+  cardsCurrentlyPlayingPerPlanet: CardInt[][] = [[], [], []]
+  playerPointsPerPlanet:number[]=[0,0,0];
+  oponentPointsPerPlaner:number[]=[0,0,0];
   timeExpired: boolean = false;
   energy:number=20;
   unhideTurn: number = 3;
@@ -66,10 +70,16 @@ export class GameComponent {
           }
       }
     })
+    this.gameService.GetAllGames().subscribe((data)=>{
+      for (var Game of data){
+        if(Game.id==this.gameService.getgameID()){
+          this.turn = Game.turn;
+          this.totalTurns = Game.maxTurns;
+        }
+      }
+    })
     this.GameValues = this.gameService.getGameValues();
     this.UserInfoValues = this.gameService.getplayerinfo(this.loginService.getid())
-    this.turn = this.GameValues.currentTurn;
-    this.totalTurns = this.GameValues.totalTurns;
     this.remainingCards = this.defaultRemainingCards;
     this.remainingTime = this.GameValues.timePerTurn;
 
@@ -84,56 +94,74 @@ export class GameComponent {
           this.currentUserName=player.username
         }
       }
-    })
-    this.deckService.getAllDecks(this.loginService.getid()).subscribe((data)=>{
-      for (var deck of data){
-        if(this.deckid==deck.id){
-          this.deckname=deck.name
-        }
-      }
-    })
-    
-    this.gameService.GetGamePlanets().subscribe((data)=>{
-      this.planets=data
-    })
-    
-
-    this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
-      this.cards=data
-    })
-
-    this.SCard.initializeCardList()
-    this.SCard.initializeSCard()
-
-    
-      setInterval(() => {
-        if (this.remainingTime != null){
-          if(this.gameCurrentlyActive){
-          this.remainingTime--;
-          }
-          if (this.remainingTime == 0) {
-            this.timeExpired = true;
-            if(this.gameCurrentlyActive){
-             //this.onClickEndTurn()
-            }
+      this.deckService.getAllDecks(this.loginService.getid()).subscribe((data)=>{
+        for (var deck of data){
+          if(this.deckid==deck.id){
+            this.deckname=deck.name
           }
         }
-      }, 1000);
-    
-    
- 
-}
+        this.gameService.GetGamePlanets().subscribe((data)=>{
+          this.planets=data
+          this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+            console.log(data)
+            this.cards=data
+            this.gameService.getGameBoard(this.loginService.getid()).subscribe((data)=>{
+              console.log(data)
+              this.oponentCardsPerPlanet=this.gameService.turnLayouttoMatrix(data.rivalCards,this.planets)
+              this.cardsPerPlanet=this.gameService.turnLayouttoMatrix(data.playerCards,this.planets)
+              this.gameService.getTurnInfo(this.loginService.getid()).subscribe((data)=>{
+                this.cardsCurrentlyPlayingPerPlanet=[[],[],[]]
+                this.energy=data.playerMaxCardPoints
+                this.playerPointsPerPlanet=this.gameService.turnpointstolist(data.playerPlanetPoints,this.planets)
+                this.oponentPointsPerPlaner=this.gameService.turnpointstolist(data.rivalPlanetPoints,this.planets)
+                this.SCard.initializeCardList()
+                this.SCard.initializeSCard()               
+                setInterval(() => {
+                  if (this.remainingTime != null){
+                    if(this.gameCurrentlyActive){
+                    this.remainingTime--;
+                    }
+                    if (this.remainingTime == 0) {
+                      this.timeExpired = true;
+                      if(this.gameCurrentlyActive){
+                       //this.onClickEndTurn()
+                      }
+                    }
+                  }
+                }, 1000);            
+              })          
+            })        
+          })      
+        })    
+      })
+    })
+  }
 
 onClickEndTurn() {
   if(this.turn!=null){
     this.turn = this.turn + 1;
     if(this.totalTurns != null && this.turn > this.totalTurns){
       this.endGame()
-    } else {
-      this.remainingTime = 20; 
-      console.log('Clicked planet:');
-      this.gameService.drawCard(this.loginService.getid())
-    }
+    }else {
+      this.gameService.turnMatrixtoLayout(this.cardsCurrentlyPlayingPerPlanet,this.planets)
+      this.remainingTime = 20;
+      
+      this.gameService.endturn(this.loginService.getid(),this.cardsCurrentlyPlayingPerPlanet,this.planets).subscribe((data)=>{  
+        this.gameService.drawCard(this.loginService.getid()).subscribe((data=>{
+          this.gameService.GetHandCards(this.loginService.getid()).subscribe((data)=>{
+            this.cards=data
+            this.gameService.getGameBoard(this.loginService.getid()).subscribe((data)=>{
+              this.oponentCardsPerPlanet=this.gameService.turnLayouttoMatrix(data.rivalCards,this.planets)
+              this.gameService.getTurnInfo(this.loginService.getid()).subscribe((data)=>{
+                this.cardsCurrentlyPlayingPerPlanet=[[],[],[]]
+                this.energy=data.playerMaxCardPoints
+                this.playerPointsPerPlanet=this.gameService.turnpointstolist(data.playerPlanetPoints,this.planets)
+                this.oponentPointsPerPlaner=this.gameService.turnpointstolist(data.rivalPlanetPoints,this.planets)
+              })
+            })
+          })  
+        }))
+      })}
     
   }
 
@@ -194,6 +222,7 @@ onClickEndTurn() {
       else if(Card.id==CardIDtodelete&&Card.energy!=undefined){//Card already inside planet
         const indexdeleteCard=this.cardsPerPlanet[planetIndex].indexOf(Card)
         this.cardsPerPlanet[planetIndex].splice(indexdeleteCard,1)
+        this.cardsCurrentlyPlayingPerPlanet[planetIndex].splice(indexdeleteCard,1)
         this.cards.push(Card)//returns card to hand
         this.energy+=Card.energy
         this.SCard.initializeSCard()
@@ -228,6 +257,7 @@ onClickEndTurn() {
         for (var newCard of CardsClicked){
           this.cardService.getCard(newCard).subscribe((data)=>{
             this.cardsPerPlanet[planetIndex].push(data)
+            this.cardsCurrentlyPlayingPerPlanet[planetIndex].push(data)
             console.log(this.cards)  
             if(data.energy!=undefined){
               this.energy-=data.energy

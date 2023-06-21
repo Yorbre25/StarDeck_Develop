@@ -26,12 +26,18 @@ export class PlanetCardsComponent {
 
   @Input()
   cards!: CardInt[];
-  opponentCards: CardInt[] = [];
-
+  @Input()
+  opponentCards!: CardInt[];
+  @Input()
   currentUserPoints!: number;
+  @Input()
   opponentPoints!: number;
-  opponentName!: string;
-  currentUserName!: string;
+  @Input()
+  opponentName!: string|null;
+  @Input()
+  currentUserName!: string|null;
+ 
+  
   cardToAdd!: CardInt; 
 
 
