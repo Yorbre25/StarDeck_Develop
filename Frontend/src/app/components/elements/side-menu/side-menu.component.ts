@@ -2,16 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
-import { InitialCardChooserComponent } from '../../pop-ups/initial-card-chooser/initial-card-chooser.component';
 import {FormBuilder} from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ViewChild } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { AccountInt } from '../../interfaces/account.interface';
-import { ApiService } from '../../services/api.service';
 import { LoginService } from '../../services/login.service';
 
 /**
@@ -49,12 +43,11 @@ export class SideMenuComponent implements OnInit{
     fixed: false,
     top: 0,
   });
-  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog,private logins:LoginService ,private api: ApiService) {}
+  constructor(private router: Router, private _formBuilder: FormBuilder, private dialog: MatDialog,private logins:LoginService) {}
 
   showInfo = false;
 
   ngOnInit(){
-    console.log("ACAAAAA")
     /** 
     this.api.getPlayerInfo(this.logins.getcorreo()).subscribe(data => {
       console.log(data)

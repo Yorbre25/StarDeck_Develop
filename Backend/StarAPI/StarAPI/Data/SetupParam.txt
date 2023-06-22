@@ -1,0 +1,34 @@
+Crear Partida
+{
+  "player1Id": "U-01a1zjlg4aph",
+  "player2Id": "U-02a1zjlg4aph",
+  "player1DeckId": "D-000000000001",
+  "player2DeckId": "D-000000000002"
+}
+
+Place Card
+
+{
+  "gameId": "G-000000000001",
+  "playerId": "U-01a1zjlg4aph",
+  "layout": {
+    "P-01a1zjlg4aph": "C-000000000002",
+    "P-02a1zjlg4aph": "C-000000000004"
+  }
+}
+
+{
+  "gameId": "G-000000000001",
+  "playerId": "U-02a1zjlg4aph",
+  "layout": {
+    "P-01a1zjlg4aph": "C-000000000022"
+  }
+}
+
+C-000000000002
+C-000000000003
+C-000000000004
+C-000000000005
+C-000000000006
+C-000000000007
+

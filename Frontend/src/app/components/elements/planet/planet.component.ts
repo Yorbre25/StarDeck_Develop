@@ -1,0 +1,40 @@
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { planetService } from '../../services/Planet.service';
+import { LoginService } from '../../services/login.service';
+import { selected_Card_S } from '../../services/selected_card.service';
+
+/**
+ * @description
+ * This component displays content belonging to an existing card from 
+ * the database inside a rectangular linear-gradient colored block. 
+ * The content displayed includes: name, description, and character image, energy, cost, 
+ * type and race. 
+*/
+@Component({
+  selector: 'app-planet',
+  templateUrl: './planet.component.html',
+  styleUrls: ['./planet.component.scss']
+})
+export class PlanetComponent {
+
+  
+  isSelected!: boolean | null;
+
+  @Input()
+  element!: {
+    id: string | null;
+    name: string | null;
+    image: string | null;
+    type: string | null;
+    description: string | null;
+    show: boolean | null;
+  };
+
+
+  constructor(private router: Router, private planetService: planetService, private logins:LoginService, private Scard:selected_Card_S) {
+  }
+
+
+}
+

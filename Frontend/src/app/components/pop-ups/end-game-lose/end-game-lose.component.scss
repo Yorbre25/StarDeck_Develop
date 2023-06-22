@@ -1,0 +1,57 @@
+.cards-flex {
+    width: 50%;
+    height: 50%
+}
+
+.title-text {
+    margin: 40px;
+    
+    color: white;
+    font-size: 6rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
+}
+
+.coins-text {
+    margin-top: 40px;
+    color: rgb(255, 0, 0);
+    font-size: 3rem;
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
+}
+
+.points-text {
+    margin-top: 40px;
+    color: white;
+    font-size: 3rem;
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    
+}
+
+.dialog {
+    padding: 20px;
+    align-content: center;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+}
+
+.button-text {
+    margin-top: 20px;
+    background-color: transparent;
+    color: white;
+}
+
+.pop-up-button {
+    align-items: center;
+}
+
+.dialog-container {
+    background: linear-gradient(to right, #425367, #403c41);
+    padding: 20px;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+  }

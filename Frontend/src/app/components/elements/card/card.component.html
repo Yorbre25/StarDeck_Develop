@@ -1,8 +1,6 @@
 
-  <div (click)="onClick()"  [ngClass] ="{'card':!clickable ,'clickable-card':clickable}">
+  <div (click)="onClick()"  [ngClass] ="{'card':!clickable ,'clickable-card':clickable}" [ngStyle]="{ 'border': isSelected ? '2px solid white' : 'none' }">
     <mat-card class="card">
-     
-      
         <mat-card-title class="form-input">{{element.name}}</mat-card-title>
         <img class="mat-card-image" mat-card-image [src]="element.image" alt="card-image">
         <mat-card-content class="mat-card-content">

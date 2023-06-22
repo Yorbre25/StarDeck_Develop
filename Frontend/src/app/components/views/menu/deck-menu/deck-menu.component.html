@@ -1,0 +1,6 @@
+<app-side-menu></app-side-menu>
+<app-back-button></app-back-button>
+<h4 class="title-text">Mis Decks</h4>
+    <div class="multiple-decks">
+        <button  class="button-text" (click)="openClickedDeck(deck)" *ngFor="let deck of decks">{{deck.name}}</button>
+    </div>

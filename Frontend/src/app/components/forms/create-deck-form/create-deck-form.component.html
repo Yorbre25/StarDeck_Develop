@@ -1,0 +1,20 @@
+<div class="box">
+    <form class="form-container">
+
+        <div class="form-group">
+            <mat-label class="form-text" for="name">Cartas elegidas: {{currentCards}}/{{totalCards}} </mat-label>
+            <mat-label class="form-text" for="name">Nombre del deck: </mat-label>
+            <input [formControl]="deckName" type="text" id="name" name="name" class="form-input" style="width: 300px;"
+                placeholder="Nyan Cat" required>
+            <br>
+            <mat-error *ngIf="(deckName.invalid  && fault)|| deckNameFault">{{getErrMessage(deckName)}}</mat-error>
+            <br>
+        </div>
+
+        <app-multiple-cards [cards]="allCards" [clickable]="true"></app-multiple-cards>
+        <form #myForm="ngForm" (ngSubmit)="goToLobby()">
+            <button type="submit" class="button-text">Crear</button>
+        </form>
+    </form>
+
+</div>

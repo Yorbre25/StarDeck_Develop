@@ -11,8 +11,5 @@ export interface CardInt{
     cost:number|undefined;
     type:string|null;
     race:string|null;
-    activated_card:boolean|null;
-    
-    
     
 }

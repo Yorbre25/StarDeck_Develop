@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import { CardInt } from '../../interfaces/card.interface';
-import { LoginService } from '../../services/login.service';
-import { seleced_Card_S } from '../../services/selected_card.service';
+import { selected_Card_S } from '../../services/selected_card.service';
 /**
  * @description
  * This component displays content belonging to an existing card from 
@@ -18,6 +15,8 @@ import { seleced_Card_S } from '../../services/selected_card.service';
 })
 export class CardComponent {
 
+  isSelected!: boolean | null;
+
 
   @Input()
   element!: {
@@ -29,21 +28,33 @@ export class CardComponent {
     cost: number | undefined;
     type: string | null;
     race: string | null;
-    activated_card: boolean | null
   };
 
   @Input() clickable: boolean = false;
+  @Input() onPlanet: boolean = false;
 
-
-  constructor(private router: Router, private api: ApiService, private logins:LoginService, private Scard:seleced_Card_S) {
+  constructor(private router: Router, private Scard:selected_Card_S) {
+    this.isSelected = false;
   }
 
-
   onClick() {
-    if (this.clickable) {
+    this.toggleSelection();
+    if (this.onPlanet){
+      console.log("CARD ON PLANET")
       this.Scard.setcard(this.element)
+      this.Scard.initializeCardList()
+    }else if (this.clickable) {
+      if(this.element.id==''){
+        console.log("Card not ready yet")
+      }else{
+        this.Scard.setcard(this.element)
+      }
     }
+  }
 
-
+  toggleSelection() {
+    if (this.clickable) {
+    this.isSelected = !this.isSelected;
+    }
   }
 }

@@ -1,5 +1,5 @@
-<div class="multiple-cards">
-
-    <app-card class="app-card" [clickable]="clickable"  *ngFor="let card of cards" [element]="card"></app-card>
-
+<div [ngClass] ="{'multiple-cards':!close ,'multiple-cards-close':close}">
+    <div class="multiple-cards-close" [ngClass] ="{'app-card':!close ,'app-card-close':close}">
+        <app-card class="app-card" [onPlanet]="onPlanet" [clickable]="clickable"  *ngFor="let card of cards" [element]="card"></app-card>
+    </div>
 </div>

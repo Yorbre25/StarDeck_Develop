@@ -1,77 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using StarAPI.DataHandling.Discovery;
 using StarAPI.Context;
-using StarAPI.Models;
+using StarAPI.DTO.Discovery;
+using Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class DeckController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private DeckHandling _deckHandling;
+        private DeckCardHandling _deckCardHandling;
+        private ILogger<DeckController> _logger;
 
-        public DeckController(StarDeckContext context)
+        public DeckController(IRepositoryWrapper context, ILogger<DeckController> logger)
         {
-            this.context = context;
+            this._deckHandling = new DeckHandling(context);
+            this._deckCardHandling = new DeckCardHandling(context);
         }
-        // GET: api/<DeckController>
-        [HttpGet]
-        public IEnumerable<Deck> Get()
+        
+        [HttpGet("GetDecksFromPlayer/{playerId}")]
+        public List<OutputDeck> GetDecksFromPlayer(string playerId)
         {
-            return context.Deck.ToList();
-        }
-
-        // GET api/<DeckController>/5
-        [HttpGet("{id}")]
-        public Deck Get(string id)
-        {
-            return context.Deck.FirstOrDefault(d => d.deck_id == id);
+            return _deckHandling.GetDecksFromPlayer(playerId);
         }
 
-        // POST api/<DeckController>
-        [HttpPost]
-        public ActionResult Post([FromBody] Deck deck)
+        
+        [HttpGet("GetCardsFromDeck/{deckId}")]
+        public List<OutputCard> GetCardsFromDeck(string deckId)
+        {
+            return _deckCardHandling.GetCardsFromDeck(deckId);
+        }
+
+
+        [HttpPost("AddDeck")]
+        public ActionResult AddDeck([FromBody] InputDeck deck)
         {
             try
             {
-                context.Deck.Add(deck);
-                context.SaveChanges();
+                _deckHandling.AddDeck(deck);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error crating deck from data base");
                 return BadRequest(e.Message);
             }
         }
 
-        // PUT api/<DeckController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Deck deck)
-        {
-            if (deck.deck_id == id)
-            {
-                context.Entry(deck).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
-
-        // DELETE api/<DeckController>/5
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
-        {
-            var deck = context.Deck.FirstOrDefault(d => d.deck_id == id);
-            if (deck != null)
-            {
-                context.Deck.Remove(deck);
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
+      
     }
 }

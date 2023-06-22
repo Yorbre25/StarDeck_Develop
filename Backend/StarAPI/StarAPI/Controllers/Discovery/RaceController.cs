@@ -1,101 +1,86 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StarAPI.Context;
 using StarAPI.Models;
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using StarAPI.DataHandling.Discovery;
+using StarAPI.Context;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RaceController : ControllerBase
     {
-        private readonly StarDeckContext context;
+        private  RaceHandling _raceHandling;
+        private ILogger<RaceController> _logger;
 
-        public RaceController(StarDeckContext context)
+        public RaceController(IRepositoryWrapper context)
         {
-            this.context = context;
-        }
-        
-        /// <summary>
-        /// This method adds a race to the dabe base
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IEnumerable<Race> Get()
-        {
-            return context.Race.ToList();
-        }
-
-        /// <summary>
-        /// This method returns a race
-        /// </summary>
-        /// <param name="id">Id of race to be returned</param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public Race Get(string id)
-        {
-            return context.Race.FirstOrDefault(r => r.race == id);
+            _raceHandling = new RaceHandling(context);
         }
 
         
-        /// <summary>
-        /// This method adds a race
-        /// </summary>
-        /// <param name="race"> Name of the race to be added</param>
-        /// <returns></returns>
+        [HttpGet("GetAllRaces")]
+        public IEnumerable<Race> GetAllRaces()
+        {
+            return _raceHandling.GetAllRaces();
+        }
+
+        [HttpGet("GetRace/{id}")]
+        public string? GetRace(int id)
+        {
+            return _raceHandling.GetRace(id);
+        }
+
+        
         [HttpPost]
-        public ActionResult Post([FromBody] Race race)
+        [Route("AddRace/{raceName}")]
+        public ActionResult AddRace(string raceName)
         {
             try
             {
-
-                context.Race.Add(race);
-                context.SaveChanges();
+                _raceHandling.AddRace(raceName);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogWarning("Error creating race from data base");
                 return BadRequest(e.Message);
             }
+            
         }
 
-        /// <summary>
-        /// This method updates a race
-        /// </summary>
-        /// <param name="id">Id of race to be updated</param>
-        /// <param name="race">New name of race</param>
-        /// <returns></returns>
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Race race)
-        {
-            if (race.race == id)
-            {
-                context.Entry(race).State = EntityState.Modified;
-                context.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
-        }
+        // [HttpPost("AddRaces")]
+        // public ActionResult AddRaces([FromBody] List<Race> races) 
+        // {
+        //     try 
+        //     {
+        //         foreach(var race in races) 
+        //         {
+        //             _context.Race.Add(race);
 
-        /// <summary>
-        /// This method deletes a race
-        /// </summary>
-        /// <param name="id">Id of race to be deleted</param>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        public ActionResult Delete(string id)
+        //         }
+        //         _context.SaveChanges();
+        //         return Ok();
+        //     }
+        //     catch(Exception e) 
+        //     {
+        //         return BadRequest(e.Message);
+        //     }
+        // }
+
+        [HttpDelete("DelteRace/{id}")]
+        public ActionResult DeleteCardType(int id)
         {
-            var race = context.Race.FirstOrDefault(r => r.race == id);
-            if (race != null)
+            try
             {
-                context.Race.Remove(race);
-                context.SaveChanges();
+                _raceHandling.DeleteRace(id);
                 return Ok();
             }
-            return BadRequest();
+            catch
+            {
+                _logger.LogWarning("Error deleting race from data base");
+                return BadRequest();
+            }
         }
     }
 }

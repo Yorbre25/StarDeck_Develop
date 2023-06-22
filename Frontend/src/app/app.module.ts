@@ -20,24 +20,41 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LobbyComponent } from './components/views/lobby/lobby.component';
-import { GameComponent } from './components/views/game/game.component';
+import { GameComponent } from './components/views/game-setup/game/game.component';
 import { LoginComponent } from './components/views/login/login.component';
-import { CreateUserComponent } from './components/views/create-user/create-user.component';
+import { CreateUserComponent } from './components/views/create/create-user/create-user.component';
 import { CardComponent } from './components/elements/card/card.component';
 import { MultipleCardsComponent } from './components/elements/multiple-cards/multiple-cards.component';
 import { LoginFormComponent } from './components/forms/login-form/login-form.component';
 import { SignUpFormComponent } from './components/forms/sign-up-form/sign-up-form.component';
 import { InitialCardChooserComponent } from './components/pop-ups/initial-card-chooser/initial-card-chooser.component';
 import { CardChooserComponent } from './components/action/card-chooser/card-chooser.component';
-import { CardMenuComponent } from './components/views/card-menu/card-menu.component';
+import { CardMenuComponent } from './components/views/menu/card-menu/card-menu.component';
 import { SideMenuComponent } from './components/elements/side-menu/side-menu.component';
 import { CreateCardFormComponent } from './components/forms/create-card-form/create-card-form.component';
-import { CreateCardComponent } from './components/views/create-card/create-card.component';
+import { CreateCardComponent } from './components/views/create/create-card/create-card.component';
 import { HeaderComponent } from './components/elements/header/header.component';
 import { BackButtonComponent } from './components/elements/back-button/back-button.component';
 import { ClickableCardComponent } from './components/elements/clickable-card/clickable-card.component';
-import { MultipleClickableCardsComponent } from './components/elements/multiple-clickable-cards/multiple-clickable-cards.component';
-
+import { CreateDeckFormComponent } from './components/forms/create-deck-form/create-deck-form.component';
+import { DeckMenuComponent } from './components/views/menu/deck-menu/deck-menu.component';
+import { CreateDeckComponent } from './components/views/create/create-deck/create-deck.component';
+import { DeckComponent } from './components/elements/deck/deck.component';
+import { SingleDeckComponent } from './components/views/single-deck/single-deck.component';
+import { CreatePlanetFormComponent } from './components/forms/create-planet-form/create-planet-form.component';
+import { PlanetComponent } from './components/elements/planet/planet.component';
+import { CreatePlanetComponent } from './components/views/create/create-planet/create-planet.component';
+import { PlanetMenuComponent } from './components/views/menu/planet-menu/planet-menu.component';
+import { MultiplePlanetsComponent } from './components/elements/multiple-planets/multiple-planets.component';
+import { DeckSelectComponent } from './components/views/game-setup/deck-select/deck-select.component';
+import { LoadingGameComponent } from './components/views/game-setup/loading-game/loading-game.component';
+import { MatchNotFoundComponent } from './components/pop-ups/match-not-found/match-not-found.component';
+import { PlanetCardsComponent } from './components/elements/planet-cards/planet-cards.component';
+import { MultiplePlanetCardsComponent } from './components/elements/multiple-planet-cards/multiple-planet-cards.component';
+import { EndGameComponent } from './components/pop-ups/end-game/end-game.component';
+import { EndGameLoseComponent } from './components/pop-ups/end-game-lose/end-game-lose.component';
+import { EndGameTieComponent } from './components/pop-ups/end-game-tie/end-game-tie.component';
+import { PendingMatchComponent } from './components/pop-ups/pending-match/pending-match.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,9 +74,26 @@ import { MultipleClickableCardsComponent } from './components/elements/multiple-
     CreateCardComponent,
     HeaderComponent,
     BackButtonComponent,
- 
     ClickableCardComponent,
-       MultipleClickableCardsComponent
+    CreateDeckFormComponent,
+    DeckMenuComponent,
+    CreateDeckComponent,
+    DeckComponent,
+    SingleDeckComponent,
+    CreatePlanetFormComponent,
+    PlanetComponent,
+    CreatePlanetComponent,
+    PlanetMenuComponent,
+    MultiplePlanetsComponent,
+    DeckSelectComponent,
+    LoadingGameComponent,
+    MatchNotFoundComponent,
+    PlanetCardsComponent,
+    MultiplePlanetCardsComponent,
+    EndGameComponent,
+    EndGameLoseComponent,
+    EndGameTieComponent,
+    PendingMatchComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -77,11 +111,11 @@ import { MultipleClickableCardsComponent } from './components/elements/multiple-
     HttpClientModule,
     MatInputModule,
     MatDialogModule,
-   
+
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } }
-    
+
   ],
   bootstrap: [AppComponent]
 })

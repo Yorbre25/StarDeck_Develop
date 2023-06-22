@@ -1,74 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StarAPI.Context;
 using StarAPI.Models;
-using StarAPI.Utils;
-
+using StarAPI.DataHandling.Discovery;
+using StarAPI.DTO.Discovery;
+using StarAPI.Context;
+using StarAPI.Logic;
+using Contracts;
 
 namespace StarAPI.Controllers
 {
-    /// <summary>
-    /// This class is used to handle all requests of Card table.
-    /// </summary>
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly StarDeckContext context;
-        private Encrypt encrypt = new Encrypt();
+        private readonly IRepositoryWrapper _reposiory;
+        private CardCRUD _cardCrud;
 
-        public CardController(StarDeckContext context)
+        public CardController(IRepositoryWrapper repository)
         {
-            this.context = context;
+            this._reposiory = repository;
+            this._cardCrud = new CardCRUD(_reposiory);
         }
+
+
  
-        /// <summary>
-        /// This method is used to get all cards from the Card table. 
-        /// </summary>
-        /// <returns>All cards</returns>
-        // GET: api/<CardController>
-        [HttpGet]
-        public IEnumerable<Card> Get()
+
+        [HttpGet("GetAllCards")]
+        public IEnumerable<OutputCard> GetAllCards()
         {
-            return context.Card.ToList();
+            // _reposiory.Database.ExecuteSqlRaw("DELETE FROM Game_Player");
+            return _cardCrud.GetAllCards();
         }
 
 
-        /// <summary>
-        /// This methos is used to get an specific card from the Card table.
-        /// </summary>
-        /// <param name="id">Id of card to be searched</param>
-        /// <returns>Card with the same id</returns>
-        // GET api/<CardController>/5
-        [HttpGet("{id}")]
-        public Card Get(string id)
+
+        [HttpGet("GetCardById/{id}")]
+        public OutputCard GetCard(string id)
         {
-            return context.Card.FirstOrDefault(c => c.id == id);
+            return _cardCrud.GetCard(id);
         }
 
-        /// <summary>
-        /// This method is used to add a new card to the Card table.
-        /// </summary>
-        /// <param name="card"> Card to add</param>
-        /// <returns></returns>
-        // POST api/<CardController>
-        [HttpPost]
-        public ActionResult Post([FromBody] Card card)
+
+        [HttpPost("AddCard")]
+        public ActionResult Post([FromBody] InputCard card)
         {
             try
             {
-                string id = encrypt.gen_id("C");
-                while (context.Player.FirstOrDefault(p => p.id == id) != null)
-                {
-                    id = encrypt.gen_id("C");
-                }
-                card.id = id;
-                if(card.image == "")
-                {
-                    card.image = "Imagen predeterminada";
-                }
-                context.Card.Add(card);
-                context.SaveChanges();
+                _cardCrud.AddCard(card);
                 return Ok();
             }
             catch (Exception e)
@@ -77,44 +55,35 @@ namespace StarAPI.Controllers
             }
         }
 
-    
-        /// <summary>
-        /// This method is used to update a card in the Card table. 
-        /// </summary>
-        /// <param name="id">Id of card to be updated</param>
-        /// <param name="card">New card data</param>
-        /// <returns></returns>
-        // PUT api/<CardController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(string id, [FromBody] Card card)
+        [HttpPost("AddCards")]
+        public ActionResult Post([FromBody] List<Card> cards)
         {
-            if (card.id == id)
+            try
             {
-                context.Entry(card).State = EntityState.Modified;
-                context.SaveChanges();
+                foreach(var card in cards) 
+                {
+                    _reposiory.Card.Add(card);
+                }
                 return Ok();
             }
-            return BadRequest();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-        /// <summary>
-        /// This method is used to delete a card from the Card table.
-        /// </summary>
-        /// <param name="id">Id of card to be deleted</param>
-        /// <returns></returns>
-        // DELETE api/<CardController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteCard/{id}")]
         public ActionResult Delete(string id)
         {
-            var card = context.Card.FirstOrDefault(c => c.id == id);
-            if (card != null)
+            try
             {
-                context.Card.Remove(card);
-                context.SaveChanges();
+                _cardCrud.DeleteCard(id);
                 return Ok();
             }
-            return BadRequest();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
-
 }

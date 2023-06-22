@@ -11,6 +11,7 @@
     
     <mat-card>
       <h2 class = "title-text">Elija una de estas tres cartas para añadir.</h2>
+      <mat-error *ngIf="cardselectedfault">Debe elegir una de las cartas</mat-error>
       <app-multiple-cards [cards]="clickableCards" [clickable]="true"></app-multiple-cards>
     </mat-card>
   </div>

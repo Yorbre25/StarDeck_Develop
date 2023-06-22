@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDialogActions } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import { ApiService } from '../../services/api.service';
+import { CardService } from '../../services/Card.service';
 import { CardInt } from '../../interfaces/card.interface';
 import { LoginService } from '../../services/login.service';
-import { seleced_Card_S } from '../../services/selected_card.service';
+import { selected_Card_S } from '../../services/selected_card.service';
+import { RouterTestingHarness } from '@angular/router/testing';
+import { FactoryTarget } from '@angular/compiler';
 
 /**
  * @description 
@@ -29,75 +31,100 @@ import { seleced_Card_S } from '../../services/selected_card.service';
 })
 export class InitialCardChooserComponent implements OnInit{
 
-  cardsChosen = 0;
-
+  cardselectedfault:boolean=false;
+  cardsPack = 0;
+  emptycard:CardInt={ 
+  id:'',
+  name: "Loading Card...",
+  image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
+  energy:100,
+  cost:100,
+  type:"Loading...",
+  race:"Loading...",
+  description: "Loading description..."
+}
   cards!:CardInt[];
-
+  cardsAmount!:number;
+  clickableCardsPack!:CardInt[][];
   clickableCards: CardInt[] = [
-    
     { id:'',
-    name: "Nyan Cat",
+    name: "Loading Card...",
     image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
     energy:100,
-    cost:500,
-    type:"UR",
-    race:"Nyan",
-    description: "Nyanyanyanyanyanyanya!",
-    activated_card:true}, 
+    cost:100,
+    type:"Loading...",
+    race:"Loading...",
+    description: "Loading description..."
+  },
   { id:'',
-  name: "Mametchi",
-  image: "https://tamagotchi.com/wp-content/uploads/mametchi.jpg",
-  energy:30,
-  cost:500,
-  type:"SSR",
-  race:"Tamagotchi",
-  description: "Mametchi loves inventing things and though sometimes he fails he will succeed, he just keeps trying. He loves to study and play sports.",
-  activated_card:true },
-  { id:'',
-  name: "Ginjirotchi",
-  image:"https://tamagotchi.com/wp-content/uploads/ginjirotchi.jpg",
+  name: "Loading Card...",
+  image: "https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
   energy:100,
-  cost:500,
-  type:"UR",
-  race:"Nyan",
-  description: "Ginjirotchi is cheerful and full of energy, though also compassionate. He loves watching dramatic movies.",
-  activated_card:true}]
+  cost:100,
+  type:"Loading...",
+  race:"Loading...",
+  description: "Loading description..."
+  },
+  { id:'',
+  name: "Loading Card...",
+  image:"https://upload.wikimedia.org/wikipedia/en/e/ed/Nyan_cat_250px_frame.PNG",
+  energy:100,
+  cost:100,
+  type:"Loading...",
+  race:"Loading...",
+  description: "Loading description..."
+  }]
 
- // clickableCards!:CardInt[];
 
 
-    constructor(private dialogRef: MatDialogRef<InitialCardChooserComponent>, private api: ApiService, private logins:LoginService,private Scard:seleced_Card_S) {
-      
-      //console.log(this.cards)
-    }
-    ngOnInit(): void {
-      this.api.getplayerCards(this.logins.getcorreo()).subscribe(data => {
-        console.log(data)
-        this.cards = data 
-      });
-      this.close()  
-      
-
-    }
-
-    close() {
-      if (this.cardsChosen==2){
-        this.dialogRef.close();}
-      else{
-        this.cardsChosen+=1
-        this.api.playerchoseCard(this?.Scard.getcard(),this.logins.getid())
-        this.api.getplayerCards(this.logins.getcorreo()).subscribe(data => {
-          console.log(data)
-          this.cards = data 
-        });
-        this.api.getchoosingcard(this.logins.getid()).subscribe(data=>{
-          this.clickableCards=data
-        })
-      }
-    }
-    
-    
+  constructor(private dialogRef: MatDialogRef<InitialCardChooserComponent>, private cardService: CardService, private logins:LoginService,private Scard:selected_Card_S) {}
   
+  ngOnInit(): void {
+    this.Scard.setcard(this.emptycard)
+    this.cardService.getplayerCards(this.logins.getid()).subscribe(data => {
+      console.log("Player cards")
+      console.log(data)
+      this.cards = data 
+    });
+    this.cardService.getchoosingcard().subscribe(data=>{
+      console.log("Cards to choose")
+      console.log(data)
+      this.clickableCardsPack=data
+      this.clickableCards=data[0]
+    })
+    this.cardService.getAmCards(this.logins.getid()).subscribe(data=>{
+      this.cardsAmount=data
+    })
     
+  }
 
+  close(){
+    if(this.Scard.getcard()!=''){
+      this.cardselectedfault=false
+      this.cardsPack+=1
+      console.log(this.cardsAmount)  
+      if (this.cardsAmount==18){
+        this.dialogRef.close();  
+      }else{
+        this.cardService.playerchoseCard(this?.Scard.getcard(),this.logins.getid()).subscribe((response)=>{
+          this.cardsAmount+=1
+          console.log("The response:")
+          console.log(response)
+          this.cardService.getplayerCards(this.logins.getid()).subscribe(data => {//Actualizo las cartas del jugador
+            console.log(data)
+            this.cards = data 
+            this.clickableCards=this.clickableCardsPack[this.cardsPack]
+            this.Scard.setcard(this.emptycard)
+            if (this.cardsAmount==18){
+              this.dialogRef.close();  
+            }
+          });
+        })//Link de la carta que el jugador eligió
+      }
+    }else{
+      this.cardselectedfault=true
+      console.log('User did not select a card')
+    }
+  }
 }
+

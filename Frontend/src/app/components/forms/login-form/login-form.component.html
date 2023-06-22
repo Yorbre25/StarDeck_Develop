@@ -1,24 +1,19 @@
-<div class="form-signin">
-    <form class="form-signin">
+<form class="form-signin">
         <h4 class="title-text">Inicie sesión</h4>
-        <mat-form-field>
-            <div style="text-align:center;"> 
-                <input class="form-input" type="text" id="email" name="email" matInput placeholder="Ingrese su correo"
-                    formControlName="email" required>
-                <mat-error>Por favor ingrese un correo válido.</mat-error>
-            </div>
-        </mat-form-field>
-        <mat-form-field>
-            <div style="text-align:center;"> 
-                <input class="form-input" matInput placeholder="Ingrese su contraseña" type="password"
-                    formControlName="password" required>
-                <mat-error>Por favor ingrese una contraseña.</mat-error>
-            </div>
-        </mat-form-field>
+        <div class="form-group">
+            <mat-label for="mail"> Ingrese su correo: </mat-label>
+            <input [formControl]="mail" type="email" id="email" name="email" class="form-input" style="width: 300px;" placeholder="example@something.com" required>
+            <br>
+            <mat-error *ngIf="(mail.invalid && fault)">{{getErrMessage(mail)}}</mat-error>
+        </div>
+        <br>
+        <div class="form-group">
+            <mat-label for="password">Ingrese su contraseña: </mat-label>
+            <input [pattern]="validPattern" [formControl]="playerPassword" type="password" id="password" name="password" class="form-input" style="width: 300px;" required>
+            <br>
+            <mat-error *ngIf="(fault && (validalphanumpassword || playerPassword.errors?.pattern))||wrongdata">{{getErrMessage(playerPassword)}}</mat-error>
+        </div>
+        <br>
         <button class="button-text" type="submit" mat-raised-button (click)="goToLobby()">Iniciar Sesión</button>
         <! -- la verificacion no se hace porque el click solo sigue al lobby pq el login no esta hecho -->
-        
-
-    </form>
-
-</div>
+</form>

@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
-import {CardInt} from '../../interfaces/card.interface';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -20,10 +18,10 @@ export class ClickableCardComponent {
     energy: number|undefined; 
     cost: number|undefined; 
     type: string|null; 
-    race: string|null; 
-    activated_card: boolean|null};
+    race: string|null;
+  };
 
-  constructor(private router: Router, private api:ApiService, private logins:LoginService) {
+  constructor(private router: Router, private logins:LoginService) {
    
   }
 
@@ -31,6 +29,7 @@ export class ClickableCardComponent {
   onClick(){
     
     //this.api.playerchoseCard(this.element,this.logins.getcorreo());
+    console.log("CLICKABLE CARD LOG")
     this.router.navigate(['/cards']);
 
   }

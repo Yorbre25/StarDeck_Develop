@@ -1,0 +1,84 @@
+.game{
+    display: grid;
+    flex-direction: row;
+    flex-wrap: wrap;
+    line-height: 100px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.dialog-container {
+    padding: 20px;
+    background-color: #846192;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+  }
+
+.cards{
+    padding: 0px;
+    margin: 0px;
+    
+}
+
+.deck-text {
+    color: #f0f0f0;
+    border: 5px double #f0f0f0;
+    font-size: 1.8rem;
+    background: #f0f0f030;
+    margin: 5px;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 155px;
+    width: 100px;
+    padding-top: 20px;
+    font-family: 'Rajdhani-SemiBold';
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+  
+
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.grid {
+    margin-top: 20px;
+    display: grid;
+}
+
+.button-text {
+    margin: 5px;
+}
+
+.button-text:hover {
+    margin: 5px;
+    background-color: #f0f0f0;
+}
+
+.title-text {
+    font-size: 2.2rem;
+    justify-content:right;
+    justify-items: right;
+    align-items:end;
+}
+
+.multiple-planets{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+    margin-bottom: 20px;
+    }
+  
+    .app-planet{
+     padding: 15px;
+    }
+   
